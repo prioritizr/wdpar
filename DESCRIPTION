@@ -1,0 +1,40 @@
+Package: wdpa
+Type: Package
+Version: 0.0.0.1
+Title: World Database on Protected Areas
+Description: Fetch and clean data from the World Database on Protected
+    Areas (WDPA). Data is obtained from Protected Planet
+    <http://protectedplanet.net>.
+Authors@R: c(person(c('Jeffrey', 'O'), 'Hanson',
+             email='jeffrey.hanson@uqconnect.edu.au', role = c('aut', 'cre')))
+Imports:
+    utils,
+    assertthat,
+    httr,
+    plyr,
+    parallel,
+    doParallel,
+    countrycode,
+    lwgeom
+Suggests:
+    testthat,
+    knitr,
+    roxygen2,
+    rmarkdown,
+    magrittr
+Depends:
+    R(>= 3.4.0),
+    sf
+License: GPL-3
+LazyData: true
+URL: https://github.com/jeffreyhanson/wdpa
+BugReports: https://github.com/jeffreyhanson/wdpa/issues
+VignetteBuilder: knitr
+RoxygenNote: 6.0.1
+Collate:
+    'internal.R'
+    'misc.R'
+    'package.R'
+    'wdpa_clean.R'
+    'wdpa_fetch.R'
+    'zzz.R'

@@ -1,0 +1,8 @@
+
+authors:
+  Jeffrey O Hanson:
+    href: http://jeffrey-hanson.com
+
+template:
+  params:
+    bootswatch: cerulean

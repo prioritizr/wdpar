@@ -1,0 +1,49 @@
+---
+output:
+  rmarkdown::github_document:
+    html_preview: no
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(fig.path = "man/figures/README-", fig.align = "center")
+```
+
+<!--- README.md is generated from README.Rmd. Please edit that file -->
+
+# wdpa: World Database on Protected Areas
+
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
+[![Travis Build Status](https://img.shields.io/travis/jeffreyhanson/wdpa/master.svg?label=Mac%20OSX%20%26%20Linux)](https://travis-ci.org/jeffreyhanson/wdpa)
+[![AppVeyor Build Status](https://img.shields.io/appveyor/ci/jeffreyhanson/wdpa/master.svg?label=Windows)](https://ci.appveyor.com/project/jeffreyhanson/wdpa)
+[![Coverage Status](https://codecov.io/github/jeffreyhanson/wdpa/coverage.svg?branch=master)](https://codecov.io/github/jeffreyhanson/wdpa?branch=master)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/wdpa)](https://CRAN.R-project.org/package=wdpa)
+
+```{r, include = FALSE}
+devtools::load_all()
+```
+
+## Overview
+
+TODO
+
+## Installation
+
+To install the developmental version of _prioritizr_, use the following _R_ code:
+
+```{r, eval = FALSE}
+if (!require(devtools))
+  install.packages("devtools")
+devtools::install_github("jeffreyhanson/wdpa")
+```
+
+## Example usage
+
+TODO
+
+## Citation
+
+To cite package '_wdpa_' in publications please use:
+
+```{r, echo  = FALSE, result = "asis", comment = ""}
+citation("wdpa")
+```

@@ -6,7 +6,7 @@ Description: Fetch and clean data from the World Database on Protected
     Areas (WDPA). Data is obtained from Protected Planet
     <http://protectedplanet.net>.
 Authors@R: c(person(c('Jeffrey', 'O'), 'Hanson',
-             email='jeffrey.hanson@uqconnect.edu.au', role = c('aut', 'cre')))
+    email='jeffrey.hanson@uqconnect.edu.au', role = c('aut', 'cre')))
 Imports:
     utils,
     assertthat,

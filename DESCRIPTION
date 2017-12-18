@@ -15,6 +15,7 @@ Imports:
     parallel,
     doParallel,
     countrycode,
+    units,
     lwgeom
 Suggests:
     testthat,

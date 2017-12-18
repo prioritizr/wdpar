@@ -1,7 +1,7 @@
 #' @include internal.R
 NULL
 
-#' Fetch data from the World Database on Protected Areas
+#' Fetch data
 #'
 #' Download data from the World Database on Protected Areas (WDPA)
 #' (available at \url{http://protectedplanet.net}) and import it. Note that
@@ -31,10 +31,10 @@ NULL
 #'   Check out the \code{\link{clean_wdpa}} function to clean the data
 #'   according to standard practices.
 #'
+#' @return \code{\link[sf]{sf}} simple features object.
+#'
 #' @seealso \code{\link{wdpa_clean}}, \code{\link[countrycode]{countrycode}},
 #'   \url{http://protectedplanet.net}
-#'
-#' @return \code{\link[sf]{sf}} simple features object.
 #'
 #' @examples
 #' \donttest{
@@ -61,7 +61,7 @@ wdpa_fetch <- function(x, download_dir = tempdir(), force_download = FALSE,
                           assertthat::is.flag(verbose))
   ## check that country codes/names are correct
   if (x != "global") {
-    if (length(x) == 3) {
+    if (nchar(x) == 3) {
       # check that x is valid ISO-3 code
       name <- suppressWarnings(countrycode::countrycode(x, "iso3c",
                                                         "country.name.en"))
@@ -93,7 +93,7 @@ wdpa_fetch <- function(x, download_dir = tempdir(), force_download = FALSE,
     ## find working url
     found_url <- FALSE
     for (i in seq_along(potential_urls)) {
-      if (httr::http_error(potential_urls[i])) {
+      if (!httr::http_error(potential_urls[i])) {
         download_url <- potential_urls[i]
         found_url <- TRUE
         break()
@@ -102,7 +102,7 @@ wdpa_fetch <- function(x, download_dir = tempdir(), force_download = FALSE,
     ### check that at least one working url was found
     if (!found_url)
       stop("no valid download links available at http://protectedplanet.net - ",
-           "check your internet connection?")
+           "check that the data has been processed")
   }
   ## find correct filename with which to save data
   file_name <- basename(httr::HEAD(download_url)$url)
@@ -110,11 +110,13 @@ wdpa_fetch <- function(x, download_dir = tempdir(), force_download = FALSE,
   ## download the file if required
   if (!file.exists(file_path) || force_download) {
     if (verbose) {
-      result <- httr::GET(download_url, httr::write_disk(file_path),
-                         httr::progress(), overwrite = TRUE)
+      result <- httr::GET(download_url,
+                          httr::write_disk(file_path, overwrite = TRUE),
+                          httr::progress())
+      message("\n")
     } else {
-      result <- httr::GET(download_url, httr::write_disk(file_path),
-                          overwrite = TRUE)
+      result <- httr::GET(download_url,
+                          httr::write_disk(file_path, overwrite = TRUE))
     }
   }
   ## verify that the file exists
@@ -122,8 +124,9 @@ wdpa_fetch <- function(x, download_dir = tempdir(), force_download = FALSE,
     stop("downloading data failed")
   # load the data
   ## unzip the folder
-  tdir <- file.path(tempdir(), tempfile())
-  unzip(file_path, tdir)
+  tdir <- file.path(tempdir(), basename(tempfile()))
+  dir.create(tdir, showWarnings = FALSE, recursive = TRUE)
+  utils::unzip(file_path, exdir = tdir)
   ## load data
   month_year <- strsplit(file_name, "_", fixed = TRUE)[[1]][[2]]
   if (country_code == "global") {
@@ -132,7 +135,8 @@ wdpa_fetch <- function(x, download_dir = tempdir(), force_download = FALSE,
     wdpa_point_data <- sf::st_read(gdb_path, paste0("WDPA_point_", month_year))
     wdpa_data <- sf::rbind(wdpa_polygon_data, wdpa_point_data)
   } else {
-    shapefile_path <- dir(tdir, "^.*\\.shp$", recursive = TRUE)[[1]]
+    shapefile_path <- dir(tdir, "^.*\\.shp$", recursive = TRUE,
+                          full.names = TRUE)[[1]]
     wdpa_data <- sf::st_read(shapefile_path)
   }
   ## cleanup

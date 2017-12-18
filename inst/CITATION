@@ -1,4 +1,4 @@
-citHeader("To cite the wdpa package in publications, use:")
+citHeader("To cite the wdpar package in publications, use:")
 
 citEntry(
   entry = "Manual",
@@ -7,7 +7,6 @@ citEntry(
   year = format(Sys.time(), "%Y"),
   publisher = "UNEP-WCMC and IUCN",
   publisheraddress = "Cambridge, UK",
-  note = paste0("R package version ", utils::packageVersion("wdpa")),
   url = "www.protectedplanet.net",
   textVersion = paste(
     "UNEP-WCMC and IUCN (year), Protected Planet: The World Database on",
@@ -19,14 +18,14 @@ citEntry(
 citEntry(
   entry = "Manual",
   author = personList(person(c("Jeffrey", "O"), "Hanson")),
-  title = "wdpa: World Database on Protected Areas",
-  year = 2017,
-  note = paste0("R package version ", utils::packageVersion("wdpa")),
-  url = "https://github.com/jeffreyhanson/wdpa",
+  title = "wdpar: Interface to the World Database on Protected Areas",
+  year = "2017",
+  note = paste0("R package version ", utils::packageVersion("wdpar")),
+  url = "https://github.com/jeffreyhanson/wdpar",
   textVersion = paste(
-     "Hanson JO (2017) wdpa: World Database on Protected Areas.",
-     "R package version ", utils::packageVersion("wdpa"),
-     "Available at: https://github.com/jeffreyhanson/wdpa"
+     "Hanson JO (2017) wdpar: Interface to the World Database on Protected Areas.",
+     "R package version ", utils::packageVersion("wdpar"),
+     "Available at: https://github.com/jeffreyhanson/wdpar"
   )
 )
 

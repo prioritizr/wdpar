@@ -8,12 +8,12 @@
 
 ## Test environments
 
-* [Ubuntu 14.04, R-release (travis-ci)](https://travis-ci.org/jeffreyhanson/wdpa/builds)
-* [Ubuntu 14.04, R-devel (travis-ci)](https://travis-ci.org/jeffreyhanson/wdpa/builds)
-* [Mac OSX 10.9.5, R-release (travis-ci](https://travis-ci.org/jeffreyhanson/wdpa/builds)
-* [Mac OSX 10.9.5, R-devel (travis-ci](https://travis-ci.org/jeffreyhanson/wdpa/builds)
-* [Windows Server 2012 R2 (x64), R-release (appveyor)](https://ci.appveyor.com/project/jeffreyhanson/wdpa)
-* [Windows Server 2012 R2 (x64), R-devel 2016-11-02 r71617 (appveyor)](https://ci.appveyor.com/project/jeffreyhanson/wdpa)
+* [Ubuntu 14.04, R-release (travis-ci)](https://travis-ci.org/jeffreyhanson/wdpar/builds)
+* [Ubuntu 14.04, R-devel (travis-ci)](https://travis-ci.org/jeffreyhanson/wdpar/builds)
+* [Mac OSX 10.9.5, R-release (travis-ci](https://travis-ci.org/jeffreyhanson/wdpar/builds)
+* [Mac OSX 10.9.5, R-devel (travis-ci](https://travis-ci.org/jeffreyhanson/wdpar/builds)
+* [Windows Server 2012 R2 (x64), R-release (appveyor)](https://ci.appveyor.com/project/jeffreyhanson/wdpar)
+* [Windows Server 2012 R2 (x64), R-devel 2016-11-02 r71617 (appveyor)](https://ci.appveyor.com/project/jeffreyhanson/wdpar)
 * Windows Server 2008 (x64), R-devel (win-builder)
 
 ## Downstream dependencies

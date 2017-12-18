@@ -53,6 +53,6 @@ build:
 	R --slave -e "devtools::build()"
 
 install:
-	R --slave -e "devtools::install_local('../prioritizr')"
+	R --slave -e "devtools::install_local('../wdpar')"
 
 .PHONY: initc clean data docs readme site test check checkwb build  install man

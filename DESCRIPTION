@@ -32,11 +32,12 @@ URL: https://github.com/jeffreyhanson/wdpar
 BugReports: https://github.com/jeffreyhanson/wdpar/issues
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
-Collate:
+Collate: 
     'internal.R'
     'geo.R'
     'misc.R'
     'package.R'
     'wdpa_clean.R'
     'wdpa_fetch.R'
+    'wdpa_read.R'
     'zzz.R'

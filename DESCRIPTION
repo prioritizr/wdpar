@@ -34,6 +34,7 @@ VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 Collate:
     'internal.R'
+    'geo.R'
     'misc.R'
     'package.R'
     'wdpa_clean.R'

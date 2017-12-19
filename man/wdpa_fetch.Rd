@@ -14,15 +14,15 @@ ISO-3 code for the country (e.g. \code{"LIE"}). This argument can also
 be set to \code{"global"} to download all of the protected areas available
 in the database (approx. 1.1 GB).}
 
+\item{download_dir}{\code{character} folder path to download the data.
+Defaults to the temporary directory (\code{\link{tempdir}}).}
+
 \item{force_download}{\code{logical} if the data has previously been
 downloaded and is available at argument to \code{x}, should the data be
 redownloaded anyway? Defaults to \code{FALSE}.}
 
 \item{verbose}{\code{logical} should a progress on downloading data be
 reported? Defaults to \code{TRUE} if the session is interactive.}
-
-\item{download_path}{\code{character} folder path to download the data.
-Defaults to the temporary directory (\code{\link{tempdir}}).}
 }
 \value{
 \code{\link[sf]{sf}} simple features object.
@@ -52,7 +52,7 @@ lie_data <- wdpa_fetch("LIE", force_download = TRUE)
 \dontrun{
 # fetch data for the globe
 # note that this might take some time given that the global data set is
-# approx. 1.1 GB in size
+# over 1 GB in size
 global_data <- wdpa_fetch("global")
 }
 }

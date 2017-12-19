@@ -1,7 +1,7 @@
 #' @include internal.R
 NULL
 
-#' Fetch data
+#' Fetch data from the World Database on Protected Areas
 #'
 #' Download data from the World Database on Protected Areas (WDPA)
 #' (available at \url{http://protectedplanet.net}) and import it. Note that
@@ -47,7 +47,7 @@ NULL
 #' \dontrun{
 #' # fetch data for the globe
 #' # note that this might take some time given that the global data set is
-#' # approx. 1.1 GB in size
+#' # over 1 GB in size
 #' global_data <- wdpa_fetch("global")
 #' }
 #' @export

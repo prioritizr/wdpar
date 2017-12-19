@@ -36,8 +36,11 @@ in the specified download folder, then the data will simply be imported.
 \details{
 This function will simply download the specified protected area
   data and return it for subsequent use. It is strongly recomended that users
-  clean the data prior to analysis. It is worth noting that the returned data
-  for protected areas represented using both polygon and point geometries.
+  clean the data prior to analysis. It is worth noting that downloading
+  data for a specific country will not include protected areas that are
+  represented as a point locality. To obtain data for protected areas
+  that are represented as point localities, the global data set will need
+  to be downloaded---even if data for a single country is required.
   Check out the \code{\link{clean_wdpa}} function to clean the data
   according to standard practices.
 }
@@ -48,15 +51,18 @@ lie_data <- wdpa_fetch("Liechtenstein")
 
 # fetch data for Liechtenstein using the ISO3 code
 lie_data <- wdpa_fetch("LIE", force_download = TRUE)
+
+# plot data
+plot(lie_data)
 }
 \dontrun{
-# fetch data for the globe
+# fetch data for all protected areas on the planet
 # note that this might take some time given that the global data set is
 # over 1 GB in size
 global_data <- wdpa_fetch("global")
 }
 }
 \seealso{
-\code{\link{wdpa_clean}}, \code{\link[countrycode]{countrycode}},
-  \url{http://protectedplanet.net}
+\code{\link{wdpa_clean}}, \code{\link{wdpa_read}},
+  \code{\link[countrycode]{countrycode}}, \url{http://protectedplanet.net}.
 }

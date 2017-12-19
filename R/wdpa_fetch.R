@@ -26,15 +26,18 @@ NULL
 #'
 #' @details This function will simply download the specified protected area
 #'   data and return it for subsequent use. It is strongly recomended that users
-#'   clean the data prior to analysis. It is worth noting that the returned data
-#'   for protected areas represented using both polygon and point geometries.
+#'   clean the data prior to analysis. It is worth noting that downloading
+#'   data for a specific country will not include protected areas that are
+#'   represented as a point locality. To obtain data for protected areas
+#'   that are represented as point localities, the global data set will need
+#'   to be downloaded---even if data for a single country is required.
 #'   Check out the \code{\link{clean_wdpa}} function to clean the data
 #'   according to standard practices.
 #'
 #' @return \code{\link[sf]{sf}} simple features object.
 #'
-#' @seealso \code{\link{wdpa_clean}}, \code{\link[countrycode]{countrycode}},
-#'   \url{http://protectedplanet.net}
+#' @seealso \code{\link{wdpa_clean}}, \code{\link{wdpa_read}},
+#'   \code{\link[countrycode]{countrycode}}, \url{http://protectedplanet.net}.
 #'
 #' @examples
 #' \donttest{
@@ -43,9 +46,12 @@ NULL
 #'
 #' # fetch data for Liechtenstein using the ISO3 code
 #' lie_data <- wdpa_fetch("LIE", force_download = TRUE)
+#'
+#' # plot data
+#' plot(lie_data)
 #' }
 #' \dontrun{
-#' # fetch data for the globe
+#' # fetch data for all protected areas on the planet
 #' # note that this might take some time given that the global data set is
 #' # over 1 GB in size
 #' global_data <- wdpa_fetch("global")
@@ -123,24 +129,5 @@ wdpa_fetch <- function(x, download_dir = tempdir(), force_download = FALSE,
   if (!file.exists(file_path))
     stop("downloading data failed")
   # load the data
-  ## unzip the folder
-  tdir <- file.path(tempdir(), basename(tempfile()))
-  dir.create(tdir, showWarnings = FALSE, recursive = TRUE)
-  utils::unzip(file_path, exdir = tdir)
-  ## load data
-  month_year <- strsplit(file_name, "_", fixed = TRUE)[[1]][[2]]
-  if (country_code == "global") {
-    gdb_path <- dir(tdir, "^.*\\.gdb$", recursive = TRUE)[[1]]
-    wdpa_polygon_data <- sf::st_read(gdb_path, paste0("WDPA_poly_", month_year))
-    wdpa_point_data <- sf::st_read(gdb_path, paste0("WDPA_point_", month_year))
-    wdpa_data <- sf::rbind(wdpa_polygon_data, wdpa_point_data)
-  } else {
-    shapefile_path <- dir(tdir, "^.*\\.shp$", recursive = TRUE,
-                          full.names = TRUE)[[1]]
-    wdpa_data <- sf::st_read(shapefile_path)
-  }
-  ## cleanup
-  unlink(tdir)
-  # return file path
-  return(wdpa_data)
+  return(wdpa_read(file_path))
 }

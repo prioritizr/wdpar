@@ -65,37 +65,20 @@ wdpa_fetch <- function(x, download_dir = tempdir(), force_download = FALSE,
                           assertthat::is.dir(download_dir),
                           assertthat::is.flag(force_download),
                           assertthat::is.flag(verbose))
-  ## check that country codes/names are correct
+  ## extract country code
   if (x != "global") {
-    if (nchar(x) == 3) {
-      # check that x is valid ISO-3 code
-      name <- suppressWarnings(countrycode::countrycode(x, "iso3c",
-                                                        "country.name.en"))
-      if (is.na(name[[1]]))
-        stop("argument to x is not a valid iso3 code")
-      country_code <- toupper(x)
-    } else {
-      # check that x is valid country name
-      country_code <- suppressWarnings(countrycode::countrycode(x,
-                        "country.name.en", "iso3c"))
-      if (is.na(country_code[[1]]))
-        stop("argument to x is not a valid country name")
-      country_code <- toupper(country_code)
-    }
-  } else {
-    country_code <- "global"
+    x <- country_code(x)
   }
   # download the data
   ## determine download links
-  if (country_code == "global") {
+  if (x == "global") {
     download_url <- "http://wcmc.io/wdpa_current_release"
   } else {
     ### generate potential urls since http://protectplanet.net can sometimes be
     ### a few months behind the current date
     last_few_months <- format(Sys.Date() - (seq(0, 10) * 30), "%b%Y")
     potential_urls <- paste0("https://www.protectedplanet.net/downloads/WDPA_",
-                             last_few_months, "_", country_code,
-                             "?type=shapefile")
+                             last_few_months, "_", x, "?type=shapefile")
     ## find working url
     found_url <- FALSE
     for (i in seq_along(potential_urls)) {

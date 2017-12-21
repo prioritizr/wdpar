@@ -58,7 +58,7 @@
 #' print(result)
 #'
 #' @noRd
-distribute_load <- function(x, n = get_number_of_threads()) {
+distribute_load <- function(x, n) {
   assertthat::assert_that(assertthat::is.count(x),
                           assertthat::is.count(n),
                           isTRUE(x > 0),
@@ -75,4 +75,34 @@ distribute_load <- function(x, n = get_number_of_threads()) {
     }
   }
   i
+}
+
+#' Country code
+#'
+#' Find ISO-3 country code for a country.
+#'
+#' @param x \code{character} name of country or its ISO-3 code.
+#'
+#' @return \code{character} ISO-3 country code.
+#'
+#' @seealso \code{\link[countrycode]{countrycode}}.
+#'
+#' @noRd
+country_code <- function(x) {
+  if (nchar(x) == 3) {
+    # check that x is valid ISO-3 code
+    name <- suppressWarnings(countrycode::countrycode(x, "iso3c",
+                                                      "country.name.en"))
+    if (is.na(name[[1]]))
+      stop("argument to x is not a valid iso3 code")
+    country_code <- toupper(x)
+  } else {
+    # check that x is valid country name
+    country_code <- suppressWarnings(countrycode::countrycode(x,
+                      "country.name.en", "iso3c"))
+    if (is.na(country_code[[1]]))
+      stop("argument to x is not a valid country name")
+    country_code <- toupper(country_code)
+  }
+  return(country_code)
 }

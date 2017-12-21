@@ -20,20 +20,22 @@ Imports:
 Suggests:
     testthat,
     knitr,
+    sp,
     roxygen2,
     rmarkdown,
-    magrittr
 Depends:
     R(>= 3.4.0),
-    sf
+    sf,
+    dplyr
 License: GPL-3
 LazyData: true
 URL: https://github.com/jeffreyhanson/wdpar
 BugReports: https://github.com/jeffreyhanson/wdpar/issues
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
-Collate: 
+Collate:
     'internal.R'
+    'fetch_land_and_eez.R'
     'geo.R'
     'misc.R'
     'package.R'

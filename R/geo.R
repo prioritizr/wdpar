@@ -38,7 +38,8 @@ st_parallel_transform <- function(x, crs, ..., threads = 1) {
     doParallel::registerDoParallel(cl)
   }
   # perform processing
-  result <- plyr::llply(distribute_load(length(x), threads),
+  result <- plyr::llply(distribute_load(ifelse(inherits(x, "sf"), nrow(x),
+                                               length(x)), threads),
                         .parallel = threads > 1,
                         function(i) {
                           if (inherits(x, "sf")) {
@@ -107,7 +108,8 @@ st_parallel_make_valid <- function(x, threads = 1) {
     doParallel::registerDoParallel(cl)
   }
   # perform processing
-  result <- plyr::llply(distribute_load(length(x), threads),
+  result <- plyr::llply(distribute_load(ifelse(inherits(x, "sf"), nrow(x),
+                                               length(x)), threads),
                         .parallel = threads > 1,
                         function(i) {
                           if (inherits(x, "sf")) {
@@ -151,4 +153,42 @@ st_parallel_make_valid <- function(x, threads = 1) {
   attr(result, "agr") <- attr(x, "agr")
   # return result
   return(result)
+}
+
+#' Removes holes
+#'
+#' Remove holes from polygons or multipolygons.
+#'
+#' @param x object of class \code{sfc}, \code{sfg} or \code{sf}.
+#'
+#' @return Object with holes removed.
+#'
+#' @export
+st_remove_holes <- function(x) UseMethod("st_remove_holes")
+
+#' @export
+st_remove_holes.sf <- function(x) {
+  x[[attr(x, "sf_column")]] <- st_remove_holes.sfc(x[[attr(x, "sf_column")]])
+  return(x)
+}
+
+#' @export
+st_remove_holes.sfc <- function(x) {
+  for (i in seq_along(x))
+    x[[i]] <- st_remove_holes(x[[i]])
+  return(x)
+}
+
+#' @export
+st_remove_holes.sfg <- function(x) {
+  x_attr <- attributes(x)
+  if (inherits(x, "POLYGON")) {
+    x <- x[1]
+  } else if (inherits(x, "MULTIPOLYGON")) {
+    for (i in seq_along(x)) {
+      x[[i]] <- x[[i]][1]
+    }
+  }
+  attributes(x) <- x_attr
+  return(x)
 }

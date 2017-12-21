@@ -17,7 +17,7 @@ NULL
 #'   \url{http://protectedplanet.net}.
 #'
 #' @examples
-#' # load in simulated WDPA dataset used for examples and testing
+#' # read simulated WDPA dataset used for examples and testing
 #' fake_data <- wdpa_read(system.file("inst/extdata/WDPA_Nov2017_FAKE.zip",
 #'                                    package = "wdpar"))
 #' # plot simulated WDPA dataset

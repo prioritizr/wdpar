@@ -19,7 +19,8 @@ test_that("ISO3", {
 test_that("global", {
   skip_on_cran()
   skip_if_not(pingr::is_online())
-  skip_if(mean(pingr::ping("www.google.com", count = 10)) > 10)
+  skip_if(mean(pingr::ping("www.google.com", count = 10)) > 10,
+          "slow internet connection detected")
   x <- wdpa_fetch("global")
   expect_is(x, "sf")
 })

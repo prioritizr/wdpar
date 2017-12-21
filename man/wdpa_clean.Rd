@@ -4,13 +4,13 @@
 \alias{wdpa_clean}
 \title{Clean data}
 \usage{
-wdpa_clean(x, crs = sf::st_crs(3395), threads = 1)
+wdpa_clean(x, crs = 3395, threads = 1)
 }
 \arguments{
 \item{x}{\code{\link[sf]{sf}} object containing data from the WDPA.}
 
 \item{crs}{\code{character} coordinate reference system in PROJ4 format.
-Defaults to \code{sf::st_crs(3395)} (Mercator).}
+Defaults to \code{3395} (Mercator).}
 
 \item{threads}{\code{numeric} number of threads to use for processing.
 Defaults to 1.}
@@ -22,14 +22,72 @@ Defaults to 1.}
 Clean data from the World Database on Protected Areas (WDPA).
 }
 \details{
-This function cleans the data by performing the
+This function cleans data from World Database on Protected Areas
+  following best practices (Butchart \emph{et al.} 2015, Runge \emph{et al.}
+  2015,
+  \url{https://protectedplanet.net/c/calculating-protected-area-coverage}).
+  \enumerate{
+  \item Repair invalid geometry (using \code{\link{st_parallel_make_valid}}).
+  \item Exclude protected areas that are not currently implemented
+    (retain areas with the status \code{"Designated"},
+    \code{"Inscribed"}, \code{"Established"}).
+  \item Exclude UNESCO Biosphere Reserves (Coetzer \emph{et al.} 2014).
+  \item Create a field (\code{"GEOMTRY_TYPE"}) indicating if areas are
+    represented as point localities (\code{"POINT"}) or as polygons
+    (\code{"POLYGON"}).
+  \item Exclude areas represented as point localities that do not
+    have a reported spatial extent (i.e. missing data for the field
+  \item Reproject data to coordinate system specified in argument to
+    \code{crs} (using \code{\link{st_parallel_transform}}).
+  \item Repair any invalid geometry that has since manifested (using
+    \code{\link{st_parallel_make_valid}}).
+  \item Buffer areas represented as point localities to circular areas
+    using their reported spatial extent (using data in the field
+    \code{"REP_AREA"} and \code{\link[sf]{st_buffer}}).
+  \item Extract terrestrial protected areas, dissolve them to remove
+    overlaps (Deguignet \emph{et al.} 2017), and erase regions that occur in
+    the ocean.
+  \item Extract marine protected areas, dissolve them to remove overlaps,
+    and erase regions that occur on land.
+  \item Merge terrestrial and marine protected area data sets.
+  \item Intersect the merged data sets with the country and exclusive
+    economic zone data (\code{\link[sf]{st_intersection}}.
+  \item Calculate size of areas in square kilometers (stored in field
+    \code{"AREA_KM2"}).
+ }
 }
 \examples{
+# read simulated WDPA dataset used for examples and testing
+fake_data <- wdpa_read(system.file("inst/extdata/WDPA_Nov2017_FAKE.zip",
+                                   package = "wdpar"))
 
+# clean the simulated WDPA dataset
+cleaned_fake_data <- wdpa_clean(fake_data)
+
+# plot the raw and cleaned simulated datasets
+par(mfrow = c(1, 2))
+plot(fake_data)
+plot(cleaned_fake_data)
 }
 \references{
+Butchart SH, Clarke M, Smith RJ, Sykes RE, Scharlemann JP,
+Harfoot M, ... & Brooks TM (2015). Shortfalls and solutions for
+meeting national and global conservation area targets.
+\emph{Conservation Letters}, \strong{8}: 329--337.
 
+Coetzer KL, Witkowski ET, & Erasmus BF (2014) Reviewing
+Biosphere Reserves globally: Effective conservation action or bureaucratic
+label? \emph{Biological Reviews}, \strong{89}: 82--104.
+
+Deguignet M, Arnell A, Juffe-Bignoli D, Shi Y, Bingham H, MacSharry B &
+Kingston N (2017). Measuring the extent of overlaps in protected area
+designations. \emph{PloS One}, \strong{12}: e0188681.
+
+Runge CA, Watson JEM, Butchart HM, Hanson JO, Possingham HP & Fuller RA
+(2015) Protected areas and global conservation of migratory birds.
+\emph{Science}, \strong{350}: 1255--1258.
 }
 \seealso{
-\code{\link{wdpa_fetch}}.
+\code{\link{wdpa_fetch}},
+  \url{https://protectedplanet.net/c/calculating-protected-area-coverage}.
 }

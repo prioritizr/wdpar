@@ -16,6 +16,9 @@ NULL
 #' @param download_dir \code{character} folder path to download the data.
 #'  Defaults to the temporary directory (\code{\link[base]{tempdir}}).
 #'
+#' @param threads \code{numeric} number of threads to use for processing.
+#'   Defaults to 1.
+#'
 #' @param verbose \code{logical} should download progress be reported? Defaults
 #'  to \code{TRUE} if executed in an interactive session.
 #'

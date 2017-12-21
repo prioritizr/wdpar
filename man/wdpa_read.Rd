@@ -20,11 +20,35 @@ your computer, see the \code{\link{wdpa_fetch}} function for automatically
 downloading and importing the data into the current session.
 }
 \examples{
-# read simulated WDPA dataset used for examples and testing
-fake_data <- wdpa_read(system.file("inst/extdata/WDPA_Nov2017_FAKE.zip",
-                                   package = "wdpar"))
-# plot simulated WDPA dataset
-plot(fake_data)
+\donttest{
+# find working url for Liechtenstein data set
+last_few_months <- format(Sys.Date() - (seq(0, 10) * 30), "\%b\%Y")
+potential_urls <- paste0("https://www.protectedplanet.net/downloads/WDPA_",
+                         last_few_months, "_LIE?type=shapefile")
+found_url <- FALSE
+for (i in seq_along(potential_urls)) {
+  if (!httr::http_error(potential_urls[i])) {
+    download_url <- potential_urls[i]
+    found_url <- TRUE
+    break()
+  }
+}
+
+# download the data set if working url was found
+if (found_url) {
+  # path to save file zipfile with data
+  path <- tempfile(fileext = ".zip")
+
+  # download zipfile
+  result <- httr::GET(download_url, httr::write_disk(path))
+
+  # load data
+  lie_data <- wdpa_read(path)
+
+  # plot data
+  plot(lie_data)
+}
+}
 }
 \seealso{
 \code{\link{wdpa_fetch}}, \code{\link{wdpa_clean}},

@@ -41,7 +41,7 @@ This function will simply download the specified protected area
   represented as a point locality. To obtain data for protected areas
   that are represented as point localities, the global data set will need
   to be downloaded---even if data for a single country is required.
-  Check out the \code{\link{clean_wdpa}} function to clean the data
+  Check out the \code{\link{wdpa_clean}} function to clean the data
   according to standard practices.
 }
 \examples{

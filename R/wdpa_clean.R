@@ -1,7 +1,7 @@
 #' @include internal.R geo.R
 NULL
 
-#' Clean data
+#' Clean data  data from the World Database on Protected Areas
 #'
 #' Clean data from the World Database on Protected Areas (WDPA).
 #'
@@ -36,16 +36,17 @@ NULL
 #'   \item Buffer areas represented as point localities to circular areas
 #'     using their reported spatial extent (using data in the field
 #'     \code{"REP_AREA"} and \code{\link[sf]{st_buffer}}).
-#'   \item Extract terrestrial protected areas, dissolve them to remove
-#'     overlaps (Deguignet \emph{et al.} 2017), and erase regions that occur in
+#'   \item Extract terrestrial protected areas and erase regions that occur in
 #'     the ocean.
-#'   \item Extract marine protected areas, dissolve them to remove overlaps,
-#'     and erase regions that occur on land.
+#'   \item Extract marine protected areas and erase regions that occur on land.
 #'   \item Merge terrestrial and marine protected area data sets.
+#'   \item Erase overlapping geometries (Deguignet \emph{et al.} 2017).
 #'   \item Intersect the merged data sets with the country and exclusive
 #'     economic zone data (\code{\link[sf]{st_intersection}}.
 #'   \item Calculate size of areas in square kilometers (stored in field
 #'     \code{"AREA_KM2"}).
+#'   \item Slivers are removed (geometries an area less than 1e-10 square
+#'     kilometers).
 #'  }
 #'
 #' @return \code{\link[sf]{sf}} object.
@@ -72,25 +73,44 @@ NULL
 #' \emph{Science}, \strong{350}: 1255--1258.
 #'
 #' @examples
-#' # read simulated WDPA dataset used for examples and testing
-#' fake_data <- wdpa_read(system.file("inst/extdata/WDPA_Nov2017_FAKE.zip",
-#'                                    package = "wdpar"))
+#' \donttest{
+#' # fetch data for New Zealand
+#' nzl_data <- wdpa_fetch("NZL")
 #'
-#' # clean the simulated WDPA dataset
-#' cleaned_fake_data <- wdpa_clean(fake_data)
+#' # clean data
+#' nzl_cleaned_data <- wdpa_clean(nzl_data)
 #'
-#' # plot the raw and cleaned simulated datasets
-#' par(mfrow = c(1, 2))
-#' plot(fake_data)
-#' plot(cleaned_fake_data)
+#' # plot data
+#' plot(nzl_cleaned_data)
+#' }
+#' \dontrun{
+#' # fetch data for all protected areas on the planet
+#' # note that this might take some time given that the global data set is
+#' # over 1 GB in size
+#' global_data <- wdpa_fetch("global")
+#'
+#' # set number of threads for processing
+#' n_threads <- max(1, parallel::detectCores(TRUE) - 1)
+#'
+#' # clean global data set using parallel processing
+#' global_cleaned_data <- wdpa_clean(global_data, threads = n_threads)
+#'
+#' # plot data
+#' plot(global_cleaned_data)
+#' }
 #' @export
 wdpa_clean <- function(x, crs = 3395, threads = 1) {
   # check arguments are valid
   assertthat::assert_that(inherits(x, "sf"),
+                          nrow(x) > 0,
+                          all(assertthat::has_name(x, c("ISO3", "STATUS",
+                                                    "DESIG_ENG", "REP_AREA",
+                                                    "MARINE"))),
                           assertthat::is.string(crs) ||
                           assertthat::is.count(crs),
                           assertthat::is.count(threads),
-                          isTRUE(threads <= parallel::detectCores(TRUE)))
+                          isTRUE(threads <= parallel::detectCores(TRUE)),
+                          pingr::is_online())
   # clean data
   ## repair geometry
   x <- st_parallel_make_valid(x, threads)
@@ -98,26 +118,84 @@ wdpa_clean <- function(x, crs = 3395, threads = 1) {
   x <- x[x$STATUS %in% c("Designated", "Inscribed", "Established"), ]
   ## remove UNESCO sites
   x <- x[x$DESIG_ENG != "UNESCO-MAB Biosphere Reserve", ]
-  ## remove protected areas represented as points that do not have
-  ## a reported area
-  x <- x[x$GEOMETRY_TYPE == "POINT" & !is.finite(x$REP_AREA), ]
   ## assign column indicating geometry type
-  is_point <- vapply(x$geometry, inherits, logical(1),  "POINT")
+  is_point <- vapply(x$geometry, inherits, logical(1),  "POINT") |
+              vapply(x$geometry, inherits, logical(1),  "MULTIPOINT")
   x$GEOMETRY_TYPE <- "POLYGON"
   x$GEOMETRY_TYPE[is_point] <- "POINT"
+  ## remove protected areas represented as points that do not have
+  ## a reported area
+  x <- x[!(x$GEOMETRY_TYPE == "POINT" & !is.finite(x$REP_AREA)), ]
   ## reproject data
   x <- st_parallel_transform(x, crs, threads)
   ## repair geometry again
   x <- st_parallel_make_valid(x, threads)
   ## buffer areas represented as points
-  x_points_pos <- which(x_types == "POINT")
-  x_points_data <- x[x_points_pos, ]
-  x_points_data <- sf::st_buffer(x_points_data,
-                                 sqrt(x_points_data$REP_AREA / pi))
-  x_polygon_data$GEOMETRY_TYPE <- x_types[x_polygons_pos]
-  x <- sf::rbind(x[which(x_types == "POLYGON"), ], x_points_data)
+  x_points_pos <- which(x$GEOMETRY_TYPE == "POINT")
+  if (length(x_points_pos) > 0) {
+    x_points_data <- x[x_points_pos, ]
+    x_points_data <- sf::st_buffer(x_points_data,
+                       sqrt((x_points_data$REP_AREA * 1000000 / pi)))
+    x <- rbind(x[which(x$GEOMETRY_TYPE == "POLYGON"), ], x_points_data)
+  }
+  ## fetch land and eez data
+  if (length(unique(x$ISO3)) > 20) {
+    land_ezz_data <- land_and_eez_fetch("global", threads = threads,
+                                        verbose = verbose)
+  } else {
+    land_ezz_data <- lapply(unique(x$ISO3), land_and_eez_fetch,
+                            crs = crs, threads = threads, verbose = FALSE)
+    if (length(land_ezz_data) > 1) {
+      land_ezz_data <- do.call(rbind, land_ezz_data)
+    } else {
+      land_ezz_data <- land_ezz_data[[1]]
+    }
+  }
+  land_data <- sf::st_union(land_ezz_data[land_ezz_data$TYPE == "LAND"])
+  ## erase terrestrial areas that do not occur on land
+  terrestrial_present <- FALSE
+  if (any(x$MARINE == "0")) {
+    terrestrial_present <- TRUE
+    x_terrestrial_data <- x[x$MARINE == "0", ]
+    x_terrestrial_data <- suppressWarnings(sf::st_intersection(
+                            x_terrestrial_data, land_data))
+  }
+  ## erase marine areas that occur on land
+  marine_present <- FALSE
+  if (any(x$MARINE == "2")) {
+    marine_present <- TRUE
+    x_marine_data <- x[x$MARINE == "1", ]
+    x_marine_data <- suppressWarnings(sf::st_difference(x_marine_data,
+                                                        land_data))
+  }
+  ## combine terrestrial and marine data sets
+  if (terrestrial_present && marine_present) {
+    x <- rbind(x[x$MARINE == "1", ], rbind(x_terrestrial_data,
+                                           x_marine_data))
+  } else if (terrestrial_present) {
+    x <- rbind(x[x$MARINE == "1", ], x_terrestrial_data)
+  } else {
+    x <- rbind(x[x$MARINE == "1", ], x_marine_data)
+  }
   ## dissolve data
-  x <- sf::union(x)
+  x <- st_union(x)
+  x <- sf::st_sf(MANAGEMENT = rep("PA", length(x)), geometry = x)
+  ## intersect data with land and eez data
+  x_land_and_eez_areas <- suppressWarnings(sf::st_intersection(x, land_ezz_data))
+  ## find areas in high seas
+  x_high_seas <- suppressWarnings(sf::st_difference(x, land_ezz_data))
+  if (nrow(x_high_seas) > 0) {
+    x_high_seas$TYPE <- "HIGH SEAS"
+    x_high_seas$ISO3 <- NA
+  }
+  ## merge data
+  if ((nrow(x_land_and_eez_areas) > 0) && (nrow(x_high_seas) > 0)) {
+    x <- rbind(x_land_and_eez_areas, x_high_seas)
+  } else if (nrow(x_land_and_eez_areas) > 0) {
+    x <- x_land_and_eez_areas
+  } else {
+    x <- x_high_seas
+  }
   ## calculate area in square kilometers
   areas <- units::set_units(sf::st_area(x), km^2)
   x$AREA_KM2 <- as.numeric(areas)

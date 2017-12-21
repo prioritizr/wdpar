@@ -55,7 +55,7 @@ NULL
 #' @return \code{\link[sf]{sf}} spatial data object. This object contains the
 #'  following two fields: \code{"ISO3"} which shows the country associated
 #'  with each geometry, \code{"TYPE"} which indicates if a geometry corresponds
-#'  to the country's terrestrial land mass (\code{"LAND}) or its
+#'  to the country's terrestrial land mass (\code{"LAND"}) or its
 #'  exclusive economic zone (\code{"EEZ"}).
 #'
 #' @references
@@ -66,14 +66,14 @@ NULL
 #' @examples
 #' \donttest{
 #' # fetch land and eez data for New Zealand
-#' nzl_data <- fetch_land_and_eez("NZL")
+#' nzl_data <- land_and_eez_fetch("NZL")
 #' }
 #' \dontrun{
 #' # fetch land and eez data for the planet
-#' global_data <- fetch_land_and_eez()
+#' global_data <- land_and_eez_fetch("globe")
 #' }
 #' @export
-fetch_land_and_eez <- function(x, crs = 3395, download_dir = tempdir(),
+land_and_eez_fetch <- function(x, crs = 3395, download_dir = tempdir(),
                                threads = 1, verbose = interactive()) {
   # validate arguments
   assertthat::assert_that(assertthat::is.string(x),

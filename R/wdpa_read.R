@@ -74,8 +74,15 @@ wdpa_read <- function(x) {
     wdpa_data <- rbind(wdpa_polygon_data, wdpa_point_data)
   } else {
     shapefile_path <- dir(tdir, "^.*\\.shp$", recursive = TRUE,
-                          full.names = TRUE)[[1]]
-    wdpa_data <- sf::read_sf(shapefile_path)
+                          full.names = TRUE)
+    wdpa_data <- lapply(shapefile_path, sf::read_sf)
+    if (length(wdpa_data) > 1) {
+      col_names <- Reduce(base::intersect, lapply(wdpa_data, names))
+      wdpa_data <- lapply(wdpa_data, function(x) x[, col_names])
+      wdpa_data <- do.call(rbind, wdpa_data)
+    } else {
+      wdpa_data <- wdpa_data[[1]]
+    }
   }
   # cleanup
   unlink(tdir)

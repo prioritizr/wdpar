@@ -2,7 +2,7 @@
 % Please edit documentation in R/wdpa_clean.R
 \name{wdpa_clean}
 \alias{wdpa_clean}
-\title{Clean data}
+\title{Clean data  data from the World Database on Protected Areas}
 \usage{
 wdpa_clean(x, crs = 3395, threads = 1)
 }
@@ -44,30 +44,45 @@ This function cleans data from World Database on Protected Areas
   \item Buffer areas represented as point localities to circular areas
     using their reported spatial extent (using data in the field
     \code{"REP_AREA"} and \code{\link[sf]{st_buffer}}).
-  \item Extract terrestrial protected areas, dissolve them to remove
-    overlaps (Deguignet \emph{et al.} 2017), and erase regions that occur in
+  \item Extract terrestrial protected areas and erase regions that occur in
     the ocean.
-  \item Extract marine protected areas, dissolve them to remove overlaps,
-    and erase regions that occur on land.
+  \item Extract marine protected areas and erase regions that occur on land.
   \item Merge terrestrial and marine protected area data sets.
+  \item Erase overlapping geometries (Deguignet \emph{et al.} 2017).
   \item Intersect the merged data sets with the country and exclusive
     economic zone data (\code{\link[sf]{st_intersection}}.
   \item Calculate size of areas in square kilometers (stored in field
     \code{"AREA_KM2"}).
+  \item Slivers are removed (geometries an area less than 1e-10 square
+    kilometers).
  }
 }
 \examples{
-# read simulated WDPA dataset used for examples and testing
-fake_data <- wdpa_read(system.file("inst/extdata/WDPA_Nov2017_FAKE.zip",
-                                   package = "wdpar"))
+\donttest{
+# fetch data for New Zealand
+nzl_data <- wdpa_fetch("NZL")
 
-# clean the simulated WDPA dataset
-cleaned_fake_data <- wdpa_clean(fake_data)
+# clean data
+nzl_cleaned_data <- wdpa_clean(nzl_data)
 
-# plot the raw and cleaned simulated datasets
-par(mfrow = c(1, 2))
-plot(fake_data)
-plot(cleaned_fake_data)
+# plot data
+plot(nzl_cleaned_data)
+}
+\dontrun{
+# fetch data for all protected areas on the planet
+# note that this might take some time given that the global data set is
+# over 1 GB in size
+global_data <- wdpa_fetch("global")
+
+# set number of threads for processing
+n_threads <- max(1, parallel::detectCores(TRUE) - 1)
+
+# clean global data set using parallel processing
+global_cleaned_data <- wdpa_clean(global_data, threads = n_threads)
+
+# plot data
+plot(global_cleaned_data)
+}
 }
 \references{
 Butchart SH, Clarke M, Smith RJ, Sykes RE, Scharlemann JP,

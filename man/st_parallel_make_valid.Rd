@@ -7,7 +7,7 @@
 st_parallel_make_valid(x, threads = 1)
 }
 \arguments{
-\item{x}{object of class \code{sfc}, \code{sfg} or \code{sf}.}
+\item{x}{object of class \code{sfc} or \code{sf}.}
 
 \item{threads}{\code{integer} number of cores for processing data.}
 }

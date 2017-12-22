@@ -106,3 +106,119 @@ country_code <- function(x) {
   }
   return(country_code)
 }
+
+#' Parallel sf operation
+#'
+#' Execute an \code{\link[sf]{sf}} operation in parallel.
+#'
+#' @param x object of class \code{sfc}, \code{sfg} or \code{sf}.
+#'
+#' @param fun function to execute.
+#'
+#' @param args \code{\link[base]{list}} with additional arguments.
+#'
+#' @param remove_empty \code{\link[base]{logical}} should empty geometries
+#'   generated during processing be removed?
+#'
+#' @param threads \code{integer} number of cores for processing data.
+#'
+#' @return Object with processing executed.
+#'
+#' @noRd
+parallel_sf_operation <- function(x, fun, args = list(), remove_empty = FALSE,
+                                    threads = 1) {
+  # validate arguments
+  assertthat::assert_that(inherits(x, c("sf", "sfc", "sfg")),
+                          inherits(fun, "function"),
+                          is.list(args), assertthat::is.count(threads),
+                          assertthat::is.flag(remove_empty),
+                          isTRUE(threads <= parallel::detectCores(TRUE)))
+  # initialize cluster
+  if (threads > 1) {
+    cl <- parallel::makeCluster(threads, "PSOCK")
+    parallel::clusterEvalQ(cl, library(sf))
+    parallel::clusterExport(cl, c("x", "fun", "args"), envir = environment())
+    doParallel::registerDoParallel(cl)
+  }
+  # perform processing
+  result <- plyr::llply(distribute_load(ifelse(inherits(x, "sf"), nrow(x),
+                                               length(x)), threads),
+                        .parallel = threads > 1,
+                        function(i) {
+                          # perform processing
+                          if (inherits(x, "sf")) {
+                            out <- do.call(fun, append(list(x = x[i, ]), args))
+                          } else {
+                            out <- do.call(fun, append(list(x = x[i]), args))
+                          }
+                          # update idx if needed
+                          if (!is.null(attr(out, "idx"))) {
+                            idx <- attr(out, "idx")
+                            idx[, 1] <- i[idx[, 1]]
+                            attr(out, "idx") <- idx
+                          }
+                          # return result
+                          return(out)
+                        })
+  # cleanup
+  if (threads > 1) {
+    cl <- parallel::stopCluster(cl)
+  }
+  # post-processing
+  agrx <- attr(result[[1]], "agr")
+  rnx_is_character <- is.character(attr(result[[1]], "row.names"))
+  if (inherits(x, "sf")) {
+    ## merge results
+    if (length(result) > 1) {
+      result <- do.call(rbind, result)
+    } else {
+      result <- result[[1]]
+    }
+    ## reorder features
+    result <- result[order(nchar(attr(result, "row.names")),
+                           stringi::stri_reverse(attr(result, "row.names"))), ]
+    ## remove empty geometries
+    if (remove_empty) {
+      ## remove empty geometries
+      geom_length <- vapply(result[[attr(result, "sf_column")]], length,
+                            integer(1))
+      result <- result[geom_length > 0, ]
+    }
+  } else {
+    ## extract idx
+    idx <- NULL
+    orderx <- NULL
+    if (!is.null(attr(result[[1]], "idx"))) {
+      if (length(result) > 1) {
+        idx <- do.call(rbind, lapply(result, attr, "idx"))
+        orderx <- order(idx[, 2], idx[, 1])
+        idx <- idx[orderx, ]
+      } else {
+        idx <- attr(result[[1]], "idx")
+      }
+    }
+    ## merge results
+    result2 <- result
+    result <- result[[1]]
+    if (length(result2) > 1) {
+      for (i in seq_along(result2)[-1])
+        result <- append(result, result2[[i]])
+    }
+    ## reorder results
+    if (!is.null(orderx))
+      result <- result[orderx]
+    ## remove empty geometries
+    if (remove_empty) {
+      geom_length <- vapply(result, length, integer(1))
+      result <- result[geom_length > 0]
+    }
+    ## update attributes
+    attr(result, "row.names") <- NULL
+    if (!is.null(idx))
+      attr(result, "idx") <- idx
+  }
+  ## update attributes
+  attr(result, "agr") <- agrx
+  # return result
+  return(result)
+}

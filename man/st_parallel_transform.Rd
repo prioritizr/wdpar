@@ -7,7 +7,7 @@
 st_parallel_transform(x, crs, ..., threads = 1)
 }
 \arguments{
-\item{x}{object of class \code{sfc}, \code{sfg} or \code{sf}.}
+\item{x}{object of class \code{sfc} or \code{sf}.}
 
 \item{crs}{coordinate reference system: integer with the EPSG code, or
 character with proj4string.}

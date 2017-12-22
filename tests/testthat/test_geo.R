@@ -74,6 +74,54 @@ test_that("st_parallel_transform (sfc)", {
   expect_equal(y1, y3)
 })
 
+test_that("st_parallel_difference (sf)", {
+  # create data
+  pl1 <- sf::st_polygon(list(rbind(c(-1, -1), c(1, -1), c(1, 1), c(-1, 1),
+                                   c(-1, -1))))
+  pl2 <- pl1 + 2
+  pl3 <- pl1 + c(-0.2, 2)
+  x <- sf::st_sf(v = letters[1:3], sf::st_sfc(pl1, pl2, pl3), crs = 3395)
+  pl4 <- pl1 * 0.8
+  pl5 <- pl4 * 0.5 + c(2, 0.7)
+  pl6 <- pl4 + 1
+  pl7 <- pl1 * 0.5 + c(2, -0.5)
+  z <-  sf::st_sf(v = letters[4:7], sf::st_sfc(pl4, pl5, pl6, pl7), crs = 3395)
+  # run geometric set operation
+  y1 <- suppressWarnings(sf::st_difference(x, z))
+  y2 <- suppressWarnings(st_parallel_difference(x, z, threads = 1))
+  y3 <- suppressWarnings(st_parallel_difference(x, z, threads = 2))
+  # run tests
+  expect_is(y1, "sf")
+  expect_is(y2, "sf")
+  expect_is(y3, "sf")
+  expect_equal(y1, y2)
+  expect_equal(y1, y3)
+})
+
+test_that("st_parallel_difference (sfc)", {
+  # create data
+  pl1 <- sf::st_polygon(list(rbind(c(-1, -1), c(1, -1), c(1, 1), c(-1, 1),
+                                   c(-1, -1))))
+  pl2 <- pl1 + 2
+  pl3 <- pl1 + c(-0.2, 2)
+  x <- sf::st_sfc(pl1, pl2, pl3)
+  pl4 <- pl1 * 0.8
+  pl5 <- pl4 * 0.5 + c(2, 0.7)
+  pl6 <- pl4 + 1
+  pl7 <- pl1 * 0.5 + c(2, -0.5)
+  z <- sf::st_sfc(pl4, pl5, pl6, pl7)
+  # run geometric set operation
+  y1 <- sf::st_difference(x, z)
+  y2 <- suppressWarnings(st_parallel_difference(x, z, threads = 1))
+  y3 <- suppressWarnings(st_parallel_difference(x, z, threads = 2))
+  # run tests
+  expect_is(y1, "sfc")
+  expect_is(y2, "sfc")
+  expect_is(y3, "sfc")
+  expect_equal(y1, y2)
+  expect_equal(y1, y3)
+})
+
 test_that("st_remove_holes (sf)", {
   # create data
   outer1 <- matrix(c(0, 0, 10, 0, 10, 10, 0, 10, 0, 0), ncol = 2, byrow = TRUE)

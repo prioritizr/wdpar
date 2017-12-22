@@ -185,8 +185,8 @@ land_and_eez_fetch <- function(x, crs = 3395, download_dir = tempdir(),
     eez_data <- st_remove_holes(eez_data)
   # erase gadm from eez
   if (!is.null(eez_data)) {
-    eez_data <- suppressWarnings(sf::st_difference(eez_data,
-                                                   sf::st_union(gadm_data)))
+    eez_data <- suppressWarnings(st_parallel_difference(eez_data,
+                                   sf::st_union(gadm_data), threads = threads))
     eez_data <- st_parallel_make_valid(eez_data, threads = threads)
   }
   ## add fields indicating type

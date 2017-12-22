@@ -5,7 +5,7 @@ NULL
 #'
 #' Reproject spatial data using parallelized computations.
 #'
-#' @param x object of class \code{sfc}, \code{sfg} or \code{sf}.
+#' @param x object of class \code{sfc} or \code{sf}.
 #'
 #' @param crs coordinate reference system: integer with the EPSG code, or
 #'   character with proj4string.
@@ -30,59 +30,16 @@ st_parallel_transform <- function(x, crs, ..., threads = 1) {
                           assertthat::is.count(crs),
                           assertthat::is.count(threads),
                           isTRUE(threads <= parallel::detectCores(TRUE)))
-  # initialize cluster
-  if (threads > 1) {
-    cl <- parallel::makeCluster(threads, "PSOCK")
-    parallel::clusterEvalQ(cl, library(sf))
-    parallel::clusterExport(cl, c("x", "crs"), envir = environment())
-    doParallel::registerDoParallel(cl)
-  }
-  # perform processing
-  result <- plyr::llply(distribute_load(ifelse(inherits(x, "sf"), nrow(x),
-                                               length(x)), threads),
-                        .parallel = threads > 1,
-                        function(i) {
-                          if (inherits(x, "sf")) {
-                            return(sf::st_transform(x[i, ], crs))
-                          } else {
-                            return(sf::st_transform(x[i], crs))
-                          }
-                        })
-  # cleanup
-  if (threads > 1) {
-    cl <- parallel::stopCluster(cl)
-  }
-  # post-processing
-  if (inherits(x, "sf")) {
-    ## merge results
-    if (length(result) > 1) {
-      result <- do.call(rbind, result)
-    } else {
-      result <- result[[1]]
-    }
-    ## update attributes
-    attr(result, "row.names") <- as.integer(attr(result, "row.names"))
-  } else {
-    ## merge results
-    result2 <- result
-    result <- result[[1]]
-    if (length(result2) > 1) {
-      for (i in seq_along(result2)[-1])
-        result <- append(result, result2[[i]])
-    }
-    ## update attributes
-    attr(result, "row.names") <- NULL
-  }
-  attr(result, "agr") <- attr(x, "agr")
-  # return result
-  return(result)
+  # process data
+  parallel_sf_operation(x, sf::st_transform, args = list(crs = crs),
+                        threads = threads)
 }
 
 #' Make an invalid geometry valid (parallelized)
 #'
 #' Fix geometry issues using parallelized computations.
 #'
-#' @param x object of class \code{sfc}, \code{sfg} or \code{sf}.
+#' @param x object of class \code{sfc} or \code{sf}.
 #'
 #' @param threads \code{integer} number of cores for processing data.
 #'
@@ -97,62 +54,82 @@ st_parallel_transform <- function(x, crs, ..., threads = 1) {
 #' @export
 st_parallel_make_valid <- function(x, threads = 1) {
   # validate arguments
-  assertthat::assert_that(inherits(x, c("sf", "sfc", "sfg")),
+  assertthat::assert_that(inherits(x, c("sf", "sfc")),
                           assertthat::is.count(threads),
                           isTRUE(threads <= parallel::detectCores(TRUE)))
   # initialize cluster
-  if (threads > 1) {
-    cl <- parallel::makeCluster(threads, "PSOCK")
-    parallel::clusterEvalQ(cl, library(sf))
-    parallel::clusterExport(cl, "x", envir = environment())
-    doParallel::registerDoParallel(cl)
-  }
-  # perform processing
-  result <- plyr::llply(distribute_load(ifelse(inherits(x, "sf"), nrow(x),
-                                               length(x)), threads),
-                        .parallel = threads > 1,
-                        function(i) {
-                          if (inherits(x, "sf")) {
-                            return(lwgeom::st_make_valid(x[i, ]))
-                          } else {
-                            return(lwgeom::st_make_valid(x[i]))
-                          }
-                        })
-  # cleanup
-  if (threads > 1) {
-    cl <- parallel::stopCluster(cl)
-  }
-  # post-processing
-  if (inherits(x, "sf")) {
-    ## merge results
-    if (length(result) > 1) {
-      result <- do.call(rbind, result)
-    } else {
-      result <- result[[1]]
-    }
-    ## remove empty geometries
-    geom_length <- vapply(result[[attr(result, "sf_column")]], length,
-                          integer(1))
-    result <- result[geom_length > 0, ]
-    ## update attributes
-    attr(result, "row.names") <- as.integer(attr(result, "row.names"))
-  } else {
-    ## merge results
-    result2 <- result
-    result <- result[[1]]
-    if (length(result2) > 1) {
-      for (i in seq_along(result)[-1])
-        result <- append(result, result2[[i]])
-    }
-    ## remove empty geometries
-    geom_length <- vapply(result, length, integer(1))
-    result <- result[geom_length > 0]
-    ## update attributes
-    attr(result, "row.names") <- NULL
-  }
-  attr(result, "agr") <- attr(x, "agr")
-  # return result
-  return(result)
+  # process data
+  parallel_sf_operation(x, lwgeom::st_make_valid, remove_empty = TRUE,
+                        threads = threads)
+}
+
+#' Geometric operations on pairs of simple feature geometry sets (parallelized)
+#'
+#' Perform geometric set operations with simple feature
+#' collections using parallel processing.
+#'
+#' @param x object of class \code{sfc} or \code{sf}.
+#'
+#' @param y object of class \code{sfc} or \code{sf}.
+#'
+#' @param threads \code{integer} number of cores for processing data.
+#'
+#' @details These functions are essentially just a wrapper for
+#'   \code{\link[sf]{st_difference}}, \code{\link[sf]{st_intersection}},
+#'   \code{\link[sf]{st_sym_difference}}.
+#'
+#' @return The intersection, difference or symmetric difference between two
+#'   sets of geometries.
+#'
+#' @seealso \code{\link[sf]{st_difference}}, \code{\link[sf]{st_intersection}},
+#'   \code{\link[sf]{st_sym_difference}}.
+#'
+#' @name geometric_set_operations
+NULL
+
+#' @rdname geometric_set_operations
+#'
+#' @export
+st_parallel_difference <- function(x, y, threads = 1) {
+  # validate arguments
+  assertthat::assert_that(inherits(x, c("sf", "sfc")),
+                          inherits(y, c("sf", "sfc")),
+                          assertthat::is.count(threads),
+                          isTRUE(threads <= parallel::detectCores(TRUE)))
+  # initialize cluster
+  # process data
+  parallel_sf_operation(x, sf::st_difference, args = list(y = y),
+                        threads = threads)
+}
+
+#' @rdname geometric_set_operations
+#'
+#' @export
+st_parallel_intersection <- function(x, y, threads = 1) {
+  # validate arguments
+  assertthat::assert_that(inherits(x, c("sf", "sfc")),
+                          inherits(y, c("sf", "sfc")),
+                          assertthat::is.count(threads),
+                          isTRUE(threads <= parallel::detectCores(TRUE)))
+  # initialize cluster
+  # process data
+  parallel_sf_operation(x, sf::st_intersection, args = list(y = y),
+                        threads = threads)
+}
+
+#' @rdname geometric_set_operations
+#'
+#' @export
+st_parallel_sym_difference <- function(x, y, threads = 1) {
+  # validate arguments
+  assertthat::assert_that(inherits(x, c("sf", "sfc")),
+                          inherits(y, c("sf", "sfc")),
+                          assertthat::is.count(threads),
+                          isTRUE(threads <= parallel::detectCores(TRUE)))
+  # initialize cluster
+  # process data
+  parallel_sf_operation(x, sf::st_sym_difference, args = list(y = y),
+                        threads = threads)
 }
 
 #' Removes holes

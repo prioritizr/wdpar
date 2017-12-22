@@ -157,16 +157,17 @@ wdpa_clean <- function(x, crs = 3395, threads = 1) {
   if (any(x$MARINE == "0")) {
     terrestrial_present <- TRUE
     x_terrestrial_data <- x[x$MARINE == "0", ]
-    x_terrestrial_data <- suppressWarnings(sf::st_intersection(
-                            x_terrestrial_data, land_data))
+    x_terrestrial_data <- suppressWarnings(st_parallel_intersection(
+                            x_terrestrial_data, land_data, threads = threads))
   }
   ## erase marine areas that occur on land
   marine_present <- FALSE
   if (any(x$MARINE == "2")) {
     marine_present <- TRUE
     x_marine_data <- x[x$MARINE == "1", ]
-    x_marine_data <- suppressWarnings(sf::st_difference(x_marine_data,
-                                                        land_data))
+    x_marine_data <- suppressWarnings(st_parallel_difference(x_marine_data,
+                                                        land_data,
+                                                        threads = threads))
   }
   ## combine terrestrial and marine data sets
   if (terrestrial_present && marine_present) {
@@ -181,9 +182,11 @@ wdpa_clean <- function(x, crs = 3395, threads = 1) {
   x <- st_union(x)
   x <- sf::st_sf(MANAGEMENT = rep("PA", length(x)), geometry = x)
   ## intersect data with land and eez data
-  x_land_and_eez_areas <- suppressWarnings(sf::st_intersection(x, land_ezz_data))
+  x_land_and_eez_areas <- suppressWarnings(st_parallel_intersection(x,
+                            land_ezz_data, threads = threads))
   ## find areas in high seas
-  x_high_seas <- suppressWarnings(sf::st_difference(x, land_ezz_data))
+  x_high_seas <- suppressWarnings(st_parallel_difference(x, land_ezz_data,
+                                                         threads = threads))
   if (nrow(x_high_seas) > 0) {
     x_high_seas$TYPE <- "HIGH SEAS"
     x_high_seas$ISO3 <- NA

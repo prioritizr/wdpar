@@ -1,7 +1,8 @@
 context("wdpa_clean")
 
-test_that("fetch_land_and_eez (single country with eez)", {
+test_that("wdpa_clean (single country with eez)", {
   skip_on_cran()
+  skip("not implemented")
   skip_if_not(pingr::is_online())
   # fetch data
   x <- wdpa_clean(wdpa_fetch("NZL"))
@@ -13,8 +14,9 @@ test_that("fetch_land_and_eez (single country with eez)", {
   expect_equal(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
 })
 
-test_that("fetch_land_and_eez (single country without eez)", {
+test_that("wdpa_clean (single country without eez)", {
   skip_on_cran()
+  skip("not implemented")
   skip_if_not(pingr::is_online())
   # fetch data
   x <- wdpa_clean(wdpa_fetch("LSO"))
@@ -26,8 +28,9 @@ test_that("fetch_land_and_eez (single country without eez)", {
   expect_equal(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
 })
 
-test_that("fetch_land_and_eez (global)", {
+test_that("wdpa_clean (global)", {
   skip_on_cran()
+  skip("not implemented")
   skip_if_not(pingr::is_online())
   skip_if(mean(pingr::ping("www.google.com", count = 10)) > 10,
           "slow internet connection detected")

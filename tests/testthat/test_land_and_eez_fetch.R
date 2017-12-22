@@ -4,11 +4,11 @@ test_that("land_and_eez_fetch (single country with eez)", {
   skip_on_cran()
   skip_if_not(pingr::is_online())
   # fetch data
-  x <- land_and_eez_fetch("NZL")
+  x <- land_and_eez_fetch("MHL")
   # run tests
   expect_is(x, "sf")
   expect_equal(names(x), c("ISO3", "TYPE", "geometry"))
-  expect_true(all(x$ISO3 == "NZL"))
+  expect_true(all(x$ISO3 == "MHL"))
   expect_equal(nrow(x), 2)
   expect_true(all(x$type %in% c("LAND", "EEZ")))
   expect_equal(sum(sf::st_overlaps(x, sparse = FALSE)), 0)

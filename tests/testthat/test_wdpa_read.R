@@ -2,7 +2,7 @@ context("wdpa_read")
 
 find_dl_url <- function(x) {
   # create potential uls
-  last_few_months <- format(Sys.Date() - (seq(0, 10) * 30), "%b%Y")
+  last_few_months <- format(Sys.Date() - (seq(-2, 10) * 30), "%b%Y")
   potential_urls <- paste0("https://www.protectedplanet.net/downloads/WDPA_",
                            last_few_months, "_", x, "?type=shapefile")
   # try to find working url
@@ -44,7 +44,7 @@ test_that("wdpa_read (with point data)", {
   skip_on_cran()
   skip_if_not(pingr::is_online())
   # try to find download url
-  download_url <- find_dl_url("NZL")
+  download_url <- find_dl_url("MHL")
   skip_if(is.null(download_url))
   # path to save file zipfile with data
   path <- tempfile(pattern = "WDPA_", fileext = ".zip")

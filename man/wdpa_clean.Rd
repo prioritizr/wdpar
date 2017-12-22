@@ -59,15 +59,17 @@ This function cleans data from World Database on Protected Areas
 }
 \examples{
 \donttest{
-# fetch data for New Zealand
-nzl_data <- wdpa_fetch("NZL")
+# fetch data for the Marshall Islands
+mhl_data <- wdpa_fetch("MHL")
 
 # clean data
-nzl_cleaned_data <- wdpa_clean(nzl_data)
+mhl_cleaned_data <- wdpa_clean(mhl_data)
 
-# plot data
-plot(nzl_cleaned_data)
-}
+# plot data for visual comparison
+par(mfrow = c(1, 2))
+plot(mhl_data[, 1], main = "orginal data")
+plot(mhl_cleaned_data[, 1], main = "cleaned data")
+
 \dontrun{
 # fetch data for all protected areas on the planet
 # note that this might take some time given that the global data set is
@@ -82,7 +84,7 @@ global_cleaned_data <- wdpa_clean(global_data, threads = n_threads)
 
 # plot data
 plot(global_cleaned_data)
-}
+}}
 }
 \references{
 Butchart SH, Clarke M, Smith RJ, Sykes RE, Scharlemann JP,

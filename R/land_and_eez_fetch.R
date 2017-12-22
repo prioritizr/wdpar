@@ -68,13 +68,13 @@ NULL
 #'
 #' @examples
 #' \donttest{
-#' # fetch land and eez data for New Zealand
-#' nzl_data <- land_and_eez_fetch("NZL")
-#' }
+#' # fetch land and eez data for Saint Kitts and Nevis
+#' kna_data <- land_and_eez_fetch("KNA")
+#'
 #' \dontrun{
 #' # fetch land and eez data for the planet
 #' global_data <- land_and_eez_fetch("globe")
-#' }
+#' }}
 #' @export
 land_and_eez_fetch <- function(x, crs = 3395, download_dir = tempdir(),
                                threads = 1, verbose = interactive()) {

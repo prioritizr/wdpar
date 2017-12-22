@@ -45,17 +45,17 @@ NULL
 #' lie_data <- wdpa_fetch("Liechtenstein")
 #'
 #' # fetch data for Liechtenstein using the ISO3 code
-#' lie_data <- wdpa_fetch("LIE", force_download = TRUE)
+#' lie_data <- wdpa_fetch("LIE")
 #'
-#' # plot data
-#' plot(lie_data)
-#' }
+#' # plot data and color geometries by IUCN category
+#' plot(lie_data[, "IUCN_CAT"])
+#'
 #' \dontrun{
 #' # fetch data for all protected areas on the planet
 #' # note that this might take some time given that the global data set is
 #' # over 1 GB in size
 #' global_data <- wdpa_fetch("global")
-#' }
+#' }}
 #' @export
 wdpa_fetch <- function(x, download_dir = tempdir(), force_download = FALSE,
                        verbose = interactive()) {
@@ -76,9 +76,9 @@ wdpa_fetch <- function(x, download_dir = tempdir(), force_download = FALSE,
   } else {
     ### generate potential urls since http://protectplanet.net can sometimes be
     ### a few months behind the current date
-    last_few_months <- format(Sys.Date() - (seq(0, 10) * 30), "%b%Y")
+    possible_months <- format(Sys.Date() - (seq(-2, 10) * 30), "%b%Y")
     potential_urls <- paste0("https://www.protectedplanet.net/downloads/WDPA_",
-                             last_few_months, "_", x, "?type=shapefile")
+                             possible_months, "_", x, "?type=shapefile")
     ## find working url
     found_url <- FALSE
     for (i in seq_along(potential_urls)) {

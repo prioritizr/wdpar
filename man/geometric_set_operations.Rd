@@ -33,6 +33,57 @@ These functions are essentially just a wrapper for
   \code{\link[sf]{st_difference}}, \code{\link[sf]{st_intersection}},
   \code{\link[sf]{st_sym_difference}}.
 }
+\examples{
+# create x object
+pl1 <- sf::st_polygon(list(rbind(c(-1, -1), c(1, -1), c(1, 1), c(-1, 1),
+                                 c(-1, -1))))
+ pl2 <- pl1 + 2
+ pl3 <- pl1 + c(-0.2, 2)
+ x <- sf::st_sf(v = letters[1:3], geometry = sf::st_sfc(pl1, pl2, pl3),
+                                                        crs = 3395)
+
+# create z object
+ pl4 <- pl1 * 0.8
+ pl5 <- pl4 * 0.5 + c(2, 0.7)
+ pl6 <- pl4 + 1
+ pl7 <- pl1 * 0.5 + c(2, -0.5)
+ z <-  sf::st_sf(v = letters[4:7], geometry = sf::st_sfc(pl4, pl5, pl6, pl7),
+                 crs = 3395)
+
+# calculate difference using sf::st_difference
+y1 <- sf::st_difference(x, z)
+
+# calculate difference using parallelized implementation
+y2 <- st_parallel_difference(x, z, threads = 2)
+
+# calculate intersection using sf::st_intersection
+y3 <- sf::st_intersection(x, z)
+
+# calculate intersection using parallelized implementation
+y4 <- st_parallel_intersection(x, z, threads = 2)
+
+# calculate symmetric difference using sf::st_sym_difference
+y5 <- sf::st_sym_difference(x, z)
+
+# calculate symmetric difference using parallelized implementation
+y6 <- st_parallel_sym_difference(x, z, threads = 2)
+
+# plot objects for visual comparison
+par(mfrow = c(4, 2))
+plot(x$geometry, main = "x", axes = TRUE, col = "lightblue")
+plot(z$geometry, main = "z", axes = TRUE, col = "lightblue")
+plot(y1$geometry, main = "sf::st_difference", axes = TRUE, col = "lightblue")
+plot(y2$geometry, main = "st_parallel_difference", axes = TRUE,
+     col = "lightblue")
+plot(y3$geometry, main = "sf::st_intersection", axes = TRUE,
+     col = "lightblue")
+plot(y4$geometry, main = "st_parallel_intersection", axes = TRUE,
+     col = "lightblue")
+plot(y5$geometry, main = "sf::st_sym_difference", axes = TRUE,
+     col = "lightblue")
+plot(y6$geometry, main = "st_parallel_sym_difference", axes = TRUE,
+     col = "lightblue")
+}
 \seealso{
 \code{\link[sf]{st_difference}}, \code{\link[sf]{st_intersection}},
   \code{\link[sf]{st_sym_difference}}.

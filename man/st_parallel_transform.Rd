@@ -27,6 +27,26 @@ This function is essentially just a wrapper for
   \code{\link[sf]{st_transform}}. See the documentation for
   \code{\link[sf]{st_transform}} for more information.
 }
+\examples{
+# create data
+pl1 <- sf::st_polygon(list(matrix(c(0, 0, 2, 0, 2, 2, 0, 2, 0, 0),
+                                   byrow = TRUE, ncol = 2)))
+pl2 <- sf::st_polygon(list(matrix(c(5, 5, 7, 5, 7, 7, 5, 7, 5, 5),
+                                   byrow = TRUE, ncol = 2)))
+x <- sf::st_sf(z = runif(2), geometry = sf::st_sfc(list(pl1, pl2),
+                                                   crs = 4326))
+
+# transform data using sf::st_transform
+y1 <- sf::st_transform(x, 3395)
+
+# transform data using parallelized implementation
+y2 <- st_parallel_transform(x, 3395, threads = 2)
+
+# plot objects for visual comparison
+par(mfrow = c(1, 2))
+plot(y1, main = "sf::st_transform", axes = TRUE)
+plot(y2, main = "st_parallel_transform", axes = TRUE)
+}
 \seealso{
 \code{\link[sf]{st_transform}}.
 }

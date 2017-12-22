@@ -22,6 +22,25 @@ NULL
 #'
 #' @seealso \code{\link[sf]{st_transform}}.
 #'
+#' @examples
+#' # create data
+#' pl1 <- sf::st_polygon(list(matrix(c(0, 0, 2, 0, 2, 2, 0, 2, 0, 0),
+#'                                    byrow = TRUE, ncol = 2)))
+#' pl2 <- sf::st_polygon(list(matrix(c(5, 5, 7, 5, 7, 7, 5, 7, 5, 5),
+#'                                    byrow = TRUE, ncol = 2)))
+#' x <- sf::st_sf(z = runif(2), geometry = sf::st_sfc(list(pl1, pl2),
+#'                                                    crs = 4326))
+#'
+#' # transform data using sf::st_transform
+#' y1 <- sf::st_transform(x, 3395)
+#'
+#' # transform data using parallelized implementation
+#' y2 <- st_parallel_transform(x, 3395, threads = 2)
+#'
+#' # plot objects for visual comparison
+#' par(mfrow = c(1, 2))
+#' plot(y1, main = "sf::st_transform", axes = TRUE)
+#' plot(y2, main = "st_parallel_transform", axes = TRUE)
 #' @export
 st_parallel_transform <- function(x, crs, ..., threads = 1) {
   # validate arguments
@@ -51,6 +70,22 @@ st_parallel_transform <- function(x, crs, ..., threads = 1) {
 #'
 #' @seealso \code{\link[lwgeom]{st_make_valid}}.
 #'
+#' @examples
+#' # create data
+#'  x <- sf::st_sf(z = 1, geomtry = sf::st_sfc(sf::st_polygon(list(
+#'         rbind(c(0, 0), c(0.5, 0), c(0.5, 0.5), c(0.5, 0), c(1, 0),
+#'               c(1, 1), c(0, 1), c(0, 0))))), agr = "constant")
+#'
+#' # repair geometry using lwgeom::st_make_valid
+#' y1 <- lwgeom::st_make_valid(x)
+#'
+#' # repair geometry using parallelized implementation
+#' y2 <- st_parallel_make_valid(x, threads = 2)
+#'
+#' # plot objects for visual comparison
+#' par(mfrow = c(1, 2))
+#' plot(y1, main = "lwgeom::st_make_valid", axes = TRUE)
+#' plot(y2, main = "st_parallel_make_valid", axes = TRUE)
 #' @export
 st_parallel_make_valid <- function(x, threads = 1) {
   # validate arguments
@@ -84,6 +119,56 @@ st_parallel_make_valid <- function(x, threads = 1) {
 #' @seealso \code{\link[sf]{st_difference}}, \code{\link[sf]{st_intersection}},
 #'   \code{\link[sf]{st_sym_difference}}.
 #'
+#' @examples
+#' # create x object
+#' pl1 <- sf::st_polygon(list(rbind(c(-1, -1), c(1, -1), c(1, 1), c(-1, 1),
+#'                                  c(-1, -1))))
+#'  pl2 <- pl1 + 2
+#'  pl3 <- pl1 + c(-0.2, 2)
+#'  x <- sf::st_sf(v = letters[1:3], geometry = sf::st_sfc(pl1, pl2, pl3),
+#'                                                         crs = 3395)
+#'
+#' # create z object
+#'  pl4 <- pl1 * 0.8
+#'  pl5 <- pl4 * 0.5 + c(2, 0.7)
+#'  pl6 <- pl4 + 1
+#'  pl7 <- pl1 * 0.5 + c(2, -0.5)
+#'  z <-  sf::st_sf(v = letters[4:7], geometry = sf::st_sfc(pl4, pl5, pl6, pl7),
+#'                  crs = 3395)
+#'
+#' # calculate difference using sf::st_difference
+#' y1 <- sf::st_difference(x, z)
+#'
+#' # calculate difference using parallelized implementation
+#' y2 <- st_parallel_difference(x, z, threads = 2)
+#'
+#' # calculate intersection using sf::st_intersection
+#' y3 <- sf::st_intersection(x, z)
+#'
+#' # calculate intersection using parallelized implementation
+#' y4 <- st_parallel_intersection(x, z, threads = 2)
+#'
+#' # calculate symmetric difference using sf::st_sym_difference
+#' y5 <- sf::st_sym_difference(x, z)
+#'
+#' # calculate symmetric difference using parallelized implementation
+#' y6 <- st_parallel_sym_difference(x, z, threads = 2)
+#'
+#' # plot objects for visual comparison
+#' par(mfrow = c(4, 2))
+#' plot(x$geometry, main = "x", axes = TRUE, col = "lightblue")
+#' plot(z$geometry, main = "z", axes = TRUE, col = "lightblue")
+#' plot(y1$geometry, main = "sf::st_difference", axes = TRUE, col = "lightblue")
+#' plot(y2$geometry, main = "st_parallel_difference", axes = TRUE,
+#'      col = "lightblue")
+#' plot(y3$geometry, main = "sf::st_intersection", axes = TRUE,
+#'      col = "lightblue")
+#' plot(y4$geometry, main = "st_parallel_intersection", axes = TRUE,
+#'      col = "lightblue")
+#' plot(y5$geometry, main = "sf::st_sym_difference", axes = TRUE,
+#'      col = "lightblue")
+#' plot(y6$geometry, main = "st_parallel_sym_difference", axes = TRUE,
+#'      col = "lightblue")
 #' @name geometric_set_operations
 NULL
 

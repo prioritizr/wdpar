@@ -19,9 +19,9 @@ NULL
 #' @examples
 #' \donttest{
 #' # find working url for Liechtenstein data set
-#' last_few_months <- format(Sys.Date() - (seq(0, 10) * 30), "%b%Y")
+#' possible_months <- format(Sys.Date() - (seq(-2, 10) * 30), "%b%Y")
 #' potential_urls <- paste0("https://www.protectedplanet.net/downloads/WDPA_",
-#'                          last_few_months, "_LIE?type=shapefile")
+#'                          possible_months, "_LIE?type=shapefile")
 #' found_url <- FALSE
 #' for (i in seq_along(potential_urls)) {
 #'   if (!httr::http_error(potential_urls[i])) {
@@ -34,7 +34,7 @@ NULL
 #' # download the data set if working url was found
 #' if (found_url) {
 #'   # path to save file zipfile with data
-#'   path <- tempfile(fileext = ".zip")
+#'   path <- tempfile(pattern = "WDPA_", fileext = ".zip")
 #'
 #'   # download zipfile
 #'   result <- httr::GET(download_url, httr::write_disk(path))

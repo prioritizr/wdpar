@@ -22,6 +22,23 @@ This function is essentially just a wrapper for
   \code{\link[lwgeom]{st_make_valid}}. See the documentation for
   \code{\link[lwgeom]{st_make_valid}} for more information.
 }
+\examples{
+# create data
+ x <- sf::st_sf(z = 1, geomtry = sf::st_sfc(sf::st_polygon(list(
+        rbind(c(0, 0), c(0.5, 0), c(0.5, 0.5), c(0.5, 0), c(1, 0),
+              c(1, 1), c(0, 1), c(0, 0))))), agr = "constant")
+
+# repair geometry using lwgeom::st_make_valid
+y1 <- lwgeom::st_make_valid(x)
+
+# repair geometry using parallelized implementation
+y2 <- st_parallel_make_valid(x, threads = 2)
+
+# plot objects for visual comparison
+par(mfrow = c(1, 2))
+plot(y1, main = "lwgeom::st_make_valid", axes = TRUE)
+plot(y2, main = "st_parallel_make_valid", axes = TRUE)
+}
 \seealso{
 \code{\link[lwgeom]{st_make_valid}}.
 }

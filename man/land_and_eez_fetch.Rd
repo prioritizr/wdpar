@@ -71,13 +71,13 @@ Data are assembled using the following steps.
 }
 \examples{
 \donttest{
-# fetch land and eez data for New Zealand
-nzl_data <- land_and_eez_fetch("NZL")
-}
+# fetch land and eez data for Saint Kitts and Nevis
+kna_data <- land_and_eez_fetch("KNA")
+
 \dontrun{
 # fetch land and eez data for the planet
 global_data <- land_and_eez_fetch("globe")
-}
+}}
 }
 \references{
 Claus S, De Hauwere N, Vanhoorne B, Souza Dias F, Oset Garc\'{i}a P,

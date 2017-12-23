@@ -9,7 +9,8 @@ st_parallel_make_valid(x, threads = 1)
 \arguments{
 \item{x}{object of class \code{sfc} or \code{sf}.}
 
-\item{threads}{\code{integer} number of cores for processing data.}
+\item{threads}{\code{integer} number of threads for processing data. Defaults
+to 1.}
 }
 \value{
 Object with fixed geometry.

@@ -4,7 +4,8 @@
 \alias{wdpa_clean}
 \title{Clean data  data from the World Database on Protected Areas}
 \usage{
-wdpa_clean(x, crs = 3395, threads = 1)
+wdpa_clean(x, crs = 3395, tolerance = 0, threads = 1,
+  verbose = interactive())
 }
 \arguments{
 \item{x}{\code{\link[sf]{sf}} object containing data from the WDPA.}
@@ -12,8 +13,13 @@ wdpa_clean(x, crs = 3395, threads = 1)
 \item{crs}{\code{character} coordinate reference system in PROJ4 format.
 Defaults to \code{3395} (Mercator).}
 
+\item{tolerance}{\code{numeric} tolerance for simplifying geometry. Defaults
+to zero.}
+
 \item{threads}{\code{numeric} number of threads to use for processing.
 Defaults to 1.}
+
+\item{verbose}{\code{logical} should progress on data cleaning be reported?}
 }
 \value{
 \code{\link[sf]{sf}} object.
@@ -41,6 +47,8 @@ This function cleans data from World Database on Protected Areas
     \code{crs} (using \code{\link{st_parallel_transform}}).
   \item Repair any invalid geometry that has since manifested (using
     \code{\link{st_parallel_make_valid}}).
+  \item Simplify the geometry using tolerance specified in argument
+    to \code{tolerance} (using \code{\link{st_parallel_simplify}}).
   \item Buffer areas represented as point localities to circular areas
     using their reported spatial extent (using data in the field
     \code{"REP_AREA"} and \code{\link[sf]{st_buffer}}).
@@ -48,9 +56,20 @@ This function cleans data from World Database on Protected Areas
     the ocean.
   \item Extract marine protected areas and erase regions that occur on land.
   \item Merge terrestrial and marine protected area data sets.
-  \item Erase overlapping geometries (Deguignet \emph{et al.} 2017).
-  \item Intersect the merged data sets with the country and exclusive
-    economic zone data (\code{\link[sf]{st_intersection}}.
+  \item Erase overlapping geometries (discussed in Deguignet \emph{et al.}
+    2017). Geometries are erased such that protected areas associated with
+    more effective management categories (\code{"IUCN_CAT"}) or have
+    historical precdence are retained (using
+    \code{\link[sf]{st_difference}}).
+  \item The \code{"MARINE"} field is converted from integer codes
+    to descriptive name (\code{0} = \code{"terrestrial"},
+    \code{1} = \code{"partial"}, \code{2} = \code{"marine"}).
+  \item Zeroes in the \code{"STATUS_YR"} field are replaced with \code{NA}
+    values.
+  \item Zoers in the \code{"NO_TK_AREA"} field are replaced with \code{NA}
+    values for areas for with such data are not reported or applicable
+    (i.e. areas with the values \code{"Not Applicable"}
+    or \code{"Not Reported"} in the \code{"NO_TK_AREA"} field).
   \item Calculate size of areas in square kilometers (stored in field
     \code{"AREA_KM2"}).
   \item Slivers are removed (geometries an area less than 1e-10 square
@@ -60,35 +79,35 @@ This function cleans data from World Database on Protected Areas
 \examples{
 \donttest{
 # fetch data for the Marshall Islands
-mhl_data <- wdpa_fetch("MHL")
+mhl_raw_data <- wdpa_fetch("MHL")
 
 # clean data
-mhl_cleaned_data <- wdpa_clean(mhl_data)
+mhl_data <- wdpa_clean(mhl_raw_data)
 
 # plot data for visual comparison
 par(mfrow = c(1, 2))
-plot(mhl_data[, 1], main = "orginal data")
-plot(mhl_cleaned_data[, 1], main = "cleaned data")
+plot(mhl_raw_data[, 1], main = "orginal data")
+plot(mhl_data[, 1], main = "cleaned data")
 
 \dontrun{
 # fetch data for all protected areas on the planet
 # note that this might take some time given that the global data set is
 # over 1 GB in size
-global_data <- wdpa_fetch("global")
+global_raw_data <- wdpa_fetch("global")
 
 # set number of threads for processing
 n_threads <- max(1, parallel::detectCores(TRUE) - 1)
 
 # clean global data set using parallel processing
-global_cleaned_data <- wdpa_clean(global_data, threads = n_threads)
+global_data <- wdpa_clean(global_raw_data, threads = n_threads)
 
 # plot data
-plot(global_cleaned_data)
+plot(global_data)
 }}
 }
 \references{
 Butchart SH, Clarke M, Smith RJ, Sykes RE, Scharlemann JP,
-Harfoot M, ... & Brooks TM (2015). Shortfalls and solutions for
+Harfoot M, ... & Brooks TM (2015) Shortfalls and solutions for
 meeting national and global conservation area targets.
 \emph{Conservation Letters}, \strong{8}: 329--337.
 
@@ -97,7 +116,7 @@ Biosphere Reserves globally: Effective conservation action or bureaucratic
 label? \emph{Biological Reviews}, \strong{89}: 82--104.
 
 Deguignet M, Arnell A, Juffe-Bignoli D, Shi Y, Bingham H, MacSharry B &
-Kingston N (2017). Measuring the extent of overlaps in protected area
+Kingston N (2017) Measuring the extent of overlaps in protected area
 designations. \emph{PloS One}, \strong{12}: e0188681.
 
 Runge CA, Watson JEM, Butchart HM, Hanson JO, Possingham HP & Fuller RA

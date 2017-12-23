@@ -18,7 +18,8 @@ st_parallel_sym_difference(x, y, threads = 1)
 
 \item{y}{object of class \code{sfc} or \code{sf}.}
 
-\item{threads}{\code{integer} number of cores for processing data.}
+\item{threads}{\code{integer} number of threads for processing data. Defaults
+to 1.}
 }
 \value{
 The intersection, difference or symmetric difference between two
@@ -70,18 +71,19 @@ y6 <- st_parallel_sym_difference(x, z, threads = 2)
 
 # plot objects for visual comparison
 par(mfrow = c(4, 2))
-plot(x$geometry, main = "x", axes = TRUE, col = "lightblue")
-plot(z$geometry, main = "z", axes = TRUE, col = "lightblue")
-plot(y1$geometry, main = "sf::st_difference", axes = TRUE, col = "lightblue")
-plot(y2$geometry, main = "st_parallel_difference", axes = TRUE,
+plot(st_geometry(x), main = "x", axes = TRUE, col = "lightblue")
+plot(st_geometry(z), main = "z", axes = TRUE, col = "lightblue")
+plot(st_geometry(y1), main = "sf::st_difference", axes = TRUE,
      col = "lightblue")
-plot(y3$geometry, main = "sf::st_intersection", axes = TRUE,
+plot(st_geometry(y2), main = "st_parallel_difference", axes = TRUE,
      col = "lightblue")
-plot(y4$geometry, main = "st_parallel_intersection", axes = TRUE,
+plot(st_geometry(y3), main = "sf::st_intersection", axes = TRUE,
      col = "lightblue")
-plot(y5$geometry, main = "sf::st_sym_difference", axes = TRUE,
+plot(st_geometry(y4), main = "st_parallel_intersection", axes = TRUE,
      col = "lightblue")
-plot(y6$geometry, main = "st_parallel_sym_difference", axes = TRUE,
+plot(st_geometry(y5), main = "sf::st_sym_difference", axes = TRUE,
+     col = "lightblue")
+plot(st_geometry(y6), main = "st_parallel_sym_difference", axes = TRUE,
      col = "lightblue")
 }
 \seealso{

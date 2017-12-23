@@ -43,10 +43,10 @@ if (found_url) {
   result <- httr::GET(download_url, httr::write_disk(path))
 
   # load data
-  lie_data <- wdpa_read(path)
+  lie_raw_data <- wdpa_read(path)
 
   # plot data
-  plot(lie_data)
+  plot(lie_raw_data)
 }
 }
 }

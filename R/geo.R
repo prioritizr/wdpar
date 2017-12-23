@@ -12,7 +12,8 @@ NULL
 #'
 #' @param ... not used.
 #'
-#' @param threads \code{integer} number of cores for processing data.
+#' @param threads \code{integer} number of threads for processing data. Defaults
+#'   to 1.
 #'
 #' @details This function is essentially just a wrapper for
 #'   \code{\link[sf]{st_transform}}. See the documentation for
@@ -60,7 +61,8 @@ st_parallel_transform <- function(x, crs, ..., threads = 1) {
 #'
 #' @param x object of class \code{sfc} or \code{sf}.
 #'
-#' @param threads \code{integer} number of cores for processing data.
+#' @param threads \code{integer} number of threads for processing data. Defaults
+#'   to 1.
 #'
 #' @details This function is essentially just a wrapper for
 #'   \code{\link[lwgeom]{st_make_valid}}. See the documentation for
@@ -98,6 +100,58 @@ st_parallel_make_valid <- function(x, threads = 1) {
                         threads = threads)
 }
 
+#' Simplify geometry (parallelized)
+#'
+#' Simplify the geometry in a simple feature data set using parallel processing.
+#'
+#' @param x Object of class \code{sfc} or \code{sf}.
+#'
+#' @param preserveTopology \code{logical} carry out topology preserving
+#'   simplification? Defaults to \code{FALSE}.
+#'
+#' @param dTolerance \code{numeric} tolerance parameter affecting how much
+#'   the geometry is simplified.
+#'
+#' @param threads \code{integer} number of threads for processing data. Defaults
+#'   to 1.
+#'
+#' @details This function is a wrapper for \code{\link[sf]{st_simplify}}.
+#'
+#' @return Simplified object.
+#'
+#' @seealso \code{\link[sf]{st_simplify}}.
+#'
+#' @examples
+#' # load data
+#' nc <- sf::read_sf(system.file("shape/nc.shp", package = "sf")) %>%
+#'       sf::st_transform(3395)
+#'
+#' # simplify data to 1 km
+#' nc_simplified <- sf::st_simplify(nc, dTolerance = 5000)
+#'
+#' # plot data for visual comparisons
+#' par(mfrow = c(1, 2))
+#' plot(st_geometry(nc), col = "white")
+#' plot(st_geometry(nc_simplified), col = "white")
+#' @export
+st_parallel_simplify <- function(x, preserveTopology = FALSE, dTolerance = 0,
+                                 threads = 1) {
+  # validate arguments
+  assertthat::assert_that(inherits(x, c("sf", "sfc")),
+                          assertthat::is.flag(preserveTopology),
+                          assertthat::is.scalar(dTolerance),
+                          is.finite(dTolerance),
+                          assertthat::is.count(threads),
+                          isTRUE(threads <= parallel::detectCores(TRUE)))
+  # initialize cluster
+  # process data
+  parallel_sf_operation(x, sf::st_simplify,
+                        args = list(preserveTopology = preserveTopology,
+                                    dTolerance = dTolerance),
+                        remove_empty = TRUE,
+                        threads = threads)
+}
+
 #' Geometric operations on pairs of simple feature geometry sets (parallelized)
 #'
 #' Perform geometric set operations with simple feature
@@ -107,7 +161,8 @@ st_parallel_make_valid <- function(x, threads = 1) {
 #'
 #' @param y object of class \code{sfc} or \code{sf}.
 #'
-#' @param threads \code{integer} number of cores for processing data.
+#' @param threads \code{integer} number of threads for processing data. Defaults
+#'   to 1.
 #'
 #' @details These functions are essentially just a wrapper for
 #'   \code{\link[sf]{st_difference}}, \code{\link[sf]{st_intersection}},
@@ -156,18 +211,19 @@ st_parallel_make_valid <- function(x, threads = 1) {
 #'
 #' # plot objects for visual comparison
 #' par(mfrow = c(4, 2))
-#' plot(x$geometry, main = "x", axes = TRUE, col = "lightblue")
-#' plot(z$geometry, main = "z", axes = TRUE, col = "lightblue")
-#' plot(y1$geometry, main = "sf::st_difference", axes = TRUE, col = "lightblue")
-#' plot(y2$geometry, main = "st_parallel_difference", axes = TRUE,
+#' plot(st_geometry(x), main = "x", axes = TRUE, col = "lightblue")
+#' plot(st_geometry(z), main = "z", axes = TRUE, col = "lightblue")
+#' plot(st_geometry(y1), main = "sf::st_difference", axes = TRUE,
 #'      col = "lightblue")
-#' plot(y3$geometry, main = "sf::st_intersection", axes = TRUE,
+#' plot(st_geometry(y2), main = "st_parallel_difference", axes = TRUE,
 #'      col = "lightblue")
-#' plot(y4$geometry, main = "st_parallel_intersection", axes = TRUE,
+#' plot(st_geometry(y3), main = "sf::st_intersection", axes = TRUE,
 #'      col = "lightblue")
-#' plot(y5$geometry, main = "sf::st_sym_difference", axes = TRUE,
+#' plot(st_geometry(y4), main = "st_parallel_intersection", axes = TRUE,
 #'      col = "lightblue")
-#' plot(y6$geometry, main = "st_parallel_sym_difference", axes = TRUE,
+#' plot(st_geometry(y5), main = "sf::st_sym_difference", axes = TRUE,
+#'      col = "lightblue")
+#' plot(st_geometry(y6), main = "st_parallel_sym_difference", axes = TRUE,
 #'      col = "lightblue")
 #' @name geometric_set_operations
 NULL

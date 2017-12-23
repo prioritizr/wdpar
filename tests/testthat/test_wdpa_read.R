@@ -57,8 +57,8 @@ test_that("wdpa_read (with point data)", {
   expect_true(nrow(x) > 0)
   expect_true(all(c("ISO3", "STATUS", "DESIG_ENG", "REP_AREA", "MARINE") %in%
                   names(x)))
-  is_point <- vapply(x$geometry, inherits, logical(1),  "POINT") |
-              vapply(x$geometry, inherits, logical(1),  "MULTIPOINT")
-  expect_gte(sum(is_point), 0)
-  expect_gte(sum(!is_point), 0)
+  is_point <- vapply(sf::st_geometry(x), inherits, logical(1),  "POINT") |
+              vapply(sf::st_geometry(x), inherits, logical(1),  "MULTIPOINT")
+  expect_gt(sum(is_point), 0)
+  expect_gt(sum(!is_point), 0)
 })

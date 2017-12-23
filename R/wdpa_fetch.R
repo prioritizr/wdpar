@@ -42,19 +42,19 @@ NULL
 #' @examples
 #' \donttest{
 #' # fetch data for Liechtenstein
-#' lie_data <- wdpa_fetch("Liechtenstein")
+#' lie_raw_data <- wdpa_fetch("Liechtenstein")
 #'
 #' # fetch data for Liechtenstein using the ISO3 code
-#' lie_data <- wdpa_fetch("LIE")
+#' lie_raw_data <- wdpa_fetch("LIE")
 #'
 #' # plot data and color geometries by IUCN category
-#' plot(lie_data[, "IUCN_CAT"])
+#' plot(lie_raw_data[, "IUCN_CAT"])
 #'
 #' \dontrun{
 #' # fetch data for all protected areas on the planet
 #' # note that this might take some time given that the global data set is
 #' # over 1 GB in size
-#' global_data <- wdpa_fetch("global")
+#' global_raw_data <- wdpa_fetch("global")
 #' }}
 #' @export
 wdpa_fetch <- function(x, download_dir = tempdir(), force_download = FALSE,
@@ -90,8 +90,8 @@ wdpa_fetch <- function(x, download_dir = tempdir(), force_download = FALSE,
     }
     ### check that at least one working url was found
     if (!found_url)
-      stop("no valid download links available at http://protectedplanet.net - ",
-           "check that the data has been processed")
+      stop("data is not yet available for download at ",
+           "http://protectedplanet.net")
   }
   ## find correct filename with which to save data
   file_name <- basename(httr::HEAD(download_url)$url)

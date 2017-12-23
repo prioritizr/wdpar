@@ -89,6 +89,9 @@ distribute_load <- function(x, n) {
 #'
 #' @noRd
 country_code <- function(x) {
+  # validate argument
+  assertthat::assert_that(assertthat::is.string(x))
+  # processing
   if (nchar(x) == 3) {
     # check that x is valid ISO-3 code
     name <- suppressWarnings(countrycode::countrycode(x, "iso3c",

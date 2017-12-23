@@ -74,6 +74,45 @@ test_that("st_parallel_transform (sfc)", {
   expect_equal(y1, y3)
 })
 
+test_that("st_parallel_simplify (sf)", {
+  # create data
+  x <- read_sf(system.file("shape/nc.shp", package = "sf")) %>%
+       st_transform(3395)
+  x <- x[1:10, ]
+  # transform data
+  y1 <- sf::st_simplify(x, dTolerance = 5000)
+  y2 <- suppressWarnings(st_parallel_simplify(x, dTolerance = 5000,
+                                              threads = 1))
+  y3 <- suppressWarnings(st_parallel_simplify(x, dTolerance = 5000,
+                                              threads = 2))
+  # run tests
+  expect_is(y1, "sf")
+  expect_is(y2, "sf")
+  expect_is(y3, "sf")
+  expect_identical(y1, y2)
+  expect_identical(y1, y3)
+})
+
+test_that("st_parallel_simplify (sfc)", {
+  # create data
+  x <- read_sf(system.file("shape/nc.shp", package = "sf")) %>%
+       st_transform(3395) %>%
+       st_geometry()
+  x <- x[1:10]
+  # transform data
+  y1 <- sf::st_simplify(x, dTolerance = 5000)
+  y2 <- suppressWarnings(st_parallel_simplify(x, dTolerance = 5000,
+                         threads = 1))
+  y3 <- suppressWarnings(st_parallel_simplify(x,  dTolerance = 5000,
+                         threads = 2))
+  # run tests
+  expect_is(y1, "sfc")
+  expect_is(y2, "sfc")
+  expect_is(y3, "sfc")
+  expect_identical(y1, y2)
+  expect_identical(y1, y3)
+})
+
 test_that("st_parallel_difference (sf)", {
   # create data
   pl1 <- sf::st_polygon(list(rbind(c(-1, -1), c(1, -1), c(1, 1), c(-1, 1),

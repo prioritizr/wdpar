@@ -13,6 +13,9 @@ NULL
 #' @param crs \code{character} coordinate reference system in PROJ4 format.
 #'   Defaults to \code{3395} (Mercator).
 #'
+#' @param tolerance \code{numeric} tolerance for simplifying geometry. Defaults
+#'  to zero.
+#'
 #' @param download_dir \code{character} folder path to download the data.
 #'  Defaults to the temporary directory (\code{\link[base]{tempdir}}).
 #'
@@ -36,6 +39,8 @@ NULL
 #' \item Scan both data sets again for invalid geometries, and fix any
 #'   invalid geometries that have manifested (using
 #'   \code{\link{st_parallel_make_valid}}).
+#' \item Geometry in both data sets are simplified using argument to
+#'   \code{tolerance} (using \code{\link{st_parallel_simplify}}).
 #' \item A field denoting the country code is created in the two data sets
 #'   is created (\code{"ISO3"}).
 #' \item Both data sets are dissolved by the country code field (\code{"ISO3"})
@@ -76,12 +81,16 @@ NULL
 #' global_data <- land_and_eez_fetch("globe")
 #' }}
 #' @export
-land_and_eez_fetch <- function(x, crs = 3395, download_dir = tempdir(),
-                               threads = 1, verbose = interactive()) {
+land_and_eez_fetch <- function(x, crs = 3395, tolerance = 0,
+                               download_dir = tempdir(), threads = 1,
+                               verbose = interactive()) {
   # validate arguments
-  assertthat::assert_that(assertthat::is.string(x),
+  assertthat::assert_that(is.character(x),
+                          all(!is.na(x)),
                           assertthat::is.string(crs) ||
                           assertthat::is.count(crs),
+                          assertthat::is.scalar(tolerance),
+                          isTRUE(tolerance >= 0),
                           assertthat::is.dir(download_dir),
                           assertthat::is.count(threads),
                           assertthat::is.flag(verbose),
@@ -92,8 +101,8 @@ land_and_eez_fetch <- function(x, crs = 3395, download_dir = tempdir(),
   dir.create(gadm_dir, recursive = TRUE, showWarnings = FALSE)
   dir.create(eez_dir, recursive = TRUE, showWarnings = FALSE)
   # convert x to country code
-  if (x != "global") {
-    iso3_id <- country_code(x)
+  if (!"global" %in% x) {
+    iso3_id <- unique(vapply(x, country_code, character(1)))
   } else {
     iso3_id <- unique(countrycode::countrycode_data$iso3c)
   }
@@ -106,8 +115,10 @@ land_and_eez_fetch <- function(x, crs = 3395, download_dir = tempdir(),
     dl_url <- paste0("http://biogeo.ucdavis.edu/data/gadm", version, "/rds/",
                      x, "_adm0.rds")
     dl_path <- file.path(gadm_dir, basename(dl_url))
-    result <- httr::GET(dl_url, httr::write_disk(dl_path, overwrite = TRUE))
-    out <- as(readRDS(dl_path), "sf")
+    if (!file.exists(dl_path)) {
+      result <- httr::GET(dl_url, httr::write_disk(dl_path, overwrite = TRUE))
+    }
+    suppressMessages({out <- as(readRDS(dl_path), "sf")})
     out <- st_parallel_make_valid(out, threads = threads)
     out <- sf::st_union(out)
     out <- st_parallel_make_valid(out, threads = threads)
@@ -120,20 +131,25 @@ land_and_eez_fetch <- function(x, crs = 3395, download_dir = tempdir(),
   }
   ## eez
   if (verbose) message("fetching eez data...")
-  if (x == "global") {
+  if ("global" %in% x) {
     ### global eez data set
     eez_url <- paste0("http://geo.vliz.be/geoserver/MarineRegions/",
                      "wfs?service=wfs&version=1.0.0&request=GetFeature&",
                      "typeNames=MarineRegions:eez&outputFormat=SHAPE-ZIP")
     eez_path <- file.path(eez_dir, "eez.zip")
-    if (verbose) {
-      result <- httr::GET(eez_url, httr::write_disk(eez_path, overwrite = TRUE),
-                           httr::progress())
-      message("\n")
-    } else {
-      result <- httr::GET(eez_url, httr::write_disk(eez_path, overwrite = TRUE))
+    eez_shp <- file.path(eez_dir, "eez.shp")
+    if (!file.exists(eez_shp)) {
+      if (verbose) {
+        result <- httr::GET(eez_url, httr::write_disk(eez_path,
+                                                      overwrite = TRUE),
+                             httr::progress())
+        message("\n")
+      } else {
+        result <- httr::GET(eez_url, httr::write_disk(eez_path,
+                                                      overwrite = TRUE))
+      }
+      utils::unzip(eez_path, exdir = eez_dir)
     }
-    utils::unzip(eez_path, exdir = eez_dir)
     eez_data <- sf::read_sf(file.path(eez_dir, "eez.shp"))
   } else {
     ### fetch data for one or more iso3 codes
@@ -146,11 +162,14 @@ land_and_eez_fetch <- function(x, crs = 3395, download_dir = tempdir(),
                         x, "'&outputFormat=SHAPE-ZIP")
       curr_dir <- file.path(eez_dir, x)
       curr_path <- file.path(curr_dir, "eez.zip")
-      dir.create(curr_dir, recursive = FALSE, showWarnings = FALSE)
-      result <- httr::GET(eez_url, httr::write_disk(curr_path,
-                                                    overwrite = TRUE))
-      utils::unzip(curr_path, exdir = curr_dir)
-      return(sf::read_sf(file.path(curr_dir, "eez.shp")))
+      curr_shp <- file.path(curr_dir, "eez.shp")
+      if (!file.exists(curr_shp)) {
+        dir.create(curr_dir, recursive = FALSE, showWarnings = FALSE)
+        result <- httr::GET(eez_url, httr::write_disk(curr_path,
+                                                      overwrite = TRUE))
+        utils::unzip(curr_path, exdir = curr_dir)
+      }
+      return(sf::read_sf(curr_shp))
     })
     ## merge data
     if (length(eez_data) > 1) {
@@ -172,6 +191,18 @@ land_and_eez_fetch <- function(x, crs = 3395, download_dir = tempdir(),
   if (!is.null(eez_data)) {
     eez_data <- st_parallel_transform(eez_data, crs = crs, threads = threads)
     eez_data <- st_parallel_make_valid(eez_data, threads = threads)
+  }
+  ## simplify geometry
+  if (tolerance > 0) {
+    gadm_data <- st_parallel_simplify(gadm_data,
+                                      preserveTopology = TRUE,
+                                      dTolerance = tolerance,
+                                      threads = threads)
+    if (!is.null(eez_data))
+      eez_data <- st_parallel_simplify(eez_data,
+                                       preserveTopology = TRUE,
+                                       dTolerance = tolerance,
+                                       threads = threads)
   }
   ## modify fields
   if (!is.null(eez_data)) {

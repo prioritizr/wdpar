@@ -4,8 +4,8 @@
 \alias{land_and_eez_fetch}
 \title{Fetch land and exclusive economic zone data}
 \usage{
-land_and_eez_fetch(x, crs = 3395, download_dir = tempdir(), threads = 1,
-  verbose = interactive())
+land_and_eez_fetch(x, crs = 3395, tolerance = 0, download_dir = tempdir(),
+  threads = 1, verbose = interactive())
 }
 \arguments{
 \item{x}{\code{character} Country for which to download data. This argument
@@ -14,6 +14,9 @@ ISO-3 code for the country (e.g. \code{"LIE"}).}
 
 \item{crs}{\code{character} coordinate reference system in PROJ4 format.
 Defaults to \code{3395} (Mercator).}
+
+\item{tolerance}{\code{numeric} tolerance for simplifying geometry. Defaults
+to zero.}
 
 \item{download_dir}{\code{character} folder path to download the data.
 Defaults to the temporary directory (\code{\link[base]{tempdir}}).}
@@ -50,6 +53,8 @@ Data are assembled using the following steps.
 \item Scan both data sets again for invalid geometries, and fix any
   invalid geometries that have manifested (using
   \code{\link{st_parallel_make_valid}}).
+\item Geometry in both data sets are simplified using argument to
+  \code{tolerance} (using \code{\link{st_parallel_simplify}}).
 \item A field denoting the country code is created in the two data sets
   is created (\code{"ISO3"}).
 \item Both data sets are dissolved by the country code field (\code{"ISO3"})

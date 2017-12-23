@@ -14,7 +14,8 @@ character with proj4string.}
 
 \item{...}{not used.}
 
-\item{threads}{\code{integer} number of cores for processing data.}
+\item{threads}{\code{integer} number of threads for processing data. Defaults
+to 1.}
 }
 \value{
 Object with reprojected coordinates.

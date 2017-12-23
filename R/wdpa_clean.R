@@ -167,12 +167,12 @@ wdpa_clean <- function(x, crs = 3395, tolerance = 0, threads = 1,
   x$GEOMETRY_TYPE[is_point] <- "POINT"
   ## remove protected areas represented as points that do not have
   ## a reported area
-  if (verbose) message("removing points with no area: ", cli::symbol$continue,
-                       "\r", appendLF = FALSE)
+  if (verbose) message("removing points with no reported area: ",
+                       cli::symbol$continue, "\r", appendLF = FALSE)
   x <- x[!(x$GEOMETRY_TYPE == "POINT" & !is.finite(x$REP_AREA)), ]
   if (verbose) {
     utils::flush.console()
-    message("removing points with no area: ", cli::symbol$tick)
+    message("removing points with no reported area: ", cli::symbol$tick)
   }
   ## reproject data
   if (verbose) message("projecting areas: ", cli::symbol$continue, "\r",
@@ -293,15 +293,23 @@ wdpa_clean <- function(x, crs = 3395, tolerance = 0, threads = 1,
     utils::flush.console()
     message("formatting attribute data: ", cli::symbol$tick)
   }
+  ## repair geometry again
+  if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
+                       appendLF = FALSE)
+  x <- st_parallel_make_valid(x, threads)
+  if (verbose) {
+    utils::flush.console()
+    message("repairing geometry: ", cli::symbol$tick)
+  }
   ## remove overlaps data
+  o1 <<- x
   if (verbose) message("erasing overlaps: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
   x$IUCN_CAT <- factor(as.character(x$IUCN_CAT),
                        levels = c("Ia", "Ib", "II", "III", "IV", "V", "VI",
                                   "Not Reported", "Not Applicable",
                                   "Not Assigned"))
-  x <- arrange(x, IUCN_CAT, STATUS_YR)
-  x <- sf::st_difference(sf::st_as_sf(sp::disaggregate(as(x, "Spatial"))))
+  x <- sf::st_difference(arrange(x, IUCN_CAT, STATUS_YR))
   x$IUCN_CAT <- as.character(x$IUCN_CAT)
   if (verbose) {
     utils::flush.console()

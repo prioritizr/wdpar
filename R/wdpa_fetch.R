@@ -15,7 +15,8 @@ NULL
 #'   in the database (approx. 1.1 GB).
 #'
 #' @param download_dir \code{character} folder path to download the data.
-#'  Defaults to the temporary directory (\code{\link{tempdir}}).
+#'  Defaults to a persistent data directory
+#'  (\code{rappdirs::user_data_dir("wdpar")}).
 #'
 #' @param force_download \code{logical} if the data has previously been
 #'   downloaded and is available at argument to \code{x}, should the data be
@@ -57,10 +58,11 @@ NULL
 #' global_raw_data <- wdpa_fetch("global")
 #' }}
 #' @export
-wdpa_fetch <- function(x, download_dir = tempdir(), force_download = FALSE,
-                       verbose = interactive()) {
+wdpa_fetch <- function(x, download_dir = rappdirs::user_data_dir("wdpar"),
+                       force_download = FALSE, verbose = interactive()) {
   # check that arguments are valid
   ## check that classes are correct
+  dir.create(download_dir, showWarnings = FALSE, recursive = TRUE)
   assertthat::assert_that(assertthat::is.string(x),
                           assertthat::is.dir(download_dir),
                           assertthat::is.flag(force_download),

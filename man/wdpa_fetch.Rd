@@ -4,8 +4,8 @@
 \alias{wdpa_fetch}
 \title{Fetch data from the World Database on Protected Areas}
 \usage{
-wdpa_fetch(x, download_dir = tempdir(), force_download = FALSE,
-  verbose = interactive())
+wdpa_fetch(x, download_dir = rappdirs::user_data_dir("wdpar"),
+  force_download = FALSE, verbose = interactive())
 }
 \arguments{
 \item{x}{\code{character} Country for which to download data. This argument
@@ -15,7 +15,8 @@ be set to \code{"global"} to download all of the protected areas available
 in the database (approx. 1.1 GB).}
 
 \item{download_dir}{\code{character} folder path to download the data.
-Defaults to the temporary directory (\code{\link{tempdir}}).}
+Defaults to a persistent data directory
+(\code{rappdirs::user_data_dir("wdpar")}).}
 
 \item{force_download}{\code{logical} if the data has previously been
 downloaded and is available at argument to \code{x}, should the data be

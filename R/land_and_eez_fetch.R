@@ -17,7 +17,12 @@ NULL
 #'  to zero.
 #'
 #' @param download_dir \code{character} folder path to download the data.
-#'  Defaults to the temporary directory (\code{\link[base]{tempdir}}).
+#'  Defaults to a persistent data directory
+#'  (\code{rappdirs::user_data_dir("wdpar")}).
+#'
+#' @param force_download \code{logical} if the data has previously been
+#'   downloaded and is available at argument to \code{x}, should the data be
+#'   redownloaded anyway? Defaults to \code{FALSE}.
 #'
 #' @param threads \code{numeric} number of threads to use for processing.
 #'   Defaults to 1.
@@ -82,9 +87,11 @@ NULL
 #' }}
 #' @export
 land_and_eez_fetch <- function(x, crs = 3395, tolerance = 0,
-                               download_dir = tempdir(), threads = 1,
-                               verbose = interactive()) {
+                               download_dir = rappdirs::user_data_dir("wdpar"),
+                               force_download = FALSE,
+                               threads = 1, verbose = interactive()) {
   # validate arguments
+  dir.create(download_dir, showWarnings = FALSE, recursive = TRUE)
   assertthat::assert_that(is.character(x),
                           all(!is.na(x)),
                           assertthat::is.string(crs) ||
@@ -92,6 +99,7 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 0,
                           assertthat::is.scalar(tolerance),
                           isTRUE(tolerance >= 0),
                           assertthat::is.dir(download_dir),
+                          assertthat::is.flag(force_download),
                           assertthat::is.count(threads),
                           assertthat::is.flag(verbose),
                           pingr::is_online())
@@ -138,7 +146,7 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 0,
                      "typeNames=MarineRegions:eez&outputFormat=SHAPE-ZIP")
     eez_path <- file.path(eez_dir, "eez.zip")
     eez_shp <- file.path(eez_dir, "eez.shp")
-    if (!file.exists(eez_shp)) {
+    if (!file.exists(eez_shp) || force_download) {
       if (verbose) {
         result <- httr::GET(eez_url, httr::write_disk(eez_path,
                                                       overwrite = TRUE),
@@ -163,7 +171,7 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 0,
       curr_dir <- file.path(eez_dir, x)
       curr_path <- file.path(curr_dir, "eez.zip")
       curr_shp <- file.path(curr_dir, "eez.shp")
-      if (!file.exists(curr_shp)) {
+      if (!file.exists(curr_shp) || force_download) {
         dir.create(curr_dir, recursive = FALSE, showWarnings = FALSE)
         result <- httr::GET(eez_url, httr::write_disk(curr_path,
                                                       overwrite = TRUE))

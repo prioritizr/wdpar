@@ -4,7 +4,8 @@
 \alias{land_and_eez_fetch}
 \title{Fetch land and exclusive economic zone data}
 \usage{
-land_and_eez_fetch(x, crs = 3395, tolerance = 0, download_dir = tempdir(),
+land_and_eez_fetch(x, crs = 3395, tolerance = 0,
+  download_dir = rappdirs::user_data_dir("wdpar"), force_download = FALSE,
   threads = 1, verbose = interactive())
 }
 \arguments{
@@ -19,7 +20,12 @@ Defaults to \code{3395} (Mercator).}
 to zero.}
 
 \item{download_dir}{\code{character} folder path to download the data.
-Defaults to the temporary directory (\code{\link[base]{tempdir}}).}
+Defaults to a persistent data directory
+(\code{rappdirs::user_data_dir("wdpar")}).}
+
+\item{force_download}{\code{logical} if the data has previously been
+downloaded and is available at argument to \code{x}, should the data be
+redownloaded anyway? Defaults to \code{FALSE}.}
 
 \item{threads}{\code{numeric} number of threads to use for processing.
 Defaults to 1.}

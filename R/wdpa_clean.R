@@ -139,7 +139,7 @@ wdpa_clean <- function(x, crs = 3395, tolerance = 0, threads = 1,
   ## repair geometry
   if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
-  x <- st_parallel_make_valid(x, threads)
+  x <- st_parallel_make_valid(sf::st_set_precision(x, 1000000), threads)
   if (verbose) {
     utils::flush.console()
     message("repairing geometry: ", cli::symbol$tick)
@@ -185,7 +185,7 @@ wdpa_clean <- function(x, crs = 3395, tolerance = 0, threads = 1,
   ## repair geometry again
   if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
-  x <- st_parallel_make_valid(x, threads)
+  x <- st_parallel_make_valid(sf::st_set_precision(x, 1000000), threads)
   if (verbose) {
     utils::flush.console()
     message("repairing geometry: ", cli::symbol$tick)
@@ -238,7 +238,7 @@ wdpa_clean <- function(x, crs = 3395, tolerance = 0, threads = 1,
   ## erase terrestrial areas that do not occur on land
   terrestrial_present <- FALSE
   if (any(x$MARINE == "0")) {
-    if (verbose) message("erasing terrestrial areas not on land:",
+    if (verbose) message("erasing terrestrial areas not on land: ",
                          cli::symbol$continue, "\r", appendLF = FALSE)
     terrestrial_present <- TRUE
     x_terrestrial_data <- x[x$MARINE == "0", ]
@@ -265,7 +265,7 @@ wdpa_clean <- function(x, crs = 3395, tolerance = 0, threads = 1,
     }
   }
   ## combine terrestrial and marine data sets
-  if (verbose)  message("merging marine and terrestrial areas:",
+  if (verbose)  message("merging marine and terrestrial areas: ",
                         cli::symbol$continue, "\r", appendLF = FALSE)
   if (terrestrial_present && marine_present) {
     x <- rbind(x[x$MARINE == "1", ], rbind(x_terrestrial_data,
@@ -296,24 +296,34 @@ wdpa_clean <- function(x, crs = 3395, tolerance = 0, threads = 1,
   ## repair geometry again
   if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
-  x <- st_parallel_make_valid(x, threads)
+  x <- st_parallel_make_valid(sf::st_set_precision(x, 1000000), threads)
   if (verbose) {
     utils::flush.console()
     message("repairing geometry: ", cli::symbol$tick)
   }
   ## remove overlaps data
-  o1 <<- x
   if (verbose) message("erasing overlaps: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
   x$IUCN_CAT <- factor(as.character(x$IUCN_CAT),
                        levels = c("Ia", "Ib", "II", "III", "IV", "V", "VI",
                                   "Not Reported", "Not Applicable",
                                   "Not Assigned"))
-  x <- sf::st_difference(arrange(x, IUCN_CAT, STATUS_YR))
+  x <- st_erase_overlaps(arrange(x, IUCN_CAT, STATUS_YR))
   x$IUCN_CAT <- as.character(x$IUCN_CAT)
   if (verbose) {
     utils::flush.console()
     message("erasing overlaps: ", cli::symbol$tick)
+  }
+  ## remove slivers
+  if (verbose) message("removing slivers: ", cli::symbol$continue, "\r",
+                       appendLF = FALSE)
+  x <- x[!vapply(sf::st_geometry(x), inherits,
+                logical(1), "GEOMETRYCOLLECTION"), ]
+  x <- sf::st_as_sf(sp::disaggregate(as(x, "Spatial")))
+  x <- x[as.numeric(sf::st_area(x)) > 0.1, ]
+  if (verbose) {
+    utils::flush.console()
+    message("removing slivers: ", cli::symbol$tick)
   }
   ## calculate area in square kilometers
   if (verbose) message("calulating area: ", cli::symbol$continue, "\r",
@@ -324,14 +334,8 @@ wdpa_clean <- function(x, crs = 3395, tolerance = 0, threads = 1,
     utils::flush.console()
     message("calulating area: ", cli::symbol$tick)
   }
-  ## remove slivers
-  if (verbose) message("removing slivers: ", cli::symbol$continue, "\r",
-                       appendLF = FALSE)
-  x <- x[x$AREA_KM2 > 1e-10, ]
-  if (verbose) {
-    utils::flush.console()
-    message("removing slivers: ", cli::symbol$tick)
-  }
+  ## move geometry to last column
+  x <- x[, c(setdiff(names(x), "geometry"), "geometry")]
   # return cleaned data
   return(x)
 }

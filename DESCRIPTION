@@ -31,7 +31,6 @@ Depends:
     R(>= 3.4.0),
     sf,
     dplyr
-Remotes: r-spatial/sf
 License: GPL-3
 LazyData: true
 URL: https://github.com/jeffreyhanson/wdpar

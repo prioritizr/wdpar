@@ -310,3 +310,73 @@ st_remove_holes.sfg <- function(x) {
   attributes(x) <- x_attr
   return(x)
 }
+
+#' Erase overlaps
+#'
+#' Erase overlapping geometries.
+#'
+#' @param code{sf} object.
+#'
+#' @details This is a more robust---albeit slower---implementation for
+#'   \code{\link{st_difference}} when \code{y} is missing.
+#'
+#' @return code{sf} object.
+#'
+#' @seealso \code{\link{st_difference}}.
+#'
+#' @examples
+#' # create data
+#' pl1 <- sf::st_polygon(list(matrix(c(0, 0, 2, 0, 1, 1, 0, 0), byrow = TRUE,
+#'                                   ncol = 2))) * 100
+#' pl2 <- sf::st_polygon(list(matrix(c(0, 0.5, 2, 0.5, 1, 1.5, 0, 0.5),
+#'                                   byrow = TRUE, ncol = 2))) * 100
+#' pl3 <- sf::st_polygon(list(matrix(c(0, 1.25, 2, 1.25, 1, 2.5, 0, 1.25),
+#'                                   byrow = TRUE, ncol = 2))) * 100
+#' x <- sf::st_sf(order = c("A", "B", "C"),
+#'                geometry = st_sfc(list(pl1, pl2, pl3), crs = 3395))
+#'
+#' # erase overlaps
+#' y <- st_erase_overlaps(x)
+#'
+#' # plot data for visual comparison
+#' par(mfrow = c(1, 2))
+#' plot(sf::st_geometry(x), main = "original")
+#' plot(sf::st_geometry(y), main = "no overlaps")
+#' @export
+st_erase_overlaps <- function(x) {
+  # validate arguments
+  assertthat::assert_that(inherits(x, "sf"))
+  # processing
+  g <- sf::st_geometry(x)
+  o <- g[1]
+  for (i in seq(2, length(g))) {
+    # find overlapping geometries
+    ovr <- sf::st_overlaps(g[i], o)[[1]]
+    # if overlapping geometries then calculate difference
+    if (length(ovr) > 0) {
+      # calculate difference
+      d <- sf::st_difference(g[i], sf::st_union(o[ovr]))
+    } else {
+      d <- g[i]
+    }
+    # find empty geometries
+    empty <- vapply(d, inherits, logical(1), "GEOMETRYCOLLECTION")
+    # process geometry if its not empty
+    if (!all(empty)) {
+      # remove slivers (areas less then 1 m^2)
+      d <- d[!empty]
+      d <- sf::st_cast(d, "POLYGON")
+      d <- d[as.numeric(sf::st_area(d)) > 1]
+      d <- sf::st_cast(d, "MULTIPOLYGON")
+      if (length(d) == 0)
+        d <- list(sf::st_geometrycollection(list()))
+    } else {
+      d <- list(sf::st_geometrycollection(list()))
+    }
+    # store geometry
+    o[i] <- d[[1]]
+  }
+  x <- sf::st_set_geometry(x, o)
+  # return output
+  return(x)
+}

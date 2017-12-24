@@ -39,13 +39,13 @@ test_that("wdpa_clean (single country without eez)", {
   skip_on_cran()
   skip_if_not(pingr::is_online())
   # fetch data
-  x <- try(wdpa_fetch("LSO"), silent = TRUE)
-  skip_if(data_not_available(x), "LSO data not available online")
+  x <- try(wdpa_fetch("BDI"), silent = TRUE)
+  skip_if(data_not_available(x), "BDI data not available online")
   x <- wdpa_clean(x)
   # run tests
   expect_gt(nrow(x), 0)
   expect_equal(wdpa_column_names, names(x))
-  expect_gt(sum(x$ISO3 == "LSO"), 0)
+  expect_gt(sum(x$ISO3 == "BDI"), 0)
   expect_equal(sum(x$MARINE == "marine"), 0)
   expect_gt(sum(x$MARINE == "terrestrial"), 0)
   expect_equal(sum(is.na(x$AREA_KM2)), 0)

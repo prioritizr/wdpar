@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Clean data  data from the World Database on Protected Areas — wdpa_clean • wdpar</title>
+<title>Clean data from the World Database on Protected Areas — wdpa_clean • wdpar</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -76,7 +76,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Clean data  data from the World Database on Protected Areas</h1>
+    <h1>Clean data from the World Database on Protected Areas</h1>
     </div>
 
     
@@ -197,9 +197,12 @@ designations. <em>PloS One</em>, <strong>12</strong>: e0188681.</p>
 <span class='co'># clean data</span>
 <span class='no'>mhl_data</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_clean</span>(<span class='no'>mhl_raw_data</span>)
 
-<span class='co'># plot data for visual comparison</span>
+<span class='co'># plot cleaned data set</span>
+<span class='fu'>plot</span>(<span class='no'>mhl_data</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: plotting the first 9 out of 28 attributes; use max.plot = 28 to plot all</span></div><img src='wdpa_clean-3.png' alt='' width='540' height='400' /><div class='input'>
+<span class='co'># plot geometries for visual comparison</span>
 <span class='fu'>par</span>(<span class='kw'>mfrow</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>2</span>))
-<span class='fu'>plot</span>(<span class='no'>mhl_raw_data</span>[, <span class='fl'>1</span>], <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"orginal data"</span>)</div><img src='wdpa_clean-2.png' alt='' width='540' height='400' /><div class='input'><span class='fu'>plot</span>(<span class='no'>mhl_data</span>[, <span class='fl'>1</span>], <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"cleaned data"</span>)</div><img src='wdpa_clean-4.png' alt='' width='540' height='400' /><div class='input'>
+<span class='fu'>plot</span>(<span class='kw'>sf</span><span class='kw'>::</span><span class='fu'>st_geometry</span>(<span class='no'>mhl_raw_data</span>), <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"orginal data"</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"white"</span>)
+<span class='fu'>plot</span>(<span class='kw'>sf</span><span class='kw'>::</span><span class='fu'>st_geometry</span>(<span class='no'>mhl_data</span>), <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"cleaned data"</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"white"</span>)</div><img src='wdpa_clean-5.png' alt='' width='540' height='400' /><div class='input'>
 <span class='fu'>not_run</span>({
   <span class='co'># fetch data for all protected areas on the planet</span>
   <span class='co'># note that this might take some time given that the global data set is</span>

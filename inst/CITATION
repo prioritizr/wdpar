@@ -23,8 +23,8 @@ citEntry(
   note = paste0("R package version ", utils::packageVersion("wdpar")),
   url = "https://github.com/jeffreyhanson/wdpar",
   textVersion = paste(
-     "Hanson JO (2017) wdpar: Interface to the World Database on Protected Areas.",
-     "R package version ", utils::packageVersion("wdpar"),
+     "Hanson JO (2017) wdpar: Interface to the World Database on Protected",
+     "Areas. R package version ", utils::packageVersion("wdpar"),
      "Available at: https://github.com/jeffreyhanson/wdpar"
   )
 )

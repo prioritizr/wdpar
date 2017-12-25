@@ -2,7 +2,7 @@
 % Please edit documentation in R/wdpa_clean.R
 \name{wdpa_clean}
 \alias{wdpa_clean}
-\title{Clean data  data from the World Database on Protected Areas}
+\title{Clean data from the World Database on Protected Areas}
 \usage{
 wdpa_clean(x, crs = 3395, tolerance = 0, threads = 1,
   verbose = interactive())
@@ -84,10 +84,13 @@ mhl_raw_data <- wdpa_fetch("MHL")
 # clean data
 mhl_data <- wdpa_clean(mhl_raw_data)
 
-# plot data for visual comparison
+# plot cleaned data set
+plot(mhl_data)
+
+# plot geometries for visual comparison
 par(mfrow = c(1, 2))
-plot(mhl_raw_data[, 1], main = "orginal data")
-plot(mhl_data[, 1], main = "cleaned data")
+plot(sf::st_geometry(mhl_raw_data), main = "orginal data", col = "white")
+plot(sf::st_geometry(mhl_data), main = "cleaned data", col = "white")
 
 \dontrun{
 # fetch data for all protected areas on the planet

@@ -45,8 +45,8 @@ y2 <- st_parallel_transform(x, 3395, threads = 2)
 
 # plot objects for visual comparison
 par(mfrow = c(1, 2))
-plot(y1, main = "sf::st_transform", axes = TRUE)
-plot(y2, main = "st_parallel_transform", axes = TRUE)
+plot(sf::st_geometry(y1), main = "sf::st_transform", axes = TRUE)
+plot(sf::st_geometry(y2), main = "st_parallel_transform", axes = TRUE)
 }
 \seealso{
 \code{\link[sf]{st_transform}}.

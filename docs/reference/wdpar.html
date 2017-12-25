@@ -80,10 +80,15 @@
     </div>
 
     
-    <p>Fetch and clean data from the World Database on Protected Areas (WDPA). Data
-is obtained from Protected Planet (<a href = 'http://protectedplanet.net'>http://protectedplanet.net</a>). The
-<code>link{wdpa_fetch}</code> function is used for downloading data and the
-<code>link{wdpa_clean}</code> function is used for cleaning the data. For more
+    <p>The <em>wdpar R</em> package provides an interface to the World Database on
+Protected Areas (WDPA). It provides functions for automatically downloading
+data (from <a href = 'http://protectedplanet.net'>Protected Planet</a>) and cleaning
+data following best practices (outlined in
+<a href = 'https://dx.doi.org/10.1111/conl.12158'>Butchart <em>et al.</em> 2015</a>;
+<a href = 'https://dx.doi.org/10.1126/science.aac9180'>Runge <em>et al.</em> 2015</a>.
+The main functions are <code><a href='wdpa_fetch.html'>wdpa_fetch</a></code> for downloading data and
+<code><a href='wdpa_clean.html'>wdpa_clean</a></code> for cleaning data. These functions are designed to
+be scalable and can employ parallel processing to reduce run time. For more
 information, please see the package vignette.</p>
     
 

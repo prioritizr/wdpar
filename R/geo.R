@@ -40,8 +40,8 @@ NULL
 #'
 #' # plot objects for visual comparison
 #' par(mfrow = c(1, 2))
-#' plot(y1, main = "sf::st_transform", axes = TRUE)
-#' plot(y2, main = "st_parallel_transform", axes = TRUE)
+#' plot(sf::st_geometry(y1), main = "sf::st_transform", axes = TRUE)
+#' plot(sf::st_geometry(y2), main = "st_parallel_transform", axes = TRUE)
 #' @export
 st_parallel_transform <- function(x, crs, ..., threads = 1) {
   # validate arguments
@@ -131,8 +131,8 @@ st_parallel_make_valid <- function(x, threads = 1) {
 #'
 #' # plot data for visual comparisons
 #' par(mfrow = c(1, 2))
-#' plot(st_geometry(nc), col = "white")
-#' plot(st_geometry(nc_simplified), col = "white")
+#' plot(sf::st_geometry(nc), col = "white")
+#' plot(sf::st_geometry(nc_simplified), col = "white")
 #' @export
 st_parallel_simplify <- function(x, preserveTopology = FALSE, dTolerance = 0,
                                  threads = 1) {
@@ -281,6 +281,25 @@ st_parallel_sym_difference <- function(x, y, threads = 1) {
 #'
 #' @return Object with holes removed.
 #'
+#' @examples
+#' # create data
+#' outer1 <- matrix(c(0, 0, 10, 0, 10, 10, 0, 10, 0, 0), ncol = 2, byrow = TRUE)
+#' hole1 <- matrix(c(1, 1, 1, 2, 2, 2, 2, 1, 1, 1), ncol = 2, byrow = TRUE)
+#' hole2 <- matrix(c(5, 5, 5, 6, 6, 6, 6, 5, 5, 5), ncol = 2, byrow = TRUE)
+#' outer2 <- matrix(c(20, 20, 30, 25, 30, 30, 25, 30, 20, 20), ncol = 2,
+#'                  byrow = TRUE)
+#' x <- sf::st_sfc(sf::st_polygon(list(outer1, hole1, hole2)),
+#'                 sf::st_multipolygon(list(list(outer2), list(outer1, hole1,
+#'                                                              hole2))),
+#'                 crs = 4326)
+#'
+#' # remove holes
+#' y <- st_remove_holes(x)
+#'
+#' # plot geometries for visual comparison
+#' par(mfrow = c(1, 2))
+#' plot(x, main = "original")
+#' plot(y, main = "holes removed")
 #' @export
 st_remove_holes <- function(x) UseMethod("st_remove_holes")
 
@@ -315,7 +334,7 @@ st_remove_holes.sfg <- function(x) {
 #'
 #' Erase overlapping geometries.
 #'
-#' @param code{sf} object.
+#' @param x \code{sf} object.
 #'
 #' @details This is a more robust---albeit slower---implementation for
 #'   \code{\link{st_difference}} when \code{y} is missing.
@@ -340,8 +359,8 @@ st_remove_holes.sfg <- function(x) {
 #'
 #' # plot data for visual comparison
 #' par(mfrow = c(1, 2))
-#' plot(sf::st_geometry(x), main = "original")
-#' plot(sf::st_geometry(y), main = "no overlaps")
+#' plot(sf::st_geometry(x), main = "original", col = "white")
+#' plot(sf::st_geometry(y), main = "no overlaps", col = "white")
 #' @export
 st_erase_overlaps <- function(x) {
   # validate arguments

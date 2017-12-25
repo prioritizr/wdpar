@@ -38,8 +38,8 @@ nc_simplified <- sf::st_simplify(nc, dTolerance = 5000)
 
 # plot data for visual comparisons
 par(mfrow = c(1, 2))
-plot(st_geometry(nc), col = "white")
-plot(st_geometry(nc_simplified), col = "white")
+plot(sf::st_geometry(nc), col = "white")
+plot(sf::st_geometry(nc_simplified), col = "white")
 }
 \seealso{
 \code{\link[sf]{st_simplify}}.

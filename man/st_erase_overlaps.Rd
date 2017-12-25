@@ -7,7 +7,7 @@
 st_erase_overlaps(x)
 }
 \arguments{
-\item{code{sf}}{object.}
+\item{x}{\code{sf} object.}
 }
 \value{
 code{sf} object.
@@ -35,8 +35,8 @@ y <- st_erase_overlaps(x)
 
 # plot data for visual comparison
 par(mfrow = c(1, 2))
-plot(sf::st_geometry(x), main = "original")
-plot(sf::st_geometry(y), main = "no overlaps")
+plot(sf::st_geometry(x), main = "original", col = "white")
+plot(sf::st_geometry(y), main = "no overlaps", col = "white")
 }
 \seealso{
 \code{\link{st_difference}}.

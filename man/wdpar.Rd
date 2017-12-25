@@ -6,9 +6,14 @@
 \alias{wdpar-package}
 \title{wdpar: Interface to the World Database on Protected Areas}
 \description{
-Fetch and clean data from the World Database on Protected Areas (WDPA). Data
-is obtained from Protected Planet (\url{http://protectedplanet.net}). The
-\code{link{wdpa_fetch}} function is used for downloading data and the
-\code{link{wdpa_clean}} function is used for cleaning the data. For more
+The \emph{wdpar R} package provides an interface to the World Database on
+Protected Areas (WDPA). It provides functions for automatically downloading
+data (from \href{http://protectedplanet.net}{Protected Planet}) and cleaning
+data following best practices (outlined in
+\href{https://dx.doi.org/10.1111/conl.12158}{Butchart \emph{et al.} 2015};
+\href{https://dx.doi.org/10.1126/science.aac9180}{Runge \emph{et al.} 2015}.
+The main functions are \code{\link{wdpa_fetch}} for downloading data and
+\code{\link{wdpa_clean}} for cleaning data. These functions are designed to
+be scalable and can employ parallel processing to reduce run time. For more
 information, please see the package vignette.
 }

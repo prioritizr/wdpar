@@ -81,6 +81,9 @@ NULL
 #' # fetch land and eez data for Saint Kitts and Nevis
 #' kna_data <- land_and_eez_fetch("KNA")
 #'
+#' # plot data
+#' plot(kna_data)
+#'
 #' \dontrun{
 #' # fetch land and eez data for the planet
 #' global_data <- land_and_eez_fetch("globe")

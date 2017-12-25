@@ -59,39 +59,38 @@
     
 <div class="contents">
 <!--- README.md is generated from README.Rmd. Please edit that file -->
-<div id="wdpar-interface-to-the-world-database-on-protected-areas" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#wdpar-interface-to-the-world-database-on-protected-areas" class="anchor"></a>wdpar: Interface to the World Database on Protected Areas</h1></div>
-
-<div id="overview" class="section level2">
+<div id="wdpar-interface-to-the-world-database-on-protected-areas" class="section level2">
 <h2 class="hasAnchor">
-<a href="#overview" class="anchor"></a>Overview</h2>
+<a href="#wdpar-interface-to-the-world-database-on-protected-areas" class="anchor"></a>wdpar: Interface to the World Database on Protected Areas</h2>
+
+<div id="overview" class="section level3">
+<h3 class="hasAnchor">
+<a href="#overview" class="anchor"></a>Overview</h3>
 <p>The <em>wdpar R</em> package provides an interface to the World Database on Protected Areas (WDPA). It provides functions for automatically downloading data (from <a href="http://protectedplanet.net">Protected Planet</a>) and cleaning data following best practices (outlined in <a href="https://dx.doi.org/10.1111/conl.12158">Butchart <em>et al.</em> 2015</a> and <a href="https://dx.doi.org/10.1126/science.aac9180">Runge <em>et al.</em> 2015</a>). These functions are designed to be scalable and can employ parallel processing to complete data processing in a feasible period of time.</p>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div id="installation" class="section level3">
+<h3 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h3>
 <p>To install the developmental version of <em>wdpar</em>, use the following <em>R</em> code:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (<span class="op">!</span><span class="kw">require</span>(devtools))
   <span class="kw">install.packages</span>(<span class="st">"devtools"</span>)
 devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"jeffreyhanson/wdpar"</span>)</code></pre></div>
 <p>Note that this package requires the <a href="https://github.com/r-spatial/sf">developmental version of the <em>sf R</em> package</a>. If you have trouble installing this package, check out its <a href="https://github.com/r-spatial/sf#installling">installation instructions</a>.</p>
 </div>
-<div id="example-usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example-usage" class="anchor"></a>Example usage</h2>
+<div id="example-usage" class="section level3">
+<h3 class="hasAnchor">
+<a href="#example-usage" class="anchor"></a>Example usage</h3>
 <p>Here we will provide a short introduction to the <em>wdpar</em> package.</p>
 <p>First, we will load the package. Note that it automatically attaches the <em>sf</em> and <em>dplyr</em> packages so that we can explore the data set.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load package</span>
 <span class="kw">library</span>(wdpar)</code></pre></div>
-<p>Now we will download protected area data for Malta. Note that we could have alternatively downloaded the data using Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO3 code</a> <code>"MLT"</code>.</p>
+<p>Now we will download protected area data for Malta. Note that we could have alternatively downloaded the data using Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO3 code</a> (MLT).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download protected area data for Malta</span>
 mlt_raw_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/wdpa_fetch.html">wdpa_fetch</a></span>(<span class="st">"Malta"</span>)</code></pre></div>
-<p>Next, we will clean the data set. Note that we will only use a single thread for data processing, but you could use the <code>threads</code> argument to use multiple threads for data processing. See the help page for <code>wdpa_clean</code> for a detailed description on the data cleaning steps.</p>
+<p>Next, we will clean the data set. Note that we will only use a single thread for data processing, but you could use the <code>threads</code> argument to use multiple threads for data processing. See the help page for <code>wdpa_clean</code> for a detailed description on the data cleaning process.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># clean Malta data</span>
 mlt_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/wdpa_clean.html">wdpa_clean</a></span>(mlt_raw_pa_data)</code></pre></div>
-<p>Now that we have finished cleaning the data, let’s calculate some statistics.</p>
-<p>We can calculate the total amount of area inside inside Malta’s protected area system (km^2). Note that this includes marine and terrestrial protected areas.</p>
+<p>Now that we have finished cleaning the data, let’s calculate some statistics. We can calculate the total amount of area inside inside Malta’s protected area system (km<span class="math inline">\(^2\)</span>). Note that this includes marine and terrestrial protected areas.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate total amount of area inside protected areas (km^2)</span>
 statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
 <span class="st">             </span>as.data.frame <span class="op">%&gt;%</span>
@@ -106,12 +105,12 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 mlt_land_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/land_and_eez_fetch.html">land_and_eez_fetch</a></span>(<span class="st">"Malta"</span>) <span class="op">%&gt;%</span>
 <span class="st">                 </span><span class="kw">filter</span>(TYPE <span class="op">==</span><span class="st"> "LAND"</span>) <span class="op">%&gt;%</span>
 <span class="st">                 </span><span class="kw">summarize</span>(<span class="dt">area =</span> <span class="kw">st_area</span>(.)) <span class="op">%&gt;%</span>
-<span class="st">                 </span><span class="kw">mutate</span>(<span class="dt">area =</span> units<span class="op">::</span><span class="kw">set_units</span>(area, km<span class="op">^</span><span class="dv">2</span>))
+<span class="st">                 </span><span class="kw">mutate</span>(<span class="dt">area =</span> <span class="kw">as.numeric</span>(units<span class="op">::</span><span class="kw">set_units</span>(area, km<span class="op">^</span><span class="dv">2</span>)))
 
 <span class="co"># calculate percentage of land inside protected areas (km^2)</span>
 statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
 <span class="st">             </span>as.data.frame <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw">filter</span>(MARINE <span class="op">==</span><span class="st"> "terrestrial"</span>, IUCN_CAT <span class="op">==</span><span class="st"> "1a"</span>) <span class="op">%&gt;%</span>
+<span class="st">             </span><span class="kw">filter</span>(MARINE <span class="op">==</span><span class="st"> "terrestrial"</span>, IUCN_CAT <span class="op">==</span><span class="st"> "Ia"</span>) <span class="op">%&gt;%</span>
 <span class="st">             </span><span class="kw">summarize</span>(<span class="dt">area_protected =</span> <span class="kw">sum</span>(AREA_KM2)) <span class="op">%&gt;%</span>
 <span class="st">             </span><span class="kw">mutate</span>(<span class="dt">total_land_area =</span> mlt_land_data[[<span class="st">"area"</span>]]) <span class="op">%&gt;%</span>
 <span class="st">             </span><span class="kw">mutate</span>(<span class="dt">percentage_protected =</span> (area_protected <span class="op">/</span><span class="st"> </span>total_land_area) <span class="op">*</span>
@@ -120,16 +119,16 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 <span class="co"># print statistic</span>
 <span class="kw">print</span>(statistic)</code></pre></div>
 <pre><code>##   area_protected total_land_area percentage_protected
-## 1              0   494.9871 km^2             0 1/km^2</code></pre>
+## 1      0.2503843        494.9871           0.05058401</code></pre>
 <p>Finally, let’s plot a map showing Malta’s protected areas and color each area according to its management category.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mlt_pa_data <span class="op">%&gt;%</span>
 <span class="kw">select</span>(IUCN_CAT) <span class="op">%&gt;%</span>
-<span class="kw">plot</span>()</code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;"></p>
+<span class="kw">plot</span>(<span class="dt">main =</span> <span class="st">"IUCN Category"</span>, <span class="dt">key.size =</span> <span class="kw">lcm</span>(<span class="st">"4"</span>))</code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="432" style="display: block; margin: auto;"></p>
 </div>
-<div id="citation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#citation" class="anchor"></a>Citation</h2>
+<div id="citation" class="section level3">
+<h3 class="hasAnchor">
+<a href="#citation" class="anchor"></a>Citation</h3>
 <p>Please use the following references for citing the <em>wdpar R</em> package and the World Database on Protected Areas (WDPA) in publications.</p>
 <pre><code>
 To cite the wdpar package in publications, use:

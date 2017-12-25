@@ -15,3 +15,23 @@ Object with holes removed.
 \description{
 Remove holes from polygons or multipolygons.
 }
+\examples{
+# create data
+outer1 <- matrix(c(0, 0, 10, 0, 10, 10, 0, 10, 0, 0), ncol = 2, byrow = TRUE)
+hole1 <- matrix(c(1, 1, 1, 2, 2, 2, 2, 1, 1, 1), ncol = 2, byrow = TRUE)
+hole2 <- matrix(c(5, 5, 5, 6, 6, 6, 6, 5, 5, 5), ncol = 2, byrow = TRUE)
+outer2 <- matrix(c(20, 20, 30, 25, 30, 30, 25, 30, 20, 20), ncol = 2,
+                 byrow = TRUE)
+x <- sf::st_sfc(sf::st_polygon(list(outer1, hole1, hole2)),
+                sf::st_multipolygon(list(list(outer2), list(outer1, hole1,
+                                                             hole2))),
+                crs = 4326)
+
+# remove holes
+y <- st_remove_holes(x)
+
+# plot geometries for visual comparison
+par(mfrow = c(1, 2))
+plot(x, main = "original")
+plot(y, main = "holes removed")
+}

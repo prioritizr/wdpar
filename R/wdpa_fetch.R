@@ -1,4 +1,4 @@
-#' @include internal.R
+#' @include internal.R wdpa_url.R
 NULL
 
 #' Fetch data from the World Database on Protected Areas
@@ -38,7 +38,8 @@ NULL
 #' @return \code{\link[sf]{sf}} simple features object.
 #'
 #' @seealso \code{\link{wdpa_clean}}, \code{\link{wdpa_read}},
-#'   \code{\link[countrycode]{countrycode}}, \url{http://protectedplanet.net}.
+#'   \code{\link{wdpa_url}}, \code{\link[countrycode]{countrycode}},
+#'   \url{http://protectedplanet.net}.
 #'
 #' @examples
 #' \donttest{
@@ -48,8 +49,8 @@ NULL
 #' # fetch data for Liechtenstein using the ISO3 code
 #' lie_raw_data <- wdpa_fetch("LIE")
 #'
-#' # plot data and color geometries by IUCN category
-#' plot(lie_raw_data[, "IUCN_CAT"])
+#' # plot data
+#' plot(lie_raw_data)
 #'
 #' \dontrun{
 #' # fetch data for all protected areas on the planet
@@ -67,52 +68,32 @@ wdpa_fetch <- function(x, download_dir = rappdirs::user_data_dir("wdpar"),
                           assertthat::is.dir(download_dir),
                           assertthat::is.flag(force_download),
                           assertthat::is.flag(verbose))
-  ## extract country code
-  if (x != "global") {
-    x <- country_code(x)
-  }
-  # download the data
-  ## determine download links
-  if (x == "global") {
-    download_url <- "http://wcmc.io/wdpa_current_release"
-  } else {
-    ### generate potential urls since http://protectplanet.net can sometimes be
-    ### a few months behind the current date
-    possible_months <- format(Sys.Date() - (seq(-2, 10) * 30), "%b%Y")
-    potential_urls <- paste0("https://www.protectedplanet.net/downloads/WDPA_",
-                             possible_months, "_", x, "?type=shapefile")
-    ## find working url
-    found_url <- FALSE
-    for (i in seq_along(potential_urls)) {
-      if (!httr::http_error(potential_urls[i])) {
-        download_url <- potential_urls[i]
-        found_url <- TRUE
-        break()
+  if (force_download && !pingr::is_online())
+    stop("not connected to the internet")
+  # fetch data
+  if (pingr::is_online() || force_download) {
+    ## find the download link and set file path to save the data
+    download_url <- wdpa_url(x)
+    file_name <- basename(httr::HEAD(download_url)$url)
+    file_path <- file.path(download_dir, file_name)
+    ## download the data
+    if (!file.exists(file_path) || force_download) {
+      if (verbose) {
+        result <- httr::GET(download_url,
+                            httr::write_disk(file_path, overwrite = TRUE),
+                            httr::progress())
+        message("\n")
+      } else {
+        result <- httr::GET(download_url,
+                            httr::write_disk(file_path, overwrite = TRUE))
       }
     }
-    ### check that at least one working url was found
-    if (!found_url)
-      stop("data is not yet available for download at ",
-           "http://protectedplanet.net")
+    ## verify that the file exists
+    if (!file.exists(file_path))
+      stop("downloading data failed")
+  } else {
+    file_path <- wdpa_find(x, download_dir = download_dir)
   }
-  ## find correct filename with which to save data
-  file_name <- basename(httr::HEAD(download_url)$url)
-  file_path <- file.path(download_dir, file_name)
-  ## download the file if required
-  if (!file.exists(file_path) || force_download) {
-    if (verbose) {
-      result <- httr::GET(download_url,
-                          httr::write_disk(file_path, overwrite = TRUE),
-                          httr::progress())
-      message("\n")
-    } else {
-      result <- httr::GET(download_url,
-                          httr::write_disk(file_path, overwrite = TRUE))
-    }
-  }
-  ## verify that the file exists
-  if (!file.exists(file_path))
-    stop("downloading data failed")
-  # load the data
+  # import the data
   return(wdpa_read(file_path))
 }

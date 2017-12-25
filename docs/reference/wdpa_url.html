@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Simplify geometry (parallelized) — st_parallel_simplify • wdpar</title>
+<title>Download URL for the World Database on Protected Areas — wdpa_url • wdpar</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -76,65 +76,47 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Simplify geometry (parallelized)</h1>
+    <h1>Download URL for the World Database on Protected Areas</h1>
     </div>
 
     
-    <p>Simplify the geometry in a simple feature data set using parallel processing.</p>
+    <p>Obtain the URL for downloading data from the World Database on Protected
+Areas (WDPA).</p>
     
 
-    <pre class="usage"><span class='fu'>st_parallel_simplify</span>(<span class='no'>x</span>, <span class='kw'>preserveTopology</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>dTolerance</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>threads</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
+    <pre class="usage"><span class='fu'>wdpa_url</span>(<span class='no'>x</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>Object of class <code>sfc</code> or <code>sf</code>.</p></td>
-    </tr>
-    <tr>
-      <th>preserveTopology</th>
-      <td><p><code>logical</code> carry out topology preserving
-simplification? Defaults to <code>FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>dTolerance</th>
-      <td><p><code>numeric</code> tolerance parameter affecting how much
-the geometry is simplified.</p></td>
-    </tr>
-    <tr>
-      <th>threads</th>
-      <td><p><code>integer</code> number of threads for processing data. Defaults
-to 1.</p></td>
+      <td><p><code>character</code> Country for desired data. This argument
+can be the name of the country (e.g. <code>"Liechtenstein"</code>) or the
+ISO-3 code for the country (e.g. <code>"LIE"</code>). This argument can also
+be set to <code>"global"</code> to obtain the URL for the global data set.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Simplified object.</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>This function is a wrapper for <code><a href='http://www.rdocumentation.org/packages/sf/topics/geos_unary'>st_simplify</a></code>.</p>
+    <p><code>character</code> URL.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='http://www.rdocumentation.org/packages/sf/topics/geos_unary'>st_simplify</a></code>.</p>
+    <p><code><a href='wdpa_fetch.html'>wdpa_fetch</a></code>, <code><a href='http://www.rdocumentation.org/packages/countrycode/topics/countrycode'>countrycode</a></code>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># load data</span>
-<span class='no'>nc</span> <span class='kw'>&lt;-</span> <span class='kw'>sf</span><span class='kw'>::</span><span class='fu'>read_sf</span>(<span class='fu'>system.file</span>(<span class='st'>"shape/nc.shp"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"sf"</span>)) <span class='kw'>%&gt;%</span>
-      <span class='kw'>sf</span><span class='kw'>::</span><span class='fu'>st_transform</span>(<span class='fl'>3395</span>)
-
-<span class='co'># simplify data to 1 km</span>
-<span class='no'>nc_simplified</span> <span class='kw'>&lt;-</span> <span class='kw'>sf</span><span class='kw'>::</span><span class='fu'>st_simplify</span>(<span class='no'>nc</span>, <span class='kw'>dTolerance</span> <span class='kw'>=</span> <span class='fl'>5000</span>)
-
-<span class='co'># plot data for visual comparisons</span>
-<span class='fu'>par</span>(<span class='kw'>mfrow</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>2</span>))
-<span class='fu'>plot</span>(<span class='kw'>sf</span><span class='kw'>::</span><span class='fu'>st_geometry</span>(<span class='no'>nc</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"white"</span>)
-<span class='fu'>plot</span>(<span class='kw'>sf</span><span class='kw'>::</span><span class='fu'>st_geometry</span>(<span class='no'>nc_simplified</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"white"</span>)</div><img src='st_parallel_simplify-2.png' alt='' width='540' height='400' /></pre>
+    <pre class="examples"><div class='input'><span class='co'># obtain url for USA data</span>
+<span class='no'>usa_url</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_url</span>(<span class='st'>"United States of America"</span>)
+<span class='fu'>print</span>(<span class='no'>usa_url</span>)</div><div class='output co'>#&gt; [1] "https://www.protectedplanet.net/downloads/WDPA_Dec2017_USA?type=shapefile"</div><div class='input'>
+<span class='co'># obtain url for USA data (using the ISO3 code)</span>
+<span class='no'>usa_url</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_url</span>(<span class='st'>"USA"</span>)
+<span class='fu'>print</span>(<span class='no'>usa_url</span>)</div><div class='output co'>#&gt; [1] "https://www.protectedplanet.net/downloads/WDPA_Dec2017_USA?type=shapefile"</div><div class='input'>
+<span class='co'># download link for global data</span>
+<span class='no'>global_url</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_url</span>(<span class='st'>"global"</span>)
+<span class='fu'>print</span>(<span class='no'>global_url</span>)</div><div class='output co'>#&gt; [1] "http://wcmc.io/wdpa_current_release"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -142,8 +124,6 @@ to 1.</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

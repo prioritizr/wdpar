@@ -53,8 +53,8 @@ lie_raw_data <- wdpa_fetch("Liechtenstein")
 # fetch data for Liechtenstein using the ISO3 code
 lie_raw_data <- wdpa_fetch("LIE")
 
-# plot data and color geometries by IUCN category
-plot(lie_raw_data[, "IUCN_CAT"])
+# plot data
+plot(lie_raw_data)
 
 \dontrun{
 # fetch data for all protected areas on the planet
@@ -65,5 +65,6 @@ global_raw_data <- wdpa_fetch("global")
 }
 \seealso{
 \code{\link{wdpa_clean}}, \code{\link{wdpa_read}},
-  \code{\link[countrycode]{countrycode}}, \url{http://protectedplanet.net}.
+  \code{\link{wdpa_url}}, \code{\link[countrycode]{countrycode}},
+  \url{http://protectedplanet.net}.
 }

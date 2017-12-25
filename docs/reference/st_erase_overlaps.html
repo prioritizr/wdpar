@@ -89,8 +89,8 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>codesf</th>
-      <td><p>object.</p></td>
+      <th>x</th>
+      <td><p><code>sf</code> object.</p></td>
     </tr>
     </table>
     
@@ -124,8 +124,8 @@
 
 <span class='co'># plot data for visual comparison</span>
 <span class='fu'>par</span>(<span class='kw'>mfrow</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>2</span>))
-<span class='fu'>plot</span>(<span class='kw'>sf</span><span class='kw'>::</span><span class='fu'>st_geometry</span>(<span class='no'>x</span>), <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"original"</span>)
-<span class='fu'>plot</span>(<span class='kw'>sf</span><span class='kw'>::</span><span class='fu'>st_geometry</span>(<span class='no'>y</span>), <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"no overlaps"</span>)</div><img src='st_erase_overlaps-2.png' alt='' width='540' height='400' /></pre>
+<span class='fu'>plot</span>(<span class='kw'>sf</span><span class='kw'>::</span><span class='fu'>st_geometry</span>(<span class='no'>x</span>), <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"original"</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"white"</span>)
+<span class='fu'>plot</span>(<span class='kw'>sf</span><span class='kw'>::</span><span class='fu'>st_geometry</span>(<span class='no'>y</span>), <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"no overlaps"</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"white"</span>)</div><img src='st_erase_overlaps-2.png' alt='' width='540' height='400' /></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

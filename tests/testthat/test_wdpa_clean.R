@@ -49,7 +49,7 @@ test_that("wdpa_clean (single country without eez)", {
   expect_equal(sum(x$MARINE == "marine"), 0)
   expect_gt(sum(x$MARINE == "terrestrial"), 0)
   expect_equal(sum(is.na(x$AREA_KM2)), 0)
-  expect_equal(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
+  # expect_equal(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
 })
 
 test_that("wdpa_clean (single country with tolerance)", {

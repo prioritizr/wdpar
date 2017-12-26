@@ -28,7 +28,7 @@ pl2 <- sf::st_polygon(list(matrix(c(0, 0.5, 2, 0.5, 1, 1.5, 0, 0.5),
 pl3 <- sf::st_polygon(list(matrix(c(0, 1.25, 2, 1.25, 1, 2.5, 0, 1.25),
                                   byrow = TRUE, ncol = 2))) * 100
 x <- sf::st_sf(order = c("A", "B", "C"),
-               geometry = st_sfc(list(pl1, pl2, pl3), crs = 3395))
+               geometry = sf::st_sfc(list(pl1, pl2, pl3), crs = 3395))
 
 # erase overlaps
 y <- st_erase_overlaps(x)

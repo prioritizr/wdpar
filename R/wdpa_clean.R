@@ -311,7 +311,7 @@ wdpa_clean <- function(x, crs = 3395, tolerance = 0, threads = 1,
                        levels = c("Ia", "Ib", "II", "III", "IV", "V", "VI",
                                   "Not Reported", "Not Applicable",
                                   "Not Assigned"))
-  x <- st_erase_overlaps(arrange(x, IUCN_CAT, STATUS_YR))
+  x <- st_erase_overlaps(x[order(x$IUCN_CAT, x$STATUS_YR), ])
   x$IUCN_CAT <- as.character(x$IUCN_CAT)
   if (verbose) {
     utils::flush.console()
@@ -322,7 +322,7 @@ wdpa_clean <- function(x, crs = 3395, tolerance = 0, threads = 1,
                        appendLF = FALSE)
   x <- x[!vapply(sf::st_geometry(x), inherits,
                 logical(1), "GEOMETRYCOLLECTION"), ]
-  x <- sf::st_as_sf(sp::disaggregate(as(x, "Spatial")))
+  x <- suppressWarnings(sf::st_cast(x, "POLYGON"))
   x <- x[as.numeric(sf::st_area(x)) > 0.1, ]
   if (verbose) {
     utils::flush.console()
@@ -331,7 +331,7 @@ wdpa_clean <- function(x, crs = 3395, tolerance = 0, threads = 1,
   ## calculate area in square kilometers
   if (verbose) message("calulating area: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
-  areas <- units::set_units(sf::st_area(x), km^2)
+  areas <- as.numeric(sf::st_area(x)) * 1e+6
   x$AREA_KM2 <- as.numeric(areas)
   if (verbose) {
     utils::flush.console()

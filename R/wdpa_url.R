@@ -16,6 +16,7 @@ NULL
 #' @seealso \code{\link{wdpa_fetch}}, \code{\link[countrycode]{countrycode}}.
 #'
 #' @examples
+#' \donttest{
 #' # obtain url for USA data
 #' usa_url <- wdpa_url("United States of America")
 #' print(usa_url)
@@ -27,6 +28,7 @@ NULL
 #' # download link for global data
 #' global_url <- wdpa_url("global")
 #' print(global_url)
+#' }
 #' @export
 wdpa_url <- function(x) {
   # validate arguments

@@ -129,7 +129,11 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 0,
     if (!file.exists(dl_path)) {
       result <- httr::GET(dl_url, httr::write_disk(dl_path, overwrite = TRUE))
     }
-    suppressMessages({out <- as(readRDS(dl_path), "sf")})
+    # the sp package is required to read the gadm data, so here we make
+    # a call to a function from sp so we can list it in Imports
+    # without an error from R CMD check
+    {s <- sp::SpatialPolygonsDataFrame}
+    suppressMessages({out <- methods::as(readRDS(dl_path), "sf")})
     out <- st_parallel_make_valid(out, threads = threads)
     out <- sf::st_union(out)
     out <- st_parallel_make_valid(out, threads = threads)
@@ -218,8 +222,10 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 0,
   ## modify fields
   if (!is.null(eez_data)) {
     eez_data <- eez_data[, c("iso_ter1", "geometry")]
-    eez_data <- summarize(group_by(eez_data, iso_ter1))
-    eez_data <- rename(eez_data, ISO3 = iso_ter1)
+    names(eez_data)[[1]] <- "ISO3"
+    names(attr(eez_data, "agr")) <- "ISO3"
+    eez_data <- stats::aggregate(eez_data, by = list(eez_data$ISO3),
+                                 FUN = function(x) x[[1]])[, -1]
     eez_data <- st_parallel_make_valid(eez_data, threads = threads)
   }
   ## remove holes from eez
@@ -242,7 +248,7 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 0,
     result <- gadm_data
   }
   ## sort data
-  result <- arrange(result, ISO3, TYPE)
+  result <- result[order(result$ISO3, result$TYPE), ]
   # return output
   return(result)
 }

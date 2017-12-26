@@ -20,6 +20,7 @@ Obtain the URL for downloading data from the World Database on Protected
 Areas (WDPA).
 }
 \examples{
+\donttest{
 # obtain url for USA data
 usa_url <- wdpa_url("United States of America")
 print(usa_url)
@@ -31,6 +32,7 @@ print(usa_url)
 # download link for global data
 global_url <- wdpa_url("global")
 print(global_url)
+}
 }
 \seealso{
 \code{\link{wdpa_fetch}}, \code{\link[countrycode]{countrycode}}.

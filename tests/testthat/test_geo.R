@@ -20,9 +20,9 @@ test_that("st_parallel_make_valid (sf)", {
 
 test_that("st_parallel_make_valid (sfc)", {
   # create data
-  x <- sf::st_sfc(st_polygon(list(rbind(c(0, 0), c(0.5, 0), c(0.5, 0.5),
-                                        c(0.5, 0), c(1, 0), c(1, 1),
-                                        c(0, 1), c(0, 0)))))
+  x <- sf::st_sfc(sf::st_polygon(list(rbind(c(0, 0), c(0.5, 0), c(0.5, 0.5),
+                                      c(0.5, 0), c(1, 0), c(1, 1),
+                                      c(0, 1), c(0, 0)))))
   # repair geometry
   y1 <- lwgeom::st_make_valid(x)
   y2 <- suppressWarnings(st_parallel_make_valid(x, threads = 1))
@@ -76,8 +76,8 @@ test_that("st_parallel_transform (sfc)", {
 
 test_that("st_parallel_simplify (sf)", {
   # create data
-  x <- read_sf(system.file("shape/nc.shp", package = "sf")) %>%
-       st_transform(3395)
+  x <- sf::read_sf(system.file("shape/nc.shp", package = "sf")) %>%
+       sf::st_transform(3395)
   x <- x[1:10, ]
   # transform data
   y1 <- sf::st_simplify(x, dTolerance = 5000)
@@ -95,9 +95,9 @@ test_that("st_parallel_simplify (sf)", {
 
 test_that("st_parallel_simplify (sfc)", {
   # create data
-  x <- read_sf(system.file("shape/nc.shp", package = "sf")) %>%
-       st_transform(3395) %>%
-       st_geometry()
+  x <- sf::read_sf(system.file("shape/nc.shp", package = "sf")) %>%
+       sf::st_transform(3395) %>%
+       sf::st_geometry()
   x <- x[1:10]
   # transform data
   y1 <- sf::st_simplify(x, dTolerance = 5000)
@@ -236,16 +236,15 @@ test_that("st_erase_overlaps (sf)", {
   pl3 <- sf::st_polygon(list(matrix(c(0, 1.25, 2, 1.25, 1, 2.5, 0, 1.25),
                                     byrow = TRUE, ncol = 2))) * 100
   x <- sf::st_sf(order = c("A", "B", "C"),
-                 geometry = st_sfc(list(pl1, pl2, pl3), crs = 3395))
+                 geometry = sf::st_sfc(list(pl1, pl2, pl3), crs = 3395))
   # erase overlaps
   y1 <- sf::st_sfc(list(
-          st_polygon(list(matrix(c(0, 2, 1, 0, 0, 0, 1, 0), ncol = 2))) * 100,
-          st_polygon(list(matrix(c(0.5, 0, 1, 2, 1.5, 1, 0.5, 0.5, 0.5, 1.5,
-                                   0.5, 0.5, 1, 0.5), ncol = 2))) * 100,
-          st_polygon(list(matrix(c(0.75, 0, 1, 2, 1.25, 1, 0.75, 1.25, 1.25,
-                                   2.5, 1.25, 1.25, 1.5, 1.25), ncol = 2))) *
-                                   100),
-          crs = 3395)
+    sf::st_polygon(list(matrix(c(0, 2, 1, 0, 0, 0, 1, 0), ncol = 2))) * 100,
+    sf::st_polygon(list(matrix(c(0.5, 0, 1, 2, 1.5, 1, 0.5, 0.5, 0.5, 1.5, 0.5,
+                                 0.5, 1, 0.5), ncol = 2))) * 100,
+    sf::st_polygon(list(matrix(c(0.75, 0, 1, 2, 1.25, 1, 0.75, 1.25, 1.25, 2.5,
+                                 1.25, 1.25, 1.5, 1.25), ncol = 2))) * 100),
+    crs = 3395)
   y1 <- sf::st_sf(order = c("A", "B", "C"), geometry = y1)
   y2 <- st_erase_overlaps(x) %>%
         sf::st_cast("POLYGON")

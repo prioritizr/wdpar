@@ -92,7 +92,7 @@ wdpa_fetch <- function(x, download_dir = rappdirs::user_data_dir("wdpar"),
     if (!file.exists(file_path))
       stop("downloading data failed")
   } else {
-    file_path <- wdpa_find(x, download_dir = download_dir)
+    file_path <- wdpa_file(x, download_dir = download_dir)
   }
   # import the data
   return(wdpa_read(file_path))

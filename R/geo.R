@@ -123,8 +123,8 @@ st_parallel_make_valid <- function(x, threads = 1) {
 #'
 #' @examples
 #' # load data
-#' nc <- sf::read_sf(system.file("shape/nc.shp", package = "sf")) %>%
-#'       sf::st_transform(3395)
+#' nc <- sf::read_sf(system.file("shape/nc.shp", package = "sf"))
+#' nc <- sf::st_transform(nc, 3395)
 #'
 #' # simplify data to 1 km
 #' nc_simplified <- sf::st_simplify(nc, dTolerance = 5000)
@@ -211,19 +211,19 @@ st_parallel_simplify <- function(x, preserveTopology = FALSE, dTolerance = 0,
 #'
 #' # plot objects for visual comparison
 #' par(mfrow = c(4, 2))
-#' plot(st_geometry(x), main = "x", axes = TRUE, col = "lightblue")
-#' plot(st_geometry(z), main = "z", axes = TRUE, col = "lightblue")
-#' plot(st_geometry(y1), main = "sf::st_difference", axes = TRUE,
+#' plot(sf::st_geometry(x), main = "x", axes = TRUE, col = "lightblue")
+#' plot(sf::st_geometry(z), main = "z", axes = TRUE, col = "lightblue")
+#' plot(sf::st_geometry(y1), main = "sf::st_difference", axes = TRUE,
 #'      col = "lightblue")
-#' plot(st_geometry(y2), main = "st_parallel_difference", axes = TRUE,
+#' plot(sf::st_geometry(y2), main = "st_parallel_difference", axes = TRUE,
 #'      col = "lightblue")
-#' plot(st_geometry(y3), main = "sf::st_intersection", axes = TRUE,
+#' plot(sf::st_geometry(y3), main = "sf::st_intersection", axes = TRUE,
 #'      col = "lightblue")
-#' plot(st_geometry(y4), main = "st_parallel_intersection", axes = TRUE,
+#' plot(sf::st_geometry(y4), main = "st_parallel_intersection", axes = TRUE,
 #'      col = "lightblue")
-#' plot(st_geometry(y5), main = "sf::st_sym_difference", axes = TRUE,
+#' plot(sf::st_geometry(y5), main = "sf::st_sym_difference", axes = TRUE,
 #'      col = "lightblue")
-#' plot(st_geometry(y6), main = "st_parallel_sym_difference", axes = TRUE,
+#' plot(sf::st_geometry(y6), main = "st_parallel_sym_difference", axes = TRUE,
 #'      col = "lightblue")
 #' @name geometric_set_operations
 NULL
@@ -352,7 +352,7 @@ st_remove_holes.sfg <- function(x) {
 #' pl3 <- sf::st_polygon(list(matrix(c(0, 1.25, 2, 1.25, 1, 2.5, 0, 1.25),
 #'                                   byrow = TRUE, ncol = 2))) * 100
 #' x <- sf::st_sf(order = c("A", "B", "C"),
-#'                geometry = st_sfc(list(pl1, pl2, pl3), crs = 3395))
+#'                geometry = sf::st_sfc(list(pl1, pl2, pl3), crs = 3395))
 #'
 #' # erase overlaps
 #' y <- st_erase_overlaps(x)

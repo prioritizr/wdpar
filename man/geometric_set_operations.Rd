@@ -71,19 +71,19 @@ y6 <- st_parallel_sym_difference(x, z, threads = 2)
 
 # plot objects for visual comparison
 par(mfrow = c(4, 2))
-plot(st_geometry(x), main = "x", axes = TRUE, col = "lightblue")
-plot(st_geometry(z), main = "z", axes = TRUE, col = "lightblue")
-plot(st_geometry(y1), main = "sf::st_difference", axes = TRUE,
+plot(sf::st_geometry(x), main = "x", axes = TRUE, col = "lightblue")
+plot(sf::st_geometry(z), main = "z", axes = TRUE, col = "lightblue")
+plot(sf::st_geometry(y1), main = "sf::st_difference", axes = TRUE,
      col = "lightblue")
-plot(st_geometry(y2), main = "st_parallel_difference", axes = TRUE,
+plot(sf::st_geometry(y2), main = "st_parallel_difference", axes = TRUE,
      col = "lightblue")
-plot(st_geometry(y3), main = "sf::st_intersection", axes = TRUE,
+plot(sf::st_geometry(y3), main = "sf::st_intersection", axes = TRUE,
      col = "lightblue")
-plot(st_geometry(y4), main = "st_parallel_intersection", axes = TRUE,
+plot(sf::st_geometry(y4), main = "st_parallel_intersection", axes = TRUE,
      col = "lightblue")
-plot(st_geometry(y5), main = "sf::st_sym_difference", axes = TRUE,
+plot(sf::st_geometry(y5), main = "sf::st_sym_difference", axes = TRUE,
      col = "lightblue")
-plot(st_geometry(y6), main = "st_parallel_sym_difference", axes = TRUE,
+plot(sf::st_geometry(y6), main = "st_parallel_sym_difference", axes = TRUE,
      col = "lightblue")
 }
 \seealso{

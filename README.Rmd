@@ -40,13 +40,15 @@ Note that this package requires the [developmental version of the _sf R_ package
 
 ### Example usage
 
-Here we will provide a short introduction to the _wdpar_ package.
+Here we will provide a short introduction to the _wdpar R_ package.
 
-First, we will load the package. Note that it automatically attaches the _sf_ and _dplyr_ packages so that we can explore the data set.
+First, we will load the _wdpar R_ package. We will also load the _sf_ and _dplyr R_ packages to help explore protected area data.
 
 ```{r}
-# load package
+# load packages
 library(wdpar)
+library(sf)
+library(dplyr)
 ```
 
 Now we will download protected area data for Malta. Note that we could have alternatively downloaded the data using Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (MLT).
@@ -81,8 +83,7 @@ We can also calculate the percentage of land inside [protected areas that are de
 # fetch spatial data for Malta's land mass and calculate its area (km^2)
 mlt_land_data <- land_and_eez_fetch("Malta") %>%
                  filter(TYPE == "LAND") %>%
-                 summarize(area = st_area(.)) %>%
-                 mutate(area = as.numeric(units::set_units(area, km^2)))
+                 summarize(area = as.numeric(st_area(.)) * 1e+6)
 
 # calculate percentage of land inside protected areas (km^2)
 statistic <- mlt_pa_data %>%

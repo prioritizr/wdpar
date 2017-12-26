@@ -18,33 +18,20 @@ NULL
 #'
 #' @examples
 #' \donttest{
-#' # find working url for Liechtenstein data set
-#' possible_months <- format(Sys.Date() - (seq(-2, 10) * 30), "%b%Y")
-#' potential_urls <- paste0("https://www.protectedplanet.net/downloads/WDPA_",
-#'                          possible_months, "_LIE?type=shapefile")
-#' found_url <- FALSE
-#' for (i in seq_along(potential_urls)) {
-#'   if (!httr::http_error(potential_urls[i])) {
-#'     download_url <- potential_urls[i]
-#'     found_url <- TRUE
-#'     break()
-#'   }
-#' }
+#' # find url for Liechtenstein data set
+#' download_url <- wdpa_url("LIE")
 #'
-#' # download the data set if working url was found
-#' if (found_url) {
-#'   # path to save file zipfile with data
-#'   path <- tempfile(pattern = "WDPA_", fileext = ".zip")
+#' # path to save file zipfile with data
+#' path <- tempfile(pattern = "WDPA_", fileext = ".zip")
 #'
-#'   # download zipfile
-#'   result <- httr::GET(download_url, httr::write_disk(path))
+#' # download zipfile
+#' result <- httr::GET(download_url, httr::write_disk(path))
 #'
-#'   # load data
-#'   lie_raw_data <- wdpa_read(path)
+#' # load data
+#' lie_raw_data <- wdpa_read(path)
 #'
-#'   # plot data
-#'   plot(lie_raw_data)
-#' }
+#' # plot data
+#' plot(lie_raw_data)
 #' }
 #' @export
 wdpa_read <- function(x) {

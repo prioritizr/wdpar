@@ -30,8 +30,8 @@ This function is a wrapper for \code{\link[sf]{st_simplify}}.
 }
 \examples{
 # load data
-nc <- sf::read_sf(system.file("shape/nc.shp", package = "sf")) \%>\%
-      sf::st_transform(3395)
+nc <- sf::read_sf(system.file("shape/nc.shp", package = "sf"))
+nc <- sf::st_transform(nc, 3395)
 
 # simplify data to 1 km
 nc_simplified <- sf::st_simplify(nc, dTolerance = 5000)

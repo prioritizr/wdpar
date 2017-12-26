@@ -23,13 +23,15 @@ Note that this package requires the [developmental version of the *sf R* package
 
 ### Example usage
 
-Here we will provide a short introduction to the *wdpar* package.
+Here we will provide a short introduction to the *wdpar R* package.
 
-First, we will load the package. Note that it automatically attaches the *sf* and *dplyr* packages so that we can explore the data set.
+First, we will load the *wdpar R* package. We will also load the *sf* and *dplyr R* packages to help explore protected area data.
 
 ``` r
-# load package
+# load packages
 library(wdpar)
+library(sf)
+library(dplyr)
 ```
 
 Now we will download protected area data for Malta. Note that we could have alternatively downloaded the data using Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (MLT).
@@ -58,8 +60,8 @@ statistic <- mlt_pa_data %>%
 print(statistic)
 ```
 
-    ##      area
-    ## 1 13239.2
+    ##          area
+    ## 1 1.32392e+16
 
 We can also calculate the percentage of land inside [protected areas that are designated strictly to protect biodiversity (and also potentially geological/geomorphological features)](https://www.iucn.org/theme/protected-areas/about/protected-area-categories).
 
@@ -67,8 +69,7 @@ We can also calculate the percentage of land inside [protected areas that are de
 # fetch spatial data for Malta's land mass and calculate its area (km^2)
 mlt_land_data <- land_and_eez_fetch("Malta") %>%
                  filter(TYPE == "LAND") %>%
-                 summarize(area = st_area(.)) %>%
-                 mutate(area = as.numeric(units::set_units(area, km^2)))
+                 summarize(area = as.numeric(st_area(.)) * 1e+6)
 
 # calculate percentage of land inside protected areas (km^2)
 statistic <- mlt_pa_data %>%
@@ -84,7 +85,7 @@ print(statistic)
 ```
 
     ##   area_protected total_land_area percentage_protected
-    ## 1      0.2503843        494.9871           0.05058401
+    ## 1   250384329610    4.949871e+14           0.05058401
 
 Finally, let's plot a map showing Malta's protected areas and color each area according to its management category.
 
@@ -103,13 +104,13 @@ Please use the following references for citing the *wdpar R* package and the Wor
 
     To cite the wdpar package in publications, use:
 
-      UNEP-WCMC and IUCN (year), Protected Planet: The World Database
+      UNEP-WCMC and IUCN (2017) Protected Planet: The World Database
       on Protected Areas (WDPA), [insert month/year of the version
       downloaded], Cambridge, UK: UNEP-WCMC and IUCN. Available at:
       www.protectedplanet.net.
 
       Hanson JO (2017) wdpar: Interface to the World Database on
-      Protected Areas. R package version 0.0.0.1 Available at:
+      Protected Areas. R package version 0.0.0.1. Available at:
       https://github.com/jeffreyhanson/wdpar
 
     Please cite both the World Database on Protected Areas data set

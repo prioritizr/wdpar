@@ -44,7 +44,7 @@ Here we will provide a short introduction to the _wdpar R_ package.
 
 First, we will load the _wdpar R_ package. We will also load the _sf_ and _dplyr R_ packages to help explore protected area data.
 
-```{r}
+```{r, message = FALSE, warning = FALSE}
 # load packages
 library(wdpar)
 library(sf)

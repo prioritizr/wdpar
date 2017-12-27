@@ -34,10 +34,12 @@ NULL
 #' \enumerate{
 #' \item Spatial data showing the spatial extent of each country's terrestrial
 #'   administrative area is downloaded (from the Database of Global
-#'   Administrative Areas; \url{http://www.gadm.org/})
+#'   Administrative Areas; \url{http://www.gadm.org/}). Note that the global
+#'   data set is approximately 800 MB in size.
 #' \item Spatial data showing the spatial extent of each country's exclusive
 #'   economic zone are downloaded (from \url{http://marineregions.org}; approx.
-#'   113 MB in size; Claus \emph{at al.} 2017))
+#'   113 MB in size; Claus \emph{at al.} 2017)). Note that the global data
+#'   set is approximately 200 MB in size.
 #' \item Both data sets are scanned for invalid geometries, and invalid
 #'   geometries are fixed (using \code{\link{st_parallel_make_valid}}).
 #' \item Both data sets are reprojected to argument to \code{crs}.
@@ -86,7 +88,7 @@ NULL
 #'
 #' \dontrun{
 #' # fetch land and eez data for the planet
-#' global_data <- land_and_eez_fetch("globe")
+#' global_data <- land_and_eez_fetch("global")
 #' }}
 #' @export
 land_and_eez_fetch <- function(x, crs = 3395, tolerance = 0,
@@ -116,33 +118,58 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 0,
     iso3_id <- unique(vapply(x, country_code, character(1)))
   } else {
     iso3_id <- unique(countrycode::countrycode_data$iso3c)
+    iso3_id <- iso3_id[!is.na(iso3_id)]
   }
   # fetch data
   ## gadm
   if (verbose) message("fetching GADM data...")
-  gadm_data <- plyr::llply(iso3_id, .progress = ifelse(verbose, "text", "none"),
-                           function(x) {
-    version <- "2.8"
-    dl_url <- paste0("http://biogeo.ucdavis.edu/data/gadm", version, "/rds/",
-                     x, "_adm0.rds")
-    dl_path <- file.path(gadm_dir, basename(dl_url))
-    if (!file.exists(dl_path)) {
-      result <- httr::GET(dl_url, httr::write_disk(dl_path, overwrite = TRUE))
+  if ("global" %in% x) {
+    ### global gadm data set
+    gadm_url <- paste0("http://data.biogeo.ucdavis.edu/data/",
+                       "gadm2.8/gadm28_levels.gdb.zip")
+    gadm_path <- file.path(gadm_dir, "gadm28_levels.gdb.zip")
+    gadm_gdb <- file.path(gadm_dir, "gadm28_levels.gdb")
+    if (!file.exists(gadm_gdb) || force_download) {
+      if (verbose) {
+        result <- httr::GET(gadm_url,
+                            httr::write_disk(gadm_path, overwrite = TRUE),
+                            httr::progress())
+        message("\n")
+      } else {
+        result <- httr::GET(gadm_url, httr::write_disk(gadm_path,
+                                                       overwrite = TRUE))
+      }
+      utils::unzip(gadm_path, exdir = gadm_dir)
     }
-    # the sp package is required to read the gadm data, so here we make
-    # a call to a function from sp so we can list it in Imports
-    # without an error from R CMD check
-    {s <- sp::SpatialPolygonsDataFrame}
-    suppressMessages({out <- methods::as(readRDS(dl_path), "sf")})
-    out <- st_parallel_make_valid(out, threads = threads)
-    out <- sf::st_union(out)
-    out <- st_parallel_make_valid(out, threads = threads)
-    return(sf::st_sf(ISO3 = x, geometry = out))
-  })
-  if (length(gadm_data) > 1) {
-    gadm_data <- do.call(rbind, gadm_data)
+    gadm_data <- sf::read_sf(gadm_gdb, "adm0")
+    gadm_data <- st_parallel_make_valid(gadm_data, threads = threads)
   } else {
-    gadm_data <- gadm_data[[1]]
+    ### fetch data for one or more iso3 codes
+    gadm_data <- plyr::llply(iso3_id,
+                             .progress = ifelse(verbose, "text", "none"),
+                             function(x) {
+      version <- "2.8"
+      dl_url <- paste0("http://biogeo.ucdavis.edu/data/gadm", version, "/rds/",
+                       x, "_adm0.rds")
+      dl_path <- file.path(gadm_dir, basename(dl_url))
+      if (!file.exists(dl_path)) {
+        result <- httr::GET(dl_url, httr::write_disk(dl_path, overwrite = TRUE))
+      }
+      # the sp package is required to read the gadm data, so here we make
+      # a call to a function from sp so we can list it in Imports
+      # without an error from R CMD check
+      {s <- sp::SpatialPolygonsDataFrame}
+      suppressMessages({out <- methods::as(readRDS(dl_path), "sf")})
+      out <- st_parallel_make_valid(out, threads = threads)
+      out <- sf::st_union(out)
+      out <- st_parallel_make_valid(out, threads = threads)
+      return(sf::st_sf(ISO3 = x, geometry = out))
+    })
+    if (length(gadm_data) > 1) {
+      gadm_data <- do.call(rbind, gadm_data)
+    } else {
+      gadm_data <- gadm_data[[1]]
+    }
   }
   ## eez
   if (verbose) message("fetching eez data...")
@@ -155,8 +182,8 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 0,
     eez_shp <- file.path(eez_dir, "eez.shp")
     if (!file.exists(eez_shp) || force_download) {
       if (verbose) {
-        result <- httr::GET(eez_url, httr::write_disk(eez_path,
-                                                      overwrite = TRUE),
+        result <- httr::GET(eez_url,
+                            httr::write_disk(eez_path, overwrite = TRUE),
                              httr::progress())
         message("\n")
       } else {

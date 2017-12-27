@@ -49,10 +49,12 @@ Data are assembled using the following steps.
 \enumerate{
 \item Spatial data showing the spatial extent of each country's terrestrial
   administrative area is downloaded (from the Database of Global
-  Administrative Areas; \url{http://www.gadm.org/})
+  Administrative Areas; \url{http://www.gadm.org/}). Note that the global
+  data set is approximately 800 MB in size.
 \item Spatial data showing the spatial extent of each country's exclusive
   economic zone are downloaded (from \url{http://marineregions.org}; approx.
-  113 MB in size; Claus \emph{at al.} 2017))
+  113 MB in size; Claus \emph{at al.} 2017)). Note that the global data
+  set is approximately 200 MB in size.
 \item Both data sets are scanned for invalid geometries, and invalid
   geometries are fixed (using \code{\link{st_parallel_make_valid}}).
 \item Both data sets are reprojected to argument to \code{crs}.
@@ -90,7 +92,7 @@ plot(kna_data)
 
 \dontrun{
 # fetch land and eez data for the planet
-global_data <- land_and_eez_fetch("globe")
+global_data <- land_and_eez_fetch("global")
 }}
 }
 \references{

@@ -144,10 +144,12 @@ to <code>TRUE</code> if executed in an interactive session.</p></td>
     <p>Data are assembled using the following steps.</p><ol>
 <li><p>Spatial data showing the spatial extent of each country's terrestrial
   administrative area is downloaded (from the Database of Global
-  Administrative Areas; <a href = 'http://www.gadm.org/'>http://www.gadm.org/</a>)</p></li>
+  Administrative Areas; <a href = 'http://www.gadm.org/'>http://www.gadm.org/</a>). Note that the global
+  data set is approximately 800 MB in size.</p></li>
 <li><p>Spatial data showing the spatial extent of each country's exclusive
   economic zone are downloaded (from <a href = 'http://marineregions.org'>http://marineregions.org</a>; approx.
-  113 MB in size; Claus <em>at al.</em> 2017))</p></li>
+  113 MB in size; Claus <em>at al.</em> 2017)). Note that the global data
+  set is approximately 200 MB in size.</p></li>
 <li><p>Both data sets are scanned for invalid geometries, and invalid
   geometries are fixed (using <code><a href='st_parallel_make_valid.html'>st_parallel_make_valid</a></code>).</p></li>
 <li><p>Both data sets are reprojected to argument to <code>crs</code>.</p></li>
@@ -191,7 +193,7 @@ Available at <a href = 'http://www.marineregions.org'>http://www.marineregions.o
 <span class='fu'>plot</span>(<span class='no'>kna_data</span>)</div><img src='land_and_eez_fetch-2.png' alt='' width='540' height='400' /><div class='input'>
 <span class='fu'>not_run</span>({
   <span class='co'># fetch land and eez data for the planet</span>
-  <span class='no'>global_data</span> <span class='kw'>&lt;-</span> <span class='fu'>land_and_eez_fetch</span>(<span class='st'>"globe"</span>)
+  <span class='no'>global_data</span> <span class='kw'>&lt;-</span> <span class='fu'>land_and_eez_fetch</span>(<span class='st'>"global"</span>)
 })</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

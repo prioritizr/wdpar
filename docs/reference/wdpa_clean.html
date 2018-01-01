@@ -83,7 +83,7 @@
     <p>Clean data from the World Database on Protected Areas (WDPA).</p>
     
 
-    <pre class="usage"><span class='fu'>wdpa_clean</span>(<span class='no'>x</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='fl'>3395</span>, <span class='kw'>tolerance</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>threads</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+    <pre class="usage"><span class='fu'>wdpa_clean</span>(<span class='no'>x</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='fl'>3395</span>, <span class='kw'>tolerance</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>threads</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'>interactive</span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
@@ -100,8 +100,8 @@ Defaults to <code>3395</code> (Mercator).</p></td>
     </tr>
     <tr>
       <th>tolerance</th>
-      <td><p><code>numeric</code> tolerance for simplifying geometry. Defaults
-to zero.</p></td>
+      <td><p><code>numeric</code> tolerance for snapping geometry to a
+grid for resolving invalid geometries.</p></td>
     </tr>
     <tr>
       <th>threads</th>
@@ -138,20 +138,15 @@ Defaults to 1.</p></td>
     <code>crs</code> (using <code><a href='st_parallel_transform.html'>st_parallel_transform</a></code>).</p></li>
 <li><p>Repair any invalid geometry that has since manifested (using
     <code><a href='st_parallel_make_valid.html'>st_parallel_make_valid</a></code>).</p></li>
-<li><p>Simplify the geometry using tolerance specified in argument
-    to <code>tolerance</code> (using <code><a href='st_parallel_simplify.html'>st_parallel_simplify</a></code>).</p></li>
 <li><p>Buffer areas represented as point localities to circular areas
     using their reported spatial extent (using data in the field
     <code>"REP_AREA"</code> and <code><a href='http://www.rdocumentation.org/packages/sf/topics/geos_unary'>st_buffer</a></code>).</p></li>
-<li><p>Extract terrestrial protected areas and erase regions that occur in
-    the ocean.</p></li>
+<li><p>Assemble land and exclusive economic zone data (using
+    <code><a href='land_and_eez_fetch.html'>land_and_eez_fetch</a></code>).</p></li>
+<li><p>Extract terrestrial protected areas and erase localities that occur
+   in the ocean.</p></li>
 <li><p>Extract marine protected areas and erase regions that occur on land.</p></li>
 <li><p>Merge terrestrial and marine protected area data sets.</p></li>
-<li><p>Erase overlapping geometries (discussed in Deguignet <em>et al.</em>
-    2017). Geometries are erased such that protected areas associated with
-    more effective management categories (<code>"IUCN_CAT"</code>) or have
-    historical precdence are retained (using
-    <code><a href='http://www.rdocumentation.org/packages/sf/topics/geos_binary_ops'>st_difference</a></code>).</p></li>
 <li><p>The <code>"MARINE"</code> field is converted from integer codes
     to descriptive name (<code>0</code> = <code>"terrestrial"</code>,
     <code>1</code> = <code>"partial"</code>, <code>2</code> = <code>"marine"</code>).</p></li>
@@ -161,10 +156,19 @@ Defaults to 1.</p></td>
     values for areas for with such data are not reported or applicable
     (i.e. areas with the values <code>"Not Applicable"</code>
     or <code>"Not Reported"</code> in the <code>"NO_TK_AREA"</code> field).</p></li>
-<li><p>Calculate size of areas in square kilometers (stored in field
-    <code>"AREA_KM2"</code>).</p></li>
+<li><p>Snap geometries to a grid to fix any unresolved geometry issues
+    using <code>link[lwgeom]{st_snap_to_grid}</code>.</p></li>
+<li><p>Repair any invalid geometry that has manifested (using
+    <code><a href='st_parallel_make_valid.html'>st_parallel_make_valid</a></code>).</p></li>
+<li><p>Erase overlapping geometries (discussed in Deguignet <em>et al.</em>
+    2017). Geometries are erased such that protected areas associated with
+    more effective management categories (<code>"IUCN_CAT"</code>) or have
+    historical precdence are retained (using
+    <code><a href='http://www.rdocumentation.org/packages/sf/topics/geos_binary_ops'>st_difference</a></code>).</p></li>
 <li><p>Slivers are removed (geometries an area less than 1e-10 square
     kilometers).</p></li>
+<li><p>Calculate size of areas in square kilometers (stored in field
+    <code>"AREA_KM2"</code>).</p></li>
 </ol>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>

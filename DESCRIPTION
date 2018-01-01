@@ -31,6 +31,9 @@ Suggests:
 Depends:
     R(>= 3.4.0),
     sf
+Remotes:
+  r-spatial/lwgeom
+  r-spatial/sf
 License: GPL-3
 LazyData: true
 URL: https://github.com/jeffreyhanson/wdpar

@@ -10,8 +10,8 @@ NULL
 #' @param crs \code{character} coordinate reference system in PROJ4 format.
 #'   Defaults to \code{3395} (Mercator).
 #'
-#' @param tolerance \code{numeric} tolerance for simplifying geometry. Defaults
-#'  to zero.
+#' @param tolerance \code{numeric} tolerance for snapping geometry to a
+#'  grid for resolving invalid geometries.
 #'
 #' @param threads \code{numeric} number of threads to use for processing.
 #'   Defaults to 1.
@@ -38,20 +38,15 @@ NULL
 #'     \code{crs} (using \code{\link{st_parallel_transform}}).
 #'   \item Repair any invalid geometry that has since manifested (using
 #'     \code{\link{st_parallel_make_valid}}).
-#'   \item Simplify the geometry using tolerance specified in argument
-#'     to \code{tolerance} (using \code{\link{st_parallel_simplify}}).
 #'   \item Buffer areas represented as point localities to circular areas
 #'     using their reported spatial extent (using data in the field
 #'     \code{"REP_AREA"} and \code{\link[sf]{st_buffer}}).
-#'   \item Extract terrestrial protected areas and erase regions that occur in
-#'     the ocean.
+#'   \item Assemble land and exclusive economic zone data (using
+#'     \code{\link{land_and_eez_fetch}}).
+#'   \item Extract terrestrial protected areas and erase localities that occur
+#'    in the ocean.
 #'   \item Extract marine protected areas and erase regions that occur on land.
 #'   \item Merge terrestrial and marine protected area data sets.
-#'   \item Erase overlapping geometries (discussed in Deguignet \emph{et al.}
-#'     2017). Geometries are erased such that protected areas associated with
-#'     more effective management categories (\code{"IUCN_CAT"}) or have
-#'     historical precdence are retained (using
-#'     \code{\link[sf]{st_difference}}).
 #'   \item The \code{"MARINE"} field is converted from integer codes
 #'     to descriptive name (\code{0} = \code{"terrestrial"},
 #'     \code{1} = \code{"partial"}, \code{2} = \code{"marine"}).
@@ -61,10 +56,19 @@ NULL
 #'     values for areas for with such data are not reported or applicable
 #'     (i.e. areas with the values \code{"Not Applicable"}
 #'     or \code{"Not Reported"} in the \code{"NO_TK_AREA"} field).
-#'   \item Calculate size of areas in square kilometers (stored in field
-#'     \code{"AREA_KM2"}).
+#'   \item Snap geometries to a grid to fix any unresolved geometry issues
+#'     using \code{link[lwgeom]{st_snap_to_grid}}.
+#'   \item Repair any invalid geometry that has manifested (using
+#'     \code{\link{st_parallel_make_valid}}).
+#'   \item Erase overlapping geometries (discussed in Deguignet \emph{et al.}
+#'     2017). Geometries are erased such that protected areas associated with
+#'     more effective management categories (\code{"IUCN_CAT"}) or have
+#'     historical precdence are retained (using
+#'     \code{\link[sf]{st_difference}}).
 #'   \item Slivers are removed (geometries an area less than 1e-10 square
 #'     kilometers).
+#'   \item Calculate size of areas in square kilometers (stored in field
+#'     \code{"AREA_KM2"}).
 #'  }
 #'
 #' @return \code{\link[sf]{sf}} object.
@@ -122,7 +126,7 @@ NULL
 #' plot(global_data)
 #' }}
 #' @export
-wdpa_clean <- function(x, crs = 3395, tolerance = 0, threads = 1,
+wdpa_clean <- function(x, crs = 3395, tolerance = 1, threads = 1,
                        verbose = interactive()) {
   # check arguments are valid
   assertthat::assert_that(inherits(x, "sf"),
@@ -148,12 +152,12 @@ wdpa_clean <- function(x, crs = 3395, tolerance = 0, threads = 1,
     message("repairing geometry: ", cli::symbol$tick)
   }
   ## remove areas that are not currently in action
-  if (verbose) message("removing invalid areas: ", cli::symbol$continue, "\r",
-                       appendLF = FALSE)
+  if (verbose) message("removing areas that are not implemented: ",
+                       cli::symbol$continue, "\r", appendLF = FALSE)
   x <- x[x$STATUS %in% c("Designated", "Inscribed", "Established"), ]
   if (verbose) {
     utils::flush.console()
-    message("removing invalid areas: ", cli::symbol$tick)
+    message("removing areas that are not implemented: ", cli::symbol$tick)
   }
   ## remove UNESCO sites
   if (verbose) message("removing UNESCO reserves: ", cli::symbol$continue, "\r",
@@ -192,15 +196,6 @@ wdpa_clean <- function(x, crs = 3395, tolerance = 0, threads = 1,
   if (verbose) {
     utils::flush.console()
     message("repairing geometry: ", cli::symbol$tick)
-  }
-  ## simplify geometry
-  if (verbose) message("simplifying geometry: ", cli::symbol$continue, "\r",
-                       appendLF = FALSE)
-  x <- st_parallel_simplify(x, preserveTopology = TRUE, dTolerance = tolerance,
-                            threads = threads)
-  if (verbose) {
-    utils::flush.console()
-    message("simplifying geometry: ", cli::symbol$tick)
   }
   ## buffer areas represented as points
   x_points_pos <- which(x$GEOMETRY_TYPE == "POINT")
@@ -295,6 +290,14 @@ wdpa_clean <- function(x, crs = 3395, tolerance = 0, threads = 1,
   if (verbose) {
     utils::flush.console()
     message("formatting attribute data: ", cli::symbol$tick)
+  }
+  ## snap geometry to grid
+  if (verbose) message("snapping geometry to grid: ", cli::symbol$continue,
+                       "\r", appendLF = FALSE)
+  x <- lwgeom::st_snap_to_grid(x, tolerance)
+  if (verbose) {
+    utils::flush.console()
+    message("snapping geometry to grid: ", cli::symbol$tick)
   }
   ## repair geometry again
   if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",

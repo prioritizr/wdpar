@@ -80,10 +80,12 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
 <div id="example-usage" class="section level3">
 <h3 class="hasAnchor">
 <a href="#example-usage" class="anchor"></a>Example usage</h3>
-<p>Here we will provide a short introduction to the <em>wdpar</em> package.</p>
-<p>First, we will load the package. Note that it automatically attaches the <em>sf</em> and <em>dplyr</em> packages so that we can explore the data set.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load package</span>
-<span class="kw">library</span>(wdpar)</code></pre></div>
+<p>Here we will provide a short introduction to the <em>wdpar R</em> package.</p>
+<p>First, we will load the <em>wdpar R</em> package. We will also load the <em>sf</em> and <em>dplyr R</em> packages to help explore protected area data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load packages</span>
+<span class="kw">library</span>(wdpar)
+<span class="kw">library</span>(sf)
+<span class="kw">library</span>(dplyr)</code></pre></div>
 <p>Now we will download protected area data for Malta. Note that we could have alternatively downloaded the data using Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO3 code</a> (MLT).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download protected area data for Malta</span>
 mlt_raw_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/wdpa_fetch.html">wdpa_fetch</a></span>(<span class="st">"Malta"</span>)</code></pre></div>
@@ -98,14 +100,13 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 
 <span class="co"># print statistic</span>
 <span class="kw">print</span>(statistic)</code></pre></div>
-<pre><code>##      area
-## 1 13239.2</code></pre>
+<pre><code>##           area
+## 1 1.237775e+16</code></pre>
 <p>We can also calculate the percentage of land inside <a href="https://www.iucn.org/theme/protected-areas/about/protected-area-categories">protected areas that are designated strictly to protect biodiversity (and also potentially geological/geomorphological features)</a>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># fetch spatial data for Malta's land mass and calculate its area (km^2)</span>
 mlt_land_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/land_and_eez_fetch.html">land_and_eez_fetch</a></span>(<span class="st">"Malta"</span>) <span class="op">%&gt;%</span>
 <span class="st">                 </span><span class="kw">filter</span>(TYPE <span class="op">==</span><span class="st"> "LAND"</span>) <span class="op">%&gt;%</span>
-<span class="st">                 </span><span class="kw">summarize</span>(<span class="dt">area =</span> <span class="kw">st_area</span>(.)) <span class="op">%&gt;%</span>
-<span class="st">                 </span><span class="kw">mutate</span>(<span class="dt">area =</span> <span class="kw">as.numeric</span>(units<span class="op">::</span><span class="kw">set_units</span>(area, km<span class="op">^</span><span class="dv">2</span>)))
+<span class="st">                 </span><span class="kw">summarize</span>(<span class="dt">area =</span> <span class="kw">as.numeric</span>(<span class="kw">st_area</span>(.)) <span class="op">*</span><span class="st"> </span><span class="fl">1e+6</span>)
 
 <span class="co"># calculate percentage of land inside protected areas (km^2)</span>
 statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
@@ -119,7 +120,7 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 <span class="co"># print statistic</span>
 <span class="kw">print</span>(statistic)</code></pre></div>
 <pre><code>##   area_protected total_land_area percentage_protected
-## 1      0.2503843        494.9871           0.05058401</code></pre>
+## 1    1.64027e+11    4.949871e+14           0.03313763</code></pre>
 <p>Finally, let’s plot a map showing Malta’s protected areas and color each area according to its management category.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mlt_pa_data <span class="op">%&gt;%</span>
 <span class="kw">select</span>(IUCN_CAT) <span class="op">%&gt;%</span>
@@ -133,13 +134,13 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 <pre><code>
 To cite the wdpar package in publications, use:
 
-  UNEP-WCMC and IUCN (year), Protected Planet: The World Database
+  UNEP-WCMC and IUCN (2018) Protected Planet: The World Database
   on Protected Areas (WDPA), [insert month/year of the version
   downloaded], Cambridge, UK: UNEP-WCMC and IUCN. Available at:
   www.protectedplanet.net.
 
-  Hanson JO (2017) wdpar: Interface to the World Database on
-  Protected Areas. R package version 0.0.0.1 Available at:
+  Hanson JO (2018) wdpar: Interface to the World Database on
+  Protected Areas. R package version 0.0.0.1. Available at:
   https://github.com/jeffreyhanson/wdpar
 
 Please cite both the World Database on Protected Areas data set

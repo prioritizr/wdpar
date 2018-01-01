@@ -123,6 +123,7 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
   # fetch data
   ## gadm
   print(1)
+  curr_time = Sys.time()
   if (verbose) message("fetching GADM data...")
   if ("global" %in% x) {
     ### global gadm data set
@@ -173,6 +174,7 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
     }
   }
   ## eez
+  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
   print(2)
   if (verbose) message("fetching eez data...")
   if ("global" %in% x) {
@@ -225,8 +227,9 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
     if (nrow(eez_data) == 0)
       eez_data <- NULL
   }
-  print(3)
   ## repair eez data
+  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
+  print(3)
   if (!is.null(eez_data))
     eez_data <- st_parallel_make_valid(eez_data, threads = threads)
   # processing
@@ -238,14 +241,16 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
     eez_data <- st_parallel_make_valid(eez_data, threads = threads)
   }
   ## snap geometry to grid
-  print(3)
+  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
+  print(4)
   if (tolerance > 0) {
   gadm_data <- lwgeom::st_snap_to_grid(gadm_data, tolerance)
     if (!is.null(eez_data))
     eez_data <- lwgeom::st_snap_to_grid(eez_data, tolerance)
   }
   ## modify fields
-  print(4)
+  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
+  print(5)
   if (!is.null(eez_data)) {
     eez_data <- eez_data[, c("iso_ter1", "geometry")]
     names(eez_data)[[1]] <- "ISO3"
@@ -255,32 +260,38 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
     eez_data <- st_parallel_make_valid(eez_data, threads = threads)
   }
   ## remove holes from eez
-  print(5)
+  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
+  print(6)
   if (!is.null(eez_data))
     eez_data <- st_remove_holes(eez_data)
-  print(5.5)
   # erase gadm from eez
+  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
+  print(7)
   if (!is.null(eez_data)) {
     eez_data <- suppressWarnings(st_parallel_difference(eez_data,
                                    sf::st_union(gadm_data), threads = threads))
     eez_data <- st_parallel_make_valid(eez_data, threads = threads)
   }
   ## add fields indicating type
-  print(6)
+  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
+  print(8)
   gadm_data$TYPE <- "LAND"
   if (!is.null(eez_data))
     eez_data$TYPE <- "EEZ"
   ## merge gadm and eez
-  print(7)
+  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
+  print(9)
   if (!is.null(eez_data)) {
     result <- rbind(gadm_data, eez_data)
   } else {
     result <- gadm_data
   }
   ## sort data
-  print(8)
+  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
+  print(10)
   result <- result[order(result$ISO3, result$TYPE), ]
   # return output
-  print(9)
+  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
+  print(11)
   return(result)
 }

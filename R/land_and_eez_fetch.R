@@ -91,7 +91,7 @@ NULL
 #' global_data <- land_and_eez_fetch("global")
 #' }}
 #' @export
-land_and_eez_fetch <- function(x, crs = 3395, tolerance = 0,
+land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
                                download_dir = rappdirs::user_data_dir("wdpar"),
                                force_download = FALSE,
                                threads = 1, verbose = interactive()) {
@@ -122,6 +122,7 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 0,
   }
   # fetch data
   ## gadm
+  print(1)
   if (verbose) message("fetching GADM data...")
   if ("global" %in% x) {
     ### global gadm data set
@@ -172,6 +173,7 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 0,
     }
   }
   ## eez
+  print(2)
   if (verbose) message("fetching eez data...")
   if ("global" %in% x) {
     ### global eez data set
@@ -223,6 +225,7 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 0,
     if (nrow(eez_data) == 0)
       eez_data <- NULL
   }
+  print(3)
   ## repair eez data
   if (!is.null(eez_data))
     eez_data <- st_parallel_make_valid(eez_data, threads = threads)
@@ -234,13 +237,15 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 0,
     eez_data <- st_parallel_transform(eez_data, crs = crs, threads = threads)
     eez_data <- st_parallel_make_valid(eez_data, threads = threads)
   }
-  ## simplify geometry
+  ## snap geometry to grid
+  print(3)
   if (tolerance > 0) {
   gadm_data <- lwgeom::st_snap_to_grid(gadm_data, tolerance)
     if (!is.null(eez_data))
     eez_data <- lwgeom::st_snap_to_grid(eez_data, tolerance)
   }
   ## modify fields
+  print(4)
   if (!is.null(eez_data)) {
     eez_data <- eez_data[, c("iso_ter1", "geometry")]
     names(eez_data)[[1]] <- "ISO3"
@@ -250,8 +255,10 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 0,
     eez_data <- st_parallel_make_valid(eez_data, threads = threads)
   }
   ## remove holes from eez
+  print(5)
   if (!is.null(eez_data))
     eez_data <- st_remove_holes(eez_data)
+  print(5.5)
   # erase gadm from eez
   if (!is.null(eez_data)) {
     eez_data <- suppressWarnings(st_parallel_difference(eez_data,
@@ -259,17 +266,21 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 0,
     eez_data <- st_parallel_make_valid(eez_data, threads = threads)
   }
   ## add fields indicating type
+  print(6)
   gadm_data$TYPE <- "LAND"
   if (!is.null(eez_data))
     eez_data$TYPE <- "EEZ"
   ## merge gadm and eez
+  print(7)
   if (!is.null(eez_data)) {
     result <- rbind(gadm_data, eez_data)
   } else {
     result <- gadm_data
   }
   ## sort data
+  print(8)
   result <- result[order(result$ISO3, result$TYPE), ]
   # return output
+  print(9)
   return(result)
 }

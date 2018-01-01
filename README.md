@@ -61,7 +61,7 @@ print(statistic)
 ```
 
     ##           area
-    ## 1 1.237775e+16
+    ## 1 1.235649e+16
 
 We can also calculate the percentage of land inside [protected areas that are designated strictly to protect biodiversity (and also potentially geological/geomorphological features)](https://www.iucn.org/theme/protected-areas/about/protected-area-categories).
 
@@ -85,7 +85,7 @@ print(statistic)
 ```
 
     ##   area_protected total_land_area percentage_protected
-    ## 1    1.64027e+11    4.949871e+14           0.03313763
+    ## 1   164032500000    4.949871e+14           0.03313874
 
 Finally, let's plot a map showing Malta's protected areas and color each area according to its management category.
 

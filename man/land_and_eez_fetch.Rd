@@ -16,8 +16,8 @@ ISO-3 code for the country (e.g. \code{"LIE"}).}
 \item{crs}{\code{character} coordinate reference system in PROJ4 format.
 Defaults to \code{3395} (Mercator).}
 
-\item{tolerance}{\code{numeric} tolerance for simplifying geometry. Defaults
-to zero.}
+\item{tolerance}{\code{numeric} tolerance for snapping geometry to a
+grid for resolving invalid geometries.}
 
 \item{download_dir}{\code{character} folder path to download the data.
 Defaults to a persistent data directory
@@ -61,8 +61,8 @@ Data are assembled using the following steps.
 \item Scan both data sets again for invalid geometries, and fix any
   invalid geometries that have manifested (using
   \code{\link{st_parallel_make_valid}}).
-\item Geometry in both data sets are simplified using argument to
-  \code{tolerance} (using \code{\link{st_parallel_simplify}}).
+  \item Snap geometries to a grid to fix any unresolved geometry issues
+    (using \code{link[lwgeom]{st_snap_to_grid}}).
 \item A field denoting the country code is created in the two data sets
   is created (\code{"ISO3"}).
 \item Both data sets are dissolved by the country code field (\code{"ISO3"})

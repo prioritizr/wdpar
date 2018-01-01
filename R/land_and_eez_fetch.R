@@ -13,8 +13,8 @@ NULL
 #' @param crs \code{character} coordinate reference system in PROJ4 format.
 #'   Defaults to \code{3395} (Mercator).
 #'
-#' @param tolerance \code{numeric} tolerance for simplifying geometry. Defaults
-#'  to zero.
+#' @param tolerance \code{numeric} tolerance for snapping geometry to a
+#'  grid for resolving invalid geometries.
 #'
 #' @param download_dir \code{character} folder path to download the data.
 #'  Defaults to a persistent data directory
@@ -46,8 +46,8 @@ NULL
 #' \item Scan both data sets again for invalid geometries, and fix any
 #'   invalid geometries that have manifested (using
 #'   \code{\link{st_parallel_make_valid}}).
-#' \item Geometry in both data sets are simplified using argument to
-#'   \code{tolerance} (using \code{\link{st_parallel_simplify}}).
+#'   \item Snap geometries to a grid to fix any unresolved geometry issues
+#'     (using \code{link[lwgeom]{st_snap_to_grid}}).
 #' \item A field denoting the country code is created in the two data sets
 #'   is created (\code{"ISO3"}).
 #' \item Both data sets are dissolved by the country code field (\code{"ISO3"})
@@ -236,15 +236,9 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 0,
   }
   ## simplify geometry
   if (tolerance > 0) {
-    gadm_data <- st_parallel_simplify(gadm_data,
-                                      preserveTopology = TRUE,
-                                      dTolerance = tolerance,
-                                      threads = threads)
+  gadm_data <- lwgeom::st_snap_to_grid(gadm_data, tolerance)
     if (!is.null(eez_data))
-      eez_data <- st_parallel_simplify(eez_data,
-                                       preserveTopology = TRUE,
-                                       dTolerance = tolerance,
-                                       threads = threads)
+    eez_data <- lwgeom::st_snap_to_grid(eez_data, tolerance)
   }
   ## modify fields
   if (!is.null(eez_data)) {

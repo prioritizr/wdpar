@@ -57,7 +57,7 @@ NULL
 #'     (i.e. areas with the values \code{"Not Applicable"}
 #'     or \code{"Not Reported"} in the \code{"NO_TK_AREA"} field).
 #'   \item Snap geometries to a grid to fix any unresolved geometry issues
-#'     using \code{link[lwgeom]{st_snap_to_grid}}.
+#'     (using \code{link[lwgeom]{st_snap_to_grid}}).
 #'   \item Repair any invalid geometry that has manifested (using
 #'     \code{\link{st_parallel_make_valid}}).
 #'   \item Erase overlapping geometries (discussed in Deguignet \emph{et al.}

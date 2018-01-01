@@ -104,8 +104,8 @@ Defaults to <code>3395</code> (Mercator).</p></td>
     </tr>
     <tr>
       <th>tolerance</th>
-      <td><p><code>numeric</code> tolerance for simplifying geometry. Defaults
-to zero.</p></td>
+      <td><p><code>numeric</code> tolerance for snapping geometry to a
+grid for resolving invalid geometries.</p></td>
     </tr>
     <tr>
       <th>download_dir</th>
@@ -156,8 +156,8 @@ to <code>TRUE</code> if executed in an interactive session.</p></td>
 <li><p>Scan both data sets again for invalid geometries, and fix any
   invalid geometries that have manifested (using
   <code><a href='st_parallel_make_valid.html'>st_parallel_make_valid</a></code>).</p></li>
-<li><p>Geometry in both data sets are simplified using argument to
-  <code>tolerance</code> (using <code><a href='st_parallel_simplify.html'>st_parallel_simplify</a></code>).</p></li>
+<li><p>Snap geometries to a grid to fix any unresolved geometry issues
+    (using <code>link[lwgeom]{st_snap_to_grid}</code>).</p></li>
 <li><p>A field denoting the country code is created in the two data sets
   is created (<code>"ISO3"</code>).</p></li>
 <li><p>Both data sets are dissolved by the country code field (<code>"ISO3"</code>)

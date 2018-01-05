@@ -8,7 +8,8 @@ NULL
 #'
 #' @param x \code{character} Country for which to download data. This argument
 #'   can be the name of the country (e.g. \code{"Liechtenstein"}) or the
-#'   ISO-3 code for the country (e.g. \code{"LIE"}).
+#'   ISO-3 code for the country (e.g. \code{"LIE"}). This argument can also
+#'   be set to \code{"global"} to download data for the planet (approx. 1 GB).
 #'
 #' @param crs \code{character} coordinate reference system in PROJ4 format.
 #'   Defaults to \code{3395} (Mercator).
@@ -227,12 +228,12 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
     if (nrow(eez_data) == 0)
       eez_data <- NULL
   }
+  # processing
   ## repair eez data
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
   print(3)
   if (!is.null(eez_data))
     eez_data <- st_parallel_make_valid(eez_data, threads = threads)
-  # processing
   ## reproject data
   gadm_data <- st_parallel_transform(gadm_data, crs = crs, threads = threads)
   gadm_data <- st_parallel_make_valid(gadm_data, threads = threads)
@@ -240,17 +241,28 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
     eez_data <- st_parallel_transform(eez_data, crs = crs, threads = threads)
     eez_data <- st_parallel_make_valid(eez_data, threads = threads)
   }
-  ## snap geometry to grid
+  ## repair eez data
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
   print(4)
+  if (!is.null(eez_data))
+    eez_data <- st_parallel_make_valid(eez_data, threads = threads)
+  ## snap geometry to grid
+  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
+  print(5)
   if (tolerance > 0) {
   gadm_data <- lwgeom::st_snap_to_grid(gadm_data, tolerance)
     if (!is.null(eez_data))
     eez_data <- lwgeom::st_snap_to_grid(eez_data, tolerance)
   }
+  ## repair data
+  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
+  print(6)
+  gadm_data <- st_parallel_make_valid(gadm_data, crs = crs, threads = threads)
+  if (!is.null(eez_data))
+    eez_data <- st_parallel_make_valid(eez_data, threads = threads)
   ## modify fields
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(5)
+  print(7)
   if (!is.null(eez_data)) {
     eez_data <- eez_data[, c("iso_ter1", "geometry")]
     names(eez_data)[[1]] <- "ISO3"
@@ -261,26 +273,27 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
   }
   ## remove holes from eez
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(6)
+  print(8)
   if (!is.null(eez_data))
     eez_data <- st_remove_holes(eez_data)
   # erase gadm from eez
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(7)
+  print(9)
   if (!is.null(eez_data)) {
+    gadm_union <- sf::st_union(gadm_data)
     eez_data <- suppressWarnings(st_parallel_difference(eez_data,
-                                   sf::st_union(gadm_data), threads = threads))
+                                   gadm_union, threads = threads))
     eez_data <- st_parallel_make_valid(eez_data, threads = threads)
   }
   ## add fields indicating type
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(8)
+  print(10)
   gadm_data$TYPE <- "LAND"
   if (!is.null(eez_data))
     eez_data$TYPE <- "EEZ"
   ## merge gadm and eez
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(9)
+  print(11)
   if (!is.null(eez_data)) {
     result <- rbind(gadm_data, eez_data)
   } else {
@@ -288,10 +301,10 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
   }
   ## sort data
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(10)
+  print(12)
   result <- result[order(result$ISO3, result$TYPE), ]
   # return output
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(11)
+  print(13)
   return(result)
 }

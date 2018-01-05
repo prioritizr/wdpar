@@ -399,3 +399,115 @@ st_erase_overlaps <- function(x) {
   # return output
   return(x)
 }
+
+#' Subset polygons
+#'
+#' Subset polygons from a \code{sf} or \code{sfc} objects.
+#'
+#' @param x \code{sf} or \code{sfc} object.
+#'
+#' @details This function will remove any geometries that are not polygon
+#'  or multipolygon geometries. Additionally, it will extract any
+#'  polygon or multipolygon geometries from geometry collections.
+#'
+#' @return object of same class as argument to \code{x}.
+#'
+#' @examples
+#' # make data containing points, lines, and a geometry collection
+#' ## point
+#' po <- sf::st_point(c(1, 2))
+#'
+#' ## line
+#' lin <- sf::st_linestring(matrix(1:8, , 2))
+#'
+#' ## polygon
+#' outer <- matrix(c(0, 0, 8, 0, 8, 8, 0, 8, 0, 0), ncol = 2, byrow = TRUE)
+#' hole1 <- matrix(c(1, 1, 1, 2, 2, 2, 2, 1, 1, 1), ncol = 2, byrow = TRUE)
+#' hole2 <- matrix(c(5, 5, 5, 6, 6, 6, 6, 5, 5, 5), ncol = 2, byrow = TRUE)
+#' pl1 <- sf::st_polygon(list(outer))
+#' pl2 <- sf::st_polygon(list(outer + 20, hole1 + 20, hole2 + 20))
+#'
+#' ## multi-polygon
+#' mpl <- sf::st_multipolygon(list(list(outer + 30, hole1 + 30, hole2 + 30),
+#'                                 list(outer + 40, hole1 + 40),
+#'                                 list(outer + 50)))
+#'
+#' ## geometry collections
+#' geomcol1 <- sf::st_geometrycollection(list(pl1 + 60, po + 60, pl2 + 60,
+#'                                            lin + 60, mpl + 60))
+#' geomcol2 <- sf::st_geometrycollection(list(po + 70, lin + 70))
+#' geomcol3 <- sf::st_geometrycollection(list(pl1 + 80))
+#' geomcol4 <- sf::st_geometrycollection()
+#'
+#' # create sf object
+#' x <- sf::st_sf(label = letters[1:9],
+#'                geometry = sf::st_sfc(po, pl1, lin, pl2, mpl, geomcol1,
+#'                                      geomcol2, geomcol3, geomcol4))
+#'
+#' # subset polygons
+#' y <- st_subset_polygons(x)
+#'
+#' # print the data for visual comparisons
+#' print(x)
+#' print(y)
+#' @export
+st_subset_polygons <- function(x) UseMethod("st_subset_polygons")
+
+#' @export
+st_subset_polygons.sf <- function(x) {
+  g <- st_subset_polygons(sf::st_geometry(x))
+  x <- x[attr(g, "idx"), ]
+  x <- sf::st_set_geometry(x, g)
+  return(x)
+}
+
+#' @export
+st_subset_polygons.sfc <- function(x) {
+  # define function to recursively extract polygons
+  extract_data <- function(p) {
+    if (inherits(p, "POLYGON"))
+      return(list(p))
+    if (inherits(p, "MULTIPOLYGON"))
+      return(lapply(p, sf::st_polygon))
+    if (!inherits(p, "GEOMETRYCOLLECTION"))
+      return(list(sf::st_geometrycollection()))
+    return(lapply(p, extract_data))
+  }
+  # define function to flatten nested list to required classes
+  flatten_list <- function(x, classes) {
+    x <- list(x)
+    repeat {
+        x <- Reduce(c, x)
+        if (all(vapply(x, inherits, logical(1), classes))) return(x)
+    }
+  }
+  # store crs
+  crs <- sf::st_crs(x)
+  # extract polygons and multi-polygons
+  x <- lapply(x, extract_data)
+  # convert multiply-nested list to singly-nested list
+  x <- lapply(x, flatten_list, c("POLYGON", "MUTLIPOLYGON",
+                                 "GEOMETRYCOLLECTION"))
+  # convert singly-nested list to flat list
+  x <- lapply(x, function(x) {
+    gcl <- vapply(x, inherits, logical(1), "GEOMETRYCOLLECTION")
+    if (all(gcl))
+      return(sf::st_geometrycollection())
+    x <- x[!gcl]
+    if (length(x) == 1)
+      return(x[[1]])
+    return(sf::st_multipolygon(x))
+  })
+  # convert flat list to sfc
+  x <- sf::st_sfc(x)
+  # find indices containing empty geometries
+  idx <- which(!is.na(sf::st_dimension(x)))
+  # remove empty geometry collections
+  x <- x[idx]
+  # add attribute containing original indices
+  attr(x, "idx") <- idx
+  # add crs
+  sf::st_crs(x) <- crs
+  # return sfc
+  return(x)
+}

@@ -9,7 +9,7 @@ land_and_eez_fetch(x, crs = 3395, tolerance = 1,
   threads = 1, verbose = interactive())
 }
 \arguments{
-\item{x}{\code{character} Country for which to download data. This argument
+\item{x}{\code{character} country for which to download data. This argument
 can be the name of the country (e.g. \code{"Liechtenstein"}) or the
 ISO-3 code for the country (e.g. \code{"LIE"}). This argument can also
 be set to \code{"global"} to download data for the planet (approx. 1 GB).}

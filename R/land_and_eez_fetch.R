@@ -6,7 +6,7 @@ NULL
 #' Fetch and assemble land and exclusive economic zone (EEZ) data for the
 #' world's nations.
 #'
-#' @param x \code{character} Country for which to download data. This argument
+#' @param x \code{character} country for which to download data. This argument
 #'   can be the name of the country (e.g. \code{"Liechtenstein"}) or the
 #'   ISO-3 code for the country (e.g. \code{"LIE"}). This argument can also
 #'   be set to \code{"global"} to download data for the planet (approx. 1 GB).
@@ -237,7 +237,9 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
   if (!is.null(eez_data))
     eez_data <- st_parallel_make_valid(sf::st_set_precision(eez_data, 1000000),
                                        threads = threads)
-  ## reproject data
+  ## reproject and repair data
+  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
+  print(4)
   gadm_data <- st_parallel_transform(gadm_data, crs = crs, threads = threads)
   gadm_data <- st_parallel_make_valid(sf::st_set_precision(gadm_data, 1000000),
                                       threads = threads)
@@ -260,9 +262,15 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
   gadm_data <- st_parallel_make_valid(gadm_data, threads = threads)
   if (!is.null(eez_data))
     eez_data <- st_parallel_make_valid(eez_data, threads = threads)
-  ## modify fields
+  ## extract polygons
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
   print(7)
+  gadm_data <- st_subset_polygons(gadm_data)
+  if (!is.null(eez_data))
+    eez_data <- st_subset_polygons(eez_data)
+  ## modify fields
+  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
+  print(8)
   if (!is.null(eez_data)) {
     eez_data <- eez_data[, c("iso_ter1", "geometry")]
     names(eez_data)[[1]] <- "ISO3"
@@ -273,12 +281,12 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
   }
   ## remove holes from eez
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(8)
+  print(9)
   if (!is.null(eez_data))
     eez_data <- st_remove_holes(eez_data)
   # erase gadm from eez
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(9)
+  print(10)
   if (!is.null(eez_data)) {
     gadm_union <- lwgeom::st_make_valid(sf::st_union(gadm_data))
     eez_data <- suppressWarnings(st_parallel_difference(eez_data,
@@ -287,13 +295,13 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
   }
   ## add fields indicating type
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(10)
+  print(11)
   gadm_data$TYPE <- "LAND"
   if (!is.null(eez_data))
     eez_data$TYPE <- "EEZ"
   ## merge gadm and eez
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(11)
+  print(12)
   if (!is.null(eez_data)) {
     result <- rbind(gadm_data, eez_data)
   } else {
@@ -301,10 +309,10 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
   }
   ## sort data
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(12)
+  print(13)
   result <- result[order(result$ISO3, result$TYPE), ]
   # return output
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(13)
+  print(14)
   return(result)
 }

@@ -8,7 +8,7 @@ wdpa_fetch(x, download_dir = rappdirs::user_data_dir("wdpar"),
   force_download = FALSE, verbose = interactive())
 }
 \arguments{
-\item{x}{\code{character} Country for which to download data. This argument
+\item{x}{\code{character} country for which to download data. This argument
 can be the name of the country (e.g. \code{"Liechtenstein"}) or the
 ISO-3 code for the country (e.g. \code{"LIE"}). This argument can also
 be set to \code{"global"} to download all of the protected areas available

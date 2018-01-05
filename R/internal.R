@@ -279,3 +279,36 @@ wdpa_file <- function(x, download_dir) {
   # return file path
   return(file_path)
 }
+
+#' Check if protected area data is available for download at ProtectedPlanet
+#'
+#' Check if data is available for download at
+#' \href{http://protectedplanet.net}{ProtectedPlanet}.
+#'
+#' @param \code{character} country for which to stage data. This argument
+#'   can be the name of the country (e.g. \code{"Liechtenstein"}) or the
+#'   ISO-3 code for the country (e.g. \code{"LIE"}).
+#'
+#' @details This function has the side-effect of triggering
+#'   Protected Planet's data preperation analyses so that the data
+#'   will be made available at a later point in time.
+#'
+#' @return \code{logical} indicating if the data is ready for download.
+#'
+#' @noRd
+is_wdpa_data_available <- function(x) {
+  # validate arguments
+  assertthat::assert_that(assertthat::is.string(x),
+                          all(!is.na(x)),
+                          pingr::is_online())
+  # find ISO3 country ids
+  iso3_id <- country_code(x)
+  # parse url
+  url <- paste0("https://protectedplanet.net/country/", iso3_id)
+  # parse message from ProtectedPlanet indicating status
+  rv <- rvest::html_session(url)
+  rv <- rvest::follow_link(rv, ".link-with-icon .u-bold", 3)
+  rv <- rvest::html_text(rv)
+  # scan message for text indicating the data is available
+  stop("TODO")
+}

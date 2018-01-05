@@ -7,7 +7,7 @@
 wdpa_read(x)
 }
 \arguments{
-\item{x}{\code{character} file name for the zip archive downloaded from
+\item{x}{\code{character} file name for a zip archive file downloaded from
 \url{http://protectedplanet.net}.}
 }
 \value{

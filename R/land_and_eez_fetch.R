@@ -163,9 +163,11 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
       # without an error from R CMD check
       {s <- sp::SpatialPolygonsDataFrame}
       suppressMessages({out <- methods::as(readRDS(dl_path), "sf")})
-      out <- st_parallel_make_valid(out, threads = threads)
+      out <- st_parallel_make_valid(sf::st_set_precision(out, 1000000),
+                                    threads = threads)
       out <- sf::st_union(out)
-      out <- st_parallel_make_valid(out, threads = threads)
+      out <- st_parallel_make_valid(sf::st_set_precision(out, 1000000),
+                                    threads = threads)
       return(sf::st_sf(ISO3 = x, geometry = out))
     })
     if (length(gadm_data) > 1) {
@@ -233,19 +235,17 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
   print(3)
   if (!is.null(eez_data))
-    eez_data <- st_parallel_make_valid(eez_data, threads = threads)
+    eez_data <- st_parallel_make_valid(sf::st_set_precision(eez_data, 1000000),
+                                       threads = threads)
   ## reproject data
   gadm_data <- st_parallel_transform(gadm_data, crs = crs, threads = threads)
-  gadm_data <- st_parallel_make_valid(gadm_data, threads = threads)
+  gadm_data <- st_parallel_make_valid(sf::st_set_precision(gadm_data, 1000000),
+                                      threads = threads)
   if (!is.null(eez_data)) {
     eez_data <- st_parallel_transform(eez_data, crs = crs, threads = threads)
-    eez_data <- st_parallel_make_valid(eez_data, threads = threads)
+    eez_data <- st_parallel_make_valid(sf::st_set_precision(eez_data, 1000000),
+                                       threads = threads)
   }
-  ## repair eez data
-  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(4)
-  if (!is.null(eez_data))
-    eez_data <- st_parallel_make_valid(eez_data, threads = threads)
   ## snap geometry to grid
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
   print(5)
@@ -257,7 +257,7 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
   ## repair data
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
   print(6)
-  gadm_data <- st_parallel_make_valid(gadm_data, crs = crs, threads = threads)
+  gadm_data <- st_parallel_make_valid(gadm_data, threads = threads)
   if (!is.null(eez_data))
     eez_data <- st_parallel_make_valid(eez_data, threads = threads)
   ## modify fields
@@ -280,7 +280,7 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
   print(9)
   if (!is.null(eez_data)) {
-    gadm_union <- sf::st_union(gadm_data)
+    gadm_union <- lwgeom::st_make_valid(sf::st_union(gadm_data))
     eez_data <- suppressWarnings(st_parallel_difference(eez_data,
                                    gadm_union, threads = threads))
     eez_data <- st_parallel_make_valid(eez_data, threads = threads)

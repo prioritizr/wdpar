@@ -4,10 +4,10 @@
 \alias{wdpa_url}
 \title{Download URL for the World Database on Protected Areas}
 \usage{
-wdpa_url(x)
+wdpa_url(x, wait)
 }
 \arguments{
-\item{x}{\code{character} Country for desired data. This argument
+\item{x}{\code{character} country for desired data. This argument
 can be the name of the country (e.g. \code{"Liechtenstein"}) or the
 ISO-3 code for the country (e.g. \code{"LIE"}). This argument can also
 be set to \code{"global"} to obtain the URL for the global data set.}

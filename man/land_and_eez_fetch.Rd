@@ -4,14 +4,15 @@
 \alias{land_and_eez_fetch}
 \title{Fetch land and exclusive economic zone data}
 \usage{
-land_and_eez_fetch(x, crs = 3395, tolerance = 0,
+land_and_eez_fetch(x, crs = 3395, tolerance = 1,
   download_dir = rappdirs::user_data_dir("wdpar"), force_download = FALSE,
   threads = 1, verbose = interactive())
 }
 \arguments{
 \item{x}{\code{character} Country for which to download data. This argument
 can be the name of the country (e.g. \code{"Liechtenstein"}) or the
-ISO-3 code for the country (e.g. \code{"LIE"}).}
+ISO-3 code for the country (e.g. \code{"LIE"}). This argument can also
+be set to \code{"global"} to download data for the planet (approx. 1 GB).}
 
 \item{crs}{\code{character} coordinate reference system in PROJ4 format.
 Defaults to \code{3395} (Mercator).}

@@ -22,13 +22,13 @@ NULL
 #'
 #' @examples
 #' \donttest{
-#' # obtain url for USA data
-#' usa_url <- wdpa_url("United States of America")
-#' print(usa_url)
+#' # obtain url for New Zealand data
+#' nzl_url <- wdpa_url("New Zealand", wait = TRUE)
+#' print(nzl_url)
 #'
-#' # obtain url for USA data (using the ISO3 code)
-#' usa_url <- wdpa_url("USA")
-#' print(usa_url)
+#' # obtain url for New Zealand data (using the ISO3 code)
+#' nzl_url <- wdpa_url("NZL", wait = TRUE)
+#' print(nzl_url)
 #'
 #' # download link for global data
 #' global_url <- wdpa_url("global")
@@ -42,28 +42,36 @@ wdpa_url <- function(x, wait = FALSE) {
   # declare hidden function
   try_and_find_url <- function(x) {
     ## initialize web driver
-    pjs <- wdman::phantomjs(verbose = FALSE)
-    rd <- RSelenium::remoteDriver(port = 4567L, browserName = "phantomjs")
-    rd$open(silent = TRUE)
-    rd$maxWindowSize()
-    ## navigate to url and open download modal
-    rd$navigate(paste0("https://protectedplanet.net/country/", x))
-    elem <- rd$findElement(using = "css", ".link-with-icon--bold")
-    elem$clickElement()
-    elem <- rd$findElement(using = "css",
-                           ".link-with-icon~ .link-with-icon+ .link-with-icon")
-    elem$clickElement()
-    Sys.sleep(3) # wait 3 seconds for dialog to open
-    ## extract html for modal
-    src <- xml2::read_html(rd$getPageSource()[[1]][[1]])
-    divs <- xml2::xml_find_all(src, ".//div")
-    divs <- divs[which(xml2::xml_attr(divs, "id") == "download-modal")]
-    ## parse download link
-    attrs <- xml2::xml_attr(xml2::xml_find_all(divs, ".//a"), "href")
-    url <- grep("shapefile", attrs, fixed = TRUE, value = TRUE)
-    ## clean up web driver
-    rd$close()
-    pjs$stop()
+    result <- suppressMessages(tryCatch({
+      url <- character(0)
+      pjs <- wdman::phantomjs(verbose = FALSE)
+      rd <- RSelenium::remoteDriver(port = 4567L, browserName = "phantomjs")
+      rd$open(silent = TRUE)
+      rd$maxWindowSize()
+      ## navigate to url and open download modal
+      rd$navigate(paste0("https://protectedplanet.net/country/", x))
+      elem <- rd$findElement(using = "css", ".link-with-icon--bold")
+      elem$clickElement()
+      elem <- rd$findElement(using = "css",
+                             paste(".link-with-icon~ .link-with-icon+",
+                                   ".link-with-icon"))
+      elem$clickElement()
+      Sys.sleep(3) # wait 3 seconds for dialog to open
+      ## extract html for modal
+      src <- xml2::read_html(rd$getPageSource()[[1]][[1]], encoding = "UTF-8")
+      divs <- xml2::xml_find_all(src, ".//div")
+      divs <- divs[which(xml2::xml_attr(divs, "id") == "download-modal")]
+      ## parse download link
+      attrs <- xml2::xml_attr(xml2::xml_find_all(divs, ".//a"), "href")
+      url <- grep("shapefile", attrs, fixed = TRUE, value = TRUE)
+    },
+    finally = {
+      ## clean up web driver
+      try(rd$close(), silent = TRUE)
+      try(rd$close(), silent = TRUE)
+      try(pjs$stop(), silent = TRUE)
+      try(pjs$stop(), silent = TRUE)
+    }))
     ## prepare output
     if (length(url) == 0)
       return(NA_character_)

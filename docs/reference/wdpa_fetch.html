@@ -54,6 +54,9 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
+  <a href="../articles/index.html">Articles</a>
+</li>
+<li>
   <a href="../news/index.html">News</a>
 </li>
       </ul>
@@ -86,19 +89,26 @@ if the data has previously been downloaded and is available
 in the specified download folder, then the data will simply be imported.</p>
     
 
-    <pre class="usage"><span class='fu'>wdpa_fetch</span>(<span class='no'>x</span>, <span class='kw'>download_dir</span> <span class='kw'>=</span> <span class='kw'>rappdirs</span><span class='kw'>::</span><span class='fu'>user_data_dir</span>(<span class='st'>"wdpar"</span>),
-  <span class='kw'>force_download</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'>interactive</span>())</pre>
+    <pre class="usage"><span class='fu'>wdpa_fetch</span>(<span class='no'>x</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>download_dir</span> <span class='kw'>=</span> <span class='kw'>rappdirs</span><span class='kw'>::</span><span class='fu'>user_data_dir</span>(<span class='st'>"wdpar"</span>),
+  <span class='kw'>force_download</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p><code>character</code> Country for which to download data. This argument
+      <td><p><code>character</code> country for which to download data. This argument
 can be the name of the country (e.g. <code>"Liechtenstein"</code>) or the
 ISO-3 code for the country (e.g. <code>"LIE"</code>). This argument can also
 be set to <code>"global"</code> to download all of the protected areas available
 in the database (approx. 1.1 GB).</p></td>
+    </tr>
+    <tr>
+      <th>wait</th>
+      <td><p><code>logical</code> if data is not immediately available for download
+should the session be paused until it is ready for download? If argument
+to <code>wait</code> is <code>FALSE</code> and the data is not ready then <code>NA</code>
+will be returned. Defaults to <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>download_dir</th>
@@ -115,7 +125,7 @@ redownloaded anyway? Defaults to <code>FALSE</code>.</p></td>
     <tr>
       <th>verbose</th>
       <td><p><code>logical</code> should a progress on downloading data be
-reported? Defaults to <code>TRUE</code> if the session is interactive.</p></td>
+reported? Defaults to <code>FALSE</code>.</p></td>
     </tr>
     </table>
     
@@ -145,7 +155,7 @@ reported? Defaults to <code>TRUE</code> if the session is interactive.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># fetch data for Liechtenstein</span>
-<span class='no'>lie_raw_data</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_fetch</span>(<span class='st'>"Liechtenstein"</span>)
+<span class='no'>lie_raw_data</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_fetch</span>(<span class='st'>"Liechtenstein"</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># fetch data for Liechtenstein using the ISO3 code</span>
 <span class='no'>lie_raw_data</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_fetch</span>(<span class='st'>"LIE"</span>)

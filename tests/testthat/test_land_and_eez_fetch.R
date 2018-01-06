@@ -28,20 +28,6 @@ test_that("land_and_eez_fetch (single country without eez)", {
   expect_equal(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
 })
 
-test_that("land_and_eez_fetch (single country with tolerance)", {
-  skip_on_cran()
-  skip_if_not(pingr::is_online())
-  # fetch data
-  x <- land_and_eez_fetch("MHL", tolerance = 100)
-  # run tests
-  expect_is(x, "sf")
-  expect_equal(names(x), c("ISO3", "TYPE", "geometry"))
-  expect_true(all(x$ISO3 == "MHL"))
-  expect_equal(nrow(x), 2)
-  expect_true(all(x$type %in% c("LAND", "EEZ")))
-  expect_equal(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
-})
-
 test_that("land_and_eez_fetch (multiple countries)", {
   skip_on_cran()
   skip_if_not(pingr::is_online())

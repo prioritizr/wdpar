@@ -98,7 +98,7 @@ NULL
 #' @examples
 #' \donttest{
 #' # fetch data for the Marshall Islands
-#' mhl_raw_data <- wdpa_fetch("MHL")
+#' mhl_raw_data <- wdpa_fetch("MHL", wait = TRUE)
 #'
 #' # clean data
 #' mhl_data <- wdpa_clean(mhl_raw_data)

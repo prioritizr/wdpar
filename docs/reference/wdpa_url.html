@@ -54,6 +54,9 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
+  <a href="../articles/index.html">Articles</a>
+</li>
+<li>
   <a href="../news/index.html">News</a>
 </li>
       </ul>
@@ -84,23 +87,30 @@
 Areas (WDPA).</p>
     
 
-    <pre class="usage"><span class='fu'>wdpa_url</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>wdpa_url</span>(<span class='no'>x</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p><code>character</code> Country for desired data. This argument
+      <td><p><code>character</code> country for desired data. This argument
 can be the name of the country (e.g. <code>"Liechtenstein"</code>) or the
 ISO-3 code for the country (e.g. <code>"LIE"</code>). This argument can also
 be set to <code>"global"</code> to obtain the URL for the global data set.</p></td>
+    </tr>
+    <tr>
+      <th>wait</th>
+      <td><p><code>logical</code> if data is not immediately available for download
+should the session be paused until it is ready for download? If argument
+to <code>wait</code> is <code>FALSE</code> and the data is not ready then <code>NA</code>
+will be returned. Defaults to <code>FALSE</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>character</code> URL.</p>
+    <p><code>character</code> URL to download the data or a <code>NA</code> value.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -109,12 +119,12 @@ be set to <code>"global"</code> to obtain the URL for the global data set.</p></
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='co'># obtain url for USA data</span>
-<span class='no'>usa_url</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_url</span>(<span class='st'>"United States of America"</span>)
-<span class='fu'>print</span>(<span class='no'>usa_url</span>)</div><div class='output co'>#&gt; [1] "https://www.protectedplanet.net/downloads/WDPA_Dec2017_USA?type=shapefile"</div><div class='input'>
-<span class='co'># obtain url for USA data (using the ISO3 code)</span>
-<span class='no'>usa_url</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_url</span>(<span class='st'>"USA"</span>)
-<span class='fu'>print</span>(<span class='no'>usa_url</span>)</div><div class='output co'>#&gt; [1] "https://www.protectedplanet.net/downloads/WDPA_Dec2017_USA?type=shapefile"</div><div class='input'>
+<span class='co'># obtain url for New Zealand data</span>
+<span class='no'>nzl_url</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_url</span>(<span class='st'>"New Zealand"</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>print</span>(<span class='no'>nzl_url</span>)</div><div class='output co'>#&gt; [1] "https://www.protectedplanet.net/downloads/WDPA_Jan2018_NZL?type=shapefile"</div><div class='input'>
+<span class='co'># obtain url for New Zealand data (using the ISO3 code)</span>
+<span class='no'>nzl_url</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_url</span>(<span class='st'>"NZL"</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>print</span>(<span class='no'>nzl_url</span>)</div><div class='output co'>#&gt; [1] "https://www.protectedplanet.net/downloads/WDPA_Jan2018_NZL?type=shapefile"</div><div class='input'>
 <span class='co'># download link for global data</span>
 <span class='no'>global_url</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_url</span>(<span class='st'>"global"</span>)
 <span class='fu'>print</span>(<span class='no'>global_url</span>)</div><div class='output co'>#&gt; [1] "http://wcmc.io/wdpa_current_release"</div><div class='input'>

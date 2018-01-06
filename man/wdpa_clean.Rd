@@ -83,7 +83,7 @@ This function cleans data from World Database on Protected Areas
 \examples{
 \donttest{
 # fetch data for the Marshall Islands
-mhl_raw_data <- wdpa_fetch("MHL")
+mhl_raw_data <- wdpa_fetch("MHL", wait = TRUE)
 
 # clean data
 mhl_data <- wdpa_clean(mhl_raw_data)

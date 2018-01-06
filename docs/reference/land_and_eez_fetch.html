@@ -54,6 +54,9 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
+  <a href="../articles/index.html">Articles</a>
+</li>
+<li>
   <a href="../news/index.html">News</a>
 </li>
       </ul>
@@ -84,18 +87,19 @@
 world's nations.</p>
     
 
-    <pre class="usage"><span class='fu'>land_and_eez_fetch</span>(<span class='no'>x</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='fl'>3395</span>, <span class='kw'>tolerance</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+    <pre class="usage"><span class='fu'>land_and_eez_fetch</span>(<span class='no'>x</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='fl'>3395</span>, <span class='kw'>tolerance</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>download_dir</span> <span class='kw'>=</span> <span class='kw'>rappdirs</span><span class='kw'>::</span><span class='fu'>user_data_dir</span>(<span class='st'>"wdpar"</span>), <span class='kw'>force_download</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>threads</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'>interactive</span>())</pre>
+  <span class='kw'>threads</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p><code>character</code> Country for which to download data. This argument
+      <td><p><code>character</code> country for which to download data. This argument
 can be the name of the country (e.g. <code>"Liechtenstein"</code>) or the
-ISO-3 code for the country (e.g. <code>"LIE"</code>).</p></td>
+ISO-3 code for the country (e.g. <code>"LIE"</code>). This argument can also
+be set to <code>"global"</code> to download data for the planet (approx. 1 GB).</p></td>
     </tr>
     <tr>
       <th>crs</th>
@@ -127,7 +131,7 @@ Defaults to 1.</p></td>
     <tr>
       <th>verbose</th>
       <td><p><code>logical</code> should download progress be reported? Defaults
-to <code>TRUE</code> if executed in an interactive session.</p></td>
+to <code>FALSE</code>.</p></td>
     </tr>
     </table>
     
@@ -187,10 +191,35 @@ Available at <a href = 'http://www.marineregions.org'>http://www.marineregions.o
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># fetch land and eez data for Saint Kitts and Nevis</span>
-<span class='no'>kna_data</span> <span class='kw'>&lt;-</span> <span class='fu'>land_and_eez_fetch</span>(<span class='st'>"KNA"</span>)
-
+<span class='no'>kna_data</span> <span class='kw'>&lt;-</span> <span class='fu'>land_and_eez_fetch</span>(<span class='st'>"KNA"</span>)</div><div class='output co'>#&gt; [1] 1
+#&gt; Time difference of 0.0811944 secs
+#&gt; [1] 2
+#&gt; Time difference of 0.01045132 secs
+#&gt; [1] 3
+#&gt; Time difference of 0.0311718 secs
+#&gt; [1] 4
+#&gt; Time difference of 0.09389234 secs
+#&gt; [1] 5
+#&gt; Time difference of 0.002560616 secs
+#&gt; [1] 6
+#&gt; Time difference of 0.04928589 secs
+#&gt; [1] 7
+#&gt; Time difference of 0.03493953 secs
+#&gt; [1] 8
+#&gt; Time difference of 0.02929902 secs
+#&gt; [1] 9
+#&gt; Time difference of 0.0001745224 secs
+#&gt; [1] 10
+#&gt; Time difference of 0.05579758 secs
+#&gt; [1] 11
+#&gt; Time difference of 0.0004374981 secs
+#&gt; [1] 12
+#&gt; Time difference of 0.004449606 secs
+#&gt; [1] 13
+#&gt; Time difference of 0.002117157 secs
+#&gt; [1] 14</div><div class='input'>
 <span class='co'># plot data</span>
-<span class='fu'>plot</span>(<span class='no'>kna_data</span>)</div><img src='land_and_eez_fetch-2.png' alt='' width='540' height='400' /><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>kna_data</span>)</div><img src='land_and_eez_fetch-4.png' alt='' width='540' height='400' /><div class='input'>
 <span class='fu'>not_run</span>({
   <span class='co'># fetch land and eez data for the planet</span>
   <span class='no'>global_data</span> <span class='kw'>&lt;-</span> <span class='fu'>land_and_eez_fetch</span>(<span class='st'>"global"</span>)

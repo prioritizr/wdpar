@@ -54,6 +54,9 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
+  <a href="../articles/index.html">Articles</a>
+</li>
+<li>
   <a href="../news/index.html">News</a>
 </li>
       </ul>
@@ -83,8 +86,7 @@
     <p>Clean data from the World Database on Protected Areas (WDPA).</p>
     
 
-    <pre class="usage"><span class='fu'>wdpa_clean</span>(<span class='no'>x</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='fl'>3395</span>, <span class='kw'>tolerance</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>threads</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'>interactive</span>())</pre>
+    <pre class="usage"><span class='fu'>wdpa_clean</span>(<span class='no'>x</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='fl'>3395</span>, <span class='kw'>tolerance</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>threads</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -110,7 +112,8 @@ Defaults to 1.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p><code>logical</code> should progress on data cleaning be reported?</p></td>
+      <td><p><code>logical</code> should progress on data cleaning be reported?
+Defaults to <code>FALSE</code>.</p></td>
     </tr>
     </table>
     
@@ -196,17 +199,42 @@ designations. <em>PloS One</em>, <strong>12</strong>: e0188681.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># fetch data for the Marshall Islands</span>
-<span class='no'>mhl_raw_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='wdpa_fetch.html'>wdpa_fetch</a></span>(<span class='st'>"MHL"</span>)
+<span class='no'>mhl_raw_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='wdpa_fetch.html'>wdpa_fetch</a></span>(<span class='st'>"MHL"</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># clean data</span>
-<span class='no'>mhl_data</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_clean</span>(<span class='no'>mhl_raw_data</span>)
-
+<span class='no'>mhl_data</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_clean</span>(<span class='no'>mhl_raw_data</span>)</div><div class='output co'>#&gt; [1] 1
+#&gt; Time difference of 0.8853464 secs
+#&gt; [1] 2
+#&gt; Time difference of 0.1513846 secs
+#&gt; [1] 3
+#&gt; Time difference of 15.02571 secs
+#&gt; [1] 4
+#&gt; Time difference of 1.187625 secs
+#&gt; [1] 5
+#&gt; Time difference of 0.03898573 secs
+#&gt; [1] 6
+#&gt; Time difference of 16.57603 secs
+#&gt; [1] 7
+#&gt; Time difference of 0.4958222 secs
+#&gt; [1] 8
+#&gt; Time difference of 1.859747 secs
+#&gt; [1] 9
+#&gt; Time difference of 0.0002090931 secs
+#&gt; [1] 10
+#&gt; Time difference of 2.184479 secs
+#&gt; [1] 11
+#&gt; Time difference of 0.0004448891 secs
+#&gt; [1] 12
+#&gt; Time difference of 0.01660228 secs
+#&gt; [1] 13
+#&gt; Time difference of 0.009347677 secs
+#&gt; [1] 14</div><div class='input'>
 <span class='co'># plot cleaned data set</span>
-<span class='fu'>plot</span>(<span class='no'>mhl_data</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: plotting the first 9 out of 28 attributes; use max.plot = 28 to plot all</span></div><img src='wdpa_clean-3.png' alt='' width='540' height='400' /><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>mhl_data</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: plotting the first 9 out of 28 attributes; use max.plot = 28 to plot all</span></div><img src='wdpa_clean-5.png' alt='' width='540' height='400' /><div class='input'>
 <span class='co'># plot geometries for visual comparison</span>
 <span class='fu'>par</span>(<span class='kw'>mfrow</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>2</span>))
 <span class='fu'>plot</span>(<span class='kw'>sf</span><span class='kw'>::</span><span class='fu'>st_geometry</span>(<span class='no'>mhl_raw_data</span>), <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"orginal data"</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"white"</span>)
-<span class='fu'>plot</span>(<span class='kw'>sf</span><span class='kw'>::</span><span class='fu'>st_geometry</span>(<span class='no'>mhl_data</span>), <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"cleaned data"</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"white"</span>)</div><img src='wdpa_clean-5.png' alt='' width='540' height='400' /><div class='input'>
+<span class='fu'>plot</span>(<span class='kw'>sf</span><span class='kw'>::</span><span class='fu'>st_geometry</span>(<span class='no'>mhl_data</span>), <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"cleaned data"</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"white"</span>)</div><img src='wdpa_clean-7.png' alt='' width='540' height='400' /><div class='input'>
 <span class='fu'>not_run</span>({
   <span class='co'># fetch data for all protected areas on the planet</span>
   <span class='co'># note that this might take some time given that the global data set is</span>

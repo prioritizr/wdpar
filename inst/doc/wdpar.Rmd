@@ -1,44 +1,31 @@
 ---
+title: "wdpar: Interface to the World Database on Protected Areas"
+author: "Jeffrey O. Hanson"
+date: "`r Sys.Date()`"
 output:
-  rmarkdown::github_document:
-    html_preview: no
+  rmarkdown::html_vignette:
+    toc: false
+    fig_caption: true
+    self_contained: true
+fontsize: 11pt
+documentclass: article
+vignette: >
+  %\VignetteIndexEntry{wdpar}
+  %\VignetteEngine{knitr::rmarkdown_notangle}
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(fig.path = "man/figures/README-", fig.align = "center")
+h = 3.5
+w = 3.5
+is_check <- ("CheckExEnv" %in% search()) || any(c("_R_CHECK_TIMINGS_",
+             "_R_CHECK_LICENSE_") %in% names(Sys.getenv()))
+knitr::opts_chunk$set(fig.align = "center", eval = !is_check,
+                      root.dir = normalizePath("../.."))
 ```
-
-<!--- README.md is generated from README.Rmd. Please edit that file -->
-
-## wdpar: Interface to the World Database on Protected Areas
-
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
-[![Travis Build Status](https://img.shields.io/travis/jeffreyhanson/wdpar/master.svg?label=Mac%20OSX%20%26%20Linux)](https://travis-ci.org/jeffreyhanson/wdpar)
-[![AppVeyor Build Status](https://img.shields.io/appveyor/ci/jeffreyhanson/wdpa/master.svg?label=Windows)](https://ci.appveyor.com/project/jeffreyhanson/wdpar)
-[![Coverage Status](https://codecov.io/github/jeffreyhanson/wdpa/coverage.svg?branch=master)](https://codecov.io/github/jeffreyhanson/wdpar?branch=master)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/wdpa)](https://CRAN.R-project.org/package=wdpar)
 
 ```{r, include = FALSE}
 devtools::load_all()
 ```
-
-### Overview
-
-The _wdpar R_ package provides an interface to the World Database on Protected Areas (WDPA). It provides functions for automatically downloading data (from [Protected Planet](http://protectedplanet.net)) and cleaning data following best practices (outlined in [Butchart _et al._ 2015](https://dx.doi.org/10.1111/conl.12158) and [Runge _et al._ 2015](https://dx.doi.org/10.1126/science.aac9180)). These functions are designed to be scalable and can employ parallel processing to complete data processing in a feasible period of time.
-
-### Installation
-
-To install the developmental version of _wdpar_, use the following _R_ code:
-
-```{r, eval = FALSE}
-if (!require(devtools))
-  install.packages("devtools")
-devtools::install_github("jeffreyhanson/wdpar")
-```
-
-Note that this package requires the [developmental version of the _sf R_ package](https://github.com/r-spatial/sf). If you have trouble installing this package, check out its [installation instructions](https://github.com/r-spatial/sf#installling).
-
-### Example usage
 
 Here we will provide a short introduction to the _wdpar R_ package.
 
@@ -55,7 +42,7 @@ Now we will download protected area data for Malta. Note that we could have alte
 
 ```{r}
 # download protected area data for Malta
-mlt_raw_pa_data <- wdpa_fetch("Malta", wait = TRUE)
+mlt_raw_pa_data <- wdpa_fetch("Malta")
 ```
 
 Next, we will clean the data set. Note that we will only use a single thread for data processing, but you could use the `threads` argument to use multiple threads for data processing. See the help page for `wdpa_clean` for a detailed description on the data cleaning process.
@@ -102,12 +89,4 @@ Finally, let's plot a map showing Malta's protected areas and color each area ac
 
 ```{r, fig.height = 2.5, fig.width = 4.5}
 plot(mlt_pa_data[, "IUCN_CAT"], main = "IUCN Category", key.size = lcm("4"))
-```
-
-### Citation
-
-Please use the following references for citing the _wdpar R_ package and the World Database on Protected Areas (WDPA) in publications.
-
-```{r, echo  = FALSE, result = "asis", comment = ""}
-citation("wdpar")
 ```

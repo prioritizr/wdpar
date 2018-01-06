@@ -49,7 +49,7 @@ NULL
 #' @examples
 #' \donttest{
 #' # fetch data for Liechtenstein
-#' lie_raw_data <- wdpa_fetch("Liechtenstein")
+#' lie_raw_data <- wdpa_fetch("Liechtenstein", wait = TRUE)
 #'
 #' # fetch data for Liechtenstein using the ISO3 code
 #' lie_raw_data <- wdpa_fetch("LIE")

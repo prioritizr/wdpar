@@ -3,7 +3,7 @@
 wdpar: Interface to the World Database on Protected Areas
 ---------------------------------------------------------
 
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip) [![Travis Build Status](https://img.shields.io/travis/jeffreyhanson/wdpar/master.svg?label=Mac%20OSX%20%26%20Linux)](https://travis-ci.org/jeffreyhanson/wdpar) [![AppVeyor Build Status](https://img.shields.io/appveyor/ci/jeffreyhanson/wdpa/master.svg?label=Windows)](https://ci.appveyor.com/project/jeffreyhanson/wdpar) [![Coverage Status](https://codecov.io/github/jeffreyhanson/wdpa/coverage.svg?branch=master)](https://codecov.io/github/jeffreyhanson/wdpar?branch=master) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/wdpa)](https://CRAN.R-project.org/package=wdpar)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![Travis Build Status](https://img.shields.io/travis/jeffreyhanson/wdpar/master.svg?label=Mac%20OSX%20%26%20Linux)](https://travis-ci.org/jeffreyhanson/wdpar) [![AppVeyor Build Status](https://img.shields.io/appveyor/ci/jeffreyhanson/wdpa/master.svg?label=Windows)](https://ci.appveyor.com/project/jeffreyhanson/wdpar) [![Coverage Status](https://codecov.io/github/jeffreyhanson/wdpa/coverage.svg?branch=master)](https://codecov.io/github/jeffreyhanson/wdpar?branch=master) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/wdpa)](https://CRAN.R-project.org/package=wdpar)
 
 ### Overview
 
@@ -38,7 +38,7 @@ Now we will download protected area data for Malta. Note that we could have alte
 
 ``` r
 # download protected area data for Malta
-mlt_raw_pa_data <- wdpa_fetch("Malta")
+mlt_raw_pa_data <- wdpa_fetch("Malta", wait = TRUE)
 ```
 
 Next, we will clean the data set. Note that we will only use a single thread for data processing, but you could use the `threads` argument to use multiple threads for data processing. See the help page for `wdpa_clean` for a detailed description on the data cleaning process.
@@ -47,6 +47,34 @@ Next, we will clean the data set. Note that we will only use a single thread for
 # clean Malta data
 mlt_pa_data <- wdpa_clean(mlt_raw_pa_data)
 ```
+
+    ## [1] 1
+    ## Time difference of 0.07318735 secs
+    ## [1] 2
+    ## Time difference of 0.004897356 secs
+    ## [1] 3
+    ## Time difference of 0.0188067 secs
+    ## [1] 4
+    ## Time difference of 0.1864245 secs
+    ## [1] 5
+    ## Time difference of 0.002673864 secs
+    ## [1] 6
+    ## Time difference of 0.04579043 secs
+    ## [1] 7
+    ## Time difference of 0.03465652 secs
+    ## [1] 8
+    ## Time difference of 0.02406716 secs
+    ## [1] 9
+    ## Time difference of 0.0001852512 secs
+    ## [1] 10
+    ## Time difference of 0.08576369 secs
+    ## [1] 11
+    ## Time difference of 0.0003449917 secs
+    ## [1] 12
+    ## Time difference of 0.004583836 secs
+    ## [1] 13
+    ## Time difference of 0.00218606 secs
+    ## [1] 14
 
 Now that we have finished cleaning the data, let's calculate some statistics. We can calculate the total amount of area inside inside Malta's protected area system (km**<sup>2</sup>). Note that this includes marine and terrestrial protected areas.
 
@@ -70,7 +98,37 @@ We can also calculate the percentage of land inside [protected areas that are de
 mlt_land_data <- land_and_eez_fetch("Malta") %>%
                  filter(TYPE == "LAND") %>%
                  summarize(area = as.numeric(st_area(.)) * 1e+6)
+```
 
+    ## [1] 1
+    ## Time difference of 0.09639764 secs
+    ## [1] 2
+    ## Time difference of 0.01137018 secs
+    ## [1] 3
+    ## Time difference of 0.02931571 secs
+    ## [1] 4
+    ## Time difference of 0.09958172 secs
+    ## [1] 5
+    ## Time difference of 0.002510309 secs
+    ## [1] 6
+    ## Time difference of 0.04809523 secs
+    ## [1] 7
+    ## Time difference of 0.007514954 secs
+    ## [1] 8
+    ## Time difference of 0.0747385 secs
+    ## [1] 9
+    ## Time difference of 0.002419472 secs
+    ## [1] 10
+    ## Time difference of 0.08509088 secs
+    ## [1] 11
+    ## Time difference of 0.0003681183 secs
+    ## [1] 12
+    ## Time difference of 0.00490427 secs
+    ## [1] 13
+    ## Time difference of 0.00228405 secs
+    ## [1] 14
+
+``` r
 # calculate percentage of land inside protected areas (km^2)
 statistic <- mlt_pa_data %>%
              as.data.frame %>%
@@ -85,14 +143,12 @@ print(statistic)
 ```
 
     ##   area_protected total_land_area percentage_protected
-    ## 1   164032500000    4.949871e+14           0.03313874
+    ## 1   164032500000    4.949877e+14           0.03313871
 
 Finally, let's plot a map showing Malta's protected areas and color each area according to its management category.
 
 ``` r
-mlt_pa_data %>%
-select(IUCN_CAT) %>%
-plot(main = "IUCN Category", key.size = lcm("4"))
+plot(mlt_pa_data[, "IUCN_CAT"], main = "IUCN Category", key.size = lcm("4"))
 ```
 
 <img src="man/figures/README-unnamed-chunk-9-1.png" style="display: block; margin: auto;" />

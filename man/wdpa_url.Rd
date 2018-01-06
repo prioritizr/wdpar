@@ -26,13 +26,13 @@ Areas (WDPA).
 }
 \examples{
 \donttest{
-# obtain url for USA data
-usa_url <- wdpa_url("United States of America")
-print(usa_url)
+# obtain url for New Zealand data
+nzl_url <- wdpa_url("New Zealand", wait = TRUE)
+print(nzl_url)
 
-# obtain url for USA data (using the ISO3 code)
-usa_url <- wdpa_url("USA")
-print(usa_url)
+# obtain url for New Zealand data (using the ISO3 code)
+nzl_url <- wdpa_url("NZL", wait = TRUE)
+print(nzl_url)
 
 # download link for global data
 global_url <- wdpa_url("global")

@@ -18,9 +18,9 @@ Imports:
     parallel,
     doParallel,
     countrycode,
+    wdman,
     RSelenium,
     xml2,
-    wdman,
     cli,
     stringi,
     sp,
@@ -35,14 +35,13 @@ Depends:
     sf
 Remotes:
   r-spatial/lwgeom
-  r-spatial/sf
 License: GPL-3
 LazyData: true
 URL: https://github.com/jeffreyhanson/wdpar
 BugReports: https://github.com/jeffreyhanson/wdpar/issues
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
-Collate: 
+Collate:
     'internal.R'
     'geo.R'
     'land_and_eez_fetch.R'

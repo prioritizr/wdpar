@@ -11,7 +11,12 @@ NULL
 #'   ISO-3 code for the country (e.g. \code{"LIE"}). This argument can also
 #'   be set to \code{"global"} to obtain the URL for the global data set.
 #'
-#' @return \code{character} URL.
+#' @param wait \code{logical} if data is not immediately available for download
+#'   should the session be paused until it is ready for download? If argument
+#'   to \code{wait} is \code{FALSE} and the data is not ready then \code{NA}
+#'   will be returned. Defaults to \code{FALSE}.
+#'
+#' @return \code{character} URL to download the data or a \code{NA} value.
 #'
 #' @seealso \code{\link{wdpa_fetch}}, \code{\link[countrycode]{countrycode}}.
 #'
@@ -30,42 +35,62 @@ NULL
 #' print(global_url)
 #' }
 #' @export
-wdpa_url <- function(x, wait) {
+wdpa_url <- function(x, wait = FALSE) {
   # validate arguments
   assertthat::assert_that(assertthat::is.string(x), assertthat::is.flag(wait),
                           pingr::is_online())
+  # declare hidden function
+  try_and_find_url <- function(x) {
+    ## initialize web driver
+    pjs <- wdman::phantomjs(verbose = FALSE)
+    rd <- RSelenium::remoteDriver(port = 4567L, browserName = "phantomjs")
+    rd$open(silent = TRUE)
+    rd$maxWindowSize()
+    ## navigate to url and open download modal
+    rd$navigate(paste0("https://protectedplanet.net/country/", x))
+    elem <- rd$findElement(using = "css", ".link-with-icon--bold")
+    elem$clickElement()
+    elem <- rd$findElement(using = "css",
+                           ".link-with-icon~ .link-with-icon+ .link-with-icon")
+    elem$clickElement()
+    Sys.sleep(3) # wait 3 seconds for dialog to open
+    ## extract html for modal
+    src <- xml2::read_html(rd$getPageSource()[[1]][[1]])
+    divs <- xml2::xml_find_all(src, ".//div")
+    divs <- divs[which(xml2::xml_attr(divs, "id") == "download-modal")]
+    ## parse download link
+    attrs <- xml2::xml_attr(xml2::xml_find_all(divs, ".//a"), "href")
+    url <- grep("shapefile", attrs, fixed = TRUE, value = TRUE)
+    ## clean up web driver
+    rd$close()
+    pjs$stop()
+    ## prepare output
+    if (length(url) == 0)
+      return(NA_character_)
+    return(paste0("https://www.protectedplanet.net", url))
+  }
   # find url
   if (x == "global") {
-    download_url <- "http://wcmc.io/wdpa_current_release"
+    out <- "http://wcmc.io/wdpa_current_release"
   } else {
     ## convert x to country ISO3 code
     x <- country_code(x)
-    ## stage data
-    is_data_ready <- wdpa_stage_data(x, wait = wait)
-    if (!is_data_ready)
-      stop("data is not available for download - please wait a few hours and ",
-           "try again or use wait=TRUE")
-    ## generate potential urls since http://protectplanet.net can sometimes
-    ## be a few months behind the current date, and also oddly enough
-    ## ahead of the current date
-    possible_months <- format(Sys.Date() - (seq(-2, 10) * 30), "%b%Y")
-    potential_urls <- paste0("https://www.protectedplanet.net/",
-                             "downloads/WDPA_", possible_months, "_", x,
-                             "?type=shapefile")
-    ## find working url
-    found_url <- FALSE
-    for (i in seq_along(potential_urls)) {
-      if (!httr::http_error(potential_urls[i])) {
-        download_url <- potential_urls[i]
-        found_url <- TRUE
-        break()
+    ## initialize web driver
+    ## check if data is ready for download
+    attempted_url <- try_and_find_url(x)
+    ## return NA if not ready and not wait
+    if (is.na(attempted_url) && !wait) {
+      out <- NA_character_
+    } else {
+      ## otherwise check for url in 5 minute increments
+      while (is.na(attempted_url)) {
+        Sys.sleep(60 * 5)
+        attempted_url <- try_and_find_url(x)
       }
+      ## now that data is available, store the url
+      out <- attempted_url
     }
-    ## check that at least one working url was found
-    if (!found_url)
-      stop("could not find working download link - please post an issue on ",
-           "GitHub: https://github.com/jeffreyhanson/wdpar/issues")
   }
   # return url
-  return(download_url)
+  return(out)
 }

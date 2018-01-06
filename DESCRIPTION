@@ -11,7 +11,6 @@ Imports:
     utils,
     methods,
     assertthat,
-    rlang,
     plyr,
     rappdirs,
     httr,
@@ -19,6 +18,9 @@ Imports:
     parallel,
     doParallel,
     countrycode,
+    RSelenium,
+    xml2,
+    wdman,
     cli,
     stringi,
     sp,
@@ -49,4 +51,3 @@ Collate:
     'wdpa_url.R'
     'wdpa_fetch.R'
     'wdpa_read.R'
-    'wdpa_stage_data.R'

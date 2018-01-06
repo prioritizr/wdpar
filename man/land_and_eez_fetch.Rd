@@ -6,7 +6,7 @@
 \usage{
 land_and_eez_fetch(x, crs = 3395, tolerance = 1,
   download_dir = rappdirs::user_data_dir("wdpar"), force_download = FALSE,
-  threads = 1, verbose = interactive())
+  threads = 1, verbose = FALSE)
 }
 \arguments{
 \item{x}{\code{character} country for which to download data. This argument
@@ -32,7 +32,7 @@ redownloaded anyway? Defaults to \code{FALSE}.}
 Defaults to 1.}
 
 \item{verbose}{\code{logical} should download progress be reported? Defaults
-to \code{TRUE} if executed in an interactive session.}
+to \code{FALSE}.}
 }
 \value{
 \code{\link[sf]{sf}} spatial data object. This object contains the

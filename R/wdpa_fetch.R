@@ -14,6 +14,11 @@ NULL
 #'   be set to \code{"global"} to download all of the protected areas available
 #'   in the database (approx. 1.1 GB).
 #'
+#' @param wait \code{logical} if data is not immediately available for download
+#'   should the session be paused until it is ready for download? If argument
+#'   to \code{wait} is \code{FALSE} and the data is not ready then \code{NA}
+#'   will be returned. Defaults to \code{FALSE}.
+#'
 #' @param download_dir \code{character} folder path to download the data.
 #'  Defaults to a persistent data directory
 #'  (\code{rappdirs::user_data_dir("wdpar")}).
@@ -23,7 +28,7 @@ NULL
 #'   redownloaded anyway? Defaults to \code{FALSE}.
 #'
 #' @param verbose \code{logical} should a progress on downloading data be
-#'   reported? Defaults to \code{TRUE} if the session is interactive.
+#'   reported? Defaults to \code{FALSE}.
 #'
 #' @details This function will simply download the specified protected area
 #'   data and return it for subsequent use. It is strongly recomended that users
@@ -59,8 +64,9 @@ NULL
 #' global_raw_data <- wdpa_fetch("global")
 #' }}
 #' @export
-wdpa_fetch <- function(x, download_dir = rappdirs::user_data_dir("wdpar"),
-                       force_download = FALSE, verbose = interactive()) {
+wdpa_fetch <- function(x, wait = FALSE,
+                       download_dir = rappdirs::user_data_dir("wdpar"),
+                       force_download = FALSE, verbose = FALSE) {
   # check that arguments are valid
   ## check that classes are correct
   dir.create(download_dir, showWarnings = FALSE, recursive = TRUE)

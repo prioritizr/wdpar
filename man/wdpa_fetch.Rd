@@ -4,8 +4,8 @@
 \alias{wdpa_fetch}
 \title{Fetch data from the World Database on Protected Areas}
 \usage{
-wdpa_fetch(x, download_dir = rappdirs::user_data_dir("wdpar"),
-  force_download = FALSE, verbose = interactive())
+wdpa_fetch(x, wait = FALSE, download_dir = rappdirs::user_data_dir("wdpar"),
+  force_download = FALSE, verbose = FALSE)
 }
 \arguments{
 \item{x}{\code{character} country for which to download data. This argument
@@ -13,6 +13,11 @@ can be the name of the country (e.g. \code{"Liechtenstein"}) or the
 ISO-3 code for the country (e.g. \code{"LIE"}). This argument can also
 be set to \code{"global"} to download all of the protected areas available
 in the database (approx. 1.1 GB).}
+
+\item{wait}{\code{logical} if data is not immediately available for download
+should the session be paused until it is ready for download? If argument
+to \code{wait} is \code{FALSE} and the data is not ready then \code{NA}
+will be returned. Defaults to \code{FALSE}.}
 
 \item{download_dir}{\code{character} folder path to download the data.
 Defaults to a persistent data directory
@@ -23,7 +28,7 @@ downloaded and is available at argument to \code{x}, should the data be
 redownloaded anyway? Defaults to \code{FALSE}.}
 
 \item{verbose}{\code{logical} should a progress on downloading data be
-reported? Defaults to \code{TRUE} if the session is interactive.}
+reported? Defaults to \code{FALSE}.}
 }
 \value{
 \code{\link[sf]{sf}} simple features object.

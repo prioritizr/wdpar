@@ -4,8 +4,7 @@
 \alias{wdpa_clean}
 \title{Clean data from the World Database on Protected Areas}
 \usage{
-wdpa_clean(x, crs = 3395, tolerance = 1, threads = 1,
-  verbose = interactive())
+wdpa_clean(x, crs = 3395, tolerance = 1, threads = 1, verbose = FALSE)
 }
 \arguments{
 \item{x}{\code{\link[sf]{sf}} object containing data from the WDPA.}
@@ -19,7 +18,8 @@ grid for resolving invalid geometries.}
 \item{threads}{\code{numeric} number of threads to use for processing.
 Defaults to 1.}
 
-\item{verbose}{\code{logical} should progress on data cleaning be reported?}
+\item{verbose}{\code{logical} should progress on data cleaning be reported?
+Defaults to \code{FALSE}.}
 }
 \value{
 \code{\link[sf]{sf}} object.

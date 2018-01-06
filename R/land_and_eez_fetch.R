@@ -29,7 +29,7 @@ NULL
 #'   Defaults to 1.
 #'
 #' @param verbose \code{logical} should download progress be reported? Defaults
-#'  to \code{TRUE} if executed in an interactive session.
+#'  to \code{FALSE}.
 #'
 #' @details Data are assembled using the following steps.
 #' \enumerate{
@@ -95,7 +95,7 @@ NULL
 land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
                                download_dir = rappdirs::user_data_dir("wdpar"),
                                force_download = FALSE,
-                               threads = 1, verbose = interactive()) {
+                               threads = 1, verbose = FALSE) {
   # validate arguments
   dir.create(download_dir, showWarnings = FALSE, recursive = TRUE)
   assertthat::assert_that(is.character(x),

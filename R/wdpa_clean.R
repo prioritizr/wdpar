@@ -17,6 +17,7 @@ NULL
 #'   Defaults to 1.
 #'
 #' @param verbose \code{logical} should progress on data cleaning be reported?
+#'   Defaults to \code{FALSE}.
 #'
 #' @details This function cleans data from World Database on Protected Areas
 #'   following best practices (Butchart \emph{et al.} 2015, Runge \emph{et al.}
@@ -127,7 +128,7 @@ NULL
 #' }}
 #' @export
 wdpa_clean <- function(x, crs = 3395, tolerance = 1, threads = 1,
-                       verbose = interactive()) {
+                       verbose = FALSE) {
   # check arguments are valid
   assertthat::assert_that(inherits(x, "sf"),
                           nrow(x) > 0,

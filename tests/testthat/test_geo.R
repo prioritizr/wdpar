@@ -113,6 +113,41 @@ test_that("st_parallel_simplify (sfc)", {
   expect_identical(y1, y3)
 })
 
+test_that("st_parallel_union (sf)", {
+  # create data
+  x <- sf::read_sf(system.file("shape/nc.shp", package = "sf")) %>%
+       sf::st_transform(3395)
+  x <- x[1:10, ]
+  # union data
+  y1 <- sf::st_union(x)
+  y2 <- suppressWarnings(st_parallel_union(x, threads = 1))
+  y3 <- suppressWarnings(st_parallel_union(x, threads = 2))
+  # run tests
+  expect_is(y1, "sfc")
+  expect_is(y2, "sfc")
+  expect_is(y3, "sfc")
+  expect_equal(length(sf::st_difference(y1, y2)), 0)
+  expect_equal(length(sf::st_difference(y1, y3)), 0)
+})
+
+test_that("st_parallel_union (sfc)", {
+  # create data
+  x <- sf::read_sf(system.file("shape/nc.shp", package = "sf")) %>%
+       sf::st_transform(3395)
+  x <- x[1:10, ]
+  x <- sf::st_geometry(x)
+  # union data
+  y1 <- sf::st_union(x)
+  y2 <- suppressWarnings(st_parallel_union(x, threads = 1))
+  y3 <- suppressWarnings(st_parallel_union(x, threads = 2))
+  # run tests
+  expect_is(y1, "sfc")
+  expect_is(y2, "sfc")
+  expect_is(y3, "sfc")
+  expect_equal(length(sf::st_difference(y1, y2)), 0)
+  expect_equal(length(sf::st_difference(y1, y3)), 0)
+})
+
 test_that("st_parallel_difference (sf)", {
   # create data
   pl1 <- sf::st_polygon(list(rbind(c(-1, -1), c(1, -1), c(1, 1), c(-1, 1),

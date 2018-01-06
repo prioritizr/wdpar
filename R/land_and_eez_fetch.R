@@ -165,7 +165,7 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
       suppressMessages({out <- methods::as(readRDS(dl_path), "sf")})
       out <- st_parallel_make_valid(sf::st_set_precision(out, 1000000),
                                     threads = threads)
-      out <- sf::st_union(out)
+      out <- st_parallel_union(out, threads = threads)
       out <- st_parallel_make_valid(sf::st_set_precision(out, 1000000),
                                     threads = threads)
       return(sf::st_sf(ISO3 = x, geometry = out))
@@ -288,7 +288,7 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
   print(10)
   if (!is.null(eez_data)) {
-    gadm_union <- lwgeom::st_make_valid(sf::st_union(gadm_data))
+    gadm_union <- lwgeom::st_make_valid(st_parallel_union(gadm_data))
     eez_data <- suppressWarnings(st_parallel_difference(eez_data,
                                    gadm_union, threads = threads))
     eez_data <- st_parallel_make_valid(eez_data, threads = threads)

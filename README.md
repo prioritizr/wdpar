@@ -49,31 +49,31 @@ mlt_pa_data <- wdpa_clean(mlt_raw_pa_data)
 ```
 
     ## [1] 1
-    ## Time difference of 0.06679058 secs
+    ## Time difference of 0.09858727 secs
     ## [1] 2
-    ## Time difference of 0.005196333 secs
+    ## Time difference of 0.004689693 secs
     ## [1] 3
-    ## Time difference of 0.01740789 secs
+    ## Time difference of 0.02392721 secs
     ## [1] 4
-    ## Time difference of 0.08650494 secs
+    ## Time difference of 0.1162181 secs
     ## [1] 5
-    ## Time difference of 0.002556562 secs
+    ## Time difference of 0.002815247 secs
     ## [1] 6
-    ## Time difference of 0.04244518 secs
+    ## Time difference of 0.05739021 secs
     ## [1] 7
-    ## Time difference of 0.03726196 secs
+    ## Time difference of 0.03603435 secs
     ## [1] 8
-    ## Time difference of 0.02294207 secs
+    ## Time difference of 0.02818513 secs
     ## [1] 9
-    ## Time difference of 0.0001752377 secs
+    ## Time difference of 0.0001692772 secs
     ## [1] 10
-    ## Time difference of 0.08194137 secs
+    ## Time difference of 0.1148872 secs
     ## [1] 11
-    ## Time difference of 0.0003502369 secs
+    ## Time difference of 0.000364542 secs
     ## [1] 12
-    ## Time difference of 0.004598618 secs
+    ## Time difference of 0.004683971 secs
     ## [1] 13
-    ## Time difference of 0.002122879 secs
+    ## Time difference of 0.002137184 secs
     ## [1] 14
 
 Now that we have finished cleaning the data, let's calculate some statistics. We can calculate the total amount of area inside inside Malta's protected area system (km**<sup>2</sup>). Note that this includes marine and terrestrial protected areas.
@@ -101,31 +101,31 @@ mlt_land_data <- land_and_eez_fetch("Malta") %>%
 ```
 
     ## [1] 1
-    ## Time difference of 0.09798074 secs
+    ## Time difference of 0.1249263 secs
     ## [1] 2
-    ## Time difference of 0.005104542 secs
+    ## Time difference of 0.004788637 secs
     ## [1] 3
-    ## Time difference of 0.01773763 secs
+    ## Time difference of 0.02498841 secs
     ## [1] 4
-    ## Time difference of 0.07654524 secs
+    ## Time difference of 0.1099083 secs
     ## [1] 5
-    ## Time difference of 0.002635956 secs
+    ## Time difference of 0.002696991 secs
     ## [1] 6
-    ## Time difference of 0.04451513 secs
+    ## Time difference of 0.06067944 secs
     ## [1] 7
-    ## Time difference of 0.006854296 secs
+    ## Time difference of 0.007117748 secs
     ## [1] 8
-    ## Time difference of 0.0675354 secs
+    ## Time difference of 0.07598376 secs
     ## [1] 9
-    ## Time difference of 0.002493858 secs
+    ## Time difference of 0.002691031 secs
     ## [1] 10
-    ## Time difference of 0.08100891 secs
+    ## Time difference of 0.1150525 secs
     ## [1] 11
-    ## Time difference of 0.0004036427 secs
+    ## Time difference of 0.0003929138 secs
     ## [1] 12
-    ## Time difference of 0.005139112 secs
+    ## Time difference of 0.004733562 secs
     ## [1] 13
-    ## Time difference of 0.002413988 secs
+    ## Time difference of 0.002226114 secs
     ## [1] 14
 
 ``` r

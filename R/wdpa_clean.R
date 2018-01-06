@@ -229,7 +229,8 @@ wdpa_clean <- function(x, crs = 3395, tolerance = 1, threads = 1,
                                         threads = threads,
                                         verbose = FALSE)
   }
-  land_data <- sf::st_union(land_ezz_data[land_ezz_data$TYPE == "LAND", ])
+  land_data <- st_parallel_union(land_ezz_data[land_ezz_data$TYPE == "LAND", ],
+                                 threads = threads)
   if (verbose) {
     utils::flush.console()
     message("assembling land and eez data: ", cli::symbol$tick)

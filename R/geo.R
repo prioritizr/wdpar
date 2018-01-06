@@ -55,6 +55,47 @@ st_parallel_transform <- function(x, crs, ..., threads = 1) {
                         threads = threads)
 }
 
+#' Combine or union feature geometries (parallelized)
+#'
+#' Combine several feature geometries into one, with or without
+#' resolving internal boundaries
+#'
+#' @param x object of class \code{sf}, \code{sfc} or \code{sfg}
+#'
+#' @param threads \code{integer} number of threads for processing data. Defaults
+#'   to 1.
+#'
+#' @details This function is essentially just a wrapper for
+#'   \code{\link[sf]{st_union}}. See the documentation for
+#'   \code{\link[sf]{st_union}} for more information.
+#'
+#' @return A single geometry \code{sfc} object with resolved boundaries.
+#'
+#' @examples
+#' # load data
+#' nc <- sf::st_read(system.file("shape/nc.shp", package = "sf"))
+#'
+#' # create unioned data
+#' ncu <- st_parallel_union(nc, threads = 1)
+#'
+#' # plot data for visual comparison
+#' par(mfrow = c(1, 2))
+#' plot(sf::st_geometry(nc), main = "original data", col = "white")
+#' plot(ncu, main = "unioned data", col = "white")
+#' @export
+st_parallel_union <- function(x, threads = 1) {
+  # validate arguments
+  assertthat::assert_that(inherits(x, c("sf", "sfc")),
+                          assertthat::is.count(threads),
+                          isTRUE(threads <= parallel::detectCores(TRUE)))
+  # process data
+  x <- parallel_sf_operation(x, sf::st_union, args = list(),
+                             order_geometries = FALSE, threads = threads)
+  if (length(sf::st_geometry(x)) > 1)
+    x <- sf::st_union(x)
+  return(x)
+}
+
 #' Make an invalid geometry valid (parallelized)
 #'
 #' Fix geometry issues using parallelized computations.

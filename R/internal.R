@@ -118,10 +118,13 @@ country_code <- function(x) {
 #'
 #' @param fun function to execute.
 #'
-#' @param args \code{\link[base]{list}} with additional arguments.
+#' @param args \code{list} with additional arguments.
 #'
-#' @param remove_empty \code{\link[base]{logical}} should empty geometries
+#' @param remove_empty \code{logical} should empty geometries
 #'   generated during processing be removed?
+#'
+#' @param order_geometries \code{logical} should geometries be ordered after
+#'   processing to be mimic behavior in the \emph{sf} package?
 #'
 #' @param threads \code{integer} number of cores for processing data.
 #'
@@ -129,12 +132,13 @@ country_code <- function(x) {
 #'
 #' @noRd
 parallel_sf_operation <- function(x, fun, args = list(), remove_empty = FALSE,
-                                    threads = 1) {
+                                    order_geometries = TRUE, threads = 1) {
   # validate arguments
   assertthat::assert_that(inherits(x, c("sf", "sfc", "sfg")),
                           inherits(fun, "function"),
                           is.list(args), assertthat::is.count(threads),
                           assertthat::is.flag(remove_empty),
+                          assertthat::is.flag(order_geometries),
                           isTRUE(threads <= parallel::detectCores(TRUE)))
   # initialize cluster
   if (threads > 1) {
@@ -170,7 +174,7 @@ parallel_sf_operation <- function(x, fun, args = list(), remove_empty = FALSE,
   # post-processing
   agrx <- attr(result[[1]], "agr")
   rnx_is_character <- is.character(attr(result[[1]], "row.names"))
-  if (inherits(x, "sf")) {
+  if (inherits(result[[1]], "sf")) {
     ## merge results
     if (length(result) > 1) {
       result <- do.call(rbind, result)
@@ -178,8 +182,11 @@ parallel_sf_operation <- function(x, fun, args = list(), remove_empty = FALSE,
       result <- result[[1]]
     }
     ## reorder features
-    result <- result[order(nchar(attr(result, "row.names")),
-                           stringi::stri_reverse(attr(result, "row.names"))), ]
+    if (order_geometries) {
+      ord <- order(nchar(attr(result, "row.names")),
+                         stringi::stri_reverse(attr(result, "row.names")))
+      result <- result[ord, ]
+    }
     ## remove empty geometries
     if (remove_empty) {
       ## remove empty geometries
@@ -208,7 +215,7 @@ parallel_sf_operation <- function(x, fun, args = list(), remove_empty = FALSE,
         result <- append(result, result2[[i]])
     }
     ## reorder results
-    if (!is.null(orderx))
+    if (!is.null(orderx) && order_geometries)
       result <- result[orderx]
     ## remove empty geometries
     if (remove_empty) {

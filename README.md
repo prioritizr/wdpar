@@ -19,7 +19,7 @@ if (!require(devtools))
 devtools::install_github("jeffreyhanson/wdpar")
 ```
 
-Note that this package requires the [developmental version of the *sf R* package](https://github.com/r-spatial/sf). If you have trouble installing this package, check out its [installation instructions](https://github.com/r-spatial/sf#installling).
+Note that this package requires the developmental version of the [*lwgeom R* package](https://github.com/r-spatial/lwgeom). If you have trouble installing this package, check out its [installation instructions](https://github.com/r-spatial/lwgeom).
 
 ### Example usage
 
@@ -49,31 +49,31 @@ mlt_pa_data <- wdpa_clean(mlt_raw_pa_data)
 ```
 
     ## [1] 1
-    ## Time difference of 0.07318735 secs
+    ## Time difference of 0.06679058 secs
     ## [1] 2
-    ## Time difference of 0.004897356 secs
+    ## Time difference of 0.005196333 secs
     ## [1] 3
-    ## Time difference of 0.0188067 secs
+    ## Time difference of 0.01740789 secs
     ## [1] 4
-    ## Time difference of 0.1864245 secs
+    ## Time difference of 0.08650494 secs
     ## [1] 5
-    ## Time difference of 0.002673864 secs
+    ## Time difference of 0.002556562 secs
     ## [1] 6
-    ## Time difference of 0.04579043 secs
+    ## Time difference of 0.04244518 secs
     ## [1] 7
-    ## Time difference of 0.03465652 secs
+    ## Time difference of 0.03726196 secs
     ## [1] 8
-    ## Time difference of 0.02406716 secs
+    ## Time difference of 0.02294207 secs
     ## [1] 9
-    ## Time difference of 0.0001852512 secs
+    ## Time difference of 0.0001752377 secs
     ## [1] 10
-    ## Time difference of 0.08576369 secs
+    ## Time difference of 0.08194137 secs
     ## [1] 11
-    ## Time difference of 0.0003449917 secs
+    ## Time difference of 0.0003502369 secs
     ## [1] 12
-    ## Time difference of 0.004583836 secs
+    ## Time difference of 0.004598618 secs
     ## [1] 13
-    ## Time difference of 0.00218606 secs
+    ## Time difference of 0.002122879 secs
     ## [1] 14
 
 Now that we have finished cleaning the data, let's calculate some statistics. We can calculate the total amount of area inside inside Malta's protected area system (km**<sup>2</sup>). Note that this includes marine and terrestrial protected areas.
@@ -101,31 +101,31 @@ mlt_land_data <- land_and_eez_fetch("Malta") %>%
 ```
 
     ## [1] 1
-    ## Time difference of 0.09639764 secs
+    ## Time difference of 0.09798074 secs
     ## [1] 2
-    ## Time difference of 0.01137018 secs
+    ## Time difference of 0.005104542 secs
     ## [1] 3
-    ## Time difference of 0.02931571 secs
+    ## Time difference of 0.01773763 secs
     ## [1] 4
-    ## Time difference of 0.09958172 secs
+    ## Time difference of 0.07654524 secs
     ## [1] 5
-    ## Time difference of 0.002510309 secs
+    ## Time difference of 0.002635956 secs
     ## [1] 6
-    ## Time difference of 0.04809523 secs
+    ## Time difference of 0.04451513 secs
     ## [1] 7
-    ## Time difference of 0.007514954 secs
+    ## Time difference of 0.006854296 secs
     ## [1] 8
-    ## Time difference of 0.0747385 secs
+    ## Time difference of 0.0675354 secs
     ## [1] 9
-    ## Time difference of 0.002419472 secs
+    ## Time difference of 0.002493858 secs
     ## [1] 10
-    ## Time difference of 0.08509088 secs
+    ## Time difference of 0.08100891 secs
     ## [1] 11
-    ## Time difference of 0.0003681183 secs
+    ## Time difference of 0.0004036427 secs
     ## [1] 12
-    ## Time difference of 0.00490427 secs
+    ## Time difference of 0.005139112 secs
     ## [1] 13
-    ## Time difference of 0.00228405 secs
+    ## Time difference of 0.002413988 secs
     ## [1] 14
 
 ``` r

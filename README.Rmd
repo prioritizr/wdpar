@@ -36,7 +36,7 @@ if (!require(devtools))
 devtools::install_github("jeffreyhanson/wdpar")
 ```
 
-Note that this package requires the [developmental version of the _sf R_ package](https://github.com/r-spatial/sf). If you have trouble installing this package, check out its [installation instructions](https://github.com/r-spatial/sf#installling).
+Note that this package requires the developmental version of the [_lwgeom R_ package](https://github.com/r-spatial/lwgeom). If you have trouble installing this package, check out its [installation instructions](https://github.com/r-spatial/lwgeom).
 
 ### Example usage
 

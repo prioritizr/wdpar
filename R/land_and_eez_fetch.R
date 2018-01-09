@@ -14,8 +14,11 @@ NULL
 #' @param crs \code{character} coordinate reference system in PROJ4 format.
 #'   Defaults to \code{3395} (Mercator).
 #'
-#' @param tolerance \code{numeric} tolerance for snapping geometry to a
-#'  grid for resolving invalid geometries.
+#' @param snap_tolerance \code{numeric} tolerance for snapping geometry to a
+#'   grid for resolving invalid geometries. Defaults to 1 metre.
+#'
+#' @param simplify_tolerance \code{numeric} simplification tolerance. Defaults
+#'  to 0 metres.
 #'
 #' @param download_dir \code{character} folder path to download the data.
 #'  Defaults to a persistent data directory
@@ -44,11 +47,15 @@ NULL
 #' \item Both data sets are scanned for invalid geometries, and invalid
 #'   geometries are fixed (using \code{\link{st_parallel_make_valid}}).
 #' \item Both data sets are reprojected to argument to \code{crs}.
-#' \item Scan both data sets again for invalid geometries, and fix any
-#'   invalid geometries that have manifested (using
+#' \item Fix any invalid geometries (using
 #'   \code{\link{st_parallel_make_valid}}).
-#'   \item Snap geometries to a grid to fix any unresolved geometry issues
-#'     (using \code{link[lwgeom]{st_snap_to_grid}}).
+#' \item Snap geometries to a grid to fix any unresolved geometry issues
+#'   (using argument to \code{snap_tolerance} and
+#'   \code{link[lwgeom]{st_snap_to_grid}}).
+#' \item Simplify the geometries (using argument to \code{simplify_tolerance}
+#'   and \code{link{st_parallel_simplify}}).
+#' \item Fix any invalid geometries (using
+#'   \code{\link{st_parallel_make_valid}}).
 #' \item A field denoting the country code is created in the two data sets
 #'   is created (\code{"ISO3"}).
 #' \item Both data sets are dissolved by the country code field (\code{"ISO3"})
@@ -92,7 +99,8 @@ NULL
 #' global_data <- land_and_eez_fetch("global")
 #' }}
 #' @export
-land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
+land_and_eez_fetch <- function(x, crs = 3395, snap_tolerance = 1,
+                               simplify_tolerance = 0,
                                download_dir = rappdirs::user_data_dir("wdpar"),
                                force_download = FALSE,
                                threads = 1, verbose = FALSE) {
@@ -102,8 +110,10 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
                           all(!is.na(x)),
                           assertthat::is.string(crs) ||
                           assertthat::is.count(crs),
-                          assertthat::is.scalar(tolerance),
-                          isTRUE(tolerance >= 0),
+                          assertthat::is.scalar(snap_tolerance),
+                          isTRUE(snap_tolerance >= 0),
+                          assertthat::is.scalar(simplify_tolerance),
+                          isTRUE(simplify_tolerance >= 0),
                           assertthat::is.dir(download_dir),
                           assertthat::is.flag(force_download),
                           assertthat::is.count(threads),
@@ -251,10 +261,10 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
   ## snap geometry to grid
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
   print(5)
-  if (tolerance > 0) {
-  gadm_data <- lwgeom::st_snap_to_grid(gadm_data, tolerance)
+  if (snap_tolerance > 0) {
+  gadm_data <- lwgeom::st_snap_to_grid(gadm_data, snap_tolerance)
     if (!is.null(eez_data))
-    eez_data <- lwgeom::st_snap_to_grid(eez_data, tolerance)
+    eez_data <- lwgeom::st_snap_to_grid(eez_data, snap_tolerance)
   }
   ## repair data
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
@@ -262,15 +272,31 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
   gadm_data <- st_parallel_make_valid(gadm_data, threads = threads)
   if (!is.null(eez_data))
     eez_data <- st_parallel_make_valid(eez_data, threads = threads)
-  ## extract polygons
+  ## simplify data
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
   print(7)
+  if (simplify_tolerance > 0) {
+    gadm_data <- st_parallel_simplify(gadm_data, TRUE, simplify_tolerance,
+                                      threads = threads)
+    if (!is.null(eez_data))
+      eez_data <- st_parallel_simplify(eez_data, TRUE, simplify_tolerance,
+                                       threads = threads)
+  }
+  ## repair data
+  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
+  print(8)
+  gadm_data <- st_parallel_make_valid(gadm_data, threads = threads)
+  if (!is.null(eez_data))
+    eez_data <- st_parallel_make_valid(eez_data, threads = threads)
+  ## extract polygons
+  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
+  print(9)
   gadm_data <- st_subset_polygons(gadm_data)
   if (!is.null(eez_data))
     eez_data <- st_subset_polygons(eez_data)
   ## modify fields
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(8)
+  print(10)
   if (!is.null(eez_data)) {
     eez_data <- eez_data[, c("iso_ter1", "geometry")]
     names(eez_data)[[1]] <- "ISO3"
@@ -281,27 +307,35 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
   }
   ## remove holes from eez
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(9)
+  print(11)
   if (!is.null(eez_data))
     eez_data <- st_remove_holes(eez_data)
-  # erase gadm from eez
+  ## repair data
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(10)
+  print(12)
+  if (!is.null(eez_data))
+    eez_data <- st_parallel_make_valid(eez_data, threads = threads)
+  ## erase gadm from eez
+  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
+  print(13)
   if (!is.null(eez_data)) {
+    print(13.1)
     gadm_union <- lwgeom::st_make_valid(st_parallel_union(gadm_data))
+    print(13.2)
     eez_data <- suppressWarnings(st_parallel_difference(eez_data,
                                    gadm_union, threads = threads))
+    print(13.3)
     eez_data <- st_parallel_make_valid(eez_data, threads = threads)
   }
   ## add fields indicating type
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(11)
+  print(14)
   gadm_data$TYPE <- "LAND"
   if (!is.null(eez_data))
     eez_data$TYPE <- "EEZ"
   ## merge gadm and eez
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(12)
+  print(15)
   if (!is.null(eez_data)) {
     result <- rbind(gadm_data, eez_data)
   } else {
@@ -309,10 +343,10 @@ land_and_eez_fetch <- function(x, crs = 3395, tolerance = 1,
   }
   ## sort data
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(13)
+  print(16)
   result <- result[order(result$ISO3, result$TYPE), ]
   # return output
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(14)
+  print(17)
   return(result)
 }

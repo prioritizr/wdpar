@@ -40,13 +40,28 @@ test_that("wdpa_clean (single country without eez)", {
   # expect_equal(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
 })
 
+test_that("wdpa_clean (single country with simplification)", {
+  skip_on_cran()
+  skip_if_not(pingr::is_online())
+  # fetch data
+  x <- wdpa_clean(wdpa_fetch("MHL", wait = TRUE), simplify_tolerance = 100)
+  # run tests
+  expect_is(x, "sf")
+  expect_equal(wdpa_column_names, names(x))
+  expect_true(all(x$ISO3 == "MHL"))
+  expect_gt(sum(x$MARINE == "partial"), 0)
+  expect_gt(sum(x$MARINE == "marine"), 0)
+  expect_equal(sum(is.na(x$AREA_KM2)), 0)
+  expect_equal(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
+})
+
 test_that("wdpa_clean (global)", {
   skip_on_cran()
   skip_if_not(pingr::is_online())
   skip_if(mean(pingr::ping("www.google.com", count = 10)) > 10,
           "slow internet connection detected")
   # fetch data
-  x <- wdpa_clean(wdpa_fetch("global"))
+  x <- wdpa_clean(wdpa_fetch("global"), simplify_tolerance = 100)
   # run tests
   expect_gt(nrow(x), 0)
   expect_equal(wdpa_column_names, names(x))

@@ -4,7 +4,8 @@
 \alias{wdpa_clean}
 \title{Clean data from the World Database on Protected Areas}
 \usage{
-wdpa_clean(x, crs = 3395, tolerance = 1, threads = 1, verbose = FALSE)
+wdpa_clean(x, crs = 3395, snap_tolerance = 1, simplify_tolerance = 0,
+  threads = 1, verbose = FALSE)
 }
 \arguments{
 \item{x}{\code{\link[sf]{sf}} object containing data from the WDPA.}
@@ -12,8 +13,11 @@ wdpa_clean(x, crs = 3395, tolerance = 1, threads = 1, verbose = FALSE)
 \item{crs}{\code{character} coordinate reference system in PROJ4 format.
 Defaults to \code{3395} (Mercator).}
 
-\item{tolerance}{\code{numeric} tolerance for snapping geometry to a
-grid for resolving invalid geometries.}
+\item{snap_tolerance}{\code{numeric} tolerance for snapping geometry to a
+grid for resolving invalid geometries. Defaults to 1 meter.}
+
+\item{simplify_tolerance}{\code{numeric} simplification tolerance.
+Defaults to 0 meters.}
 
 \item{threads}{\code{numeric} number of threads to use for processing.
 Defaults to 1.}
@@ -45,11 +49,20 @@ This function cleans data from World Database on Protected Areas
     have a reported spatial extent (i.e. missing data for the field
   \item Reproject data to coordinate system specified in argument to
     \code{crs} (using \code{\link{st_parallel_transform}}).
-  \item Repair any invalid geometry that has since manifested (using
+  \item Fix any invalid geometries (using
     \code{\link{st_parallel_make_valid}}).
   \item Buffer areas represented as point localities to circular areas
     using their reported spatial extent (using data in the field
     \code{"REP_AREA"} and \code{\link[sf]{st_buffer}}).
+  \item Snap the protected area geometries to a grid to fix any unresolved
+    geometry issues (using argument to \code{snap_tolerance} and
+    \code{link[lwgeom]{st_snap_to_grid}}).
+  \item Fix any invalid geometries (using
+    \code{\link{st_parallel_make_valid}}).
+\item Simplify the protected area geometries (using argument to
+    \code{simplify_tolerance} and \code{link{st_parallel_simplify}}).
+\item Fix any invalid geometries (using
+  \code{\link{st_parallel_make_valid}}).
   \item Assemble land and exclusive economic zone data (using
     \code{\link{land_and_eez_fetch}}).
   \item Extract terrestrial protected areas and erase localities that occur
@@ -61,14 +74,10 @@ This function cleans data from World Database on Protected Areas
     \code{1} = \code{"partial"}, \code{2} = \code{"marine"}).
   \item Zeroes in the \code{"STATUS_YR"} field are replaced with \code{NA}
     values.
-  \item Zoers in the \code{"NO_TK_AREA"} field are replaced with \code{NA}
+  \item Zeroes in the \code{"NO_TK_AREA"} field are replaced with \code{NA}
     values for areas for with such data are not reported or applicable
     (i.e. areas with the values \code{"Not Applicable"}
     or \code{"Not Reported"} in the \code{"NO_TK_AREA"} field).
-  \item Snap geometries to a grid to fix any unresolved geometry issues
-    (using \code{link[lwgeom]{st_snap_to_grid}}).
-  \item Repair any invalid geometry that has manifested (using
-    \code{\link{st_parallel_make_valid}}).
   \item Erase overlapping geometries (discussed in Deguignet \emph{et al.}
     2017). Geometries are erased such that protected areas associated with
     more effective management categories (\code{"IUCN_CAT"}) or have

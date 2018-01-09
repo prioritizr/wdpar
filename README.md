@@ -49,32 +49,41 @@ mlt_pa_data <- wdpa_clean(mlt_raw_pa_data)
 ```
 
     ## [1] 1
-    ## Time difference of 0.09858727 secs
+    ## Time difference of 0.1951411 secs
     ## [1] 2
-    ## Time difference of 0.004689693 secs
+    ## Time difference of 0.011693 secs
     ## [1] 3
-    ## Time difference of 0.02392721 secs
+    ## Time difference of 0.04547334 secs
     ## [1] 4
-    ## Time difference of 0.1162181 secs
+    ## Time difference of 0.260421 secs
     ## [1] 5
-    ## Time difference of 0.002815247 secs
+    ## Time difference of 0.008594513 secs
     ## [1] 6
-    ## Time difference of 0.05739021 secs
+    ## Time difference of 0.1317618 secs
     ## [1] 7
-    ## Time difference of 0.03603435 secs
+    ## Time difference of 6.484985e-05 secs
     ## [1] 8
-    ## Time difference of 0.02818513 secs
+    ## Time difference of 0.1013842 secs
     ## [1] 9
-    ## Time difference of 0.0001692772 secs
+    ## Time difference of 0.1102479 secs
     ## [1] 10
-    ## Time difference of 0.1148872 secs
+    ## Time difference of 0.1072469 secs
     ## [1] 11
-    ## Time difference of 0.000364542 secs
+    ## Time difference of 0.000351429 secs
     ## [1] 12
-    ## Time difference of 0.004683971 secs
+    ## Time difference of 0.03872347 secs
     ## [1] 13
-    ## Time difference of 0.002137184 secs
+    ## [1] 13.1
+    ## [1] 13.2
+    ## [1] 13.3
+    ## Time difference of 0.2839248 secs
     ## [1] 14
+    ## Time difference of 0.0007503033 secs
+    ## [1] 15
+    ## Time difference of 0.01134014 secs
+    ## [1] 16
+    ## Time difference of 0.005030155 secs
+    ## [1] 17
 
 Now that we have finished cleaning the data, let's calculate some statistics. We can calculate the total amount of area inside inside Malta's protected area system (km**<sup>2</sup>). Note that this includes marine and terrestrial protected areas.
 
@@ -89,7 +98,7 @@ print(statistic)
 ```
 
     ##           area
-    ## 1 1.235649e+16
+    ## 1 1.290205e+16
 
 We can also calculate the percentage of land inside [protected areas that are designated strictly to protect biodiversity (and also potentially geological/geomorphological features)](https://www.iucn.org/theme/protected-areas/about/protected-area-categories).
 
@@ -101,32 +110,41 @@ mlt_land_data <- land_and_eez_fetch("Malta") %>%
 ```
 
     ## [1] 1
-    ## Time difference of 0.1249263 secs
+    ## Time difference of 0.2752075 secs
     ## [1] 2
-    ## Time difference of 0.004788637 secs
+    ## Time difference of 0.01079988 secs
     ## [1] 3
-    ## Time difference of 0.02498841 secs
+    ## Time difference of 0.039639 secs
     ## [1] 4
-    ## Time difference of 0.1099083 secs
+    ## Time difference of 0.2080986 secs
     ## [1] 5
-    ## Time difference of 0.002696991 secs
+    ## Time difference of 0.003622055 secs
     ## [1] 6
-    ## Time difference of 0.06067944 secs
+    ## Time difference of 0.1237791 secs
     ## [1] 7
-    ## Time difference of 0.007117748 secs
+    ## Time difference of 0.005626917 secs
     ## [1] 8
-    ## Time difference of 0.07598376 secs
+    ## Time difference of 0.1300666 secs
     ## [1] 9
-    ## Time difference of 0.002691031 secs
+    ## Time difference of 0.05291247 secs
     ## [1] 10
-    ## Time difference of 0.1150525 secs
+    ## Time difference of 0.1890869 secs
     ## [1] 11
-    ## Time difference of 0.0003929138 secs
+    ## Time difference of 0.006444216 secs
     ## [1] 12
-    ## Time difference of 0.004733562 secs
+    ## Time difference of 0.02789021 secs
     ## [1] 13
-    ## Time difference of 0.002226114 secs
+    ## [1] 13.1
+    ## [1] 13.2
+    ## [1] 13.3
+    ## Time difference of 0.2677572 secs
     ## [1] 14
+    ## Time difference of 0.003177166 secs
+    ## [1] 15
+    ## Time difference of 0.02062869 secs
+    ## [1] 16
+    ## Time difference of 0.004937172 secs
+    ## [1] 17
 
 ``` r
 # calculate percentage of land inside protected areas (km^2)
@@ -143,7 +161,7 @@ print(statistic)
 ```
 
     ##   area_protected total_land_area percentage_protected
-    ## 1   164032500000    4.949877e+14           0.03313871
+    ## 1   250391500000    4.949877e+14            0.0505854
 
 Finally, let's plot a map showing Malta's protected areas and color each area according to its management category.
 

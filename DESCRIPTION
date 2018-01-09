@@ -32,7 +32,7 @@ Suggests:
     rmarkdown
 Depends:
     R(>= 3.4.0),
-    sf
+    sf(>= 0.6-0)
 Remotes:
   r-spatial/lwgeom
 License: GPL-3

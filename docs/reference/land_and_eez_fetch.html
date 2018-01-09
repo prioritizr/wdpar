@@ -87,9 +87,9 @@
 world's nations.</p>
     
 
-    <pre class="usage"><span class='fu'>land_and_eez_fetch</span>(<span class='no'>x</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='fl'>3395</span>, <span class='kw'>tolerance</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>download_dir</span> <span class='kw'>=</span> <span class='kw'>rappdirs</span><span class='kw'>::</span><span class='fu'>user_data_dir</span>(<span class='st'>"wdpar"</span>), <span class='kw'>force_download</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>threads</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>land_and_eez_fetch</span>(<span class='no'>x</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='fl'>3395</span>, <span class='kw'>snap_tolerance</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>simplify_tolerance</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>download_dir</span> <span class='kw'>=</span> <span class='kw'>rappdirs</span><span class='kw'>::</span><span class='fu'>user_data_dir</span>(<span class='st'>"wdpar"</span>),
+  <span class='kw'>force_download</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>threads</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -107,9 +107,14 @@ be set to <code>"global"</code> to download data for the planet (approx. 1 GB).<
 Defaults to <code>3395</code> (Mercator).</p></td>
     </tr>
     <tr>
-      <th>tolerance</th>
+      <th>snap_tolerance</th>
       <td><p><code>numeric</code> tolerance for snapping geometry to a
-grid for resolving invalid geometries.</p></td>
+grid for resolving invalid geometries. Defaults to 1 metre.</p></td>
+    </tr>
+    <tr>
+      <th>simplify_tolerance</th>
+      <td><p><code>numeric</code> simplification tolerance. Defaults
+to 0 metres.</p></td>
     </tr>
     <tr>
       <th>download_dir</th>
@@ -157,11 +162,15 @@ to <code>FALSE</code>.</p></td>
 <li><p>Both data sets are scanned for invalid geometries, and invalid
   geometries are fixed (using <code><a href='st_parallel_make_valid.html'>st_parallel_make_valid</a></code>).</p></li>
 <li><p>Both data sets are reprojected to argument to <code>crs</code>.</p></li>
-<li><p>Scan both data sets again for invalid geometries, and fix any
-  invalid geometries that have manifested (using
+<li><p>Fix any invalid geometries (using
   <code><a href='st_parallel_make_valid.html'>st_parallel_make_valid</a></code>).</p></li>
 <li><p>Snap geometries to a grid to fix any unresolved geometry issues
-    (using <code>link[lwgeom]{st_snap_to_grid}</code>).</p></li>
+  (using argument to <code>snap_tolerance</code> and
+  <code>link[lwgeom]{st_snap_to_grid}</code>).</p></li>
+<li><p>Simplify the geometries (using argument to <code>simplify_tolerance</code>
+  and <code>link{st_parallel_simplify}</code>).</p></li>
+<li><p>Fix any invalid geometries (using
+  <code><a href='st_parallel_make_valid.html'>st_parallel_make_valid</a></code>).</p></li>
 <li><p>A field denoting the country code is created in the two data sets
   is created (<code>"ISO3"</code>).</p></li>
 <li><p>Both data sets are dissolved by the country code field (<code>"ISO3"</code>)
@@ -192,32 +201,41 @@ Available at <a href = 'http://www.marineregions.org'>http://www.marineregions.o
     <pre class="examples"><div class='input'>
 <span class='co'># fetch land and eez data for Saint Kitts and Nevis</span>
 <span class='no'>kna_data</span> <span class='kw'>&lt;-</span> <span class='fu'>land_and_eez_fetch</span>(<span class='st'>"KNA"</span>)</div><div class='output co'>#&gt; [1] 1
-#&gt; Time difference of 0.09309244 secs
+#&gt; Time difference of 0.1492138 secs
 #&gt; [1] 2
-#&gt; Time difference of 0.005711794 secs
+#&gt; Time difference of 0.008192539 secs
 #&gt; [1] 3
-#&gt; Time difference of 0.03362203 secs
+#&gt; Time difference of 0.0644145 secs
 #&gt; [1] 4
-#&gt; Time difference of 0.1062851 secs
+#&gt; Time difference of 0.2390952 secs
 #&gt; [1] 5
-#&gt; Time difference of 0.002733707 secs
+#&gt; Time difference of 0.007397175 secs
 #&gt; [1] 6
-#&gt; Time difference of 0.05054426 secs
+#&gt; Time difference of 0.09793639 secs
 #&gt; [1] 7
-#&gt; Time difference of 0.0378747 secs
+#&gt; Time difference of 6.103516e-05 secs
 #&gt; [1] 8
-#&gt; Time difference of 0.02742577 secs
+#&gt; Time difference of 0.0943284 secs
 #&gt; [1] 9
-#&gt; Time difference of 0.0001652241 secs
+#&gt; Time difference of 0.08956695 secs
 #&gt; [1] 10
-#&gt; Time difference of 0.07853794 secs
+#&gt; Time difference of 0.1078265 secs
 #&gt; [1] 11
-#&gt; Time difference of 0.0004425049 secs
+#&gt; Time difference of 0.0003004074 secs
 #&gt; [1] 12
-#&gt; Time difference of 0.004497051 secs
+#&gt; Time difference of 0.03290749 secs
 #&gt; [1] 13
-#&gt; Time difference of 0.00198698 secs
-#&gt; [1] 14</div><div class='input'>
+#&gt; [1] 13.1
+#&gt; [1] 13.2
+#&gt; [1] 13.3
+#&gt; Time difference of 0.1665812 secs
+#&gt; [1] 14
+#&gt; Time difference of 0.0005970001 secs
+#&gt; [1] 15
+#&gt; Time difference of 0.01085663 secs
+#&gt; [1] 16
+#&gt; Time difference of 0.002666473 secs
+#&gt; [1] 17</div><div class='input'>
 <span class='co'># plot data</span>
 <span class='fu'>plot</span>(<span class='no'>kna_data</span>)</div><img src='land_and_eez_fetch-4.png' alt='' width='540' height='400' /><div class='input'>
 <span class='fu'>not_run</span>({

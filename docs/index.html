@@ -96,32 +96,41 @@ mlt_raw_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="referenc
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># clean Malta data</span>
 mlt_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/wdpa_clean.html">wdpa_clean</a></span>(mlt_raw_pa_data)</code></pre></div>
 <pre><code>## [1] 1
-## Time difference of 0.0963819 secs
+## Time difference of 0.228565 secs
 ## [1] 2
-## Time difference of 0.004523516 secs
+## Time difference of 0.01254892 secs
 ## [1] 3
-## Time difference of 0.02348804 secs
+## Time difference of 0.04340076 secs
 ## [1] 4
-## Time difference of 0.1119876 secs
+## Time difference of 0.2056804 secs
 ## [1] 5
-## Time difference of 0.002765894 secs
+## Time difference of 0.005207539 secs
 ## [1] 6
-## Time difference of 0.05720949 secs
+## Time difference of 0.1380241 secs
 ## [1] 7
-## Time difference of 0.03691721 secs
+## Time difference of 0.0006041527 secs
 ## [1] 8
-## Time difference of 0.02749467 secs
+## Time difference of 0.1129911 secs
 ## [1] 9
-## Time difference of 0.0002059937 secs
+## Time difference of 0.1080434 secs
 ## [1] 10
-## Time difference of 0.1096528 secs
+## Time difference of 0.09222102 secs
 ## [1] 11
-## Time difference of 0.0003769398 secs
+## Time difference of 0.000276804 secs
 ## [1] 12
-## Time difference of 0.004903793 secs
+## Time difference of 0.03977561 secs
 ## [1] 13
-## Time difference of 0.002211332 secs
-## [1] 14</code></pre>
+## [1] 13.1
+## [1] 13.2
+## [1] 13.3
+## Time difference of 0.2830508 secs
+## [1] 14
+## Time difference of 0.0008337498 secs
+## [1] 15
+## Time difference of 0.01812196 secs
+## [1] 16
+## Time difference of 0.00818634 secs
+## [1] 17</code></pre>
 <p>Now that we have finished cleaning the data, let’s calculate some statistics. We can calculate the total amount of area inside inside Malta’s protected area system (km<span class="math inline">\(^2\)</span>). Note that this includes marine and terrestrial protected areas.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate total amount of area inside protected areas (km^2)</span>
 statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
@@ -131,39 +140,48 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 <span class="co"># print statistic</span>
 <span class="kw">print</span>(statistic)</code></pre></div>
 <pre><code>##           area
-## 1 1.235649e+16</code></pre>
+## 1 1.290205e+16</code></pre>
 <p>We can also calculate the percentage of land inside <a href="https://www.iucn.org/theme/protected-areas/about/protected-area-categories">protected areas that are designated strictly to protect biodiversity (and also potentially geological/geomorphological features)</a>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># fetch spatial data for Malta's land mass and calculate its area (km^2)</span>
 mlt_land_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/land_and_eez_fetch.html">land_and_eez_fetch</a></span>(<span class="st">"Malta"</span>) <span class="op">%&gt;%</span>
 <span class="st">                 </span><span class="kw">filter</span>(TYPE <span class="op">==</span><span class="st"> "LAND"</span>) <span class="op">%&gt;%</span>
 <span class="st">                 </span><span class="kw">summarize</span>(<span class="dt">area =</span> <span class="kw">as.numeric</span>(<span class="kw">st_area</span>(.)) <span class="op">*</span><span class="st"> </span><span class="fl">1e+6</span>)</code></pre></div>
 <pre><code>## [1] 1
-## Time difference of 0.1254869 secs
+## Time difference of 0.2381866 secs
 ## [1] 2
-## Time difference of 0.00475502 secs
+## Time difference of 0.009070158 secs
 ## [1] 3
-## Time difference of 0.02481008 secs
+## Time difference of 0.04356503 secs
 ## [1] 4
-## Time difference of 0.1095767 secs
+## Time difference of 0.2367799 secs
 ## [1] 5
-## Time difference of 0.002646208 secs
+## Time difference of 0.006280899 secs
 ## [1] 6
-## Time difference of 0.06742358 secs
+## Time difference of 0.122448 secs
 ## [1] 7
-## Time difference of 0.007527113 secs
+## Time difference of 6.723404e-05 secs
 ## [1] 8
-## Time difference of 0.06734037 secs
+## Time difference of 0.1125276 secs
 ## [1] 9
-## Time difference of 0.00249958 secs
+## Time difference of 0.04940319 secs
 ## [1] 10
-## Time difference of 0.1131251 secs
+## Time difference of 0.1942217 secs
 ## [1] 11
-## Time difference of 0.0003762245 secs
+## Time difference of 0.006775856 secs
 ## [1] 12
-## Time difference of 0.004644156 secs
+## Time difference of 0.04426813 secs
 ## [1] 13
-## Time difference of 0.00603056 secs
-## [1] 14</code></pre>
+## [1] 13.1
+## [1] 13.2
+## [1] 13.3
+## Time difference of 0.2742755 secs
+## [1] 14
+## Time difference of 0.002674818 secs
+## [1] 15
+## Time difference of 0.01205444 secs
+## [1] 16
+## Time difference of 0.008476257 secs
+## [1] 17</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate percentage of land inside protected areas (km^2)</span>
 statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
 <span class="st">             </span>as.data.frame <span class="op">%&gt;%</span>
@@ -176,7 +194,7 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 <span class="co"># print statistic</span>
 <span class="kw">print</span>(statistic)</code></pre></div>
 <pre><code>##   area_protected total_land_area percentage_protected
-## 1   164032500000    4.949877e+14           0.03313871</code></pre>
+## 1   250391500000    4.949877e+14            0.0505854</code></pre>
 <p>Finally, let’s plot a map showing Malta’s protected areas and color each area according to its management category.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(mlt_pa_data[, <span class="st">"IUCN_CAT"</span>], <span class="dt">main =</span> <span class="st">"IUCN Category"</span>, <span class="dt">key.size =</span> <span class="kw">lcm</span>(<span class="st">"4"</span>))</code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="432" style="display: block; margin: auto;"></p>

@@ -4,9 +4,9 @@
 \alias{land_and_eez_fetch}
 \title{Fetch land and exclusive economic zone data}
 \usage{
-land_and_eez_fetch(x, crs = 3395, tolerance = 1,
-  download_dir = rappdirs::user_data_dir("wdpar"), force_download = FALSE,
-  threads = 1, verbose = FALSE)
+land_and_eez_fetch(x, crs = 3395, snap_tolerance = 1,
+  simplify_tolerance = 0, download_dir = rappdirs::user_data_dir("wdpar"),
+  force_download = FALSE, threads = 1, verbose = FALSE)
 }
 \arguments{
 \item{x}{\code{character} country for which to download data. This argument
@@ -17,8 +17,11 @@ be set to \code{"global"} to download data for the planet (approx. 1 GB).}
 \item{crs}{\code{character} coordinate reference system in PROJ4 format.
 Defaults to \code{3395} (Mercator).}
 
-\item{tolerance}{\code{numeric} tolerance for snapping geometry to a
-grid for resolving invalid geometries.}
+\item{snap_tolerance}{\code{numeric} tolerance for snapping geometry to a
+grid for resolving invalid geometries. Defaults to 1 metre.}
+
+\item{simplify_tolerance}{\code{numeric} simplification tolerance. Defaults
+to 0 metres.}
 
 \item{download_dir}{\code{character} folder path to download the data.
 Defaults to a persistent data directory
@@ -59,11 +62,15 @@ Data are assembled using the following steps.
 \item Both data sets are scanned for invalid geometries, and invalid
   geometries are fixed (using \code{\link{st_parallel_make_valid}}).
 \item Both data sets are reprojected to argument to \code{crs}.
-\item Scan both data sets again for invalid geometries, and fix any
-  invalid geometries that have manifested (using
+\item Fix any invalid geometries (using
   \code{\link{st_parallel_make_valid}}).
-  \item Snap geometries to a grid to fix any unresolved geometry issues
-    (using \code{link[lwgeom]{st_snap_to_grid}}).
+\item Snap geometries to a grid to fix any unresolved geometry issues
+  (using argument to \code{snap_tolerance} and
+  \code{link[lwgeom]{st_snap_to_grid}}).
+\item Simplify the geometries (using argument to \code{simplify_tolerance}
+  and \code{link{st_parallel_simplify}}).
+\item Fix any invalid geometries (using
+  \code{\link{st_parallel_make_valid}}).
 \item A field denoting the country code is created in the two data sets
   is created (\code{"ISO3"}).
 \item Both data sets are dissolved by the country code field (\code{"ISO3"})

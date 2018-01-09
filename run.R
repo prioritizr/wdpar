@@ -4,5 +4,5 @@ load_all()
 options(error = function() {traceback();q(save ="no", status = 1)})
 test_data_dir = "/mnt/GitHub/wdpar/test-data"
 dir.create(test_data_dir, showWarnings = FALSE, recursive = TRUE)
-tdata = land_and_eez_fetch("global", download_dir = test_data_dir, verbose = TRUE, threads = 12)
+tdata = land_and_eez_fetch("global", simplify_tolerance = 1000, download_dir = test_data_dir, verbose = TRUE, threads = 12)
 saveRDS(tdata, "global.rds", compress="xz")

@@ -537,7 +537,7 @@ st_subset_polygons.sfc <- function(x) {
     x <- x[!gcl]
     if (length(x) == 1)
       return(x[[1]])
-    return(sf::st_multipolygon(x))
+    return(sf::st_union(sf::st_sfc(x))[[1]])
   })
   # convert flat list to sfc
   x <- sf::st_sfc(x)

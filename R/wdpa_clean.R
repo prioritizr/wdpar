@@ -10,8 +10,11 @@ NULL
 #' @param crs \code{character} coordinate reference system in PROJ4 format.
 #'   Defaults to \code{3395} (Mercator).
 #'
-#' @param tolerance \code{numeric} tolerance for snapping geometry to a
-#'  grid for resolving invalid geometries.
+#' @param snap_tolerance \code{numeric} tolerance for snapping geometry to a
+#'   grid for resolving invalid geometries. Defaults to 1 meter.
+#'
+#' @param simplify_tolerance \code{numeric} simplification tolerance.
+#'   Defaults to 0 meters.
 #'
 #' @param threads \code{numeric} number of threads to use for processing.
 #'   Defaults to 1.
@@ -37,11 +40,20 @@ NULL
 #      \code{"REP_AREA"}).
 #'   \item Reproject data to coordinate system specified in argument to
 #'     \code{crs} (using \code{\link{st_parallel_transform}}).
-#'   \item Repair any invalid geometry that has since manifested (using
+#'   \item Fix any invalid geometries (using
 #'     \code{\link{st_parallel_make_valid}}).
 #'   \item Buffer areas represented as point localities to circular areas
 #'     using their reported spatial extent (using data in the field
 #'     \code{"REP_AREA"} and \code{\link[sf]{st_buffer}}).
+#'   \item Snap the protected area geometries to a grid to fix any unresolved
+#'     geometry issues (using argument to \code{snap_tolerance} and
+#'     \code{link[lwgeom]{st_snap_to_grid}}).
+#'   \item Fix any invalid geometries (using
+#'     \code{\link{st_parallel_make_valid}}).
+#' \item Simplify the protected area geometries (using argument to
+#'     \code{simplify_tolerance} and \code{link{st_parallel_simplify}}).
+#' \item Fix any invalid geometries (using
+#'   \code{\link{st_parallel_make_valid}}).
 #'   \item Assemble land and exclusive economic zone data (using
 #'     \code{\link{land_and_eez_fetch}}).
 #'   \item Extract terrestrial protected areas and erase localities that occur
@@ -53,14 +65,10 @@ NULL
 #'     \code{1} = \code{"partial"}, \code{2} = \code{"marine"}).
 #'   \item Zeroes in the \code{"STATUS_YR"} field are replaced with \code{NA}
 #'     values.
-#'   \item Zoers in the \code{"NO_TK_AREA"} field are replaced with \code{NA}
+#'   \item Zeroes in the \code{"NO_TK_AREA"} field are replaced with \code{NA}
 #'     values for areas for with such data are not reported or applicable
 #'     (i.e. areas with the values \code{"Not Applicable"}
 #'     or \code{"Not Reported"} in the \code{"NO_TK_AREA"} field).
-#'   \item Snap geometries to a grid to fix any unresolved geometry issues
-#'     (using \code{link[lwgeom]{st_snap_to_grid}}).
-#'   \item Repair any invalid geometry that has manifested (using
-#'     \code{\link{st_parallel_make_valid}}).
 #'   \item Erase overlapping geometries (discussed in Deguignet \emph{et al.}
 #'     2017). Geometries are erased such that protected areas associated with
 #'     more effective management categories (\code{"IUCN_CAT"}) or have
@@ -127,7 +135,8 @@ NULL
 #' plot(global_data)
 #' }}
 #' @export
-wdpa_clean <- function(x, crs = 3395, tolerance = 1, threads = 1,
+wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
+                       simplify_tolerance = 0, threads = 1,
                        verbose = FALSE) {
   # check arguments are valid
   assertthat::assert_that(inherits(x, "sf"),
@@ -137,8 +146,10 @@ wdpa_clean <- function(x, crs = 3395, tolerance = 1, threads = 1,
                                                     "MARINE"))),
                           assertthat::is.string(crs) ||
                           assertthat::is.count(crs),
-                          assertthat::is.scalar(tolerance),
-                          isTRUE(tolerance >= 0),
+                          assertthat::is.scalar(snap_tolerance),
+                          isTRUE(snap_tolerance >= 0),
+                          assertthat::is.scalar(simplify_tolerance),
+                          isTRUE(simplify_tolerance >= 0),
                           assertthat::is.count(threads),
                           isTRUE(threads <= parallel::detectCores(TRUE)),
                           assertthat::is.flag(verbose),
@@ -212,25 +223,58 @@ wdpa_clean <- function(x, crs = 3395, tolerance = 1, threads = 1,
       message("buffering points: ", cli::symbol$tick)
     }
   }
+  ## snap geometry to grid
+  if (snap_tolerance > 0) {
+    if (verbose) message("snapping geometry to grid: ", cli::symbol$continue,
+                         "\r", appendLF = FALSE)
+      x <- lwgeom::st_snap_to_grid(x, snap_tolerance)
+    if (verbose) {
+      utils::flush.console()
+      message("snapping geometry to grid: ", cli::symbol$tick)
+    }
+  }
+  ## repair geometry again
+  if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
+                       appendLF = FALSE)
+  x <- st_parallel_make_valid(x, threads)
+  if (verbose) {
+    utils::flush.console()
+    message("repairing geometry: ", cli::symbol$tick)
+  }
+  ## simplify geometres
+  if (simplify_tolerance > 0) {
+    if (verbose) message("simplifying geometry: ", cli::symbol$continue,
+                         "\r", appendLF = FALSE)
+      x <- st_parallel_simplify(x, TRUE, simplify_tolerance)
+    if (verbose) {
+      utils::flush.console()
+      message("simplifying geometry: ", cli::symbol$tick)
+    }
+  }
+  ## repair geometry again
+  if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
+                       appendLF = FALSE)
+  x <- st_parallel_make_valid(x, threads)
+  if (verbose) {
+    utils::flush.console()
+    message("repairing geometry: ", cli::symbol$tick)
+  }
   ## fetch land and eez data
   if (verbose) message("assembling land and eez data: ", cli::symbol$continue,
                        "\r", appendLF = FALSE)
-  iso3_id <- unlist(strsplit(x$ISO3, ";"), recursive = TRUE, use.names = FALSE)
-  iso3_id <- unique(iso3_id)
-  iso3_id <- iso3_id[!is.na(iso3_id)]
-  if (length(iso3_id) > 20) {
-    land_ezz_data <- land_and_eez_fetch("global", crs = crs,
-                                        tolerance = tolerance,
+  countries <- unlist(strsplit(x$ISO3, ";"), recursive = TRUE,
+                      use.names = FALSE)
+  countries <- unique(countries)
+  countries <- countries[!is.na(countries)]
+  if (length(countries) > 20)
+    countries <- "global"
+    land_ezz_data <- land_and_eez_fetch(countries, crs = crs,
+                                        snap_tolerance = snap_tolerance,
+                                        simplify_tolerance = simplify_tolerance,
                                         threads = threads,
                                         verbose = verbose)
-  } else {
-    land_ezz_data <- land_and_eez_fetch(iso3_id, crs = crs,
-                                        tolerance = tolerance,
-                                        threads = threads,
-                                        verbose = FALSE)
-  }
-  land_data <- st_parallel_union(land_ezz_data[land_ezz_data$TYPE == "LAND", ],
-                                 threads = threads)
+    land_pos <- land_ezz_data$TYPE == "LAND"
+    land_data <- st_parallel_union(land_ezz_data[land_pos, ], threads = threads)
   if (verbose) {
     utils::flush.console()
     message("assembling land and eez data: ", cli::symbol$tick)
@@ -294,17 +338,19 @@ wdpa_clean <- function(x, crs = 3395, tolerance = 1, threads = 1,
     message("formatting attribute data: ", cli::symbol$tick)
   }
   ## snap geometry to grid
-  if (verbose) message("snapping geometry to grid: ", cli::symbol$continue,
-                       "\r", appendLF = FALSE)
-  x <- lwgeom::st_snap_to_grid(x, tolerance)
-  if (verbose) {
-    utils::flush.console()
-    message("snapping geometry to grid: ", cli::symbol$tick)
+  if (snap_tolerance > 0) {
+    if (verbose) message("snapping geometry to grid: ", cli::symbol$continue,
+                         "\r", appendLF = FALSE)
+    x <- lwgeom::st_snap_to_grid(x, snap_tolerance)
+    if (verbose) {
+      utils::flush.console()
+      message("snapping geometry to grid: ", cli::symbol$tick)
+    }
   }
   ## repair geometry again
   if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
-  x <- st_parallel_make_valid(sf::st_set_precision(x, 1000000), threads)
+  x <- st_parallel_make_valid(x, threads)
   if (verbose) {
     utils::flush.console()
     message("repairing geometry: ", cli::symbol$tick)

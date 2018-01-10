@@ -262,9 +262,9 @@ land_and_eez_fetch <- function(x, crs = 3395, snap_tolerance = 1,
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
   print(5)
   if (snap_tolerance > 0) {
-  gadm_data <- lwgeom::st_snap_to_grid(gadm_data, snap_tolerance)
+    gadm_data <- lwgeom::st_snap_to_grid(gadm_data, snap_tolerance)
     if (!is.null(eez_data))
-    eez_data <- lwgeom::st_snap_to_grid(eez_data, snap_tolerance)
+      eez_data <- lwgeom::st_snap_to_grid(eez_data, snap_tolerance)
   }
   ## repair data
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()

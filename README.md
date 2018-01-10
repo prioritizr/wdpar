@@ -49,41 +49,39 @@ mlt_pa_data <- wdpa_clean(mlt_raw_pa_data)
 ```
 
     ## [1] 1
-    ## Time difference of 0.1951411 secs
+    ## Time difference of 0.4742389 secs
     ## [1] 2
-    ## Time difference of 0.011693 secs
+    ## Time difference of 0.03633904 secs
     ## [1] 3
-    ## Time difference of 0.04547334 secs
+    ## Time difference of 0.1438615 secs
     ## [1] 4
-    ## Time difference of 0.260421 secs
+    ## Time difference of 0.6138225 secs
     ## [1] 5
-    ## Time difference of 0.008594513 secs
+    ## Time difference of 0.06190014 secs
     ## [1] 6
-    ## Time difference of 0.1317618 secs
+    ## Time difference of 0.3188405 secs
     ## [1] 7
-    ## Time difference of 6.484985e-05 secs
+    ## Time difference of 8.249283e-05 secs
     ## [1] 8
-    ## Time difference of 0.1013842 secs
+    ## Time difference of 0.3099353 secs
     ## [1] 9
-    ## Time difference of 0.1102479 secs
+    ## Time difference of 0.2636416 secs
     ## [1] 10
-    ## Time difference of 0.1072469 secs
+    ## Time difference of 0.2694864 secs
     ## [1] 11
-    ## Time difference of 0.000351429 secs
+    ## Time difference of 0.0008969307 secs
     ## [1] 12
-    ## Time difference of 0.03872347 secs
+    ## [1] 12.1
+    ## [1] 12.2
+    ## [1] 12.3
+    ## Time difference of 0.7042413 secs
     ## [1] 13
-    ## [1] 13.1
-    ## [1] 13.2
-    ## [1] 13.3
-    ## Time difference of 0.2839248 secs
+    ## Time difference of 0.004696369 secs
     ## [1] 14
-    ## Time difference of 0.0007503033 secs
+    ## Time difference of 0.05973053 secs
     ## [1] 15
-    ## Time difference of 0.01134014 secs
+    ## Time difference of 0.01681566 secs
     ## [1] 16
-    ## Time difference of 0.005030155 secs
-    ## [1] 17
 
 Now that we have finished cleaning the data, let's calculate some statistics. We can calculate the total amount of area inside inside Malta's protected area system (km**<sup>2</sup>). Note that this includes marine and terrestrial protected areas.
 
@@ -110,41 +108,39 @@ mlt_land_data <- land_and_eez_fetch("Malta") %>%
 ```
 
     ## [1] 1
-    ## Time difference of 0.2752075 secs
+    ## Time difference of 0.6393619 secs
     ## [1] 2
-    ## Time difference of 0.01079988 secs
+    ## Time difference of 0.02693558 secs
     ## [1] 3
-    ## Time difference of 0.039639 secs
+    ## Time difference of 0.1011107 secs
     ## [1] 4
-    ## Time difference of 0.2080986 secs
+    ## Time difference of 0.5683408 secs
     ## [1] 5
-    ## Time difference of 0.003622055 secs
+    ## Time difference of 0.02619481 secs
     ## [1] 6
-    ## Time difference of 0.1237791 secs
+    ## Time difference of 0.3536148 secs
     ## [1] 7
-    ## Time difference of 0.005626917 secs
+    ## Time difference of 0.0003430843 secs
     ## [1] 8
-    ## Time difference of 0.1300666 secs
+    ## Time difference of 0.4194188 secs
     ## [1] 9
-    ## Time difference of 0.05291247 secs
+    ## Time difference of 0.1162148 secs
     ## [1] 10
-    ## Time difference of 0.1890869 secs
+    ## Time difference of 0.5506358 secs
     ## [1] 11
-    ## Time difference of 0.006444216 secs
+    ## Time difference of 0.01719689 secs
     ## [1] 12
-    ## Time difference of 0.02789021 secs
+    ## [1] 12.1
+    ## [1] 12.2
+    ## [1] 12.3
+    ## Time difference of 0.7157557 secs
     ## [1] 13
-    ## [1] 13.1
-    ## [1] 13.2
-    ## [1] 13.3
-    ## Time difference of 0.2677572 secs
+    ## Time difference of 0.01217365 secs
     ## [1] 14
-    ## Time difference of 0.003177166 secs
+    ## Time difference of 0.09532595 secs
     ## [1] 15
-    ## Time difference of 0.02062869 secs
+    ## Time difference of 0.03188038 secs
     ## [1] 16
-    ## Time difference of 0.004937172 secs
-    ## [1] 17
 
 ``` r
 # calculate percentage of land inside protected areas (km^2)

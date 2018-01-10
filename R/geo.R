@@ -346,8 +346,7 @@ st_remove_holes <- function(x) UseMethod("st_remove_holes")
 
 #' @export
 st_remove_holes.sf <- function(x) {
-  x[[attr(x, "sf_column")]] <- st_remove_holes.sfc(x[[attr(x, "sf_column")]])
-  return(x)
+  sf::st_set_geometry(x, st_remove_holes.sfc(sf::st_geometry(x)))
 }
 
 #' @export
@@ -359,15 +358,12 @@ st_remove_holes.sfc <- function(x) {
 
 #' @export
 st_remove_holes.sfg <- function(x) {
-  x_attr <- attributes(x)
   if (inherits(x, "POLYGON")) {
-    x <- x[1]
+    x <- sf::st_polygon(x[1])
   } else if (inherits(x, "MULTIPOLYGON")) {
-    for (i in seq_along(x)) {
-      x[[i]] <- x[[i]][1]
-    }
+    x <- sf::st_sfc(lapply(x, function(y) sf::st_polygon(y[1])))
+    x <- sf::st_union(x)[[1]]
   }
-  attributes(x) <- x_attr
   return(x)
 }
 

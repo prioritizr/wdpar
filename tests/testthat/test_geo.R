@@ -198,6 +198,7 @@ test_that("st_parallel_difference (sfc)", {
 
 test_that("st_remove_holes (sf)", {
   # create data
+  set.seed(500)
   outer1 <- matrix(c(0, 0, 10, 0, 10, 10, 0, 10, 0, 0), ncol = 2, byrow = TRUE)
   hole1 <- matrix(c(1, 1, 1, 2, 2, 2, 2, 1, 1, 1), ncol = 2, byrow = TRUE)
   hole2 <- matrix(c(5, 5, 5, 6, 6, 6, 6, 5, 5, 5), ncol = 2, byrow = TRUE)
@@ -213,7 +214,7 @@ test_that("st_remove_holes (sf)", {
   y1 <- st_remove_holes(x)
   y2 <- sf::st_sfc(sf::st_point(rbind(c(0, 0))),
                    sf::st_polygon(list(outer1)),
-                   sf::st_multipolygon(list(list(outer2), list(outer1))),
+                   sf::st_multipolygon(list(list(outer1), list(outer2))),
                    crs = 4326)
   y2 <- sf::st_sf(x = letters[1:3], geometry = y2)
   # run tests
@@ -222,6 +223,7 @@ test_that("st_remove_holes (sf)", {
 
 test_that("st_remove_holes (sfc)", {
   # create data
+  set.seed(500)
   outer1 <- matrix(c(0, 0, 10, 0, 10, 10, 0, 10, 0, 0), ncol = 2, byrow = TRUE)
   hole1 <- matrix(c(1, 1, 1, 2, 2, 2, 2, 1, 1, 1), ncol = 2, byrow = TRUE)
   hole2 <- matrix(c(5, 5, 5, 6, 6, 6, 6, 5, 5, 5), ncol = 2, byrow = TRUE)
@@ -236,7 +238,7 @@ test_that("st_remove_holes (sfc)", {
   y1 <- st_remove_holes(x)
   y2 <- sf::st_sfc(sf::st_point(rbind(c(0, 0))),
                    sf::st_polygon(list(outer1)),
-                   sf::st_multipolygon(list(list(outer2), list(outer1))),
+                   sf::st_multipolygon(list(list(outer1), list(outer2))),
                    crs = 4326)
   # run tests
   expect_equal(y1, y2)
@@ -244,6 +246,7 @@ test_that("st_remove_holes (sfc)", {
 
 test_that("st_remove_holes (sfg)", {
   # create data
+  set.seed(500)
   outer1 <- matrix(c(0, 0, 10, 0, 10, 10, 0, 10, 0, 0), ncol = 2, byrow = TRUE)
   hole1 <- matrix(c(1, 1, 1, 2, 2, 2, 2, 1, 1, 1), ncol = 2, byrow = TRUE)
   hole2 <- matrix(c(5, 5, 5, 6, 6, 6, 6, 5, 5, 5), ncol = 2, byrow = TRUE)
@@ -258,7 +261,7 @@ test_that("st_remove_holes (sfg)", {
   y3 <- st_remove_holes(x3)
   # run tests
   expect_equal(y1, sf::st_polygon(list(outer1)))
-  expect_equal(y2, sf::st_multipolygon(list(list(outer2), list(outer1))))
+  expect_equal(y2, sf::st_multipolygon(list(list(outer1), list(outer2))))
   expect_equal(y3, x3)
 })
 

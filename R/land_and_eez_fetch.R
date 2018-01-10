@@ -310,32 +310,27 @@ land_and_eez_fetch <- function(x, crs = 3395, snap_tolerance = 1,
   print(11)
   if (!is.null(eez_data))
     eez_data <- st_remove_holes(eez_data)
-  ## repair data
-  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(12)
-  if (!is.null(eez_data))
-    eez_data <- st_parallel_make_valid(eez_data, threads = threads)
   ## erase gadm from eez
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(13)
+  print(12)
   if (!is.null(eez_data)) {
-    print(13.1)
+    print(12.1)
     gadm_union <- lwgeom::st_make_valid(st_parallel_union(gadm_data))
-    print(13.2)
+    print(12.2)
     eez_data <- suppressWarnings(st_parallel_difference(eez_data,
                                    gadm_union, threads = threads))
-    print(13.3)
+    print(12.3)
     eez_data <- st_parallel_make_valid(eez_data, threads = threads)
   }
   ## add fields indicating type
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(14)
+  print(13)
   gadm_data$TYPE <- "LAND"
   if (!is.null(eez_data))
     eez_data$TYPE <- "EEZ"
   ## merge gadm and eez
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(15)
+  print(14)
   if (!is.null(eez_data)) {
     result <- rbind(gadm_data, eez_data)
   } else {
@@ -343,10 +338,10 @@ land_and_eez_fetch <- function(x, crs = 3395, snap_tolerance = 1,
   }
   ## sort data
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(16)
+  print(15)
   result <- result[order(result$ISO3, result$TYPE), ]
   # return output
   print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(17)
+  print(16)
   return(result)
 }

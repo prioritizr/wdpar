@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jeffrey O. Hanson" />
 
-<meta name="date" content="2018-01-09" />
+<meta name="date" content="2018-01-10" />
 
 <title>wdpar: Interface to the World Database on Protected Areas</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">wdpar: Interface to the World Database on Protected Areas</h1>
 <h4 class="author"><em>Jeffrey O. Hanson</em></h4>
-<h4 class="date"><em>2018-01-09</em></h4>
+<h4 class="date"><em>2018-01-10</em></h4>
 
 
 
@@ -87,41 +87,39 @@ mlt_raw_pa_data &lt;-<span class="st"> </span><span class="kw">wdpa_fetch</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># clean Malta data</span>
 mlt_pa_data &lt;-<span class="st"> </span><span class="kw">wdpa_clean</span>(mlt_raw_pa_data)</code></pre></div>
 <pre><code>## [1] 1
-## Time difference of 0.09935641 secs
+## Time difference of 0.7004182 secs
 ## [1] 2
-## Time difference of 0.005373716 secs
+## Time difference of 0.06158018 secs
 ## [1] 3
-## Time difference of 0.02085447 secs
+## Time difference of 0.1755121 secs
 ## [1] 4
-## Time difference of 0.09939837 secs
+## Time difference of 0.7121243 secs
 ## [1] 5
-## Time difference of 0.002707005 secs
+## Time difference of 0.02061725 secs
 ## [1] 6
-## Time difference of 0.05022001 secs
+## Time difference of 0.3191237 secs
 ## [1] 7
-## Time difference of 4.577637e-05 secs
+## Time difference of 0.0003137589 secs
 ## [1] 8
-## Time difference of 0.0505445 secs
+## Time difference of 0.3277466 secs
 ## [1] 9
-## Time difference of 0.04232669 secs
+## Time difference of 0.2685866 secs
 ## [1] 10
-## Time difference of 0.03606129 secs
+## Time difference of 0.2877784 secs
 ## [1] 11
-## Time difference of 0.0001733303 secs
+## Time difference of 0.0007801056 secs
 ## [1] 12
-## Time difference of 0.01803088 secs
+## [1] 12.1
+## [1] 12.2
+## [1] 12.3
+## Time difference of 0.6013694 secs
 ## [1] 13
-## [1] 13.1
-## [1] 13.2
-## [1] 13.3
-## Time difference of 0.1040914 secs
+## Time difference of 0.002639055 secs
 ## [1] 14
-## Time difference of 0.0003621578 secs
+## Time difference of 0.03024125 secs
 ## [1] 15
-## Time difference of 0.004863739 secs
-## [1] 16
-## Time difference of 0.002237082 secs
-## [1] 17</code></pre>
+## Time difference of 0.01545286 secs
+## [1] 16</code></pre>
 <p>Now that we have finished cleaning the data, let’s calculate some statistics. We can calculate the total amount of area inside inside Malta’s protected area system (km<span class="math inline">\(^2\)</span>). Note that this includes marine and terrestrial protected areas.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate total amount of area inside protected areas (km^2)</span>
 statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
@@ -138,41 +136,39 @@ mlt_land_data &lt;-<span class="st"> </span><span class="kw">land_and_eez_fetch<
 <span class="st">                 </span><span class="kw">filter</span>(TYPE <span class="op">==</span><span class="st"> &quot;LAND&quot;</span>) <span class="op">%&gt;%</span>
 <span class="st">                 </span><span class="kw">summarize</span>(<span class="dt">area =</span> <span class="kw">as.numeric</span>(<span class="kw">st_area</span>(.)) <span class="op">*</span><span class="st"> </span><span class="fl">1e+6</span>)</code></pre></div>
 <pre><code>## [1] 1
-## Time difference of 0.2076266 secs
+## Time difference of 0.7262194 secs
 ## [1] 2
-## Time difference of 0.00940299 secs
+## Time difference of 0.04665518 secs
 ## [1] 3
-## Time difference of 0.08226848 secs
+## Time difference of 0.1040435 secs
 ## [1] 4
-## Time difference of 0.277329 secs
+## Time difference of 0.756424 secs
 ## [1] 5
-## Time difference of 0.003842831 secs
+## Time difference of 0.01584172 secs
 ## [1] 6
-## Time difference of 0.1228421 secs
+## Time difference of 0.3934634 secs
 ## [1] 7
-## Time difference of 5.698204e-05 secs
+## Time difference of 6.771088e-05 secs
 ## [1] 8
-## Time difference of 0.1230724 secs
+## Time difference of 0.4145977 secs
 ## [1] 9
-## Time difference of 0.05304432 secs
+## Time difference of 0.2010267 secs
 ## [1] 10
-## Time difference of 0.1680598 secs
+## Time difference of 0.6255291 secs
 ## [1] 11
-## Time difference of 0.004791021 secs
+## Time difference of 0.01331925 secs
 ## [1] 12
-## Time difference of 0.03404856 secs
+## [1] 12.1
+## [1] 12.2
+## [1] 12.3
+## Time difference of 0.6412084 secs
 ## [1] 13
-## [1] 13.1
-## [1] 13.2
-## [1] 13.3
-## Time difference of 0.2307014 secs
+## Time difference of 0.001934767 secs
 ## [1] 14
-## Time difference of 0.001356125 secs
+## Time difference of 0.03198695 secs
 ## [1] 15
-## Time difference of 0.01707029 secs
-## [1] 16
-## Time difference of 0.006170034 secs
-## [1] 17</code></pre>
+## Time difference of 0.02979231 secs
+## [1] 16</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate percentage of land inside protected areas (km^2)</span>
 statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
 <span class="st">             </span>as.data.frame <span class="op">%&gt;%</span>

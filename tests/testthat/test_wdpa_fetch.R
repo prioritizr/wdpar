@@ -1,4 +1,4 @@
-context("wdpa_fetch")
+cdcontext("wdpa_fetch")
 
 test_that("country name", {
   skip_on_cran()

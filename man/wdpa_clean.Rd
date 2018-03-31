@@ -59,16 +59,10 @@ This function cleans data from World Database on Protected Areas
     \code{link[lwgeom]{st_snap_to_grid}}).
   \item Fix any invalid geometries (using
     \code{\link{st_parallel_make_valid}}).
-\item Simplify the protected area geometries (using argument to
+  \item Simplify the protected area geometries (using argument to
     \code{simplify_tolerance} and \code{link{st_parallel_simplify}}).
-\item Fix any invalid geometries (using
-  \code{\link{st_parallel_make_valid}}).
-  \item Assemble land and exclusive economic zone data (using
-    \code{\link{land_and_eez_fetch}}).
-  \item Extract terrestrial protected areas and erase localities that occur
-   in the ocean.
-  \item Extract marine protected areas and erase regions that occur on land.
-  \item Merge terrestrial and marine protected area data sets.
+  \item Fix any invalid geometries (using
+    \code{\link{st_parallel_make_valid}}).
   \item The \code{"MARINE"} field is converted from integer codes
     to descriptive name (\code{0} = \code{"terrestrial"},
     \code{1} = \code{"partial"}, \code{2} = \code{"marine"}).

@@ -50,16 +50,10 @@ NULL
 #'     \code{link[lwgeom]{st_snap_to_grid}}).
 #'   \item Fix any invalid geometries (using
 #'     \code{\link{st_parallel_make_valid}}).
-#' \item Simplify the protected area geometries (using argument to
+#'   \item Simplify the protected area geometries (using argument to
 #'     \code{simplify_tolerance} and \code{link{st_parallel_simplify}}).
-#' \item Fix any invalid geometries (using
-#'   \code{\link{st_parallel_make_valid}}).
-#'   \item Assemble land and exclusive economic zone data (using
-#'     \code{\link{land_and_eez_fetch}}).
-#'   \item Extract terrestrial protected areas and erase localities that occur
-#'    in the ocean.
-#'   \item Extract marine protected areas and erase regions that occur on land.
-#'   \item Merge terrestrial and marine protected area data sets.
+#'   \item Fix any invalid geometries (using
+#'     \code{\link{st_parallel_make_valid}}).
 #'   \item The \code{"MARINE"} field is converted from integer codes
 #'     to descriptive name (\code{0} = \code{"terrestrial"},
 #'     \code{1} = \code{"partial"}, \code{2} = \code{"marine"}).
@@ -258,72 +252,6 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
   if (verbose) {
     utils::flush.console()
     message("repairing geometry: ", cli::symbol$tick)
-  }
-  ## fetch land and eez data
-  if (verbose) message("assembling land and eez data: ", cli::symbol$continue,
-                       "\r", appendLF = FALSE)
-  countries <- unlist(strsplit(x$ISO3, ";"), recursive = TRUE,
-                      use.names = FALSE)
-  countries <- unique(countries)
-  countries <- countries[!is.na(countries)]
-  if (length(countries) > 20)
-    countries <- "global"
-    land_ezz_data <- land_and_eez_fetch(countries, crs = crs,
-                                        snap_tolerance = snap_tolerance,
-                                        simplify_tolerance = simplify_tolerance,
-                                        threads = threads,
-                                        verbose = verbose)
-    land_pos <- land_ezz_data$TYPE == "LAND"
-    land_data <- st_parallel_union(land_ezz_data[land_pos, ], threads = threads)
-  if (verbose) {
-    utils::flush.console()
-    message("assembling land and eez data: ", cli::symbol$tick)
-  }
-  ## erase terrestrial areas that do not occur on land
-  terrestrial_present <- FALSE
-  if (any(x$MARINE == "0")) {
-    if (verbose) message("erasing terrestrial areas not on land: ",
-                         cli::symbol$continue, "\r", appendLF = FALSE)
-    terrestrial_present <- TRUE
-    x_terrestrial_data <- x[x$MARINE == "0", ]
-    x_terrestrial_data <- suppressWarnings(st_parallel_intersection(
-                            x_terrestrial_data, land_data, threads = threads))
-    if (verbose) {
-      utils::flush.console()
-      message("erasing terrestrial areas not on land: ", cli::symbol$tick)
-    }
-  }
-  ## erase marine areas that occur on land
-  marine_present <- FALSE
-  if (any(x$MARINE == "2")) {
-    if (verbose) message("erasing marine areas on land: ", cli::symbol$continue,
-                         "\r", appendLF = FALSE)
-    marine_present <- TRUE
-    x_marine_data <- x[x$MARINE == "2", ]
-    x_marine_data <- suppressWarnings(st_parallel_difference(x_marine_data,
-                                                             land_data,
-                                                             threads = threads))
-    if (verbose) {
-      utils::flush.console()
-      message("erasing marine areas on land: ", cli::symbol$tick)
-    }
-  }
-  ## combine terrestrial and marine data sets
-  if (verbose)  message("merging marine and terrestrial areas: ",
-                        cli::symbol$continue, "\r", appendLF = FALSE)
-  if (terrestrial_present && marine_present) {
-    x <- rbind(x[x$MARINE == "1", ], rbind(x_terrestrial_data,
-                                           x_marine_data))
-  } else if (terrestrial_present) {
-    x <- rbind(x[x$MARINE == "1", ], x_terrestrial_data)
-  } else if (marine_present) {
-    x <- rbind(x[x$MARINE == "1", ], x_marine_data)
-  } else {
-    stop("processing removed all data")
-  }
-  if (verbose) {
-    utils::flush.console()
-    message("merging marine and terrestrial areas: ", cli::symbol$tick)
   }
   ## format columns
   if (verbose) message("formatting attribute data: ", cli::symbol$continue,

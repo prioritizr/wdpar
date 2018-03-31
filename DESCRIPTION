@@ -11,12 +11,9 @@ Imports:
     utils,
     methods,
     assertthat,
-    plyr,
     rappdirs,
     httr,
     pingr,
-    parallel,
-    doParallel,
     countrycode,
     wdman,
     RSelenium,
@@ -24,24 +21,23 @@ Imports:
     cli,
     stringi,
     sp,
-    lwgeom
+    lwgeom(>= 0.1-4)
 Suggests:
     testthat,
     knitr,
+    units,
     roxygen2,
     rmarkdown
 Depends:
     R(>= 3.4.0),
     sf(>= 0.6-0)
-Remotes:
-  r-spatial/lwgeom
 License: GPL-3
 LazyData: true
 URL: https://github.com/jeffreyhanson/wdpar
 BugReports: https://github.com/jeffreyhanson/wdpar/issues
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
-Collate: 
+Collate:
     'internal.R'
     'geo.R'
     'land_and_eez_fetch.R'

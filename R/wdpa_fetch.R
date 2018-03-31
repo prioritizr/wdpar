@@ -4,9 +4,7 @@ NULL
 #' Fetch data from the World Database on Protected Areas
 #'
 #' Download data from the World Database on Protected Areas (WDPA)
-#' (available at \url{http://protectedplanet.net}) and import it. Note that
-#' if the data has previously been downloaded and is available
-#' in the specified download folder, then the data will simply be imported.
+#' (available at \url{http://protectedplanet.net}) and import it.
 #'
 #' @param x \code{character} country for which to download data. This argument
 #'   can be the name of the country (e.g. \code{"Liechtenstein"}) or the
@@ -30,17 +28,15 @@ NULL
 #' @param verbose \code{logical} should a progress on downloading data be
 #'   reported? Defaults to \code{FALSE}.
 #'
-#' @details This function will simply download the specified protected area
-#'   data and return it for subsequent use. It is strongly recomended that users
-#'   clean the data prior to analysis. It is worth noting that downloading
-#'   data for a specific country will not include protected areas that are
-#'   represented as a point locality. To obtain data for protected areas
-#'   that are represented as point localities, the global data set will need
-#'   to be downloaded---even if data for a single country is required.
-#'   Check out the \code{\link{wdpa_clean}} function to clean the data
-#'   according to standard practices.
+#' @details This function will download the specified protected area
+#'   data and return it. Note that downloading data for a specific country
+#'   will fail to include any protected areas that are represented as point
+#'   localities. \strong{It is strongly recomended that the data be
+#'   cleaned prior to using for analysis}. Check out the
+#'   \code{\link{wdpa_clean}} function to clean the data according to standard
+#'   practices.
 #'
-#' @return \code{\link[sf]{sf}} simple features object.
+#' @return \code{\link[sf]{sf}} object.
 #'
 #' @seealso \code{\link{wdpa_clean}}, \code{\link{wdpa_read}},
 #'   \code{\link{wdpa_url}}, \code{\link[countrycode]{countrycode}},

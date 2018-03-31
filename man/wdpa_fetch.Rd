@@ -31,24 +31,20 @@ redownloaded anyway? Defaults to \code{FALSE}.}
 reported? Defaults to \code{FALSE}.}
 }
 \value{
-\code{\link[sf]{sf}} simple features object.
+\code{\link[sf]{sf}} object.
 }
 \description{
 Download data from the World Database on Protected Areas (WDPA)
-(available at \url{http://protectedplanet.net}) and import it. Note that
-if the data has previously been downloaded and is available
-in the specified download folder, then the data will simply be imported.
+(available at \url{http://protectedplanet.net}) and import it.
 }
 \details{
-This function will simply download the specified protected area
-  data and return it for subsequent use. It is strongly recomended that users
-  clean the data prior to analysis. It is worth noting that downloading
-  data for a specific country will not include protected areas that are
-  represented as a point locality. To obtain data for protected areas
-  that are represented as point localities, the global data set will need
-  to be downloaded---even if data for a single country is required.
-  Check out the \code{\link{wdpa_clean}} function to clean the data
-  according to standard practices.
+This function will download the specified protected area
+  data and return it. Note that downloading data for a specific country
+  will fail to include any protected areas that are represented as point
+  localities. \strong{It is strongly recomended that the data be
+  cleaned prior to using for analysis}. Check out the
+  \code{\link{wdpa_clean}} function to clean the data according to standard
+  practices.
 }
 \examples{
 \donttest{

@@ -7,18 +7,18 @@
 st_subset_polygons(x)
 }
 \arguments{
-\item{x}{\code{sf} or \code{sfc} object.}
+\item{x}{\code{link[sf]{sf}} or \code{\link[sf]{sfc}} object.}
 }
 \value{
 object of same class as argument to \code{x}.
 }
 \description{
-Subset polygons from a \code{sf} or \code{sfc} objects.
+Subset polygons from a \code{link[sf]{sf}} or \code{\link[sf]{sfc}} object.
 }
 \details{
-This function will remove any geometries that are not polygon
- or multipolygon geometries. Additionally, it will extract any
- polygon or multipolygon geometries from geometry collections.
+This function will extract any polygon or geometries, including
+ those that are contained within \code{\link[sf]{st_geometrycollection}}
+ objects.
 }
 \examples{
 # make data containing points, lines, and a geometry collection

@@ -7,13 +7,16 @@
 st_remove_holes(x)
 }
 \arguments{
-\item{x}{object of class \code{sfc}, \code{sfg} or \code{sf}.}
+\item{x}{\code{link[sf]{sf}}, \code{\link[sf]{sfc}}, or \code{\link[sf]{st}}
+object.}
 }
 \value{
-Object with holes removed.
+Object of the same class as argument to \code{x} with the holes
+  removed.
 }
 \description{
-Remove holes from polygons or multipolygons.
+Remove holes from polygons or multipolygons from a \code{link[sf]{sf}},
+\code{\link[sf]{sfc}}, or \code{\link[sf]{st}} object.
 }
 \examples{
 # create data
@@ -24,7 +27,7 @@ outer2 <- matrix(c(20, 20, 30, 25, 30, 30, 25, 30, 20, 20), ncol = 2,
                  byrow = TRUE)
 x <- sf::st_sfc(sf::st_polygon(list(outer1, hole1, hole2)),
                 sf::st_multipolygon(list(list(outer2), list(outer1, hole1,
-                                                             hole2))),
+                                                            hole2))),
                 crs = 4326)
 
 # remove holes

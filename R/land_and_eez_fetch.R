@@ -1,4 +1,4 @@
-#' @include internal.R
+#' @include internal.R geo.R
 NULL
 
 #' Fetch land and exclusive economic zone data
@@ -11,11 +11,11 @@ NULL
 #'   ISO-3 code for the country (e.g. \code{"LIE"}). This argument can also
 #'   be set to \code{"global"} to download data for the planet (approx. 1 GB).
 #'
-#' @param crs \code{character} coordinate reference system in PROJ4 format.
+#' @param crs \code{character} or code{integer} coordinate reference system.
 #'   Defaults to \code{3395} (Mercator).
 #'
 #' @param snap_tolerance \code{numeric} tolerance for snapping geometry to a
-#'   grid for resolving invalid geometries. Defaults to 1 metre.
+#'   grid for resolving invalid geometries. Defaults to 1 meter.
 #'
 #' @param simplify_tolerance \code{numeric} simplification tolerance. Defaults
 #'  to 0 metres.
@@ -28,57 +28,72 @@ NULL
 #'   downloaded and is available at argument to \code{x}, should the data be
 #'   redownloaded anyway? Defaults to \code{FALSE}.
 #'
-#' @param threads \code{numeric} number of threads to use for processing.
-#'   Defaults to 1.
-#'
 #' @param verbose \code{logical} should download progress be reported? Defaults
 #'  to \code{FALSE}.
 #'
 #' @details Data are assembled using the following steps.
+#'
 #' \enumerate{
-#' \item Spatial data showing the spatial extent of each country's terrestrial
+#'
+#' \item Data delineating the spatial extent of each country's terrestrial
 #'   administrative area is downloaded (from the Database of Global
 #'   Administrative Areas; \url{http://www.gadm.org/}). Note that the global
 #'   data set is approximately 800 MB in size.
-#' \item Spatial data showing the spatial extent of each country's exclusive
-#'   economic zone are downloaded (from \url{http://marineregions.org}; approx.
-#'   113 MB in size; Claus \emph{at al.} 2017)). Note that the global data
-#'   set is approximately 200 MB in size.
+#'
+#' \item Data delineating the spatial extent of each country's exclusive
+#'   economic zone are downloaded (from \url{http://marineregions.org}; Claus
+#'   \emph{at al.} 2017)). Note that the global data set is approximately 200
+#'   MB in size.
+#'
 #' \item Both data sets are scanned for invalid geometries, and invalid
-#'   geometries are fixed (using \code{\link{st_parallel_make_valid}}).
-#' \item Both data sets are reprojected to argument to \code{crs}.
-#' \item Fix any invalid geometries (using
-#'   \code{\link{st_parallel_make_valid}}).
-#' \item Snap geometries to a grid to fix any unresolved geometry issues
-#'   (using argument to \code{snap_tolerance} and
+#'   geometries are fixed (using \code{\link[lwgeom]{st_make_valid}}).
+#'
+#' \item Both data sets are reprojected to argument to \code{crs} (using
+#'   \code{\link[sf]{st_transform}}).
+#'
+#' \item Fix any invalid geometries that have manifested (using
+#'   (using \code{\link[lwgeom]{st_make_valid}}).
+#'
+#' \item The geometries are snapped to a grid to fix any remaining unresolved
+#'   geometry issues (using argument to \code{snap_tolerance} and
 #'   \code{link[lwgeom]{st_snap_to_grid}}).
-#' \item Simplify the geometries (using argument to \code{simplify_tolerance}
-#'   and \code{link{st_parallel_simplify}}).
-#' \item Fix any invalid geometries (using
-#'   \code{\link{st_parallel_make_valid}}).
-#' \item A field denoting the country code is created in the two data sets
-#'   is created (\code{"ISO3"}).
+#'
+#' \item The geometries are simplified to reduce computational burden (using
+#'   argument to \code{simplify_tolerance} and \code{\link[sf]{st_simplify}}).
+#'
+#' \item Fix any invalid geometries that have manifested (using
+#'   (using \code{\link[lwgeom]{st_make_valid}}).
+#'
+#' \item A field denoting the country code is created (\code{"ISO3"}).
+#'
 #' \item Both data sets are dissolved by the country code field (\code{"ISO3"})
 #'   to remove overlapping geometries.
-#' \item Scan both data sets again for invalid geometries, and fix any
-#'   invalid geometries that have manifested (using
-#'   \code{\link{st_parallel_make_valid}}).
-#' \item Areas in the exclusive economic zone datset that overlap with the
-#'   terrestrial data set are removed (using \code{\link[sf]{st_difference}}).
-#' \item The terrestrial data is assigned a new field \code{"TYPE"} containing
-#'   \code{"LAND"}.
-#' \item The exclusive economic zone data is assigned a new field
-#'   \code{"TYPE"} containing \code{"EEZ"}.
-#' \item The terrestrial and exclusive economic zone datsets are merged
-#'   (using \code{\link[base]{rbind}}).
+#'
+#' \item Fix any invalid geometries that have manifested (using
+#'   (using \code{\link[lwgeom]{st_make_valid}}).
+#'
+#' \item Areas in the exclusive economic zone data that overlap with the
+#'   country's administrative boundaries are removed (using
+#'   \code{\link[sf]{st_difference}}).
+#'
+#' \item A field in the terrestrial administrative boundary data set is created
+#'   that contains thhe value \code{"LAND"}.
+#'
+#' \item A field in the economic exclusive zone data set is created that
+#'   contains the value \code{"EEZ"}.
+#'
+#' \item The terrestrial and exclusive economic zone dats ets are merged
+#'   (using \code{\link[sf]{rbind.sf}}).
+#'
 #' \item The merged data set is sorted by country code (\code{"ISO3"}) and
 #'   (\code{"TYPE"}; using \code{\link[sf]{filter.sf}}).
+#'
 #' }
 #'
 #' @return \code{\link[sf]{sf}} spatial data object. This object contains the
 #'  following two fields: \code{"ISO3"} which shows the country associated
 #'  with each geometry, \code{"TYPE"} which indicates if a geometry corresponds
-#'  to the country's terrestrial land mass (\code{"LAND"}) or its
+#'  to the country's terrestrial administrative area (\code{"LAND"}) or its
 #'  exclusive economic zone (\code{"EEZ"}).
 #'
 #' @references
@@ -102,8 +117,7 @@ NULL
 land_and_eez_fetch <- function(x, crs = 3395, snap_tolerance = 1,
                                simplify_tolerance = 0,
                                download_dir = rappdirs::user_data_dir("wdpar"),
-                               force_download = FALSE,
-                               threads = 1, verbose = FALSE) {
+                               force_download = FALSE, verbose = FALSE) {
   # validate arguments
   dir.create(download_dir, showWarnings = FALSE, recursive = TRUE)
   assertthat::assert_that(is.character(x),
@@ -116,7 +130,6 @@ land_and_eez_fetch <- function(x, crs = 3395, snap_tolerance = 1,
                           isTRUE(simplify_tolerance >= 0),
                           assertthat::is.dir(download_dir),
                           assertthat::is.flag(force_download),
-                          assertthat::is.count(threads),
                           assertthat::is.flag(verbose),
                           pingr::is_online())
   # create dirs to save data
@@ -133,8 +146,6 @@ land_and_eez_fetch <- function(x, crs = 3395, snap_tolerance = 1,
   }
   # fetch data
   ## gadm
-  print(1)
-  curr_time = Sys.time()
   if (verbose) message("fetching GADM data...")
   if ("global" %in% x) {
     ### global gadm data set
@@ -155,29 +166,33 @@ land_and_eez_fetch <- function(x, crs = 3395, snap_tolerance = 1,
       utils::unzip(gadm_path, exdir = gadm_dir)
     }
     gadm_data <- sf::read_sf(gadm_gdb, "adm0")
-    gadm_data <- st_parallel_make_valid(gadm_data, threads = threads)
+    gadm_data <- lwgeom::st_make_valid(gadm_data)
   } else {
     ### fetch data for one or more iso3 codes
-    gadm_data <- plyr::llply(iso3_id,
-                             .progress = ifelse(verbose, "text", "none"),
-                             function(x) {
+    gadm_data <- lapply(iso3_id, function(x) {
       version <- "2.8"
       dl_url <- paste0("http://biogeo.ucdavis.edu/data/gadm", version, "/rds/",
                        x, "_adm0.rds")
       dl_path <- file.path(gadm_dir, basename(dl_url))
       if (!file.exists(dl_path)) {
-        result <- httr::GET(dl_url, httr::write_disk(dl_path, overwrite = TRUE))
+        if (verbose) {
+          result <- httr::GET(dl_url, httr::write_disk(dl_path,
+                                                       overwrite = TRUE),
+                                                       httr::progress())
+          message("\n")
+        } else {
+          result <- httr::GET(dl_url, httr::write_disk(dl_path,
+                                                       overwrite = TRUE))
+        }
       }
       # the sp package is required to read the gadm data, so here we make
       # a call to a function from sp so we can list it in Imports
       # without an error from R CMD check
       {s <- sp::SpatialPolygonsDataFrame}
       suppressMessages({out <- methods::as(readRDS(dl_path), "sf")})
-      out <- st_parallel_make_valid(sf::st_set_precision(out, 1000000),
-                                    threads = threads)
-      out <- st_parallel_union(out, threads = threads)
-      out <- st_parallel_make_valid(sf::st_set_precision(out, 1000000),
-                                    threads = threads)
+      out <- lwgeom::st_make_valid(sf::st_set_precision(out, 1000000))
+      out <- sf::st_union(out)
+      out <- lwgeom::st_make_valid(sf::st_set_precision(out, 1000000))
       return(sf::st_sf(ISO3 = x, geometry = out))
     })
     if (length(gadm_data) > 1) {
@@ -187,14 +202,12 @@ land_and_eez_fetch <- function(x, crs = 3395, snap_tolerance = 1,
     }
   }
   ## eez
-  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(2)
   if (verbose) message("fetching eez data...")
   if ("global" %in% x) {
     ### global eez data set
     eez_url <- paste0("http://geo.vliz.be/geoserver/MarineRegions/",
-                     "wfs?service=wfs&version=1.0.0&request=GetFeature&",
-                     "typeNames=MarineRegions:eez&outputFormat=SHAPE-ZIP")
+                      "wfs?service=wfs&version=1.0.0&request=GetFeature&",
+                      "typeNames=MarineRegions:eez&outputFormat=SHAPE-ZIP")
     eez_path <- file.path(eez_dir, "eez.zip")
     eez_shp <- file.path(eez_dir, "eez.shp")
     if (!file.exists(eez_shp) || force_download) {
@@ -212,9 +225,7 @@ land_and_eez_fetch <- function(x, crs = 3395, snap_tolerance = 1,
     eez_data <- sf::read_sf(file.path(eez_dir, "eez.shp"))
   } else {
     ### fetch data for one or more iso3 codes
-    eez_data <- plyr::llply(iso3_id, .progress = ifelse(verbose, "text",
-                                                        "none"),
-                            function(x) {
+    eez_data <- lapply(iso3_id, function(x) {
       eez_url <- paste0("http://geo.vliz.be/geoserver/MarineRegions/",
                         "wfs?service=wfs&version=1.0.0&request=GetFeature&",
                         "typeNames=MarineRegions:eez&cql_filter=iso_ter1='",
@@ -224,8 +235,15 @@ land_and_eez_fetch <- function(x, crs = 3395, snap_tolerance = 1,
       curr_shp <- file.path(curr_dir, "eez.shp")
       if (!file.exists(curr_shp) || force_download) {
         dir.create(curr_dir, recursive = FALSE, showWarnings = FALSE)
-        result <- httr::GET(eez_url, httr::write_disk(curr_path,
-                                                      overwrite = TRUE))
+        if (verbose) {
+          result <- httr::GET(eez_url, httr::write_disk(curr_path,
+                                                        overwrite = TRUE),
+                                                        httr::progress())
+          message("\n")
+        } else {
+          result <- httr::GET(eez_url, httr::write_disk(curr_path,
+                                                        overwrite = TRUE))
+        }
         utils::unzip(curr_path, exdir = curr_dir)
       }
       return(sf::read_sf(curr_shp))
@@ -242,106 +260,69 @@ land_and_eez_fetch <- function(x, crs = 3395, snap_tolerance = 1,
   }
   # processing
   ## repair eez data
-  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(3)
   if (!is.null(eez_data))
-    eez_data <- st_parallel_make_valid(sf::st_set_precision(eez_data, 1000000),
-                                       threads = threads)
+    eez_data <- lwgeom::st_make_valid(sf::st_set_precision(eez_data, 1000000))
   ## reproject and repair data
-  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(4)
-  gadm_data <- st_parallel_transform(gadm_data, crs = crs, threads = threads)
-  gadm_data <- st_parallel_make_valid(sf::st_set_precision(gadm_data, 1000000),
-                                      threads = threads)
+  gadm_data <- sf::st_transform(gadm_data, crs = crs)
+  gadm_data <- lwgeom::st_make_valid(sf::st_set_precision(gadm_data, 1000000))
   if (!is.null(eez_data)) {
-    eez_data <- st_parallel_transform(eez_data, crs = crs, threads = threads)
-    eez_data <- st_parallel_make_valid(sf::st_set_precision(eez_data, 1000000),
-                                       threads = threads)
+    eez_data <- sf::st_transform(eez_data, crs = crs)
+    eez_data <- lwgeom::st_make_valid(sf::st_set_precision(eez_data, 1000000))
   }
   ## snap geometry to grid
-  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(5)
   if (snap_tolerance > 0) {
     gadm_data <- lwgeom::st_snap_to_grid(gadm_data, snap_tolerance)
     if (!is.null(eez_data))
       eez_data <- lwgeom::st_snap_to_grid(eez_data, snap_tolerance)
   }
   ## repair data
-  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(6)
-  gadm_data <- st_parallel_make_valid(gadm_data, threads = threads)
+  gadm_data <- lwgeom::st_make_valid(gadm_data)
   if (!is.null(eez_data))
-    eez_data <- st_parallel_make_valid(eez_data, threads = threads)
+    eez_data <- lwgeom::st_make_valid(eez_data)
   ## simplify data
-  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(7)
   if (simplify_tolerance > 0) {
-    gadm_data <- st_parallel_simplify(gadm_data, TRUE, simplify_tolerance,
-                                      threads = threads)
+    gadm_data <- sf::st_simplify(gadm_data, TRUE, simplify_tolerance)
     if (!is.null(eez_data))
-      eez_data <- st_parallel_simplify(eez_data, TRUE, simplify_tolerance,
-                                       threads = threads)
+      eez_data <- sf::st_simplify(eez_data, TRUE, simplify_tolerance)
   }
   ## repair data
-  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(8)
-  gadm_data <- st_parallel_make_valid(gadm_data, threads = threads)
+  gadm_data <- lwgeom::st_make_valid(gadm_data)
   if (!is.null(eez_data))
-    eez_data <- st_parallel_make_valid(eez_data, threads = threads)
+    eez_data <- lwgeom::st_make_valid(eez_data)
   ## extract polygons
-  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(9)
   gadm_data <- st_subset_polygons(gadm_data)
   if (!is.null(eez_data))
     eez_data <- st_subset_polygons(eez_data)
   ## modify fields
-  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(10)
   if (!is.null(eez_data)) {
     eez_data <- eez_data[, c("iso_ter1", "geometry")]
     names(eez_data)[[1]] <- "ISO3"
     names(attr(eez_data, "agr")) <- "ISO3"
     eez_data <- stats::aggregate(eez_data, by = list(eez_data$ISO3),
                                  FUN = function(x) x[[1]])[, -1]
-    eez_data <- st_parallel_make_valid(eez_data, threads = threads)
+    eez_data <- lwgeom::st_make_valid(eez_data)
   }
   ## remove holes from eez
-  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(11)
   if (!is.null(eez_data))
     eez_data <- st_remove_holes(eez_data)
   ## erase gadm from eez
-  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(12)
   if (!is.null(eez_data)) {
-    print(12.1)
-    gadm_union <- lwgeom::st_make_valid(st_parallel_union(gadm_data))
-    print(12.2)
-    eez_data <- suppressWarnings(st_parallel_difference(eez_data,
-                                   gadm_union, threads = threads))
-    print(12.3)
-    eez_data <- st_parallel_make_valid(eez_data, threads = threads)
+    gadm_union <- lwgeom::st_make_valid(sf::st_union(gadm_data))
+    eez_data <- suppressWarnings(sf::st_difference(eez_data, gadm_union))
+    eez_data <- lwgeom::st_make_valid(eez_data)
   }
   ## add fields indicating type
-  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(13)
   gadm_data$TYPE <- "LAND"
   if (!is.null(eez_data))
     eez_data$TYPE <- "EEZ"
   ## merge gadm and eez
-  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(14)
   if (!is.null(eez_data)) {
     result <- rbind(gadm_data, eez_data)
   } else {
     result <- gadm_data
   }
   ## sort data
-  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(15)
   result <- result[order(result$ISO3, result$TYPE), ]
   # return output
-  print(difftime(Sys.time(), curr_time)); curr_time = Sys.time()
-  print(16)
   return(result)
 }

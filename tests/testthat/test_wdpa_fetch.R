@@ -1,9 +1,9 @@
-cdcontext("wdpa_fetch")
+context("wdpa_fetch")
 
 test_that("country name", {
   skip_on_cran()
   skip_if_not(pingr::is_online())
-  x <- wdpa_fetch("LIE", wait = TRUE)
+  x <- wdpa_fetch("Liechtenstein", wait = TRUE)
   expect_is(x, "sf")
   expect_true(all(x$ISO3 == "LIE"))
 })

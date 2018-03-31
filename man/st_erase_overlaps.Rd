@@ -7,13 +7,13 @@
 st_erase_overlaps(x)
 }
 \arguments{
-\item{x}{\code{sf} object.}
+\item{x}{code{\link[sf]{sf}} object.}
 }
 \value{
 code{sf} object.
 }
 \description{
-Erase overlapping geometries.
+Erase overlapping geometries in a \code{\link[sf]{sf}} object.
 }
 \details{
 This is a more robust---albeit slower---implementation for

@@ -6,7 +6,7 @@
 \usage{
 land_and_eez_fetch(x, crs = 3395, snap_tolerance = 1,
   simplify_tolerance = 0, download_dir = rappdirs::user_data_dir("wdpar"),
-  force_download = FALSE, threads = 1, verbose = FALSE)
+  force_download = FALSE, verbose = FALSE)
 }
 \arguments{
 \item{x}{\code{character} country for which to download data. This argument
@@ -14,11 +14,11 @@ can be the name of the country (e.g. \code{"Liechtenstein"}) or the
 ISO-3 code for the country (e.g. \code{"LIE"}). This argument can also
 be set to \code{"global"} to download data for the planet (approx. 1 GB).}
 
-\item{crs}{\code{character} coordinate reference system in PROJ4 format.
+\item{crs}{\code{character} or code{integer} coordinate reference system.
 Defaults to \code{3395} (Mercator).}
 
 \item{snap_tolerance}{\code{numeric} tolerance for snapping geometry to a
-grid for resolving invalid geometries. Defaults to 1 metre.}
+grid for resolving invalid geometries. Defaults to 1 meter.}
 
 \item{simplify_tolerance}{\code{numeric} simplification tolerance. Defaults
 to 0 metres.}
@@ -31,9 +31,6 @@ Defaults to a persistent data directory
 downloaded and is available at argument to \code{x}, should the data be
 redownloaded anyway? Defaults to \code{FALSE}.}
 
-\item{threads}{\code{numeric} number of threads to use for processing.
-Defaults to 1.}
-
 \item{verbose}{\code{logical} should download progress be reported? Defaults
 to \code{FALSE}.}
 }
@@ -41,7 +38,7 @@ to \code{FALSE}.}
 \code{\link[sf]{sf}} spatial data object. This object contains the
  following two fields: \code{"ISO3"} which shows the country associated
  with each geometry, \code{"TYPE"} which indicates if a geometry corresponds
- to the country's terrestrial land mass (\code{"LAND"}) or its
+ to the country's terrestrial administrative area (\code{"LAND"}) or its
  exclusive economic zone (\code{"EEZ"}).
 }
 \description{
@@ -50,44 +47,62 @@ world's nations.
 }
 \details{
 Data are assembled using the following steps.
+
 \enumerate{
-\item Spatial data showing the spatial extent of each country's terrestrial
+
+\item Data delineating the spatial extent of each country's terrestrial
   administrative area is downloaded (from the Database of Global
   Administrative Areas; \url{http://www.gadm.org/}). Note that the global
   data set is approximately 800 MB in size.
-\item Spatial data showing the spatial extent of each country's exclusive
-  economic zone are downloaded (from \url{http://marineregions.org}; approx.
-  113 MB in size; Claus \emph{at al.} 2017)). Note that the global data
-  set is approximately 200 MB in size.
+
+\item Data delineating the spatial extent of each country's exclusive
+  economic zone are downloaded (from \url{http://marineregions.org}; Claus
+  \emph{at al.} 2017)). Note that the global data set is approximately 200
+  MB in size.
+
 \item Both data sets are scanned for invalid geometries, and invalid
-  geometries are fixed (using \code{\link{st_parallel_make_valid}}).
-\item Both data sets are reprojected to argument to \code{crs}.
-\item Fix any invalid geometries (using
-  \code{\link{st_parallel_make_valid}}).
-\item Snap geometries to a grid to fix any unresolved geometry issues
-  (using argument to \code{snap_tolerance} and
+  geometries are fixed (using \code{\link[lwgeom]{st_make_valid}}).
+
+\item Both data sets are reprojected to argument to \code{crs} (using
+  \code{\link[sf]{st_transform}}).
+
+\item Fix any invalid geometries that have manifested (using
+  (using \code{\link[lwgeom]{st_make_valid}}).
+
+\item The geometries are snapped to a grid to fix any remaining unresolved
+  geometry issues (using argument to \code{snap_tolerance} and
   \code{link[lwgeom]{st_snap_to_grid}}).
-\item Simplify the geometries (using argument to \code{simplify_tolerance}
-  and \code{link{st_parallel_simplify}}).
-\item Fix any invalid geometries (using
-  \code{\link{st_parallel_make_valid}}).
-\item A field denoting the country code is created in the two data sets
-  is created (\code{"ISO3"}).
+
+\item The geometries are simplified to reduce computational burden (using
+  argument to \code{simplify_tolerance} and \code{\link[sf]{st_simplify}}).
+
+\item Fix any invalid geometries that have manifested (using
+  (using \code{\link[lwgeom]{st_make_valid}}).
+
+\item A field denoting the country code is created (\code{"ISO3"}).
+
 \item Both data sets are dissolved by the country code field (\code{"ISO3"})
   to remove overlapping geometries.
-\item Scan both data sets again for invalid geometries, and fix any
-  invalid geometries that have manifested (using
-  \code{\link{st_parallel_make_valid}}).
-\item Areas in the exclusive economic zone datset that overlap with the
-  terrestrial data set are removed (using \code{\link[sf]{st_difference}}).
-\item The terrestrial data is assigned a new field \code{"TYPE"} containing
-  \code{"LAND"}.
-\item The exclusive economic zone data is assigned a new field
-  \code{"TYPE"} containing \code{"EEZ"}.
-\item The terrestrial and exclusive economic zone datsets are merged
-  (using \code{\link[base]{rbind}}).
+
+\item Fix any invalid geometries that have manifested (using
+  (using \code{\link[lwgeom]{st_make_valid}}).
+
+\item Areas in the exclusive economic zone data that overlap with the
+  country's administrative boundaries are removed (using
+  \code{\link[sf]{st_difference}}).
+
+\item A field in the terrestrial administrative boundary data set is created
+  that contains thhe value \code{"LAND"}.
+
+\item A field in the economic exclusive zone data set is created that
+  contains the value \code{"EEZ"}.
+
+\item The terrestrial and exclusive economic zone dats ets are merged
+  (using \code{\link[sf]{rbind.sf}}).
+
 \item The merged data set is sorted by country code (\code{"ISO3"}) and
   (\code{"TYPE"}; using \code{\link[sf]{filter.sf}}).
+
 }
 }
 \examples{

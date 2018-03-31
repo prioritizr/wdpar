@@ -24,7 +24,10 @@ devtools::load_all()
 
 ### Overview
 
-The _wdpar R_ package provides an interface to the World Database on Protected Areas (WDPA). It provides functions for automatically downloading data (from [Protected Planet](http://protectedplanet.net)) and cleaning data following best practices (outlined in [Butchart _et al._ 2015](https://dx.doi.org/10.1111/conl.12158) and [Runge _et al._ 2015](https://dx.doi.org/10.1126/science.aac9180)). These functions are designed to be scalable and can employ parallel processing to complete data processing in a feasible period of time.
+The _wdpar R_ package provides an interface to the World Database on
+Protected Areas (WDPA). It provides functions for automatically downloading
+data (from [Protected Plane](http://protectedplanet.net)) and cleaning
+data following best practices (outlined in [Butchart _et al._ 2015](https://dx.doi.org/10.1111/conl.12158) and [Runge _et al._ 2015](https://dx.doi.org/10.1126/science.aac9180)).
 
 ### Installation
 
@@ -36,8 +39,6 @@ if (!require(devtools))
 devtools::install_github("jeffreyhanson/wdpar")
 ```
 
-Note that this package requires the developmental version of the [_lwgeom R_ package](https://github.com/r-spatial/lwgeom). If you have trouble installing this package, check out its [installation instructions](https://github.com/r-spatial/lwgeom).
-
 ### Example usage
 
 Here we will provide a short introduction to the _wdpar R_ package.
@@ -48,6 +49,7 @@ First, we will load the _wdpar R_ package. We will also load the _sf_ and _dplyr
 # load packages
 library(wdpar)
 library(sf)
+library(units)
 library(dplyr)
 ```
 
@@ -58,14 +60,14 @@ Now we will download protected area data for Malta. Note that we could have alte
 mlt_raw_pa_data <- wdpa_fetch("Malta", wait = TRUE)
 ```
 
-Next, we will clean the data set. Note that we will only use a single thread for data processing, but you could use the `threads` argument to use multiple threads for data processing. See the help page for `wdpa_clean` for a detailed description on the data cleaning process.
+Next, we will clean the data set. See the help page for `wdpa_clean` for a detailed description of the data cleaning process.
 
 ```{r}
 # clean Malta data
 mlt_pa_data <- wdpa_clean(mlt_raw_pa_data)
 ```
 
-Now that we have finished cleaning the data, let's calculate some statistics. We can calculate the total amount of area inside inside Malta's protected area system (km$^2$). Note that this includes marine and terrestrial protected areas.
+Now that we have finished cleaning the data, let's calculate some statistics. We can calculate the total amount of area inside inside Malta's protected area system (km$^2$). Note that this statistic includes marine and terrestrial protected areas.
 
 ```{r}
 # calculate total amount of area inside protected areas (km^2)
@@ -83,7 +85,7 @@ We can also calculate the percentage of land inside [protected areas that are de
 # fetch spatial data for Malta's land mass and calculate its area (km^2)
 mlt_land_data <- land_and_eez_fetch("Malta") %>%
                  filter(TYPE == "LAND") %>%
-                 summarize(area = as.numeric(st_area(.)) * 1e+6)
+                 summarize(area = set_units(st_area(.), km^2))
 
 # calculate percentage of land inside protected areas (km^2)
 statistic <- mlt_pa_data %>%

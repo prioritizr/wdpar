@@ -3,11 +3,11 @@ NULL
 
 #' Clean data from the World Database on Protected Areas
 #'
-#' Clean data from the World Database on Protected Areas (WDPA).
+#' Clean data obtained from the World Database on Protected Areas (WDPA).
 #'
 #' @param x \code{\link[sf]{sf}} object containing data from the WDPA.
 #'
-#' @param crs \code{character} coordinate reference system in PROJ4 format.
+#' @param crs \code{character} or code{integer} coordinate reference system.
 #'   Defaults to \code{3395} (Mercator).
 #'
 #' @param snap_tolerance \code{numeric} tolerance for snapping geometry to a
@@ -16,9 +16,6 @@ NULL
 #' @param simplify_tolerance \code{numeric} simplification tolerance.
 #'   Defaults to 0 meters.
 #'
-#' @param threads \code{numeric} number of threads to use for processing.
-#'   Defaults to 1.
-#'
 #' @param verbose \code{logical} should progress on data cleaning be reported?
 #'   Defaults to \code{FALSE}.
 #'
@@ -26,52 +23,75 @@ NULL
 #'   following best practices (Butchart \emph{et al.} 2015, Runge \emph{et al.}
 #'   2015,
 #'   \url{https://protectedplanet.net/c/calculating-protected-area-coverage}).
+#'   Although this function can be used to clean the global WDPA data set, this
+#'   process can take several weeks to complete.
+#'
 #'   \enumerate{
-#'   \item Repair invalid geometry (using \code{\link{st_parallel_make_valid}}).
+#'
+#'   \item Repair invalid geometry (using \code{\link[lwgeom]{st_make_valid}}).
+#'
 #'   \item Exclude protected areas that are not currently implemented
-#'     (retain areas with the status \code{"Designated"},
+#'     (i.e. exclude areas without the status \code{"Designated"},
 #'     \code{"Inscribed"}, \code{"Established"}).
+#'
 #'   \item Exclude UNESCO Biosphere Reserves (Coetzer \emph{et al.} 2014).
+#'
 #'   \item Create a field (\code{"GEOMTRY_TYPE"}) indicating if areas are
 #'     represented as point localities (\code{"POINT"}) or as polygons
 #'     (\code{"POLYGON"}).
+#'
 #'   \item Exclude areas represented as point localities that do not
 #'     have a reported spatial extent (i.e. missing data for the field
 #      \code{"REP_AREA"}).
+#'
 #'   \item Reproject data to coordinate system specified in argument to
-#'     \code{crs} (using \code{\link{st_parallel_transform}}).
-#'   \item Fix any invalid geometries (using
-#'     \code{\link{st_parallel_make_valid}}).
+#'     \code{crs} (using \code{\link[sf]{st_transform}}).
+#'
+#'   \item Fix any invalid geometries that have manifested (using
+#'     (using \code{\link[lwgeom]{st_make_valid}}).
+#'
 #'   \item Buffer areas represented as point localities to circular areas
 #'     using their reported spatial extent (using data in the field
 #'     \code{"REP_AREA"} and \code{\link[sf]{st_buffer}}).
-#'   \item Snap the protected area geometries to a grid to fix any unresolved
+#'
+#'   \item Snap the geometries to a grid to fix any remaining
 #'     geometry issues (using argument to \code{snap_tolerance} and
 #'     \code{link[lwgeom]{st_snap_to_grid}}).
-#'   \item Fix any invalid geometries (using
-#'     \code{\link{st_parallel_make_valid}}).
-#'   \item Simplify the protected area geometries (using argument to
-#'     \code{simplify_tolerance} and \code{link{st_parallel_simplify}}).
-#'   \item Fix any invalid geometries (using
-#'     \code{\link{st_parallel_make_valid}}).
+#'
+#'   \item Fix any invalid geometries that have manifested (using
+#'     (using \code{\link[lwgeom]{st_make_valid}}).
+#'
+#'   \item Simplify the protected area geometries to reduce computational burden
+#'     (using argument to \code{simplify_tolerance} and
+#'     \code{link{sf::st_simplify}}).
+#'
+#'   \item Fix any invalid geometries that have manifested (using
+#'     (using \code{\link[lwgeom]{st_make_valid}}).
+#'
 #'   \item The \code{"MARINE"} field is converted from integer codes
-#'     to descriptive name (\code{0} = \code{"terrestrial"},
+#'     to descriptive names (i.e. \code{0} = \code{"terrestrial"},
 #'     \code{1} = \code{"partial"}, \code{2} = \code{"marine"}).
-#'   \item Zeroes in the \code{"STATUS_YR"} field are replaced with \code{NA}
+#'
+#'   \item Zeros in the \code{"STATUS_YR"} field are replaced with \code{NA}
 #'     values.
-#'   \item Zeroes in the \code{"NO_TK_AREA"} field are replaced with \code{NA}
-#'     values for areas for with such data are not reported or applicable
+#'
+#'   \item Zeros in the \code{"NO_TK_AREA"} field are replaced with \code{NA}
+#'     values for areas where such data are not reported or applicable
 #'     (i.e. areas with the values \code{"Not Applicable"}
 #'     or \code{"Not Reported"} in the \code{"NO_TK_AREA"} field).
-#'   \item Erase overlapping geometries (discussed in Deguignet \emph{et al.}
-#'     2017). Geometries are erased such that protected areas associated with
-#'     more effective management categories (\code{"IUCN_CAT"}) or have
-#'     historical precdence are retained (using
-#'     \code{\link[sf]{st_difference}}).
-#'   \item Slivers are removed (geometries an area less than 1e-10 square
+#'
+#'   \item Overlapping geometries are erased from the protected area data
+#'     (discussed in Deguignet \emph{et al.} 2017). Geometries are erased such
+#'     that areas associated with more effective management
+#'     categories (\code{"IUCN_CAT"}) or have historical precdence are retained
+#'     (using \code{\link[sf]{st_difference}}).
+#'
+#'   \item Slivers are removed (geometries with areas less than 1e-10 square
 #'     kilometers).
-#'   \item Calculate size of areas in square kilometers (stored in field
-#'     \code{"AREA_KM2"}).
+#'
+#'   \item The size of areas are calculated in square kilometers and stored in
+#'     the field \code{"AREA_KM2"}.
+#'
 #'  }
 #'
 #' @return \code{\link[sf]{sf}} object.
@@ -110,28 +130,12 @@ NULL
 #'
 #' # plot geometries for visual comparison
 #' par(mfrow = c(1, 2))
-#' plot(sf::st_geometry(mhl_raw_data), main = "orginal data", col = "white")
-#' plot(sf::st_geometry(mhl_data), main = "cleaned data", col = "white")
-#'
-#' \dontrun{
-#' # fetch data for all protected areas on the planet
-#' # note that this might take some time given that the global data set is
-#' # over 1 GB in size
-#' global_raw_data <- wdpa_fetch("global")
-#'
-#' # set number of threads for processing
-#' n_threads <- max(1, parallel::detectCores(TRUE) - 1)
-#'
-#' # clean global data set using parallel processing
-#' global_data <- wdpa_clean(global_raw_data, threads = n_threads)
-#'
-#' # plot data
-#' plot(global_data)
-#' }}
+#' plot(st_geometry(mhl_raw_data), main = "orginal data", col = "white")
+#' plot(st_geometry(mhl_data), main = "cleaned data", col = "white")
+#' }
 #' @export
 wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
-                       simplify_tolerance = 0, threads = 1,
-                       verbose = FALSE) {
+                       simplify_tolerance = 0, verbose = FALSE) {
   # check arguments are valid
   assertthat::assert_that(inherits(x, "sf"),
                           nrow(x) > 0,
@@ -144,15 +148,13 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
                           isTRUE(snap_tolerance >= 0),
                           assertthat::is.scalar(simplify_tolerance),
                           isTRUE(simplify_tolerance >= 0),
-                          assertthat::is.count(threads),
-                          isTRUE(threads <= parallel::detectCores(TRUE)),
                           assertthat::is.flag(verbose),
                           pingr::is_online())
   # clean data
   ## repair geometry
   if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
-  x <- st_parallel_make_valid(sf::st_set_precision(x, 1000000), threads)
+  x <- lwgeom::st_make_valid(sf::st_set_precision(x, 1000000))
   if (verbose) {
     utils::flush.console()
     message("repairing geometry: ", cli::symbol$tick)
@@ -190,7 +192,7 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
   ## reproject data
   if (verbose) message("projecting areas: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
-  x <- st_parallel_transform(x, crs, threads)
+  x <- sf::st_transform(x, crs)
   if (verbose) {
     utils::flush.console()
     message("projecting areas: ", cli::symbol$tick)
@@ -198,7 +200,7 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
   ## repair geometry again
   if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
-  x <- st_parallel_make_valid(sf::st_set_precision(x, 1000000), threads)
+  x <- lwgeom::st_make_valid(sf::st_set_precision(x, 1000000))
   if (verbose) {
     utils::flush.console()
     message("repairing geometry: ", cli::symbol$tick)
@@ -230,7 +232,7 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
   ## repair geometry again
   if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
-  x <- st_parallel_make_valid(x, threads)
+  x <- lwgeom::st_make_valid(x)
   if (verbose) {
     utils::flush.console()
     message("repairing geometry: ", cli::symbol$tick)
@@ -239,7 +241,7 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
   if (simplify_tolerance > 0) {
     if (verbose) message("simplifying geometry: ", cli::symbol$continue,
                          "\r", appendLF = FALSE)
-      x <- st_parallel_simplify(x, TRUE, simplify_tolerance)
+      x <- sf::st_simplify(x, TRUE, simplify_tolerance)
     if (verbose) {
       utils::flush.console()
       message("simplifying geometry: ", cli::symbol$tick)
@@ -248,7 +250,7 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
   ## repair geometry again
   if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
-  x <- st_parallel_make_valid(x, threads)
+  x <- lwgeom::st_make_valid(x)
   if (verbose) {
     utils::flush.console()
     message("repairing geometry: ", cli::symbol$tick)
@@ -278,7 +280,7 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
   ## repair geometry again
   if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
-  x <- st_parallel_make_valid(x, threads)
+  x <- lwgeom::st_make_valid(x)
   if (verbose) {
     utils::flush.console()
     message("repairing geometry: ", cli::symbol$tick)

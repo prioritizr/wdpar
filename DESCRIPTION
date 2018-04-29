@@ -21,13 +21,15 @@ Imports:
     cli,
     stringi,
     sp,
-    lwgeom(>= 0.1-4)
+    lwgeom(>= 0.1-4),
+    rnaturalearth,
 Suggests:
     testthat,
     knitr,
     units,
     roxygen2,
-    rmarkdown
+    rmarkdown,
+    rnaturalearthhires
 Depends:
     R(>= 3.4.0),
     sf(>= 0.6-0)
@@ -46,3 +48,4 @@ Collate:
     'wdpa_url.R'
     'wdpa_fetch.R'
     'wdpa_read.R'
+    'zzz.R'

@@ -5,8 +5,9 @@
 \title{Fetch land and exclusive economic zone data}
 \usage{
 land_and_eez_fetch(x, crs = 3395, snap_tolerance = 1,
-  simplify_tolerance = 0, download_dir = rappdirs::user_data_dir("wdpar"),
-  force_download = FALSE, verbose = FALSE)
+  simplify_tolerance = 0, source = c("gadm", "ne")[1],
+  download_dir = rappdirs::user_data_dir("wdpar"), force_download = FALSE,
+  verbose = FALSE)
 }
 \arguments{
 \item{x}{\code{character} country for which to download data. This argument
@@ -15,106 +16,131 @@ ISO-3 code for the country (e.g. \code{"LIE"}). This argument can also
 be set to \code{"global"} to download data for the planet (approx. 1 GB).}
 
 \item{crs}{\code{character} or code{integer} coordinate reference system.
-Defaults to \code{3395} (Mercator).}
+The default argument is \code{3395} (Mercator).}
 
 \item{snap_tolerance}{\code{numeric} tolerance for snapping geometry to a
-grid for resolving invalid geometries. Defaults to 1 meter.}
+grid for resolving invalid geometries. The default argument is 1 meter.}
 
-\item{simplify_tolerance}{\code{numeric} simplification tolerance. Defaults
-to 0 metres.}
+\item{simplify_tolerance}{\code{numeric} simplification tolerance. The
+default argument is 0 meters.}
+
+\item{source}{\code{character} name of data set to use for mapping the
+spatial extent of each countries land mass. Available options are
+\code{"gadm"} to obtain data from the Global Administrative Areas (GADM)
+database (\url{https://gadm.org} and \code{"ne"} to obtain data from
+Natural Earth (\url{http://www.naturalearthdata.com/}). Please note that
+the \pkg{rnaturalearth} and \pkg{rnaturalearthhighres} packages are
+required to obtain data from Natural Earth. Additionally, please note that
+the Natural  Earth data set only has a resolution of 10 km\eqn{^2} and is
+therefore only suitable for coarse broad-scale analyses (e.g. global
+analysis). The Global Administrative Areas (GADM), on the other hand,
+provides much higher resolution data but requires significantly more
+processing time. Currently, this package is unable to compile a
+land and exclusive economic zone data set using the Global
+Administrative Areas (GADM) data set in a feasible period of time (i.e.
+less than one week on a standard computer). The default argument is
+\code{"gadm"}.}
 
 \item{download_dir}{\code{character} folder path to download the data.
-Defaults to a persistent data directory
-(\code{rappdirs::user_data_dir("wdpar")}).}
+The default argument is a persistent directory created specifically for
+this package (i.e. \code{rappdirs::user_data_dir("wdpar")}).}
 
 \item{force_download}{\code{logical} if the data has previously been
 downloaded and is available at argument to \code{x}, should the data be
-redownloaded anyway? Defaults to \code{FALSE}.}
+downloaded again? The default argument is \code{FALSE}.}
 
-\item{verbose}{\code{logical} should download progress be reported? Defaults
-to \code{FALSE}.}
+\item{verbose}{\code{logical} should download progress be reported? The
+default argument is \code{FALSE}.}
 }
 \value{
 \code{\link[sf]{sf}} spatial data object. This object contains the
- following two fields: \code{"ISO3"} which shows the country associated
+ following fields: \code{"ISO3"} which shows the country associated
  with each geometry, \code{"TYPE"} which indicates if a geometry corresponds
  to the country's terrestrial administrative area (\code{"LAND"}) or its
  exclusive economic zone (\code{"EEZ"}).
 }
 \description{
-Fetch and assemble land and exclusive economic zone (EEZ) data for the
-world's nations.
+Fetch and assemble data delineating the spatial extent of each countries
+terrestial land mass and exclusive economic zone (EEZ).
 }
 \details{
-Data are assembled using the following steps.
+The data are assembled using the following steps.
 
 \enumerate{
 
 \item Data delineating the spatial extent of each country's terrestrial
-  administrative area is downloaded (from the Database of Global
-  Administrative Areas; \url{http://www.gadm.org/}). Note that the global
-  data set is approximately 800 MB in size.
+  administrative area is obtained. If the data source is specified as Natural
+  Earth (i.e. the argument to \code{source} is \code{"ne"}), then the 10
+  km\eqn{^2} resolution data is obtained Natural Earth
+  (\url{http://www.naturalearthdata.com/}; using the
+  \code{\link[rnaturalearth]{ne_countries}} function). Otherwise,
+  if the data source is specified as the Global Administrative Areas
+  database (i.e. the argument to \code{source} is \code{"gadm"}), then
+  the terrestrial data is obtained from this database
+  (\url{http://www.gadm.org/}). Note that the complete Global Administrative
+  Areas database is approximately 800 MB in size.
 
 \item Data delineating the spatial extent of each country's exclusive
-  economic zone are downloaded (from \url{http://marineregions.org}; Claus
-  \emph{at al.} 2017)). Note that the global data set is approximately 200
-  MB in size.
+  economic zone (EEZ) are downloaded (from \url{http://marineregions.org};
+  Claus \emph{at al.} 2017)). Note that the global data set is approximately
+  200 MB in size.
 
-\item Both data sets are scanned for invalid geometries, and invalid
-  geometries are fixed (using \code{\link[lwgeom]{st_make_valid}}).
+\item A field denoting the country code of each geometry in each data set
+  is created (\code{"ISO3"}).
 
-\item Both data sets are reprojected to argument to \code{crs} (using
-  \code{\link[sf]{st_transform}}).
+\item Both data sets are reprojected (using the argument to \code{crs} and
+  the \code{\link[sf]{st_transform}} function).
 
-\item Fix any invalid geometries that have manifested (using
-  (using \code{\link[lwgeom]{st_make_valid}}).
-
-\item The geometries are snapped to a grid to fix any remaining unresolved
-  geometry issues (using argument to \code{snap_tolerance} and
-  \code{link[lwgeom]{st_snap_to_grid}}).
+\item The geometries are snapped to a grid to preempt any geometry issues
+  and reduce computational burden (using the argument to
+  \code{snap_tolerance} and the \code{link[lwgeom]{st_snap_to_grid}}
+  function).
 
 \item The geometries are simplified to reduce computational burden (using
   argument to \code{simplify_tolerance} and \code{\link[sf]{st_simplify}}).
 
-\item Fix any invalid geometries that have manifested (using
-  (using \code{\link[lwgeom]{st_make_valid}}).
+\item Any invalid geometries are fixed (using the
+  \code{\link[lwgeom]{st_make_valid}} function).
 
-\item A field denoting the country code is created (\code{"ISO3"}).
+\item Holes are removed from the exclusive economic zone data (using the
+  \code{\link{st_remove_holes} function} to extract the outer shell of the
+  exclusive economic zone for each country.
 
-\item Both data sets are dissolved by the country code field (\code{"ISO3"})
-  to remove overlapping geometries.
+\item Any gaps between the exclusive economic zone data and the land data
+  are filled in and added to the exclusive economic zone data.
 
-\item Fix any invalid geometries that have manifested (using
-  (using \code{\link[lwgeom]{st_make_valid}}).
+\item Any invalid geometries that have manifested are fixed (using the
+  \code{\link[lwgeom]{st_make_valid}} function).
 
 \item Areas in the exclusive economic zone data that overlap with the
-  country's administrative boundaries are removed (using
-  \code{\link[sf]{st_difference}}).
+  country's administrative boundaries are removed (using the
+  \code{\link[sf]{st_difference}} function).
 
 \item A field in the terrestrial administrative boundary data set is created
-  that contains thhe value \code{"LAND"}.
+  that contains the value \code{"LAND"}.
 
 \item A field in the economic exclusive zone data set is created that
   contains the value \code{"EEZ"}.
 
-\item The terrestrial and exclusive economic zone dats ets are merged
-  (using \code{\link[sf]{rbind.sf}}).
+\item The terrestrial and exclusive economic zone data sets are merged
+  (using the \code{\link[sf]{rbind.sf}} function).
 
-\item The merged data set is sorted by country code (\code{"ISO3"}) and
-  (\code{"TYPE"}; using \code{\link[sf]{filter.sf}}).
+\item The merged data set is sorted by country code (\code{"ISO3"}).
 
 }
 }
 \examples{
 \donttest{
-# fetch land and eez data for Saint Kitts and Nevis
+# fetch land and EEZ data for Saint Kitts and Nevis
 kna_data <- land_and_eez_fetch("KNA")
 
 # plot data
 plot(kna_data)
 
 \dontrun{
-# fetch land and eez data for the planet
+# fetch land and EEZ data for the planet
+# warning this can involve downloading ~500 Mb data and can take more than 10
+# minutes to run on a standard computer
 global_data <- land_and_eez_fetch("global")
 }}
 }

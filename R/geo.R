@@ -42,8 +42,8 @@ st_remove_holes.sf <- function(x) {
 #' @export
 st_remove_holes.sfc <- function(x) {
   for (i in seq_along(x))
-    x[[i]] <- st_remove_holes(x[[i]])
-  return(x)
+    x[[i]] <- st_remove_holes.sfg(x[[i]])
+  return(sf::st_sfc(x))
 }
 
 #' @export
@@ -51,7 +51,9 @@ st_remove_holes.sfg <- function(x) {
   if (inherits(x, "POLYGON")) {
     x <- sf::st_polygon(x[1])
   } else if (inherits(x, "MULTIPOLYGON")) {
-    x <- sf::st_sfc(lapply(x, function(y) sf::st_polygon(y[1])))
+    x <- lapply(x, `[`, 1)
+    x <- lapply(x, sf::st_polygon)
+    x <- lwgeom::st_make_valid(sf::st_sfc(x))
     x <- sf::st_union(x)[[1]]
   }
   return(x)
@@ -237,4 +239,66 @@ st_erase_overlaps <- function(x) {
   x <- sf::st_set_geometry(x, o)
   # return output
   return(x)
+}
+
+#' Extract holes
+#'
+#' Extract holes from polygons or multipolygons from a \code{link[sf]{sf}},
+#' \code{\link[sf]{sfc}}, or \code{\link[sf]{st}} object.
+#'
+#' @param x \code{link[sf]{sf}}, \code{\link[sf]{sfc}}, or \code{\link[sf]{st}}
+#'   object.
+#'
+#' @return Object of the same class as argument to \code{x} with the holes
+#'   represented as geometries.
+#'
+#' @examples
+#' # create data
+#' outer1 <- matrix(c(0, 0, 10, 0, 10, 10, 0, 10, 0, 0), ncol = 2, byrow = TRUE)
+#' hole1 <- matrix(c(1, 1, 1, 2, 2, 2, 2, 1, 1, 1), ncol = 2, byrow = TRUE)
+#' hole2 <- matrix(c(5, 5, 5, 6, 6, 6, 6, 5, 5, 5), ncol = 2, byrow = TRUE)
+#' outer2 <- matrix(c(20, 20, 30, 25, 30, 30, 25, 30, 20, 20), ncol = 2,
+#'                  byrow = TRUE)
+#' x <- sf::st_sfc(sf::st_polygon(list(outer1, hole1, hole2)),
+#'                 sf::st_multipolygon(list(list(outer2), list(outer1, hole1,
+#'                                                             hole2))),
+#'                 crs = 4326)
+#' # extract holes
+#' y <- st_extract_holes(x)
+#'
+#' # plot geometries for visual comparison
+#' par(mfrow = c(1, 2))
+#' plot(x, main = "original")
+#' plot(y, main = "holes")
+#' @export
+st_extract_holes <- function(x) UseMethod("st_extract_holes")
+
+#' @export
+st_extract_holes.sf <- function(x) {
+  sf::st_set_geometry(x, st_extract_holes.sfc(sf::st_geometry(x)))
+}
+
+#' @export
+st_extract_holes.sfc <- function(x) {
+  for (i in seq_along(x))
+    x[[i]] <- st_extract_holes.sfg(x[[i]])
+  sf::st_sfc(x)
+}
+
+#' @export
+st_extract_holes.sfg <- function(x) {
+  if (inherits(x, "POLYGON")) {
+    if (length(x) == 1) {
+      x <- sf::st_geometrycollection()
+    } else if (length(x) == 2) {
+      x <- sf::st_polygon(x[2])
+    } else {
+      x <- sf::st_multipolygon(lapply(x[-1], list))
+    }
+  } else if (inherits(x, "MULTIPOLYGON")) {
+    x <- lapply(x, function(x) st_extract_holes.sfg(sf::st_polygon(x)))
+    x <- lwgeom::st_make_valid(sf::st_sfc(x))
+    x <- sf::st_union(x)[[1]]
+  }
+  x
 }

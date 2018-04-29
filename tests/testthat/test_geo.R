@@ -141,3 +141,72 @@ test_that("st_subset_polygons", {
                       sf::st_polygon(list(outer + 50 + 60)))))
   expect_equal(sf::st_geometry(y)[[5]], pl1 + 80)
 })
+
+test_that("st_extract_holes (sf)", {
+  # create data
+  set.seed(500)
+  outer1 <- matrix(c(0, 0, 10, 0, 10, 10, 0, 10, 0, 0), ncol = 2, byrow = TRUE)
+  hole1 <- matrix(c(1, 1, 1, 2, 2, 2, 2, 1, 1, 1), ncol = 2, byrow = TRUE)
+  hole2 <- matrix(c(5, 5, 5, 6, 6, 6, 6, 5, 5, 5), ncol = 2, byrow = TRUE)
+  outer2 <- matrix(c(20, 20, 30, 25, 30, 30, 25, 30, 20, 20), ncol = 2,
+                   byrow = TRUE)
+  x <- sf::st_sfc(sf::st_point(rbind(c(0, 0))),
+                  sf::st_polygon(list(outer1, hole1, hole2)),
+                  sf::st_multipolygon(list(list(outer2), list(outer1, hole1,
+                                                              hole2))),
+                  crs = 4326)
+  x <- sf::st_sf(x = letters[1:3], geometry = x)
+  # remove holes
+  y1 <- st_extract_holes(x)
+  y2 <- sf::st_sfc(sf::st_point(rbind(c(0, 0))),
+                   sf::st_multipolygon(list(list(hole1), list(hole2))),
+                   sf::st_multipolygon(list(list(hole1), list(hole2))),
+                   crs = 4326)
+  y2 <- sf::st_sf(x = letters[1:3], geometry = y2)
+  # run tests
+  expect_equivalent(y1, y2)
+})
+
+test_that("st_extract_holes (sfc)", {
+  # create data
+  set.seed(500)
+  outer1 <- matrix(c(0, 0, 10, 0, 10, 10, 0, 10, 0, 0), ncol = 2, byrow = TRUE)
+  hole1 <- matrix(c(1, 1, 1, 2, 2, 2, 2, 1, 1, 1), ncol = 2, byrow = TRUE)
+  hole2 <- matrix(c(5, 5, 5, 6, 6, 6, 6, 5, 5, 5), ncol = 2, byrow = TRUE)
+  outer2 <- matrix(c(20, 20, 30, 25, 30, 30, 25, 30, 20, 20), ncol = 2,
+                   byrow = TRUE)
+  x <- sf::st_sfc(sf::st_point(rbind(c(0, 0))),
+                  sf::st_polygon(list(outer1, hole1, hole2)),
+                  sf::st_multipolygon(list(list(outer2), list(outer1, hole1,
+                                                              hole2))),
+                  crs = 4326)
+  # remove holes
+  y1 <- st_extract_holes(x)
+  y2 <- sf::st_sfc(sf::st_point(rbind(c(0, 0))),
+                   sf::st_multipolygon(list(list(hole1), list(hole2))),
+                   sf::st_multipolygon(list(list(hole1), list(hole2))),
+                   crs = 4326)
+  # run tests
+  expect_equivalent(y1, y2)
+})
+
+test_that("st_extract_holes (sfg)", {
+  # create data
+  set.seed(500)
+  outer1 <- matrix(c(0, 0, 10, 0, 10, 10, 0, 10, 0, 0), ncol = 2, byrow = TRUE)
+  hole1 <- matrix(c(1, 1, 1, 2, 2, 2, 2, 1, 1, 1), ncol = 2, byrow = TRUE)
+  hole2 <- matrix(c(5, 5, 5, 6, 6, 6, 6, 5, 5, 5), ncol = 2, byrow = TRUE)
+  outer2 <- matrix(c(20, 20, 30, 25, 30, 30, 25, 30, 20, 20), ncol = 2,
+                   byrow = TRUE)
+  x1 <- sf::st_polygon(list(outer1, hole1, hole2))
+  x2 <- sf::st_multipolygon(list(list(outer2), list(outer1, hole1, hole2)))
+  x3 <- sf::st_point(rbind(c(0, 0)))
+  # remove holes
+  y1 <- st_extract_holes(x1)
+  y2 <- st_extract_holes(x2)
+  y3 <- st_extract_holes(x3)
+  # run tests
+  expect_equal(y1, sf::st_multipolygon(list(list(hole1), list(hole2))))
+  expect_equal(y2, sf::st_multipolygon(list(list(hole1), list(hole2))))
+  expect_equal(y3, x3)
+})

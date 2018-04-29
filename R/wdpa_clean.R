@@ -154,7 +154,7 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
   ## repair geometry
   if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
-  x <- lwgeom::st_make_valid(sf::st_set_precision(x, 1000000))
+  x <- lwgeom::st_make_valid(sf::st_set_precision(x, precision))
   if (verbose) {
     utils::flush.console()
     message("repairing geometry: ", cli::symbol$tick)
@@ -200,7 +200,7 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
   ## repair geometry again
   if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
-  x <- lwgeom::st_make_valid(sf::st_set_precision(x, 1000000))
+  x <- lwgeom::st_make_valid(sf::st_set_precision(x, precision))
   if (verbose) {
     utils::flush.console()
     message("repairing geometry: ", cli::symbol$tick)

@@ -59,83 +59,6 @@ st_remove_holes.sfg <- function(x) {
   return(x)
 }
 
-#' Make valid polygon data
-#'
-#' Force a \code{link[sf]{sf}} or \code{\link[sf]{sfc}} object to contain
-#' valid polygon geometries.
-#'
-#' @param x \code{link[sf]{sf}} or \code{\link[sf]{sfc}} object.
-#'
-#' @details This function will any polygon geometries contained within
-#'  \code{\link[sf]{st_geometrycollection}} objects and union them together.
-#'  Any \code{\link[sf]{st_geometrycollection}} objects that do not contain
-#'  polygon geometries will be discarded.
-#'
-#' @return object of same class as argument to \code{x}.
-#'
-#' @examples
-#' # make data containing points, lines, and a geometry collection
-#' ## point
-#' po <- sf::st_point(c(1, 2))
-#'
-#' ## line
-#' lin <- sf::st_linestring(matrix(1:8, , 2))
-#'
-#' ## polygon
-#' outer <- matrix(c(0, 0, 8, 0, 8, 8, 0, 8, 0, 0), ncol = 2, byrow = TRUE)
-#' hole1 <- matrix(c(1, 1, 1, 2, 2, 2, 2, 1, 1, 1), ncol = 2, byrow = TRUE)
-#' hole2 <- matrix(c(5, 5, 5, 6, 6, 6, 6, 5, 5, 5), ncol = 2, byrow = TRUE)
-#' pl1 <- sf::st_polygon(list(outer))
-#' pl2 <- sf::st_polygon(list(outer + 20, hole1 + 20, hole2 + 20))
-#'
-#' ## multi-polygon
-#' mpl <- sf::st_multipolygon(list(list(outer + 30, hole1 + 30, hole2 + 30),
-#'                                 list(outer + 40, hole1 + 40),
-#'                                 list(outer + 50)))
-#'
-#' ## geometry collections
-#' geomcol1 <- sf::st_geometrycollection(list(pl1 + 60, po + 60, pl2 + 60,
-#'                                            lin + 60, mpl + 60))
-#' geomcol2 <- sf::st_geometrycollection(list(po + 70, lin + 70))
-#' geomcol3 <- sf::st_geometrycollection(list(pl1 + 80))
-#' geomcol4 <- sf::st_geometrycollection()
-#'
-#' # create sf object
-#' x <- sf::st_sf(label = letters[1:9],
-#'                geometry = sf::st_sfc(po, pl1, lin, pl2, mpl, geomcol1,
-#'                                      geomcol2, geomcol3, geomcol4))
-#'
-#' # subset polygons
-#' y <- st_make_valid_polygons(x)
-#'
-#' # print the data for visual comparisons
-#' print(x)
-#' print(y)
-#' @export
-st_make_valid_polygons <- function(x) UseMethod("st_make_valid_polygons")
-
-#' @export
-st_make_valid_polygons.sf <- function(x) {
-  g <- st_make_valid_polygons(sf::st_geometry(x))
-  x <- x[attr(g, "idx"), ]
-  x <- sf::st_set_geometry(x, g)
-  return(x)
-}
-
-#' @export
-st_make_valid_polygons.sfc <- function(x) {
-  # find geometry collections
-  pos <- which(vapply(x, inherits, logical(1), "GEOMETRYCOLLECTION"))
-  for (i in pos)
-    x[[i]] <- sf::st_union(sf::st_collection_extract(x[[i]], "POLYGON"))[[1]]
-  # find non-polygon objects
-  pos <- which(vapply(x, inherits, logical(1), c("POLYGON", "MULTIPOLYGON")))
-  # return only polygon objects
-  x <- x[pos]
-  attr(x, "idx") <- pos
-  x
-}
-
 #' Erase overlaps
 #'
 #' Erase overlapping geometries in a \code{\link[sf]{sf}} object.
@@ -169,6 +92,7 @@ st_make_valid_polygons.sfc <- function(x) {
 #' plot(sf::st_geometry(y), main = "no overlaps", col = "white")
 #' @export
 st_erase_overlaps <- function(x) {
+  o1 <<- x
   # validate arguments
   assertthat::assert_that(inherits(x, "sf"))
   # processing

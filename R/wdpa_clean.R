@@ -14,7 +14,11 @@ NULL
 #'   grid for resolving invalid geometries. Defaults to 1 meter.
 #'
 #' @param simplify_tolerance \code{numeric} simplification tolerance.
-#'   Defaults to 0 meters.
+#'   Defaults to 1 meters.
+#'
+#' @param geometry_precision \code{numeric} level of precision for processing
+#'   the spatial data (used with \code{\link[sf]{st_set_precision}}. The
+#'   default argument is 1000.
 #'
 #' @param verbose \code{logical} should progress on data cleaning be reported?
 #'   Defaults to \code{FALSE}.
@@ -83,7 +87,7 @@ NULL
 #'   \item Overlapping geometries are erased from the protected area data
 #'     (discussed in Deguignet \emph{et al.} 2017). Geometries are erased such
 #'     that areas associated with more effective management
-#'     categories (\code{"IUCN_CAT"}) or have historical precdence are retained
+#'     categories (\code{"IUCN_CAT"}) or have historical precedence are retained
 #'     (using \code{\link[sf]{st_difference}}).
 #'
 #'   \item Slivers are removed (geometries with areas less than 1e-10 square
@@ -130,35 +134,29 @@ NULL
 #'
 #' # plot geometries for visual comparison
 #' par(mfrow = c(1, 2))
-#' plot(st_geometry(mhl_raw_data), main = "orginal data", col = "white")
+#' plot(st_geometry(mhl_raw_data), main = "original data", col = "white")
 #' plot(st_geometry(mhl_data), main = "cleaned data", col = "white")
 #' }
 #' @export
 wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
-                       simplify_tolerance = 0, verbose = FALSE) {
+                       simplify_tolerance = 1, geometry_precision = 1000,
+                       verbose = FALSE) {
   # check arguments are valid
   assertthat::assert_that(inherits(x, "sf"),
                           nrow(x) > 0,
                           all(assertthat::has_name(x, c("ISO3", "STATUS",
-                                                    "DESIG_ENG", "REP_AREA",
-                                                    "MARINE"))),
+                                                        "DESIG_ENG", "REP_AREA",
+                                                        "MARINE"))),
                           assertthat::is.string(crs) ||
                           assertthat::is.count(crs),
                           assertthat::is.scalar(snap_tolerance),
                           isTRUE(snap_tolerance >= 0),
                           assertthat::is.scalar(simplify_tolerance),
                           isTRUE(simplify_tolerance >= 0),
+                          assertthat::is.count(geometry_precision),
                           assertthat::is.flag(verbose),
                           pingr::is_online())
   # clean data
-  ## repair geometry
-  if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
-                       appendLF = FALSE)
-  x <- lwgeom::st_make_valid(sf::st_set_precision(x, precision))
-  if (verbose) {
-    utils::flush.console()
-    message("repairing geometry: ", cli::symbol$tick)
-  }
   ## remove areas that are not currently in action
   if (verbose) message("removing areas that are not implemented: ",
                        cli::symbol$continue, "\r", appendLF = FALSE)
@@ -176,8 +174,8 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
     message("removing UNESCO reserves: ", cli::symbol$tick)
   }
   ## assign column indicating geometry type
-  is_point <- vapply(sf::st_geometry(x), inherits, logical(1),  "POINT") |
-              vapply(sf::st_geometry(x), inherits, logical(1),  "MULTIPOINT")
+  is_point <- vapply(sf::st_geometry(x), inherits, logical(1),
+                     c("POINT", "MULTIPOINT"))
   x$GEOMETRY_TYPE <- "POLYGON"
   x$GEOMETRY_TYPE[is_point] <- "POINT"
   ## remove protected areas represented as points that do not have
@@ -188,6 +186,16 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
   if (verbose) {
     utils::flush.console()
     message("removing points with no reported area: ", cli::symbol$tick)
+  }
+  ## repair geometry
+  if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
+                       appendLF = FALSE)
+  x <- lwgeom::st_make_valid(sf::st_set_precision(x, geometry_precision))
+  x <- x[!sf::st_is_empty(x), ]
+  x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  if (verbose) {
+    utils::flush.console()
+    message("repairing geometry: ", cli::symbol$tick)
   }
   ## reproject data
   if (verbose) message("projecting areas: ", cli::symbol$continue, "\r",
@@ -200,10 +208,25 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
   ## repair geometry again
   if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
-  x <- lwgeom::st_make_valid(sf::st_set_precision(x, precision))
+  x <- lwgeom::st_make_valid(sf::st_set_precision(x, geometry_precision))
+  x <- x[!sf::st_is_empty(x), ]
+  x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
   if (verbose) {
     utils::flush.console()
     message("repairing geometry: ", cli::symbol$tick)
+  }
+  ## buffer polygons by zero to fix any remaining issues
+  x_polygons_pos <- which(x$GEOMETRY_TYPE == "POLYGON")
+  if (length(x_polygons_pos) > 0) {
+    if (verbose) message("buffering by zero: ", cli::symbol$continue, "\r",
+                         appendLF = FALSE)
+    x_polygons_data <- x[x_polygons_pos, ]
+    x_polygons_data <- sf::st_buffer(x_polygons_data, 1e-12)
+    x <- rbind(x[which(x$GEOMETRY_TYPE == "POINT"), ], x_polygons_data)
+    if (verbose) {
+      utils::flush.console()
+      message("buffering points: ", cli::symbol$tick)
+    }
   }
   ## buffer areas represented as points
   x_points_pos <- which(x$GEOMETRY_TYPE == "POINT")
@@ -219,6 +242,28 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
       message("buffering points: ", cli::symbol$tick)
     }
   }
+  ## simplify geometries
+  if (simplify_tolerance > 0) {
+    if (verbose) message("simplifying geometry: ", cli::symbol$continue,
+                         "\r", appendLF = FALSE)
+      x <- sf::st_simplify(x, TRUE, simplify_tolerance)
+      x <- x[!sf::st_is_empty(x), ]
+      x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+    if (verbose) {
+      utils::flush.console()
+      message("simplifying geometry: ", cli::symbol$tick)
+    }
+  }
+  ## repair geometry again
+  if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
+                       appendLF = FALSE)
+  x <- lwgeom::st_make_valid(x)
+  x <- x[!sf::st_is_empty(x), ]
+  x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  if (verbose) {
+    utils::flush.console()
+    message("repairing geometry: ", cli::symbol$tick)
+  }
   ## snap geometry to grid
   if (snap_tolerance > 0) {
     if (verbose) message("snapping geometry to grid: ", cli::symbol$continue,
@@ -233,24 +278,8 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
   if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
   x <- lwgeom::st_make_valid(x)
-  if (verbose) {
-    utils::flush.console()
-    message("repairing geometry: ", cli::symbol$tick)
-  }
-  ## simplify geometres
-  if (simplify_tolerance > 0) {
-    if (verbose) message("simplifying geometry: ", cli::symbol$continue,
-                         "\r", appendLF = FALSE)
-      x <- sf::st_simplify(x, TRUE, simplify_tolerance)
-    if (verbose) {
-      utils::flush.console()
-      message("simplifying geometry: ", cli::symbol$tick)
-    }
-  }
-  ## repair geometry again
-  if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
-                       appendLF = FALSE)
-  x <- lwgeom::st_make_valid(x)
+  x <- x[!sf::st_is_empty(x), ]
+  x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
   if (verbose) {
     utils::flush.console()
     message("repairing geometry: ", cli::symbol$tick)
@@ -267,24 +296,6 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
     utils::flush.console()
     message("formatting attribute data: ", cli::symbol$tick)
   }
-  ## snap geometry to grid
-  if (snap_tolerance > 0) {
-    if (verbose) message("snapping geometry to grid: ", cli::symbol$continue,
-                         "\r", appendLF = FALSE)
-    x <- lwgeom::st_snap_to_grid(x, snap_tolerance)
-    if (verbose) {
-      utils::flush.console()
-      message("snapping geometry to grid: ", cli::symbol$tick)
-    }
-  }
-  ## repair geometry again
-  if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
-                       appendLF = FALSE)
-  x <- lwgeom::st_make_valid(x)
-  if (verbose) {
-    utils::flush.console()
-    message("repairing geometry: ", cli::symbol$tick)
-  }
   ## remove overlaps data
   if (verbose) message("erasing overlaps: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
@@ -294,6 +305,8 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
                                   "Not Assigned"))
   x <- st_erase_overlaps(x[order(x$IUCN_CAT, x$STATUS_YR), ])
   x$IUCN_CAT <- as.character(x$IUCN_CAT)
+  x <- x[!sf::st_is_empty(x), ]
+  x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
   if (verbose) {
     utils::flush.console()
     message("erasing overlaps: ", cli::symbol$tick)
@@ -301,9 +314,6 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
   ## remove slivers
   if (verbose) message("removing slivers: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
-  x <- x[!vapply(sf::st_geometry(x), inherits,
-                logical(1), "GEOMETRYCOLLECTION"), ]
-  x <- suppressWarnings(sf::st_cast(x, "POLYGON"))
   x <- x[as.numeric(sf::st_area(x)) > 0.1, ]
   if (verbose) {
     utils::flush.console()
@@ -316,7 +326,7 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
   x$AREA_KM2 <- as.numeric(areas)
   if (verbose) {
     utils::flush.console()
-    message("calulating area: ", cli::symbol$tick)
+    message("calculating area: ", cli::symbol$tick)
   }
   ## move geometry to last column
   x <- x[, c(setdiff(names(x), "geometry"), "geometry")]

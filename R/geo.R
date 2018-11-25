@@ -59,15 +59,17 @@ st_remove_holes.sfg <- function(x) {
   return(x)
 }
 
-#' Subset polygons
+#' Make valid polygon data
 #'
-#' Subset polygons from a \code{link[sf]{sf}} or \code{\link[sf]{sfc}} object.
+#' Force a \code{link[sf]{sf}} or \code{\link[sf]{sfc}} object to contain
+#' valid polygon geometries.
 #'
 #' @param x \code{link[sf]{sf}} or \code{\link[sf]{sfc}} object.
 #'
-#' @details This function will extract any polygon or geometries, including
-#'  those that are contained within \code{\link[sf]{st_geometrycollection}}
-#'  objects.
+#' @details This function will any polygon geometries contained within
+#'  \code{\link[sf]{st_geometrycollection}} objects and union them togeather.
+#'  Any \code{\link[sf]{st_geometrycollection}} objects that do not contain
+#'  polygon geometries will be discarded.
 #'
 #' @return object of same class as argument to \code{x}.
 #'
@@ -104,71 +106,34 @@ st_remove_holes.sfg <- function(x) {
 #'                                      geomcol2, geomcol3, geomcol4))
 #'
 #' # subset polygons
-#' y <- st_subset_polygons(x)
+#' y <- st_make_valid_polygons(x)
 #'
 #' # print the data for visual comparisons
 #' print(x)
 #' print(y)
 #' @export
-st_subset_polygons <- function(x) UseMethod("st_subset_polygons")
+st_make_valid_polygons <- function(x) UseMethod("st_make_valid_polygons")
 
 #' @export
-st_subset_polygons.sf <- function(x) {
-  g <- st_subset_polygons(sf::st_geometry(x))
+st_make_valid_polygons.sf <- function(x) {
+  g <- st_make_valid_polygons(sf::st_geometry(x))
   x <- x[attr(g, "idx"), ]
   x <- sf::st_set_geometry(x, g)
   return(x)
 }
 
 #' @export
-st_subset_polygons.sfc <- function(x) {
-  # define function to recursively extract polygons
-  extract_data <- function(p) {
-    if (inherits(p, "POLYGON"))
-      return(list(p))
-    if (inherits(p, "MULTIPOLYGON"))
-      return(lapply(p, sf::st_polygon))
-    if (!inherits(p, "GEOMETRYCOLLECTION"))
-      return(list(sf::st_geometrycollection()))
-    return(lapply(p, extract_data))
-  }
-  # define function to flatten nested list to required classes
-  flatten_list <- function(x, classes) {
-    x <- list(x)
-    repeat {
-        x <- Reduce(c, x)
-        if (all(vapply(x, inherits, logical(1), classes))) return(x)
-    }
-  }
-  # store crs
-  crs <- sf::st_crs(x)
-  # extract polygons and multi-polygons
-  x <- lapply(x, extract_data)
-  # convert multiply-nested list to singly-nested list
-  x <- lapply(x, flatten_list, c("POLYGON", "MUTLIPOLYGON",
-                                 "GEOMETRYCOLLECTION"))
-  # convert singly-nested list to flat list
-  x <- lapply(x, function(x) {
-    gcl <- vapply(x, inherits, logical(1), "GEOMETRYCOLLECTION")
-    if (all(gcl))
-      return(sf::st_geometrycollection())
-    x <- x[!gcl]
-    if (length(x) == 1)
-      return(x[[1]])
-    return(sf::st_union(sf::st_sfc(x))[[1]])
-  })
-  # convert flat list to sfc
-  x <- sf::st_sfc(x)
-  # find indices containing empty geometries
-  idx <- which(!is.na(sf::st_dimension(x)))
-  # remove empty geometry collections
-  x <- x[idx]
-  # add attribute containing original indices
-  attr(x, "idx") <- idx
-  # add crs
-  sf::st_crs(x) <- crs
-  # return sfc
-  return(x)
+st_make_valid_polygons.sfc <- function(x) {
+  # find geometry collections
+  pos <- which(vapply(x, inherits, logical(1), "GEOMETRYCOLLECTION"))
+  for (i in pos)
+    x[[i]] <- sf::st_union(sf::st_collection_extract(x[[i]], "POLYGON"))[[1]]
+  # find non-polygon objects
+  pos <- which(vapply(x, inherits, logical(1), c("POLYGON", "MULTIPOLYGON")))
+  # return only polygon objects
+  x <- x[pos]
+  attr(x, "idx") <- pos
+  x
 }
 
 #' Erase overlaps
@@ -215,7 +180,8 @@ st_erase_overlaps <- function(x) {
     # if overlapping geometries then calculate difference
     if (length(ovr) > 0) {
       # calculate difference
-      d <- sf::st_difference(g[i], sf::st_union(o[ovr]))
+      d <- suppressWarnings(sf::st_difference(g[i],
+             sf::st_collection_extract(lwgeom::st_make_valid(sf::st_buffer(sf::st_union(o[ovr]), 0)), "POLYGON")))
     } else {
       d <- g[i]
     }
@@ -280,25 +246,18 @@ st_extract_holes.sf <- function(x) {
 
 #' @export
 st_extract_holes.sfc <- function(x) {
-  for (i in seq_along(x))
-    x[[i]] <- st_extract_holes.sfg(x[[i]])
-  sf::st_sfc(x)
+  out <- rcpp_st_extract_holes(x)
+  nulls <- !vapply(out, inherits, logical(1), "XY")
+  out[nulls] <- x[nulls]
+  out <- sf::st_sfc(out)
+  if (!is.null(attr(x, "precision")))
+    attr(out, "precision") <- attr(x, "precision")
+  if (!is.null(attr(x, "crs")))
+    attr(out, "crs") <- attr(x, "crs")
+  out
 }
 
 #' @export
 st_extract_holes.sfg <- function(x) {
-  if (inherits(x, "POLYGON")) {
-    if (length(x) == 1) {
-      x <- sf::st_geometrycollection()
-    } else if (length(x) == 2) {
-      x <- sf::st_polygon(x[2])
-    } else {
-      x <- sf::st_multipolygon(lapply(x[-1], list))
-    }
-  } else if (inherits(x, "MULTIPOLYGON")) {
-    x <- lapply(x, function(x) st_extract_holes.sfg(sf::st_polygon(x)))
-    x <- lwgeom::st_make_valid(sf::st_sfc(x))
-    x <- sf::st_union(x)[[1]]
-  }
-  x
+  st_extract_holes.sfc(sf::st_sfc(x))[[1]]
 }

@@ -92,7 +92,7 @@ This function cleans data from World Database on Protected Areas
   \item Overlapping geometries are erased from the protected area data
     (discussed in Deguignet \emph{et al.} 2017). Geometries are erased such
     that areas associated with more effective management
-    categories (\code{"IUCN_CAT"}) or have historical precdence are retained
+    categories (\code{"IUCN_CAT"}) or have historical precedence are retained
     (using \code{\link[sf]{st_difference}}).
 
   \item Slivers are removed (geometries with areas less than 1e-10 square

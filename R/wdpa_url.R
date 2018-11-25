@@ -13,10 +13,10 @@ NULL
 #'
 #' @param wait \code{logical} if data is not immediately available for download
 #'   should the session be paused until it is ready for download? If argument
-#'   to \code{wait} is \code{FALSE} and the data is not ready then \code{NA}
-#'   will be returned. Defaults to \code{FALSE}.
+#'   to \code{wait} is \code{FALSE} and the data is not ready then an error
+#'   will be thrown. Defaults to \code{FALSE}.
 #'
-#' @return \code{character} URL to download the data or a \code{NA} value.
+#' @return \code{character} URL to download the data.
 #'
 #' @seealso \code{\link{wdpa_fetch}}, \code{\link[countrycode]{countrycode}}.
 #'
@@ -88,7 +88,8 @@ wdpa_url <- function(x, wait = FALSE) {
     attempted_url <- try_and_find_url(x)
     ## return NA if not ready and not wait
     if (is.na(attempted_url) && !wait) {
-      out <- NA_character_
+      stop(paste("data is not yet available for download; try again later",
+                 "or use wait=TRUE"))
     } else {
       ## otherwise check for url in 5 minute increments
       while (is.na(attempted_url)) {

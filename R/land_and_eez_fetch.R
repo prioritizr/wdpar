@@ -4,21 +4,12 @@ NULL
 #' Fetch land and exclusive economic zone data
 #'
 #' Fetch and assemble data delineating the spatial extent of each countries
-#' terrestial land mass and exclusive economic zone (EEZ).
+#' terrestrial land mass and exclusive economic zone (EEZ).
 #'
 #' @param x \code{character} country for which to download data. This argument
 #'   can be the name of the country (e.g. \code{"Liechtenstein"}) or the
 #'   ISO-3 code for the country (e.g. \code{"LIE"}). This argument can also
 #'   be set to \code{"global"} to download data for the planet (approx. 1 GB).
-#'
-#' @param crs \code{character} or code{integer} coordinate reference system.
-#'   The default argument is \code{3395} (Mercator).
-#'
-#' @param snap_tolerance \code{numeric} tolerance for snapping geometry to a
-#'   grid for resolving invalid geometries. The default argument is 1 meter.
-#'
-#' @param simplify_tolerance \code{numeric} simplification tolerance. The
-#'   default argument is 0 meters.
 #'
 #' @param source \code{character} name of data set to use for mapping the
 #'   spatial extent of each countries land mass. Available options are
@@ -35,7 +26,20 @@ NULL
 #'   land and exclusive economic zone data set using the Global
 #'   Administrative Areas (GADM) data set in a feasible period of time (i.e.
 #'   less than one week on a standard computer). The default argument is
-#'   \code{"gadm"}.
+#'   \code{"ne"}.
+#'
+#' @param crs \code{character} or code{integer} coordinate reference system.
+#'   The default argument is \code{3395} (Mercator).
+#'
+#' @param snap_tolerance \code{numeric} tolerance for snapping geometry to a
+#'   grid for resolving invalid geometries. The default argument is 1 meter.
+#'
+#' @param simplify_tolerance \code{numeric} simplification tolerance. The
+#'   default argument is 1 meters.
+#'
+#' @param geometry_precision \code{numeric} level of precision for processing
+#'   the spatial data (used with \code{\link[sf]{st_set_precision}}. The
+#'   default argument is 1000.
 #'
 #' @param download_dir \code{character} folder path to download the data.
 #'   The default argument is a persistent directory created specifically for
@@ -127,7 +131,7 @@ NULL
 #' @examples
 #' \donttest{
 #' # fetch land and EEZ data for Saint Kitts and Nevis
-#' kna_data <- land_and_eez_fetch("KNA")
+#' kna_data <- land_and_eez_fetch("KNA", source = "gadm")
 #'
 #' # plot data
 #' plot(kna_data)
@@ -136,13 +140,14 @@ NULL
 #' # fetch land and EEZ data for the planet
 #' # warning this can involve downloading ~500 Mb data and can take more than 10
 #' # minutes to run on a standard computer
-#' global_data <- land_and_eez_fetch("global")
+#' global_data <- land_and_eez_fetch("global", source = "ne", verbose = TRUE,
+#'                                   simplify_tolerance = 1000, )
 #' }}
 #' @export
-land_and_eez_fetch <- function(x, crs = 3395,
+land_and_eez_fetch <- function(x, source = c("ne", "gadm")[1], crs = 3395,
                                snap_tolerance = 1,
-                               simplify_tolerance = 0,
-                               source = c("gadm", "ne")[1],
+                               simplify_tolerance = 1,
+                               geometry_precision = 1000,
                                download_dir = rappdirs::user_data_dir("wdpar"),
                                force_download = FALSE, verbose = FALSE) {
   # validate arguments
@@ -155,6 +160,7 @@ land_and_eez_fetch <- function(x, crs = 3395,
                           isTRUE(snap_tolerance >= 0),
                           assertthat::is.scalar(simplify_tolerance),
                           isTRUE(simplify_tolerance >= 0),
+                          assertthat::is.count(geometry_precision),
                           assertthat::is.string(source),
                           source %in% c("gadm", "ne"),
                           assertthat::is.dir(download_dir),
@@ -178,8 +184,8 @@ land_and_eez_fetch <- function(x, crs = 3395,
   if (source == "gadm") {
     if ("global" %in% x) {
       ### global gadm data set
-      warning(paste("processing the complete global GADM data set can take an",
-                    "infeasible period of time to complete"))
+      warning(paste("it can take a very long time to finish processing the",
+                    "global GADM data set"))
       gadm_url <- paste0("http://data.biogeo.ucdavis.edu/data/",
                          "gadm2.8/gadm28_levels.gdb.zip")
       gadm_path <- file.path(gadm_dir, "gadm28_levels.gdb.zip")
@@ -221,9 +227,11 @@ land_and_eez_fetch <- function(x, crs = 3395,
         # without an error from R CMD check
         {s <- sp::SpatialPolygonsDataFrame}
         suppressMessages({out <- methods::as(readRDS(dl_path), "sf")})
-        out <- lwgeom::st_make_valid(sf::st_set_precision(out, 1000000))
+        out <- lwgeom::st_make_valid(sf::st_set_precision(out,
+                                                          geometry_precision))
         out <- sf::st_union(out)
-        out <- lwgeom::st_make_valid(sf::st_set_precision(out, 1000000))
+        out <- lwgeom::st_make_valid(sf::st_set_precision(out,
+                                                          geometry_precision))
         return(sf::st_sf(ISO3 = x, geometry = out))
       })
       if (length(land_data) > 1) {
@@ -316,6 +324,8 @@ land_and_eez_fetch <- function(x, crs = 3395,
   if (verbose) message("reprojecting data...")
   land_data <- sf::st_transform(land_data, crs = crs)
   if (!is.null(eez_data)) {
+    eez_data <- st_wrap_dateline(eez_data,
+      options = c("WRAPDATELINE=YES","DATELINEOFFSET=180"), quiet = TRUE)
     eez_data <- sf::st_transform(eez_data, crs = crs)
   }
   ## snap to grid
@@ -325,64 +335,45 @@ land_and_eez_fetch <- function(x, crs = 3395,
     if (!is.null(eez_data))
       eez_data <- lwgeom::st_snap_to_grid(eez_data, snap_tolerance)
   }
-  ## simplify data
-  if (simplify_tolerance > 0) {
-    if (verbose) message("simplifying data...")
-    land_data <- sf::st_simplify(land_data, TRUE, simplify_tolerance)
-    if (!is.null(eez_data))
-      eez_data <- sf::st_simplify(eez_data, TRUE, simplify_tolerance)
-  }
   ## remove holes from eez
   if (!is.null(eez_data)) {
     if (verbose) message("removing holes from EEZ...")
     eez_data <- st_remove_holes(eez_data)
+    eez_data <- st_make_valid_polygons(eez_data)
   }
   ## repair data
   if (verbose) message("repairing geometry...")
   land_data <- lwgeom::st_make_valid(land_data)
-  if (!is.null(eez_data)) {
-    eez_data <- lwgeom::st_make_valid(eez_data)
+  ## simplify data
+  if (simplify_tolerance > 0) {
+    if (verbose) message("simplifying data...")
+    land_data <- sf::st_simplify(land_data, TRUE, simplify_tolerance)
+    land_data <- lwgeom::st_make_valid(land_data)
+    land_data <- st_make_valid_polygons(land_data)
+    if (!is.null(eez_data))
+      eez_data <- sf::st_simplify(eez_data, TRUE, simplify_tolerance)
+      eez_data <- lwgeom::st_make_valid(eez_data)
+      eez_data <- st_make_valid_polygons(eez_data)
   }
   ## fill in gaps in eez
   if (!is.null(eez_data)) {
     if (verbose) message("filling in EEZ gaps...")
-    land_agg <- stats::aggregate(land_data, by = list(land_data$ISO3),
-                                 FUN = `[[`, 1)[, -1]
-    gap_data <- rbind(eez_data, land_agg)
-    o1 <<- gap_data
-    gap_data <- stats::aggregate(gap_data, by = list(gap_data$ISO3),
-                                 FUN = `[[`, 1)[, -1]
-    o2 <<- gap_data
-    gap_data <- st_extract_holes(gap_data)
-    o3 <<- gap_data
-    gap_data <- gap_data[!sf::st_is_empty(gap_data), ]
-    o4 <<- gap_data
-    eez_data <- rbind(eez_data, gap_data)
-    o5 <<- eez_data
+    ### merge land and eez data together
+    eez_data <- rbind(eez_data, land_data)
     eez_data <- stats::aggregate(eez_data, by = list(eez_data$ISO3),
                                  FUN = `[[`, 1)[, -1]
-    o6 <<- eez_data
-    eez_data <- lwgeom::st_make_valid(eez_data)
-    o7 <<- eez_data
-  }
-  ## extract polygons
-  if (verbose) message("extracting polygons from data...")
-  land_data <- st_subset_polygons(land_data)
-  if (!is.null(eez_data))
-    eez_data <- st_subset_polygons(eez_data)
-  ## repair data
-  if (verbose) message("repairing geometry...")
-  land_data <- lwgeom::st_make_valid(land_data)
-  if (!is.null(eez_data)) {
-    eez_data <- lwgeom::st_make_valid(eez_data)
+    eez_data <- st_make_valid_polygons(eez_data)
+    eez_data <- st_remove_holes(eez_data)
+    eez_data <- st_buffer(eez_data, 0)
   }
   ## erase land from eez
   if (!is.null(eez_data)) {
     if (verbose) message("erasing land from EEZ...")
-    print(1)
-    gadm_union <- lwgeom::st_make_valid(sf::st_union(sf::st_combine(land_agg)))
-    print(2)
-    eez_data <- suppressWarnings(sf::st_difference(eez_data, gadm_union))
+    land_union <- sf::st_union(sf::st_combine(land_data))
+    land_union <- st_make_valid_polygons(land_union)
+    land_union <- lwgeom::st_make_valid(land_union)
+    land_union <- st_buffer(land_union, 0)
+    eez_data <- suppressWarnings(sf::st_difference(eez_data, land_union))
   }
   ## repair data
   if (!is.null(eez_data)) {

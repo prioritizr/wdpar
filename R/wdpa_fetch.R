@@ -10,7 +10,7 @@ NULL
 #'   can be the name of the country (e.g. \code{"Liechtenstein"}) or the
 #'   ISO-3 code for the country (e.g. \code{"LIE"}). This argument can also
 #'   be set to \code{"global"} to download all of the protected areas available
-#'   in the database (approx. 1.1 GB).
+#'   in the database (approximately 1.1 GB).
 #'
 #' @param wait \code{logical} if data is not immediately available for download
 #'   should the session be paused until it is ready for download? If argument
@@ -22,16 +22,14 @@ NULL
 #'  (\code{rappdirs::user_data_dir("wdpar")}).
 #'
 #' @param force_download \code{logical} if the data has previously been
-#'   downloaded and is available at argument to \code{x}, should the data be
-#'   redownloaded anyway? Defaults to \code{FALSE}.
+#'   downloaded and is available at argument to \code{download_dir}, should a
+#'   fresh copy be downloaded? Defaults to \code{FALSE}.
 #'
 #' @param verbose \code{logical} should a progress on downloading data be
 #'   reported? Defaults to \code{FALSE}.
 #'
 #' @details This function will download the specified protected area
-#'   data and return it. Note that downloading data for a specific country
-#'   will fail to include any protected areas that are represented as point
-#'   localities. \strong{It is strongly recomended that the data be
+#'   data and return it. \strong{It is strongly recommended that the data be
 #'   cleaned prior to using for analysis}. Check out the
 #'   \code{\link{wdpa_clean}} function to clean the data according to standard
 #'   practices.
@@ -75,7 +73,7 @@ wdpa_fetch <- function(x, wait = FALSE,
   # fetch data
   if (pingr::is_online() || force_download) {
     ## find the download link and set file path to save the data
-    download_url <- wdpa_url(x)
+    download_url <- wdpa_url(x, wait = wait)
     file_name <- basename(httr::HEAD(download_url)$url)
     file_path <- file.path(download_dir, file_name)
     ## download the data
@@ -97,5 +95,5 @@ wdpa_fetch <- function(x, wait = FALSE,
     file_path <- wdpa_file(x, download_dir = download_dir)
   }
   # import the data
-  return(wdpa_read(file_path))
+  wdpa_read(file_path)
 }

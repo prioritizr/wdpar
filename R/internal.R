@@ -41,8 +41,8 @@ country_code <- function(x) {
 #'   ISO-3 code for the country (e.g. \code{"LIE"}). This argument can also
 #'   be set to \code{"global"} to obtain file path for the global data set.
 #'
-#' @param download_dir \code{character} folder path to download the data.
-#'  Defaults to a persistent data directory
+#' @param download_dir \code{character} directory to which the data will be
+#'  downloaded. Defaults to a persistent data directory
 #'  (\code{rappdirs::user_data_dir("wdpar")}).
 #'
 #' @return \code{character} file path.
@@ -71,7 +71,7 @@ wdpa_file <- function(x, download_dir) {
   # bug where date-times with month before year (e.g. Nov2011) will return NA
   # see this post on Stack Overflow
   # https://stackoverflow.com/questions/26997864/strptime-not-recognizing-b-b
-  # therefore we must---unsatisfyingly---extract the month and years seperately
+  # therefore we must---unsatisfyingly---extract the month and years separately
   # reorder them, and then parse using base::strptime
   month_year <- vapply(strsplit(basename(file_paths), "_", fixed = TRUE), `[[`,
                        character(1), 2)

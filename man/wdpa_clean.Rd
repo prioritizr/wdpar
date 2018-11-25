@@ -7,7 +7,7 @@
 wdpa_clean(x,
   crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs",
   snap_tolerance = 1, simplify_tolerance = 1,
-  geometry_precision = 1000, verbose = FALSE)
+  geometry_precision = 1000, verbose = interactive())
 }
 \arguments{
 \item{x}{\code{\link[sf]{sf}} object containing protected area data.}
@@ -27,7 +27,8 @@ the spatial data (used with \code{\link[sf]{st_set_precision}}. The
 default argument corresponds to the nearest millimeter (i.e. 1000).}
 
 \item{verbose}{\code{logical} should progress on data cleaning be reported?
-Defaults to \code{FALSE}.}
+Defaults to \code{TRUE} in an interactive session, otherwise
+\code{FALSE}.}
 }
 \value{
 \code{\link[sf]{sf}} object.
@@ -65,6 +66,7 @@ This function cleans data from World Database on Protected Areas
   \item Geometries are wrapped to the dateline (using
     \code{\link[sf]{st_wrapdateline}} with the options
     \code{"WRAPDATELINE=YES"} and \code{"DATELINEOFFSET=180"}).
+
   \item Reproject data to coordinate system specified in argument to
     \code{crs} (using \code{\link[sf]{st_transform}}).
 

@@ -22,7 +22,8 @@ NULL
 #'   default argument corresponds to the nearest millimeter (i.e. 1000).
 #'
 #' @param verbose \code{logical} should progress on data cleaning be reported?
-#'   Defaults to \code{FALSE}.
+#'   Defaults to \code{TRUE} in an interactive session, otherwise
+#'   \code{FALSE}.
 #'
 #' @details This function cleans data from World Database on Protected Areas
 #'   following best practices (Butchart \emph{et al.} 2015, Runge \emph{et al.}
@@ -54,7 +55,7 @@ NULL
 #'   \item Geometries are wrapped to the dateline (using
 #'     \code{\link[sf]{st_wrapdateline}} with the options
 #'     \code{"WRAPDATELINE=YES"} and \code{"DATELINEOFFSET=180"}).
-
+#'
 #'   \item Reproject data to coordinate system specified in argument to
 #'     \code{crs} (using \code{\link[sf]{st_transform}}).
 #'
@@ -148,7 +149,7 @@ NULL
 wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs",
                        snap_tolerance = 1,
                        simplify_tolerance = 1, geometry_precision = 1000,
-                       verbose = FALSE) {
+                       verbose = interactive()) {
   # check arguments are valid
   assertthat::assert_that(inherits(x, "sf"),
                           nrow(x) > 0,

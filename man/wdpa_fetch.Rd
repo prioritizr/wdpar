@@ -6,7 +6,7 @@
 \usage{
 wdpa_fetch(x, wait = FALSE,
   download_dir = rappdirs::user_data_dir("wdpar"),
-  force_download = FALSE, verbose = FALSE)
+  force_download = FALSE, verbose = interactive())
 }
 \arguments{
 \item{x}{\code{character} country for which to download data. This argument
@@ -29,7 +29,8 @@ downloaded and is available at argument to \code{download_dir}, should a
 fresh copy be downloaded? Defaults to \code{FALSE}.}
 
 \item{verbose}{\code{logical} should a progress on downloading data be
-reported? Defaults to \code{FALSE}.}
+reported? Defaults to \code{TRUE} in an interactive session, otherwise
+\code{FALSE}.}
 }
 \value{
 \code{\link[sf]{sf}} object.

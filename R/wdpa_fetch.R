@@ -26,7 +26,8 @@ NULL
 #'   fresh copy be downloaded? Defaults to \code{FALSE}.
 #'
 #' @param verbose \code{logical} should a progress on downloading data be
-#'   reported? Defaults to \code{FALSE}.
+#'   reported? Defaults to \code{TRUE} in an interactive session, otherwise
+#'   \code{FALSE}.
 #'
 #' @details This function will download the specified protected area
 #'   data and return it. \strong{It is strongly recommended that the data be
@@ -60,7 +61,7 @@ NULL
 #' @export
 wdpa_fetch <- function(x, wait = FALSE,
                        download_dir = rappdirs::user_data_dir("wdpar"),
-                       force_download = FALSE, verbose = FALSE) {
+                       force_download = FALSE, verbose = interactive()) {
   # check that arguments are valid
   ## check that classes are correct
   dir.create(download_dir, showWarnings = FALSE, recursive = TRUE)

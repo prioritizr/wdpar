@@ -53,7 +53,7 @@ NULL
 #'
 #' \dontrun{
 #' # fetch data for all protected areas on the planet
-#' # note that this might take some time given that the global data set is
+#' # note that this might take some time given that the global dataset is
 #' # over 1 GB in size
 #' global_raw_data <- wdpa_fetch("global")
 #' }}

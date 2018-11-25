@@ -31,7 +31,7 @@ country_code <- function(x) {
   return(country_code)
 }
 
-#' Find most recent version of WDPA data set in folder
+#' Find most recent version of WDPA dataset in folder
 #'
 #' Find the file in a folder which has the most recent version of the WDPA data #' set in it.
 #'
@@ -39,7 +39,7 @@ country_code <- function(x) {
 #' @param x \code{character} Country for desired data. This argument
 #'   can be the name of the country (e.g. \code{"Liechtenstein"}) or the
 #'   ISO-3 code for the country (e.g. \code{"LIE"}). This argument can also
-#'   be set to \code{"global"} to obtain file path for the global data set.
+#'   be set to \code{"global"} to obtain file path for the global dataset.
 #'
 #' @param download_dir \code{character} directory to which the data will be
 #'  downloaded. Defaults to a persistent data directory

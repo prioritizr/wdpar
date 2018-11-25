@@ -4,14 +4,17 @@
 \alias{wdpa_clean}
 \title{Clean data from the World Database on Protected Areas}
 \usage{
-wdpa_clean(x, crs = 3395, snap_tolerance = 1, simplify_tolerance = 1,
+wdpa_clean(x,
+  crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs",
+  snap_tolerance = 1, simplify_tolerance = 1,
   geometry_precision = 1000, verbose = FALSE)
 }
 \arguments{
 \item{x}{\code{\link[sf]{sf}} object containing protected area data.}
 
-\item{crs}{\code{character} or code{integer} coordinate reference system.
-Defaults to \code{3395} (Mercator).}
+\item{crs}{\code{character} or code{integer} object representing a
+ coordinate reference system. Defaults to World Behrmann
+(\emph{ESRI:54017}).}
 
 \item{snap_tolerance}{\code{numeric} tolerance for snapping geometry to a
 grid for resolving invalid geometries. Defaults to 1 meter.}
@@ -21,7 +24,7 @@ Defaults to 1 meters.}
 
 \item{geometry_precision}{\code{numeric} level of precision for processing
 the spatial data (used with \code{\link[sf]{st_set_precision}}. The
-default argument is 1000.}
+default argument corresponds to the nearest millimeter (i.e. 1000).}
 
 \item{verbose}{\code{logical} should progress on data cleaning be reported?
 Defaults to \code{FALSE}.}
@@ -37,8 +40,9 @@ This function cleans data from World Database on Protected Areas
   following best practices (Butchart \emph{et al.} 2015, Runge \emph{et al.}
   2015,
   \url{https://protectedplanet.net/c/calculating-protected-area-coverage}).
-  Although this function can be used to clean the global WDPA data set, this
-  process can take several weeks to complete.
+  Although this function can be used to clean the global dataset, this
+  process can take several weeks to complete. Therefore, it is strongly
+  recommended to use alternative methods for cleaning the global dataset.
 
   \enumerate{
 
@@ -48,7 +52,8 @@ This function cleans data from World Database on Protected Areas
     (i.e. exclude areas without the status \code{"Designated"},
     \code{"Inscribed"}, \code{"Established"}).
 
-  \item Exclude UNESCO Biosphere Reserves (Coetzer \emph{et al.} 2014).
+  \item Exclude United Nations Educational, Scientific and Cultural
+    Organization (UNESCO) Biosphere Reserves (Coetzer \emph{et al.} 2014).
 
   \item Create a field (\code{"GEOMETRY_TYPE"}) indicating if areas are
     represented as point localities (\code{"POINT"}) or as polygons
@@ -57,6 +62,9 @@ This function cleans data from World Database on Protected Areas
   \item Exclude areas represented as point localities that do not
     have a reported spatial extent (i.e. missing data for the field
 
+  \item Geometries are wrapped to the dateline (using
+    \code{\link[sf]{st_wrapdateline}} with the options
+    \code{"WRAPDATELINE=YES"} and \code{"DATELINEOFFSET=180"}).
   \item Reproject data to coordinate system specified in argument to
     \code{crs} (using \code{\link[sf]{st_transform}}).
 
@@ -115,7 +123,7 @@ mhl_raw_data <- wdpa_fetch("MHL", wait = TRUE)
 # clean data
 mhl_data <- wdpa_clean(mhl_raw_data)
 
-# plot cleaned data set
+# plot cleaned dataset
 plot(mhl_data)
 
 # plot geometries for visual comparison

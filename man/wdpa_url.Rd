@@ -10,7 +10,7 @@ wdpa_url(x, wait = FALSE)
 \item{x}{\code{character} country for desired data. This argument
 can be the name of the country (e.g. \code{"Liechtenstein"}) or the
 ISO-3 code for the country (e.g. \code{"LIE"}). This argument can also
-be set to \code{"global"} to obtain the URL for the global data set.}
+be set to \code{"global"} to obtain the URL for the global dataset.}
 
 \item{wait}{\code{logical} if data is not immediately available for download
 should the session be paused until it is ready for download? If argument

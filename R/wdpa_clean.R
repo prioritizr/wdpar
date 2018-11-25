@@ -7,8 +7,9 @@ NULL
 #'
 #' @param x \code{\link[sf]{sf}} object containing protected area data.
 #'
-#' @param crs \code{character} or code{integer} coordinate reference system.
-#'   Defaults to \code{3395} (Mercator).
+#' @param crs \code{character} or code{integer} object representing a
+#'   coordinate reference system. Defaults to World Behrmann
+#'  (\emph{ESRI:54017}).
 #'
 #' @param snap_tolerance \code{numeric} tolerance for snapping geometry to a
 #'   grid for resolving invalid geometries. Defaults to 1 meter.
@@ -18,7 +19,7 @@ NULL
 #'
 #' @param geometry_precision \code{numeric} level of precision for processing
 #'   the spatial data (used with \code{\link[sf]{st_set_precision}}. The
-#'   default argument is 1000.
+#'   default argument corresponds to the nearest millimeter (i.e. 1000).
 #'
 #' @param verbose \code{logical} should progress on data cleaning be reported?
 #'   Defaults to \code{FALSE}.
@@ -27,8 +28,9 @@ NULL
 #'   following best practices (Butchart \emph{et al.} 2015, Runge \emph{et al.}
 #'   2015,
 #'   \url{https://protectedplanet.net/c/calculating-protected-area-coverage}).
-#'   Although this function can be used to clean the global WDPA data set, this
-#'   process can take several weeks to complete.
+#'   Although this function can be used to clean the global dataset, this
+#'   process can take several weeks to complete. Therefore, it is strongly
+#'   recommended to use alternative methods for cleaning the global dataset.
 #'
 #'   \enumerate{
 #'
@@ -38,7 +40,8 @@ NULL
 #'     (i.e. exclude areas without the status \code{"Designated"},
 #'     \code{"Inscribed"}, \code{"Established"}).
 #'
-#'   \item Exclude UNESCO Biosphere Reserves (Coetzer \emph{et al.} 2014).
+#'   \item Exclude United Nations Educational, Scientific and Cultural
+#'     Organization (UNESCO) Biosphere Reserves (Coetzer \emph{et al.} 2014).
 #'
 #'   \item Create a field (\code{"GEOMETRY_TYPE"}) indicating if areas are
 #'     represented as point localities (\code{"POINT"}) or as polygons
@@ -48,6 +51,10 @@ NULL
 #'     have a reported spatial extent (i.e. missing data for the field
 #      \code{"REP_AREA"}).
 #'
+#'   \item Geometries are wrapped to the dateline (using
+#'     \code{\link[sf]{st_wrapdateline}} with the options
+#'     \code{"WRAPDATELINE=YES"} and \code{"DATELINEOFFSET=180"}).
+
 #'   \item Reproject data to coordinate system specified in argument to
 #'     \code{crs} (using \code{\link[sf]{st_transform}}).
 #'
@@ -129,7 +136,7 @@ NULL
 #' # clean data
 #' mhl_data <- wdpa_clean(mhl_raw_data)
 #'
-#' # plot cleaned data set
+#' # plot cleaned dataset
 #' plot(mhl_data)
 #'
 #' # plot geometries for visual comparison
@@ -138,7 +145,8 @@ NULL
 #' plot(st_geometry(mhl_data), main = "cleaned data", col = "white")
 #' }
 #' @export
-wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
+wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs",
+                       snap_tolerance = 1,
                        simplify_tolerance = 1, geometry_precision = 1000,
                        verbose = FALSE) {
   # check arguments are valid
@@ -156,6 +164,9 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
                           assertthat::is.count(geometry_precision),
                           assertthat::is.flag(verbose),
                           pingr::is_online())
+  # check that x is in wgs1984
+  assertthat::assert_that(sf::st_crs(x) == sf::st_crs(4326),
+   msg = "argument to x is not longitude/latitude (i.e. EPSG:4326)")
   # clean data
   ## remove areas that are not currently in action
   if (verbose) message("removing areas that are not implemented: ",
@@ -186,6 +197,27 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
   if (verbose) {
     utils::flush.console()
     message("removing points with no reported area: ", cli::symbol$tick)
+  }
+  ## repair geometry
+  if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
+                       appendLF = FALSE)
+  x <- lwgeom::st_make_valid(sf::st_set_precision(x, geometry_precision))
+  x <- x[!sf::st_is_empty(x), ]
+  x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  if (verbose) {
+    utils::flush.console()
+    message("repairing geometry: ", cli::symbol$tick)
+  }
+  ## wrap dateline issues
+  if (verbose) message("wrapping dateline: ", cli::symbol$continue, "\r",
+                       appendLF = FALSE)
+  x <- suppressWarnings(sf::st_wrap_dateline(x,
+    options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180")))
+  x <- x[!sf::st_is_empty(x), ]
+  x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  if (verbose) {
+    utils::flush.console()
+    message("wrapping dateline: ", cli::symbol$tick)
   }
   ## repair geometry
   if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",

@@ -18,7 +18,7 @@ NULL
 #'
 #' @examples
 #' \donttest{
-#' # find url for Liechtenstein data set
+#' # find url for Liechtenstein dataset
 #' download_url <- wdpa_url("LIE", wait = TRUE)
 #'
 #' # path to save file zipfile with data

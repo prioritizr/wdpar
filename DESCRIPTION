@@ -21,15 +21,13 @@ Imports:
     xml2 (>= 1.2.0),
     cli (>= 1.0.1),
     stringi (>= 1.2.4),
-    lwgeom(>= 0.1-4),
-    rnaturalearth (>= 0.1.0),
+    lwgeom(>= 0.1-4)
 Suggests:
     testthat (>= 2.0.1),
     knitr (>= 1.2.0),
     units (>= 0.6-1),
     roxygen2 (>= 6.1.1),
-    rmarkdown (>= 1.10),
-    rnaturalearthhires (>= 0.2.0)
+    rmarkdown (>= 1.10)
 Depends:
     R(>= 3.4.0),
     sf(>= 0.7-1)
@@ -40,12 +38,11 @@ SystemRequirements: C++11
 URL: https://github.com/jeffreyhanson/wdpar
 BugReports: https://github.com/jeffreyhanson/wdpar/issues
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
 Collate:
     'RcppExports.R'
     'internal.R'
     'geo.R'
-    'land_and_eez_fetch.R'
     'package.R'
     'wdpa_clean.R'
     'wdpa_url.R'

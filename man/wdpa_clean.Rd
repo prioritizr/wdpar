@@ -4,11 +4,11 @@
 \alias{wdpa_clean}
 \title{Clean data from the World Database on Protected Areas}
 \usage{
-wdpa_clean(x, crs = 3395, snap_tolerance = 1, simplify_tolerance = 0,
-  verbose = FALSE)
+wdpa_clean(x, crs = 3395, snap_tolerance = 1, simplify_tolerance = 1,
+  geometry_precision = 1000, verbose = FALSE)
 }
 \arguments{
-\item{x}{\code{\link[sf]{sf}} object containing data from the WDPA.}
+\item{x}{\code{\link[sf]{sf}} object containing protected area data.}
 
 \item{crs}{\code{character} or code{integer} coordinate reference system.
 Defaults to \code{3395} (Mercator).}
@@ -17,7 +17,11 @@ Defaults to \code{3395} (Mercator).}
 grid for resolving invalid geometries. Defaults to 1 meter.}
 
 \item{simplify_tolerance}{\code{numeric} simplification tolerance.
-Defaults to 0 meters.}
+Defaults to 1 meters.}
+
+\item{geometry_precision}{\code{numeric} level of precision for processing
+the spatial data (used with \code{\link[sf]{st_set_precision}}. The
+default argument is 1000.}
 
 \item{verbose}{\code{logical} should progress on data cleaning be reported?
 Defaults to \code{FALSE}.}
@@ -46,7 +50,7 @@ This function cleans data from World Database on Protected Areas
 
   \item Exclude UNESCO Biosphere Reserves (Coetzer \emph{et al.} 2014).
 
-  \item Create a field (\code{"GEOMTRY_TYPE"}) indicating if areas are
+  \item Create a field (\code{"GEOMETRY_TYPE"}) indicating if areas are
     represented as point localities (\code{"POINT"}) or as polygons
     (\code{"POLYGON"}).
 
@@ -81,8 +85,8 @@ This function cleans data from World Database on Protected Areas
     to descriptive names (i.e. \code{0} = \code{"terrestrial"},
     \code{1} = \code{"partial"}, \code{2} = \code{"marine"}).
 
-  \item Zeros in the \code{"STATUS_YR"} field are replaced with \code{NA}
-    values.
+  \item Zeros in the \code{"STATUS_YR"} fi_eld are replaced with
+    missing values (i.e. \code{NA_real_} values.
 
   \item Zeros in the \code{"NO_TK_AREA"} field are replaced with \code{NA}
     values for areas where such data are not reported or applicable
@@ -116,7 +120,7 @@ plot(mhl_data)
 
 # plot geometries for visual comparison
 par(mfrow = c(1, 2))
-plot(st_geometry(mhl_raw_data), main = "orginal data", col = "white")
+plot(st_geometry(mhl_raw_data), main = "original data", col = "white")
 plot(st_geometry(mhl_data), main = "cleaned data", col = "white")
 }
 }

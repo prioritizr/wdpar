@@ -5,6 +5,3 @@
   # return success
   invisible()
 }
-
-# constant for precision of spatial processing
-precision <- 1000000

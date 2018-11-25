@@ -6,7 +6,7 @@ NULL
 #' Remove holes from polygons or multipolygons from a \code{link[sf]{sf}},
 #' \code{\link[sf]{sfc}}, or \code{\link[sf]{st}} object.
 #'
-#' @param x \code{link[sf]{sf}}, \code{\link[sf]{sfc}}, or \code{\link[sf]{st}}
+#' @param x \code{link[sf]{sf}}, \code{\link[sf]{sfc}}, or \code{\link[sf]{sfg}}
 #'   object.
 #'
 #' @return Object of the same class as argument to \code{x} with the holes
@@ -67,7 +67,7 @@ st_remove_holes.sfg <- function(x) {
 #' @param x \code{link[sf]{sf}} or \code{\link[sf]{sfc}} object.
 #'
 #' @details This function will any polygon geometries contained within
-#'  \code{\link[sf]{st_geometrycollection}} objects and union them togeather.
+#'  \code{\link[sf]{st_geometrycollection}} objects and union them together.
 #'  Any \code{\link[sf]{st_geometrycollection}} objects that do not contain
 #'  polygon geometries will be discarded.
 #'
@@ -181,7 +181,8 @@ st_erase_overlaps <- function(x) {
     if (length(ovr) > 0) {
       # calculate difference
       d <- suppressWarnings(sf::st_difference(g[i],
-             sf::st_collection_extract(lwgeom::st_make_valid(sf::st_buffer(sf::st_union(o[ovr]), 0)), "POLYGON")))
+             sf::st_collection_extract(lwgeom::st_make_valid(
+               sf::st_buffer(sf::st_union(o[ovr]), 0)), "POLYGON")))
     } else {
       d <- g[i]
     }

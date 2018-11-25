@@ -14,11 +14,11 @@ be set to \code{"global"} to obtain the URL for the global data set.}
 
 \item{wait}{\code{logical} if data is not immediately available for download
 should the session be paused until it is ready for download? If argument
-to \code{wait} is \code{FALSE} and the data is not ready then \code{NA}
-will be returned. Defaults to \code{FALSE}.}
+to \code{wait} is \code{FALSE} and the data is not ready then an error
+will be thrown. Defaults to \code{FALSE}.}
 }
 \value{
-\code{character} URL to download the data or a \code{NA} value.
+\code{character} URL to download the data.
 }
 \description{
 Obtain the URL for downloading data from the World Database on Protected
@@ -30,11 +30,11 @@ Areas (WDPA).
 nzl_url <- wdpa_url("New Zealand", wait = TRUE)
 print(nzl_url)
 
-# obtain url for New Zealand data (using the ISO3 code)
+# obtain url for New Zealand data using its ISO3 code
 nzl_url <- wdpa_url("NZL", wait = TRUE)
 print(nzl_url)
 
-# download link for global data
+# obtain url for global data
 global_url <- wdpa_url("global")
 print(global_url)
 }

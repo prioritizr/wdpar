@@ -5,7 +5,7 @@ NULL
 #'
 #' Clean data obtained from the World Database on Protected Areas (WDPA).
 #'
-#' @param x \code{\link[sf]{sf}} object containing data from the WDPA.
+#' @param x \code{\link[sf]{sf}} object containing protected area data.
 #'
 #' @param crs \code{character} or code{integer} coordinate reference system.
 #'   Defaults to \code{3395} (Mercator).
@@ -40,7 +40,7 @@ NULL
 #'
 #'   \item Exclude UNESCO Biosphere Reserves (Coetzer \emph{et al.} 2014).
 #'
-#'   \item Create a field (\code{"GEOMTRY_TYPE"}) indicating if areas are
+#'   \item Create a field (\code{"GEOMETRY_TYPE"}) indicating if areas are
 #'     represented as point localities (\code{"POINT"}) or as polygons
 #'     (\code{"POLYGON"}).
 #'
@@ -76,8 +76,8 @@ NULL
 #'     to descriptive names (i.e. \code{0} = \code{"terrestrial"},
 #'     \code{1} = \code{"partial"}, \code{2} = \code{"marine"}).
 #'
-#'   \item Zeros in the \code{"STATUS_YR"} field are replaced with \code{NA}
-#'     values.
+#'   \item Zeros in the \code{"STATUS_YR"} fi_eld are replaced with
+#'     missing values (i.e. \code{NA_real_} values.
 #'
 #'   \item Zeros in the \code{"NO_TK_AREA"} field are replaced with \code{NA}
 #'     values for areas where such data are not reported or applicable
@@ -149,9 +149,9 @@ wdpa_clean <- function(x, crs = 3395, snap_tolerance = 1,
                                                         "MARINE"))),
                           assertthat::is.string(crs) ||
                           assertthat::is.count(crs),
-                          assertthat::is.scalar(snap_tolerance),
+                          assertthat::is.number(snap_tolerance),
                           isTRUE(snap_tolerance >= 0),
-                          assertthat::is.scalar(simplify_tolerance),
+                          assertthat::is.number(simplify_tolerance),
                           isTRUE(simplify_tolerance >= 0),
                           assertthat::is.count(geometry_precision),
                           assertthat::is.flag(verbose),

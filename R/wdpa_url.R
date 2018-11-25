@@ -26,11 +26,11 @@ NULL
 #' nzl_url <- wdpa_url("New Zealand", wait = TRUE)
 #' print(nzl_url)
 #'
-#' # obtain url for New Zealand data (using the ISO3 code)
+#' # obtain url for New Zealand data using its ISO3 code
 #' nzl_url <- wdpa_url("NZL", wait = TRUE)
 #' print(nzl_url)
 #'
-#' # download link for global data
+#' # obtain url for global data
 #' global_url <- wdpa_url("global")
 #' print(global_url)
 #' }

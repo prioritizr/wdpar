@@ -18,7 +18,7 @@ valid polygon geometries.
 }
 \details{
 This function will any polygon geometries contained within
- \code{\link[sf]{st_geometrycollection}} objects and union them togeather.
+ \code{\link[sf]{st_geometrycollection}} objects and union them together.
  Any \code{\link[sf]{st_geometrycollection}} objects that do not contain
  polygon geometries will be discarded.
 }

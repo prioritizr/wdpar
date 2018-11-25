@@ -7,7 +7,7 @@
 st_remove_holes(x)
 }
 \arguments{
-\item{x}{\code{link[sf]{sf}}, \code{\link[sf]{sfc}}, or \code{\link[sf]{st}}
+\item{x}{\code{link[sf]{sf}}, \code{\link[sf]{sfc}}, or \code{\link[sf]{sfg}}
 object.}
 }
 \value{

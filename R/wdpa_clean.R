@@ -202,7 +202,8 @@ wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +da
   ## repair geometry
   if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
-  x <- lwgeom::st_make_valid(sf::st_set_precision(x, geometry_precision))
+  x <- sf::st_set_precision(x, geometry_precision)
+  x <- lwgeom::st_make_valid(x)
   x <- x[!sf::st_is_empty(x), ]
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
   if (verbose) {
@@ -212,10 +213,12 @@ wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +da
   ## wrap dateline issues
   if (verbose) message("wrapping dateline: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
+  x <- sf::st_set_precision(x, geometry_precision)
   x <- suppressWarnings(sf::st_wrap_dateline(x,
     options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180")))
   x <- x[!sf::st_is_empty(x), ]
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  x <- sf::st_set_precision(x, geometry_precision)
   if (verbose) {
     utils::flush.console()
     message("wrapping dateline: ", cli::symbol$tick)
@@ -223,9 +226,11 @@ wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +da
   ## repair geometry
   if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
-  x <- lwgeom::st_make_valid(sf::st_set_precision(x, geometry_precision))
+  x <- sf::st_set_precision(x, geometry_precision)
+  x <- lwgeom::st_make_valid(x)
   x <- x[!sf::st_is_empty(x), ]
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  x <- sf::st_set_precision(x, geometry_precision)
   if (verbose) {
     utils::flush.console()
     message("repairing geometry: ", cli::symbol$tick)
@@ -233,7 +238,9 @@ wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +da
   ## reproject data
   if (verbose) message("projecting areas: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
+  x <- sf::st_set_precision(x, geometry_precision)
   x <- sf::st_transform(x, crs)
+  x <- sf::st_set_precision(x, geometry_precision)
   if (verbose) {
     utils::flush.console()
     message("projecting areas: ", cli::symbol$tick)
@@ -241,9 +248,10 @@ wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +da
   ## repair geometry again
   if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
-  x <- lwgeom::st_make_valid(sf::st_set_precision(x, geometry_precision))
+  x <- lwgeom::st_make_valid(x)
   x <- x[!sf::st_is_empty(x), ]
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  x <- sf::st_set_precision(x, geometry_precision)
   if (verbose) {
     utils::flush.console()
     message("repairing geometry: ", cli::symbol$tick)
@@ -254,8 +262,10 @@ wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +da
     if (verbose) message("buffering by zero: ", cli::symbol$continue, "\r",
                          appendLF = FALSE)
     x_polygons_data <- x[x_polygons_pos, ]
+    x_polygons_data <- sf::st_set_precision(x_polygons_data, geometry_precision)
     x_polygons_data <- sf::st_buffer(x_polygons_data, 1e-12)
     x <- rbind(x[which(x$GEOMETRY_TYPE == "POINT"), ], x_polygons_data)
+    x <- sf::st_set_precision(x, geometry_precision)
     if (verbose) {
       utils::flush.console()
       message("buffering points: ", cli::symbol$tick)
@@ -270,6 +280,7 @@ wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +da
     x_points_data <- sf::st_buffer(x_points_data,
                        sqrt((x_points_data$REP_AREA * 1000000 / pi)))
     x <- rbind(x[which(x$GEOMETRY_TYPE == "POLYGON"), ], x_points_data)
+    x <- sf::st_set_precision(x, geometry_precision)
     if (verbose) {
       utils::flush.console()
       message("buffering points: ", cli::symbol$tick)
@@ -279,9 +290,12 @@ wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +da
   if (simplify_tolerance > 0) {
     if (verbose) message("simplifying geometry: ", cli::symbol$continue,
                          "\r", appendLF = FALSE)
+      x <- sf::st_set_precision(x, geometry_precision)
       x <- sf::st_simplify(x, TRUE, simplify_tolerance)
+      x <- sf::st_set_precision(x, geometry_precision)
       x <- x[!sf::st_is_empty(x), ]
       x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+      x <- sf::st_set_precision(x, geometry_precision)
     if (verbose) {
       utils::flush.console()
       message("simplifying geometry: ", cli::symbol$tick)
@@ -290,9 +304,11 @@ wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +da
   ## repair geometry again
   if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
+  x <- sf::st_set_precision(x, geometry_precision)
   x <- lwgeom::st_make_valid(x)
   x <- x[!sf::st_is_empty(x), ]
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  x <- sf::st_set_precision(x, geometry_precision)
   if (verbose) {
     utils::flush.console()
     message("repairing geometry: ", cli::symbol$tick)
@@ -301,7 +317,9 @@ wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +da
   if (snap_tolerance > 0) {
     if (verbose) message("snapping geometry to grid: ", cli::symbol$continue,
                          "\r", appendLF = FALSE)
+      x <- sf::st_set_precision(x, geometry_precision)
       x <- lwgeom::st_snap_to_grid(x, snap_tolerance)
+      x <- sf::st_set_precision(x, geometry_precision)
     if (verbose) {
       utils::flush.console()
       message("snapping geometry to grid: ", cli::symbol$tick)
@@ -310,9 +328,11 @@ wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +da
   ## repair geometry again
   if (verbose) message("repairing geometry: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
+  x <- sf::st_set_precision(x, geometry_precision)
   x <- lwgeom::st_make_valid(x)
   x <- x[!sf::st_is_empty(x), ]
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  x <- sf::st_set_precision(x, geometry_precision)
   if (verbose) {
     utils::flush.console()
     message("repairing geometry: ", cli::symbol$tick)
@@ -336,10 +356,12 @@ wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +da
                        levels = c("Ia", "Ib", "II", "III", "IV", "V", "VI",
                                   "Not Reported", "Not Applicable",
                                   "Not Assigned"))
+  x <- sf::st_set_precision(x, geometry_precision)
   x <- st_erase_overlaps(x[order(x$IUCN_CAT, x$STATUS_YR), ])
   x$IUCN_CAT <- as.character(x$IUCN_CAT)
   x <- x[!sf::st_is_empty(x), ]
   x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  x <- sf::st_set_precision(x, geometry_precision)
   if (verbose) {
     utils::flush.console()
     message("erasing overlaps: ", cli::symbol$tick)

@@ -92,9 +92,10 @@ st_remove_holes.sfg <- function(x) {
 #' plot(sf::st_geometry(y), main = "no overlaps", col = "white")
 #' @export
 st_erase_overlaps <- function(x) {
-  o1 <<- x
   # validate arguments
   assertthat::assert_that(inherits(x, "sf"))
+  # extract precision
+  precision <- sf::st_precision(x)
   # processing
   g <- sf::st_geometry(x)
   o <- g[1]
@@ -103,10 +104,12 @@ st_erase_overlaps <- function(x) {
     ovr <- sf::st_overlaps(g[i], o)[[1]]
     # if overlapping geometries then calculate difference
     if (length(ovr) > 0) {
+      # create union
+      u <- suppressWarnings(sf::st_set_precision(sf::st_collection_extract(
+             lwgeom::st_make_valid(sf::st_set_precision(sf::st_union(o[ovr]),
+             precision)), "POLYGON"), precision))
       # calculate difference
-      d <- suppressWarnings(sf::st_difference(g[i],
-             sf::st_collection_extract(lwgeom::st_make_valid(
-               sf::st_buffer(sf::st_union(o[ovr]), 0)), "POLYGON")))
+      d <- suppressWarnings(sf::st_difference(g[i], u))
     } else {
       d <- g[i]
     }
@@ -128,8 +131,9 @@ st_erase_overlaps <- function(x) {
     o[i] <- d[[1]]
   }
   x <- sf::st_set_geometry(x, o)
+  x <- sf::st_set_precision(x, precision)
   # return output
-  return(x)
+  x
 }
 
 #' Extract holes

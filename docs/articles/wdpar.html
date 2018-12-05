@@ -74,7 +74,7 @@
       <h1>wdpar: Interface to the World Database on Protected Areas</h1>
                         <h4 class="author">Jeffrey O. Hanson</h4>
             
-            <h4 class="date">2018-12-05</h4>
+            <h4 class="date">2018-12-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/jeffreyhanson/wdpar/blob/master/vignettes/wdpar.Rmd"><code>vignettes/wdpar.Rmd</code></a></small>
       <div class="hidden name"><code>wdpar.Rmd</code></div>
@@ -96,9 +96,16 @@
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(wdpar)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggmap)</code></pre></div>
-<p>Now we will download protected area data for Malta from <a href="protectedplanet.net">Protected Planet</a>. Note that we could have alternatively downloaded the data using Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO3 code</a> (MLT).</p>
+<p>Now we will download protected area data for Malta from <a href="protectedplanet.net">Protected Planet</a>. We can achieve this by specifying Malta’s country name (i.e. <code>"Malta"</code>) or Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO3 code</a> (i.e. <code>"MLT"</code>). Note that protected areas represented as point localities will be absent when fetching data for an individual country.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download protected area data for Malta</span>
+<span class="co"># (excluding areas represented as point localities)</span>
 mlt_raw_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/wdpar/topics/wdpa_fetch">wdpa_fetch</a></span>(<span class="st">"Malta"</span>)</code></pre></div>
+<p>If you require all protected area data for a country, including areas represented as point localities, you will need to fetch the global dataset (approx. 1GB) and filter out protected areas manually. Below is some example code to achieve this, but note that it can take over 20 minutes to complete. This code is provided to serve as a reference and you do not need to run it to complete this tutorial.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># # fetch global data</span>
+<span class="co"># global_raw_data &lt;- wdpa_fetch("global", wait = TRUE)</span>
+<span class="co">#</span>
+<span class="co"># # subset data to include only Malta</span>
+<span class="co"># mlt_raw_pa_data &lt;- global_raw_data %&gt;% filter(ISO == "MLT")</span></code></pre></div>
 <p>Next, we will clean the data set. See the help page for <code>wdpa_clean</code> for a detailed description on the data cleaning process.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># clean Malta data</span>
 mlt_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/wdpar/topics/wdpa_clean">wdpa_clean</a></span>(mlt_raw_pa_data)</code></pre></div>
@@ -139,10 +146,10 @@ bg &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocument
 <span class="kw"><a href="https://www.rdocumentation.org/packages/ggmap/topics/ggmap">ggmap</a></span>(bg) <span class="op">+</span>
 <span class="kw">geom_sf</span>(<span class="dt">data =</span> mlt_pa_data, <span class="dt">fill =</span> <span class="st">"#31A35480"</span>, <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
 <span class="kw">theme</span>(<span class="dt">axis.title =</span> <span class="kw">element_blank</span>())</code></pre></div>
-<p><img src="wdpar_files/figure-html/unnamed-chunk-8-1.png" width="432" style="display: block; margin: auto;"></p>
+<p><img src="wdpar_files/figure-html/unnamed-chunk-9-1.png" width="432" style="display: block; margin: auto;"></p>
 <p>We can also create a histogram showing the year when each protected area was established.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/hist">hist</a></span>(mlt_pa_data<span class="op">$</span>STATUS_YR, <span class="dt">main =</span> <span class="st">"Malta's protected areas"</span>, <span class="dt">xlab =</span> <span class="st">"Year established"</span>)</code></pre></div>
-<p><img src="wdpar_files/figure-html/unnamed-chunk-9-1.png" width="432" style="display: block; margin: auto;"></p>
+<p><img src="wdpar_files/figure-html/unnamed-chunk-10-1.png" width="432" style="display: block; margin: auto;"></p>
 <p>Now let’s calculate some statistics. We can calculate the total amount of land and ocean inside Malta’s protected area system (km<sup>2</sup>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate total amount of area inside protected areas (km^2)</span>
 statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
@@ -189,7 +196,7 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggmap/topics/ggmap">ggmap</a></span>(bg) <span class="op">+</span>
 <span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> IUCN_CAT), <span class="dt">data =</span> mlt_pa_data, <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
 <span class="kw">theme</span>(<span class="dt">axis.title =</span> <span class="kw">element_blank</span>(), <span class="dt">legend.position =</span> <span class="st">"bottom"</span>)</code></pre></div>
-<p><img src="wdpar_files/figure-html/unnamed-chunk-12-1.png" width="432" style="display: block; margin: auto;"></p>
+<p><img src="wdpar_files/figure-html/unnamed-chunk-13-1.png" width="432" style="display: block; margin: auto;"></p>
 </div>
 <div id="citation" class="section level3">
 <h3 class="hasAnchor">

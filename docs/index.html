@@ -98,7 +98,7 @@ devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumen
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(wdpar)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggmap)</code></pre></div>
-<p>Now we will download protected area data for Malta. Note that we could have alternatively downloaded the data using Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO3 code</a> (MLT).</p>
+<p>Now we will download protected area data for Malta from <a href="protectedplanet.net">Protected Planet</a>. We can achieve this by specifying Malta’s country name (i.e. <code>"Malta"</code>) or Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO3 code</a> (i.e. <code>"MLT"</code>). Note that protected areas represented as point localities will be absent when fetching data for an individual country. Please refer to the package vignette for information on obtaining all protected areas and including those that are represented as point localities.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download protected area data for Malta</span>
 mlt_raw_pa_data &lt;-<span class="st"> </span><span class="kw">wdpa_fetch</span>(<span class="st">"Malta"</span>, <span class="dt">wait =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <p>Next, we will clean the data set. See <code>?wdpa_clean</code> for a detailed description of the data cleaning process.</p>

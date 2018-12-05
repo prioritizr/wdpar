@@ -31,11 +31,11 @@ vigns:
 	touch inst/doc/.gitkeep
 
 quicksite:
-	R --slave -e "pkgdown::build_site(run_dont_run = TRUE, lazy = TRUE)"
+	R --slave -e "pkgdown::build_site(run_dont_run = FALSE, lazy = TRUE)"
 
 site:
 	R --slave -e "pkgdown::clean_site()"
-	R --slave -e "pkgdown::build_site(run_dont_run = TRUE, lazy = TRUE)"
+	R --slave -e "pkgdown::build_site(run_dont_run = FALSE, lazy = TRUE)"
 
 quickcheck:
 	echo "\n===== R CMD CHECK =====\n" > check.log 2>&1

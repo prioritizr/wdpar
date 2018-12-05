@@ -43,11 +43,22 @@ library(dplyr)
 library(ggmap)
 ```
 
-Now we will download protected area data for Malta from [Protected Planet](protectedplanet.net). Note that we could have alternatively downloaded the data using Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (MLT).
+Now we will download protected area data for Malta from [Protected Planet](protectedplanet.net). We can achieve this by specifying Malta's country name (i.e. `"Malta"`) or Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (i.e. `"MLT"`). Note that protected areas represented as point localities will be absent when fetching data for an individual country.
 
 ```{r}
 # download protected area data for Malta
+# (excluding areas represented as point localities)
 mlt_raw_pa_data <- wdpa_fetch("Malta")
+```
+
+If you require all protected area data for a country, including areas represented as point localities, you will need to fetch the global dataset (approx. 1GB) and filter out protected areas manually. Below is some example code to achieve this, but note that it can take over 20 minutes to complete. This code is provided to serve as a reference and you do not need to run it to complete this tutorial.
+
+```{r}
+# # fetch global data
+# global_raw_data <- wdpa_fetch("global", wait = TRUE)
+#
+# # subset data to include only Malta
+# mlt_raw_pa_data <- global_raw_data %>% filter(ISO == "MLT")
 ```
 
 Next, we will clean the data set. See the help page for `wdpa_clean` for a detailed description on the data cleaning process.
@@ -130,6 +141,8 @@ ggmap(bg) +
 geom_sf(aes(fill = IUCN_CAT), data = mlt_pa_data, inherit.aes = FALSE) +
 theme(axis.title = element_blank(), legend.position = "bottom")
 ```
+
+
 
 ### Citation
 

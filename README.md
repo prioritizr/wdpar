@@ -7,7 +7,7 @@ wdpar: Interface to the World Database on Protected Areas
 
 ### Overview
 
-The *wdpar R* package provides an interface to the World Database on Protected Areas (WDPA). It provides functions for automatically downloading data (from [Protected Planet](http://protectedplanet.net)) and cleaning data following best practices (outlined in [Butchart *et al.* 2015](https://dx.doi.org/10.1111/conl.12158); [Runge *et al.* 2015](https://dx.doi.org/10.1126/science.aac9180); and [Protected Planet](https://www.protectedplanet.net/c/calculating-protected-area-coverage)).
+The *wdpar R* package provides an interface to the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/). It provides functions for downloading and cleaning data following best practices (outlined in [Butchart *et al.* 2015](https://dx.doi.org/10.1111/conl.12158); [Runge *et al.* 2015](https://dx.doi.org/10.1126/science.aac9180); and [Protected Planet](https://www.protectedplanet.net/c/calculating-protected-area-coverage)).
 
 ### Installation
 
@@ -30,7 +30,7 @@ library(dplyr)
 library(ggmap)
 ```
 
-Now we will download protected area data for Malta. Note that we could have alternatively downloaded the data using Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (MLT).
+Now we will download protected area data for Malta from [Protected Planet](protectedplanet.net). We can achieve this by specifying Malta's country name (i.e. `"Malta"`) or Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (i.e. `"MLT"`). Note that protected areas represented as point localities will be absent when fetching data for an individual country. Please refer to the package vignette for information on obtaining all protected areas and including those that are represented as point localities.
 
 ``` r
 # download protected area data for Malta

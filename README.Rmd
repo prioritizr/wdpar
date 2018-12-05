@@ -73,7 +73,7 @@ head(mlt_pa_data)
 
 Finally, after cleaning the data, let's plot a map showing Malta's protected areas and color each area according to its management category ([as defined by the The International Union for Conservation of Nature](https://www.iucn.org/theme/protected-areas/about/protected-area-categories)).
 
-```{r "readme-map", message = FALSE, warning = FALSE, out.width = "50%"}
+```{r "readme-map", message = FALSE, warning = FALSE, out.width = ifelse(isTRUE(knitr:::is_html_output()), "40%", "20%")}
 # reproject data to longitude/latitude for plotting
 mlt_pa_data <- st_transform(mlt_pa_data, 4326)
 

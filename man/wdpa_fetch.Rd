@@ -44,7 +44,9 @@ This function will download the specified protected area
   data and return it. \strong{It is strongly recommended that the data be
   cleaned prior to using for analysis}. Check out the
   \code{\link{wdpa_clean}} function to clean the data according to standard
-  practices.
+  practices. For information on this database,
+  prefer refer to the official manual
+  (\url{https://www.protectedplanet.net/c/wdpa-manual}).
 }
 \examples{
 \donttest{
@@ -67,5 +69,6 @@ global_raw_data <- wdpa_fetch("global")
 \seealso{
 \code{\link{wdpa_clean}}, \code{\link{wdpa_read}},
   \code{\link{wdpa_url}}, \code{\link[countrycode]{countrycode}},
-  \url{http://protectedplanet.net}.
+  \url{http://protectedplanet.net},
+  \url{https://www.protectedplanet.net/c/wdpa-manual}
 }

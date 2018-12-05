@@ -69,7 +69,7 @@ test_that("st_remove_holes (sfg)", {
   expect_equal(y3, x3)
 })
 
-test_that("st_erase_overlaps (sf) [1]", {
+test_that("st_erase_overlaps (sf)", {
   # create input testing data
   pl1 <- sf::st_polygon(list(matrix(c(0, 0, 2, 0, 1, 1, 0, 0), byrow = TRUE,
                                     ncol = 2))) * 100
@@ -93,10 +93,12 @@ test_that("st_erase_overlaps (sf) [1]", {
   # run tests
   expect_is(y2, "sf")
   expect_equal(y1[["order"]], y2[["order"]])
-  expect_equivalent(y1[["geometry"]], y2[["geometry"]])
+  expect_true(sf::st_equals(sf::st_set_precision(y1[["geometry"]], 1000),
+                            sf::st_set_precision(y2[["geometry"]], 1000),
+                            sparse = FALSE)[1])
 })
 
-test_that("st_extract_holes (sf) [2]", {
+test_that("st_extract_holes (sf)", {
   # create data
   set.seed(500)
   outer1 <- matrix(c(0, 0, 10, 0, 10, 10, 0, 10, 0, 0), ncol = 2, byrow = TRUE)

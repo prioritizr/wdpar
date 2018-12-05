@@ -20,73 +20,113 @@ w = 3.5
 is_check <- ("CheckExEnv" %in% search()) || any(c("_R_CHECK_TIMINGS_",
              "_R_CHECK_LICENSE_") %in% names(Sys.getenv()))
 knitr::opts_chunk$set(fig.align = "center", eval = !is_check,
-                      root.dir = normalizePath("../.."))
+                      root.dir = normalizePath("../.."),
+                      fig.height = 3.5, fig.width = 3.5)
 ```
 
 ```{r, include = FALSE}
 devtools::load_all()
 ```
 
-Here we will provide a short introduction to the _wdpar R_ package.
-
-First, we will load the _wdpar R_ package. We will also load the _sf_ and _dplyr R_ packages to help explore protected area data.
+Here we will provide a short introduction to the _wdpar R_ package. First, we will load the _wdpar R_ package. We will also load the _sf_ and _dplyr R_ packages to help explore the data. Additionally, we will load the _ggmap R_ package to visualize the data.
 
 ```{r, message = FALSE, warning = FALSE}
 # load packages
 library(wdpar)
-library(sf)
 library(dplyr)
+library(ggmap)
 ```
 
-Now we will download protected area data for Malta. Note that we could have alternatively downloaded the data using Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (MLT).
+Now we will download protected area data for Malta from [Protected Planet](protectedplanet.net). Note that we could have alternatively downloaded the data using Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (MLT).
 
 ```{r}
 # download protected area data for Malta
 mlt_raw_pa_data <- wdpa_fetch("Malta")
 ```
 
-Next, we will clean the data set. Note that we will only use a single thread for data processing, but you could use the `threads` argument to use multiple threads for data processing. See the help page for `wdpa_clean` for a detailed description on the data cleaning process.
+Next, we will clean the data set. See the help page for `wdpa_clean` for a detailed description on the data cleaning process.
 
 ```{r}
 # clean Malta data
 mlt_pa_data <- wdpa_clean(mlt_raw_pa_data)
 ```
 
-Now that we have finished cleaning the data, let's calculate some statistics. We can calculate the total amount of area inside inside Malta's protected area system (km$^2$). Note that this includes marine and terrestrial protected areas.
+Now that we have finished cleaning the data, let's preview the data. For more information on what these columns mean, please refer to the [official manual](https://www.protectedplanet.net/c/wdpa-manual) (available in [English](http://wcmc.io/WDPA_Manual), [Spanish](http://wcmc.io/WDPA_Manual_ES), [French](http://wcmc.io/WDPA_Manual_FR), and [Russian](http://wcmc.io/WDPA_Manual_RU)).
+
+```{r}
+# print first six rows of the data
+head(mlt_pa_data)
+```
+
+We will now reproject the data to longitude/latitude coordinates ([EPSG:4326](http://spatialreference.org/ref/epsg/wgs-84/)) for visualization purposes.
+
+```{r}
+# reproject data
+mlt_pa_data <- st_transform(mlt_pa_data, 4326)
+```
+
+Next, we can plot a map showing the boundaries of Malta's protected area system.
+
+```{r,  message = FALSE, warning = FALSE}
+# download basemap for making the map
+bg <- get_stamenmap(unname(st_bbox(mlt_pa_data)), zoom = 8,
+                    maptype = "watercolor", force = TRUE)
+
+# print map
+ggmap(bg) +
+geom_sf(data = mlt_pa_data, fill = "#31A35480", inherit.aes = FALSE) +
+theme(axis.title = element_blank())
+```
+
+We can also create a histogram showing the year when each protected area was established.
+
+```{r}
+hist(mlt_pa_data$STATUS_YR, main = "Malta's protected areas", xlab = "Year established")
+```
+
+Now let's calculate some statistics. We can calculate the total amount of land and ocean inside Malta's protected area system (km^2^).
 
 ```{r}
 # calculate total amount of area inside protected areas (km^2)
 statistic <- mlt_pa_data %>%
-             as.data.frame %>%
-             summarize(area = sum(AREA_KM2))
+             as.data.frame() %>%
+             select(-geometry) %>%
+             group_by(MARINE) %>%
+             summarize(area_km = sum(AREA_KM2)) %>%
+             ungroup()
 
 # print statistic
 print(statistic)
 ```
 
-We can also calculate the percentage of land inside [protected areas that are designated strictly to protect biodiversity (and also potentially geological/geomorphological features)](https://www.iucn.org/theme/protected-areas/about/protected-area-categories).
+We can also calculate the percentage of land inside its protected area system that are managed under different categories (i.e. [using the protected area management categories defined by The International Union for Conservation of Nature](https://www.iucn.org/theme/protected-areas/about/protected-area-categories)).
 
 ```{r}
-# fetch spatial data for Malta's land mass and calculate its area (km^2)
-mlt_land_data <- land_and_eez_fetch("Malta") %>%
-                 filter(TYPE == "LAND") %>%
-                 summarize(area = as.numeric(st_area(.)) * 1e+6)
-
 # calculate percentage of land inside protected areas (km^2)
 statistic <- mlt_pa_data %>%
-             as.data.frame %>%
-             filter(MARINE == "terrestrial", IUCN_CAT == "Ia") %>%
-             summarize(area_protected = sum(AREA_KM2)) %>%
-             mutate(total_land_area = mlt_land_data[["area"]]) %>%
-             mutate(percentage_protected = (area_protected / total_land_area) *
-                                           100)
+             as.data.frame() %>%
+             select(-geometry) %>%
+             group_by(IUCN_CAT) %>%
+             summarize(area_km = sum(AREA_KM2)) %>%
+             ungroup() %>%
+             mutate(percentage = (area_km / sum(area_km)) * 100)
 
 # print statistic
 print(statistic)
 ```
 
-Finally, let's plot a map showing Malta's protected areas and color each area according to its management category.
+We can also plot a map showing Malta's protected areas and color each area according to it's management category.
 
-```{r, fig.height = 2.5, fig.width = 4.5}
-plot(mlt_pa_data[, "IUCN_CAT"], main = "IUCN Category", key.size = lcm("4"))
+```{r, message = FALSE, warning = FALSE}
+ggmap(bg) +
+geom_sf(aes(fill = IUCN_CAT), data = mlt_pa_data, inherit.aes = FALSE) +
+theme(axis.title = element_blank(), legend.position = "bottom")
+```
+
+### Citation
+
+Please cite the _wdpar R_ package and the World Database on Protected Areas (WDPA) in publications.
+
+```{r, echo  = FALSE, result = "asis", comment = ""}
+citation("wdpar")
 ```

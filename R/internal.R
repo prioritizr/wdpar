@@ -48,7 +48,7 @@ country_code <- function(x) {
 #' @return \code{character} file path.
 #'
 #' @noRd
-wdpa_file <- function(x, download_dir) {
+wdpa_file <- function(x, download_dir = rappdirs::user_data_dir("wdpar")) {
   # validate arguments
   assertthat::assert_that(assertthat::is.string(x),
                           assertthat::is.dir(download_dir))

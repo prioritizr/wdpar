@@ -61,16 +61,32 @@ st_remove_holes.sfg <- function(x) {
 
 #' Erase overlaps
 #'
-#' Erase overlapping geometries in a \code{\link[sf]{sf}} object.
+#' Erase overlapping geometries in a \code{\link[sf]{sf}} object. This function
+#' may utilize the System for Automated Geoscientific Analyses (SAGA) software.
 #'
 #' @param x code{\link[sf]{sf}} object.
 #'
-#' @details This is a more robust---albeit slower---implementation for
-#'   \code{\link{st_difference}} when \code{y} is missing.
+#' @param saga_env \code{\link[base]{list}} object that contains information
+#'   for interfacing with SAGA. This object is typically created using
+#'   \code{\link[RSAGA]{rsaga.env}}.
 #'
+#' @param verbose \code{logical} should progress be reported? Defaults to
+#'   \code{FALSE}.
+#'
+#' @details This is a more robust---albeit slower---implementation for
+#'   \code{\link{st_difference}} when \code{y} is missing. It also uses
+#'   SAGA (via the \pkg{RSAGA} package).
+#'
+#' @details Depending on the correctness of the geometry in the argument
+#'   to \code{x}, this function may require the SAGA software to be installed
+#'   on the system so that \code{\link{saga_union}} and
+#'   \code{\link{saga_difference}} can be used when \code{\link[sf]{st_union}}
+#'   and \code{\link[sf]{st_difference}} fail. For information on installing
+#'   SAGA, refer to: https://sourceforge.net/p/saga-gis/wiki/Binary%20Packages/.
+
 #' @return code{sf} object.
 #'
-#' @seealso \code{\link{st_difference}}.
+#' @seealso \code{\link[sf]{st_difference}}, \code{\link{saga_difference}}.
 #'
 #' @examples
 #' # create data
@@ -91,44 +107,69 @@ st_remove_holes.sfg <- function(x) {
 #' plot(sf::st_geometry(x), main = "original", col = "white")
 #' plot(sf::st_geometry(y), main = "no overlaps", col = "white")
 #' @export
-st_erase_overlaps <- function(x) {
+st_erase_overlaps <- function(x, verbose = FALSE) {
   # validate arguments
-  assertthat::assert_that(inherits(x, "sf"))
+  assertthat::assert_that(inherits(x, "sf"),
+                          assertthat::is.flag(verbose))
   # extract precision
   precision <- sf::st_precision(x)
   # processing
   g <- sf::st_geometry(x)
   o <- g[1]
+  # initialize progress bar
+  if (verbose) {
+    pb <- progress::progress_bar$new(
+      format = "[:bar] :current/:total (:percent eta:) eta: :eta",
+      total = length(g) - 1, clear = FALSE, width = 60)
+  }
   for (i in seq(2, length(g))) {
-    # find overlapping geometries
+    ## find overlapping geometries
     ovr <- sf::st_overlaps(g[i], o)[[1]]
-    # if overlapping geometries then calculate difference
+    ## if overlapping geometries then calculate difference
     if (length(ovr) > 0) {
-      # create union
-      u <- suppressWarnings(sf::st_set_precision(sf::st_collection_extract(
-             lwgeom::st_make_valid(sf::st_set_precision(sf::st_union(o[ovr]),
-             precision)), "POLYGON"), precision))
-      # calculate difference
-      d <- suppressWarnings(sf::st_difference(g[i], u))
+      ## create union
+      ### run union
+      u <- sf::st_union(sf::st_set_precision(o[ovr], precision))
+      ### repair the geometry if there are any issues
+      if (!all(sf::st_is_valid(u)))
+        u <- suppressWarnings(sf::st_collection_extract(
+          lwgeom::st_make_valid(sf::st_set_precision(u, precision)),
+          "POLYGON"))
+      ## calculate difference
+      ### run difference
+      d <- sf::st_difference(
+        sf::st_set_precision(g[i], precision),
+        sf::st_set_precision(u, precision))
+      if (length(d) == 0L)
+        d[[1]] <- sf::st_polygon()
+      d <- suppressWarnings(sf::st_collection_extract(d, "POLYGON"))
+      ### repair the geometry if there are any issues
+      if (!all(sf::st_is_valid(d)))
+        d <- suppressWarnings(sf::st_collection_extract(
+          lwgeom::st_make_valid(sf::st_set_precision(d, precision)),
+          "POLYGON"))
     } else {
       d <- g[i]
     }
-    # find empty geometries
-    empty <- vapply(d, inherits, logical(1), "GEOMETRYCOLLECTION")
-    # process geometry if its not empty
+    ## find empty geometries
+    empty <- sf::st_is_empty(d)
+    ## process geometry if its not empty
     if (!all(empty)) {
-      # remove slivers (areas less then 1 m^2)
+      ### remove slivers (areas less then 1 m^2)
       d <- d[!empty]
       d <- sf::st_cast(d, "POLYGON")
       d <- d[as.numeric(sf::st_area(d)) > 1]
       d <- sf::st_cast(d, "MULTIPOLYGON")
       if (length(d) == 0)
-        d <- list(sf::st_geometrycollection(list()))
+        d[[1]] <- sf::st_polygon()
+       d <- suppressWarnings(sf::st_collection_extract(d, "POLYGON"))
     } else {
-      d <- list(sf::st_geometrycollection(list()))
+      d <- sf::st_sfc(sf::st_polygon())
     }
-    # store geometry
+    ## store geometry
     o[i] <- d[[1]]
+    ## increment progress bar
+    if (verbose) pb$tick()
   }
   x <- sf::st_set_geometry(x, o)
   x <- sf::st_set_precision(x, precision)

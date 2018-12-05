@@ -21,6 +21,12 @@ NULL
 #'   the spatial data (used with \code{\link[sf]{st_set_precision}}. The
 #'   default argument corresponds to the nearest millimeter (i.e. 1000).
 #'
+#' @param erase_overlaps \code{logical} should overlapping boundaries be removed
+#'   erased? This can be useful when the protected area boundaries are
+#'   going to be rasterized, and so processing time can be substantially
+#'   reduced by skipping this step because overlapping boundaries will not be a
+#'   problem. Defaults to \code{TRUE}.
+#'
 #' @param verbose \code{logical} should progress on data cleaning be reported?
 #'   Defaults to \code{TRUE} in an interactive session, otherwise
 #'   \code{FALSE}.
@@ -148,7 +154,8 @@ NULL
 #' @export
 wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs",
                        snap_tolerance = 1,
-                       simplify_tolerance = 1, geometry_precision = 1000,
+                       simplify_tolerance = 0, geometry_precision = 1000,
+                       erase_overlaps = TRUE,
                        verbose = interactive()) {
   # check arguments are valid
   assertthat::assert_that(inherits(x, "sf"),
@@ -163,6 +170,7 @@ wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +da
                           assertthat::is.number(simplify_tolerance),
                           isTRUE(simplify_tolerance >= 0),
                           assertthat::is.count(geometry_precision),
+                          assertthat::is.flag(erase_overlaps),
                           assertthat::is.flag(verbose),
                           pingr::is_online())
   # check that x is in wgs1984
@@ -268,7 +276,7 @@ wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +da
     x <- sf::st_set_precision(x, geometry_precision)
     if (verbose) {
       utils::flush.console()
-      message("buffering points: ", cli::symbol$tick)
+      message("buffering by zero: ", cli::symbol$tick)
     }
   }
   ## buffer areas represented as points
@@ -350,21 +358,19 @@ wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +da
     message("formatting attribute data: ", cli::symbol$tick)
   }
   ## remove overlaps data
-  if (verbose) message("erasing overlaps: ", cli::symbol$continue, "\r",
-                       appendLF = FALSE)
-  x$IUCN_CAT <- factor(as.character(x$IUCN_CAT),
-                       levels = c("Ia", "Ib", "II", "III", "IV", "V", "VI",
-                                  "Not Reported", "Not Applicable",
-                                  "Not Assigned"))
-  x <- sf::st_set_precision(x, geometry_precision)
-  x <- st_erase_overlaps(x[order(x$IUCN_CAT, x$STATUS_YR), ])
-  x$IUCN_CAT <- as.character(x$IUCN_CAT)
-  x <- x[!sf::st_is_empty(x), ]
-  x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
-  x <- sf::st_set_precision(x, geometry_precision)
-  if (verbose) {
-    utils::flush.console()
-    message("erasing overlaps: ", cli::symbol$tick)
+  if (erase_overlaps) {
+    if (verbose) message("erasing overlaps: ", cli::symbol$continue)
+    x$IUCN_CAT <- factor(as.character(x$IUCN_CAT),
+                         levels = c("Ia", "Ib", "II", "III", "IV", "V", "VI",
+                                    "Not Reported", "Not Applicable",
+                                    "Not Assigned"))
+    x <- sf::st_set_precision(x, geometry_precision)
+    x <- st_erase_overlaps(x[order(x$IUCN_CAT, x$STATUS_YR), ], verbose)
+    x$IUCN_CAT <- as.character(x$IUCN_CAT)
+    x <- x[!sf::st_is_empty(x), ]
+    x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+    x <- sf::st_set_precision(x, geometry_precision)
+    if (verbose) message("erasing overlaps: ", cli::symbol$tick)
   }
   ## remove slivers
   if (verbose) message("removing slivers: ", cli::symbol$continue, "\r",
@@ -377,7 +383,7 @@ wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +da
   ## calculate area in square kilometers
   if (verbose) message("calulating area: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
-  areas <- as.numeric(sf::st_area(x)) * 1e+6
+  areas <- as.numeric(sf::st_area(x)) * 1e-6
   x$AREA_KM2 <- as.numeric(areas)
   if (verbose) {
     utils::flush.console()

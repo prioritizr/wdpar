@@ -3,7 +3,7 @@ context("wdpa_fetch")
 test_that("country name", {
   skip_on_cran()
   skip_if_not(pingr::is_online())
-  x <- wdpa_fetch("Liechtenstein", wait = TRUE)
+  x <- suppressWarnings(wdpa_fetch("Liechtenstein", wait = TRUE))
   expect_is(x, "sf")
   expect_true(all(x$ISO3 == "LIE"))
 })
@@ -11,7 +11,7 @@ test_that("country name", {
 test_that("ISO3", {
   skip_on_cran()
   skip_if_not(pingr::is_online())
-  x <- wdpa_fetch("LIE", wait = TRUE)
+  x <- suppressWarnings(wdpa_fetch("LIE", wait = TRUE))
   expect_is(x, "sf")
   expect_true(all(x$ISO3 == "LIE"))
 })
@@ -21,6 +21,6 @@ test_that("global", {
   skip_if_not(pingr::is_online())
   skip_if(mean(pingr::ping("www.google.com", count = 10)) > 10,
           "slow internet connection detected")
-  x <- wdpa_fetch("global")
+  x <- suppressWarnings(wdpa_fetch("global"))
   expect_is(x, "sf")
 })

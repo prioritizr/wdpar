@@ -15,10 +15,10 @@ NULL
 #'   grid for resolving invalid geometries. Defaults to 1 meter.
 #'
 #' @param simplify_tolerance \code{numeric} simplification tolerance.
-#'   Defaults to 1 meters.
+#'   Defaults to 0 meters.
 #'
 #' @param geometry_precision \code{numeric} level of precision for processing
-#'   the spatial data (used with \code{\link[sf]{st_set_precision}}. The
+#'   the spatial data (used with \code{\link[sf]{st_set_precision}}). The
 #'   default argument corresponds to the nearest millimeter (i.e. 1000).
 #'
 #' @param erase_overlaps \code{logical} should overlapping boundaries be removed
@@ -59,7 +59,7 @@ NULL
 #      \code{"REP_AREA"}).
 #'
 #'   \item Geometries are wrapped to the dateline (using
-#'     \code{\link[sf]{st_wrapdateline}} with the options
+#'     \code{\link[lwgeom]{st_wrapdateline}} with the options
 #'     \code{"WRAPDATELINE=YES"} and \code{"DATELINEOFFSET=180"}).
 #'
 #'   \item Reproject data to coordinate system specified in argument to
@@ -74,7 +74,7 @@ NULL
 #'
 #'   \item Snap the geometries to a grid to fix any remaining
 #'     geometry issues (using argument to \code{snap_tolerance} and
-#'     \code{link[lwgeom]{st_snap_to_grid}}).
+#'     \code{\link[lwgeom]{st_snap_to_grid}}).
 #'
 #'   \item Fix any invalid geometries that have manifested (using
 #'     (using \code{\link[lwgeom]{st_make_valid}}).
@@ -91,7 +91,7 @@ NULL
 #'     \code{1} = \code{"partial"}, \code{2} = \code{"marine"}).
 #'
 #'   \item Zeros in the \code{"STATUS_YR"} fi_eld are replaced with
-#'     missing values (i.e. \code{NA_real_} values.
+#'     missing values (i.e. \code{NA_real_} values).
 #'
 #'   \item Zeros in the \code{"NO_TK_AREA"} field are replaced with \code{NA}
 #'     values for areas where such data are not reported or applicable
@@ -137,19 +137,14 @@ NULL
 #'
 #' @examples
 #' \donttest{
-#' # fetch data for the Marshall Islands
-#' mhl_raw_data <- wdpa_fetch("MHL", wait = TRUE)
+#' # fetch data for the Liechtenstein
+#' lie_raw_data <- wdpa_fetch("LIE", wait = TRUE)
 #'
 #' # clean data
-#' mhl_data <- wdpa_clean(mhl_raw_data)
+#' lie_data <- wdpa_clean(lie_raw_data)
 #'
 #' # plot cleaned dataset
-#' plot(mhl_data)
-#'
-#' # plot geometries for visual comparison
-#' par(mfrow = c(1, 2))
-#' plot(st_geometry(mhl_raw_data), main = "original data", col = "white")
-#' plot(st_geometry(mhl_data), main = "cleaned data", col = "white")
+#' plot(lie_data)
 #' }
 #' @export
 wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs",

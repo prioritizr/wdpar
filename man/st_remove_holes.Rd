@@ -7,16 +7,16 @@
 st_remove_holes(x)
 }
 \arguments{
-\item{x}{\code{link[sf]{sf}}, \code{\link[sf]{sfc}}, or \code{\link[sf]{sfg}}
-object.}
+\item{x}{\code{\link[sf]{sf}}, \code{\link[sf]{sfc}}, \code{sfg} (see
+\code{\link[sf]{st}}) object.}
 }
 \value{
 Object of the same class as argument to \code{x} with the holes
   removed.
 }
 \description{
-Remove holes from polygons or multipolygons from a \code{link[sf]{sf}},
-\code{\link[sf]{sfc}}, or \code{\link[sf]{st}} object.
+Remove holes from polygons or multipolygons from a \code{\link[sf]{sf}},
+\code{\link[sf]{sfc}}, or \code{sfg} (see \code{\link[sf]{st}}) object.
 }
 \examples{
 # create data

@@ -1,4 +1,3 @@
-
 authors:
   Jeffrey O Hanson:
     href: http://jeffrey-hanson.com
@@ -6,3 +5,22 @@ authors:
 template:
   params:
     bootswatch: flatly
+
+reference:
+  - title: Summary
+    desc: Summary of the package
+    contents:
+      - wdpar
+  - title: WDPA functions
+    desc: Functions for fetching and cleaning data
+    contents:
+      - wdpa_fetch
+      - wdpa_clean
+      - wdpa_read
+      - wdpa_url
+  - title: Spatial functions
+    desc: Functions for processing spatial data
+    contents:
+      - st_erase_overlaps
+      - st_extract_holes
+      - st_remove_holes

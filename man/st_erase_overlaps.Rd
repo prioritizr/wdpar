@@ -7,33 +7,20 @@
 st_erase_overlaps(x, verbose = FALSE)
 }
 \arguments{
-\item{x}{code{\link[sf]{sf}} object.}
+\item{x}{\code{\link[sf]{sf}} object.}
 
 \item{verbose}{\code{logical} should progress be reported? Defaults to
 \code{FALSE}.}
-
-\item{saga_env}{\code{\link[base]{list}} object that contains information
-for interfacing with SAGA. This object is typically created using
-\code{\link[RSAGA]{rsaga.env}}.}
 }
 \value{
-code{sf} object.
+\code{\link[sf]{sf}} object.
 }
 \description{
-Erase overlapping geometries in a \code{\link[sf]{sf}} object. This function
-may utilize the System for Automated Geoscientific Analyses (SAGA) software.
+Erase overlapping geometries in a \code{\link[sf]{sf}} object.
 }
 \details{
 This is a more robust---albeit slower---implementation for
-  \code{\link{st_difference}} when \code{y} is missing. It also uses
-  SAGA (via the \pkg{RSAGA} package).
-
-Depending on the correctness of the geometry in the argument
-  to \code{x}, this function may require the SAGA software to be installed
-  on the system so that \code{\link{saga_union}} and
-  \code{\link{saga_difference}} can be used when \code{\link[sf]{st_union}}
-  and \code{\link[sf]{st_difference}} fail. For information on installing
-  SAGA, refer to: https://sourceforge.net/p/saga-gis/wiki/Binary%20Packages/.
+  \code{\link{st_difference}} when \code{y} is missing.
 }
 \examples{
 # create data
@@ -55,5 +42,5 @@ plot(sf::st_geometry(x), main = "original", col = "white")
 plot(sf::st_geometry(y), main = "no overlaps", col = "white")
 }
 \seealso{
-\code{\link[sf]{st_difference}}, \code{\link{saga_difference}}.
+\code{\link[sf]{st_difference}}.
 }

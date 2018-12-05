@@ -83,24 +83,12 @@ mlt_pa_data <- st_transform(mlt_pa_data, 4326)
 # download basemap imagery
 bg <- get_stamenmap(unname(st_bbox(mlt_pa_data)), zoom = 8,
                     maptype = "watercolor", force = TRUE)
-```
 
-    ## Map from URL : http://tile.stamen.com/watercolor/8/137/100.jpg
-
-    ## Map from URL : http://tile.stamen.com/watercolor/8/138/100.jpg
-
-    ## Map from URL : http://tile.stamen.com/watercolor/8/137/101.jpg
-
-    ## Map from URL : http://tile.stamen.com/watercolor/8/138/101.jpg
-
-``` r
 # make map
 ggmap(bg) +
 geom_sf(aes(fill = IUCN_CAT), data = mlt_pa_data, inherit.aes = FALSE) +
 theme(axis.title = element_blank(), legend.position = "bottom")
 ```
-
-    ## Coordinate system already present. Adding new coordinate system, which will replace the existing one.
 
 <img src="man/figures/README-unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
 

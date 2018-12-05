@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Removes holes — st_remove_holes • wdpar</title>
+<title>Extract holes — st_extract_holes • wdpar</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Removes holes — st_remove_holes" />
+<meta property="og:title" content="Extract holes — st_extract_holes" />
 
-<meta property="og:description" content="Remove holes from polygons or multipolygons from a sf,
+<meta property="og:description" content="Extract holes from polygons or multipolygons from a sf,
 sfc, or sfg (see st) object." />
 <meta name="twitter:card" content="summary" />
 
@@ -106,19 +106,19 @@ sfc, or sfg (see st) object." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Removes holes</h1>
+    <h1>Extract holes</h1>
     <small class="dont-index">Source: <a href='https://github.com/jeffreyhanson/wdpar/blob/master/R/geo.R'><code>R/geo.R</code></a></small>
-    <div class="hidden name"><code>st_remove_holes.Rd</code></div>
+    <div class="hidden name"><code>st_extract_holes.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Remove holes from polygons or multipolygons from a <code><a href='https://www.rdocumentation.org/packages/sf/topics/sf'>sf</a></code>,
+    <p>Extract holes from polygons or multipolygons from a <code><a href='https://www.rdocumentation.org/packages/sf/topics/sf'>sf</a></code>,
 <code><a href='https://www.rdocumentation.org/packages/sf/topics/sfc'>sfc</a></code>, or <code>sfg</code> (see <code><a href='https://www.rdocumentation.org/packages/sf/topics/st'>st</a></code>) object.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>st_remove_holes</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>st_extract_holes</span>(<span class='no'>x</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -133,7 +133,7 @@ sfc, or sfg (see st) object." />
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Object of the same class as argument to <code>x</code> with the holes
-  removed.</p>
+  represented as geometries.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -147,14 +147,13 @@ sfc, or sfg (see st) object." />
                 <span class='kw pkg'>sf</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st'>st_multipolygon</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>outer2</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>outer1</span>, <span class='no'>hole1</span>,
                                                             <span class='no'>hole2</span>))),
                 <span class='kw'>crs</span> <span class='kw'>=</span> <span class='fl'>4326</span>)
-
-<span class='co'># remove holes</span>
-<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'>st_remove_holes</span>(<span class='no'>x</span>)
+<span class='co'># extract holes</span>
+<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'>st_extract_holes</span>(<span class='no'>x</span>)
 
 <span class='co'># plot geometries for visual comparison</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='kw'>mfrow</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>))
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"original"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>y</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"holes removed"</span>)</div><div class='img'><img src='st_remove_holes-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>y</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"holes"</span>)</div><div class='img'><img src='st_extract_holes-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

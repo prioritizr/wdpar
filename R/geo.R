@@ -3,11 +3,11 @@ NULL
 
 #' Removes holes
 #'
-#' Remove holes from polygons or multipolygons from a \code{link[sf]{sf}},
-#' \code{\link[sf]{sfc}}, or \code{\link[sf]{st}} object.
+#' Remove holes from polygons or multipolygons from a \code{\link[sf]{sf}},
+#' \code{\link[sf]{sfc}}, or \code{sfg} (see \code{\link[sf]{st}}) object.
 #'
-#' @param x \code{link[sf]{sf}}, \code{\link[sf]{sfc}}, or \code{\link[sf]{sfg}}
-#'   object.
+#' @param x \code{\link[sf]{sf}}, \code{\link[sf]{sfc}}, \code{sfg} (see
+#'   \code{\link[sf]{st}}) object.
 #'
 #' @return Object of the same class as argument to \code{x} with the holes
 #'   removed.
@@ -61,32 +61,19 @@ st_remove_holes.sfg <- function(x) {
 
 #' Erase overlaps
 #'
-#' Erase overlapping geometries in a \code{\link[sf]{sf}} object. This function
-#' may utilize the System for Automated Geoscientific Analyses (SAGA) software.
+#' Erase overlapping geometries in a \code{\link[sf]{sf}} object.
 #'
-#' @param x code{\link[sf]{sf}} object.
-#'
-#' @param saga_env \code{\link[base]{list}} object that contains information
-#'   for interfacing with SAGA. This object is typically created using
-#'   \code{\link[RSAGA]{rsaga.env}}.
+#' @param x \code{\link[sf]{sf}} object.
 #'
 #' @param verbose \code{logical} should progress be reported? Defaults to
 #'   \code{FALSE}.
 #'
 #' @details This is a more robust---albeit slower---implementation for
-#'   \code{\link{st_difference}} when \code{y} is missing. It also uses
-#'   SAGA (via the \pkg{RSAGA} package).
+#'   \code{\link{st_difference}} when \code{y} is missing.
 #'
-#' @details Depending on the correctness of the geometry in the argument
-#'   to \code{x}, this function may require the SAGA software to be installed
-#'   on the system so that \code{\link{saga_union}} and
-#'   \code{\link{saga_difference}} can be used when \code{\link[sf]{st_union}}
-#'   and \code{\link[sf]{st_difference}} fail. For information on installing
-#'   SAGA, refer to: https://sourceforge.net/p/saga-gis/wiki/Binary%20Packages/.
-
-#' @return code{sf} object.
+#' @return \code{\link[sf]{sf}} object.
 #'
-#' @seealso \code{\link[sf]{st_difference}}, \code{\link{saga_difference}}.
+#' @seealso \code{\link[sf]{st_difference}}.
 #'
 #' @examples
 #' # create data
@@ -179,11 +166,11 @@ st_erase_overlaps <- function(x, verbose = FALSE) {
 
 #' Extract holes
 #'
-#' Extract holes from polygons or multipolygons from a \code{link[sf]{sf}},
-#' \code{\link[sf]{sfc}}, or \code{\link[sf]{st}} object.
+#' Extract holes from polygons or multipolygons from a \code{\link[sf]{sf}},
+#' \code{\link[sf]{sfc}}, or \code{sfg} (see \code{\link[sf]{st}}) object.
 #'
-#' @param x \code{link[sf]{sf}}, \code{\link[sf]{sfc}}, or \code{\link[sf]{st}}
-#'   object.
+#' @param x \code{\link[sf]{sf}}, \code{\link[sf]{sfc}}, \code{sfg} (see
+#'   \code{\link[sf]{st}}) object.
 #'
 #' @return Object of the same class as argument to \code{x} with the holes
 #'   represented as geometries.

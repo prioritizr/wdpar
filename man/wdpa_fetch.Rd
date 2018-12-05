@@ -42,7 +42,7 @@ Download data from the World Database on Protected Areas (WDPA)
 \details{
 This function will download the specified protected area
   data and return it. \strong{It is strongly recommended that the data be
-  cleaned prior to using for analysis}. Check out the
+  cleaned prior to analysis}. Check out the
   \code{\link{wdpa_clean}} function to clean the data according to standard
   practices. For information on this database,
   prefer refer to the official manual
@@ -58,17 +58,11 @@ lie_raw_data <- wdpa_fetch("LIE")
 
 # plot data
 plot(lie_raw_data)
-
-\dontrun{
-# fetch data for all protected areas on the planet
-# note that this might take some time given that the global dataset is
-# over 1 GB in size
-global_raw_data <- wdpa_fetch("global")
-}}
+}
 }
 \seealso{
 \code{\link{wdpa_clean}}, \code{\link{wdpa_read}},
   \code{\link{wdpa_url}}, \code{\link[countrycode]{countrycode}},
   \url{http://protectedplanet.net},
-  \url{https://www.protectedplanet.net/c/wdpa-manual}
+  \url{https://www.protectedplanet.net/c/wdpa-manual}.
 }

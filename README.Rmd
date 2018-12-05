@@ -13,10 +13,10 @@ knitr::opts_chunk$set(fig.path = "man/figures/README-", fig.align = "center")
 ## wdpar: Interface to the World Database on Protected Areas
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
-[![Travis Build Status](https://img.shields.io/travis/jeffreyhanson/wdpar/master.svg?label=Mac%20OSX%20%26%20Linux)](https://travis-ci.org/jeffreyhanson/wdpar)
-[![AppVeyor Build Status](https://img.shields.io/appveyor/ci/jeffreyhanson/wdpa/master.svg?label=Windows)](https://ci.appveyor.com/project/jeffreyhanson/wdpar)
-[![Coverage Status](https://codecov.io/github/jeffreyhanson/wdpa/coverage.svg?branch=master)](https://codecov.io/github/jeffreyhanson/wdpar?branch=master)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/wdpa)](https://CRAN.R-project.org/package=wdpar)
+[![Travis Build Status](https://img.shields.io/travis/prioritizr/wdpar/master.svg?label=Mac%20OSX%20%26%20Linux)](https://travis-ci.org/prioritizr/wdpar)
+[![AppVeyor Build Status](https://img.shields.io/appveyor/ci/prioritizr/wdpar/master.svg?label=Windows)](https://ci.appveyor.com/project/prioritizr/wdpar)
+[![Coverage Status](https://codecov.io/github/prioritizr/wdpar/coverage.svg?branch=master)](https://codecov.io/github/prioritizr/wdpar?branch=master)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/wdpar)](https://CRAN.R-project.org/package=wdpar)
 
 ```{r, include = FALSE}
 devtools::load_all()
@@ -36,7 +36,7 @@ To install the developmental version of _wdpar_, use the following _R_ code:
 ```{r, eval = FALSE}
 if (!require(devtools))
   install.packages("devtools")
-devtools::install_github("jeffreyhanson/wdpar")
+devtools::install_github("prioritizr/wdpar")
 ```
 
 ### Example usage

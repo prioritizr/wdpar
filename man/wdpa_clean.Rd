@@ -7,8 +7,7 @@
 wdpa_clean(x,
   crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs",
   snap_tolerance = 1, simplify_tolerance = 0,
-  geometry_precision = 1000, threads = min(parallel::detectCores() - 1,
-  1), verbose = interactive())
+  geometry_precision = 1000, verbose = interactive())
 }
 \arguments{
 \item{x}{\code{\link[sf]{sf}} object containing protected area data.}
@@ -26,9 +25,6 @@ Defaults to 1 meters.}
 \item{geometry_precision}{\code{numeric} level of precision for processing
 the spatial data (used with \code{\link[sf]{st_set_precision}}. The
 default argument corresponds to the nearest millimeter (i.e. 1000).}
-
-\item{threads}{\code{integer} number of threads for parallel processing
-with the \pkg{RSAGA} package.}
 
 \item{verbose}{\code{logical} should progress on data cleaning be reported?
 Defaults to \code{TRUE} in an interactive session, otherwise

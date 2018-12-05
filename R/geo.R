@@ -1,4 +1,4 @@
-#' @include internal.R saga.R
+#' @include internal.R
 NULL
 
 #' Removes holes
@@ -107,10 +107,9 @@ st_remove_holes.sfg <- function(x) {
 #' plot(sf::st_geometry(x), main = "original", col = "white")
 #' plot(sf::st_geometry(y), main = "no overlaps", col = "white")
 #' @export
-st_erase_overlaps <- function(x, saga_env = RSAGA::rsaga.env(),
-                              verbose = FALSE) {
+st_erase_overlaps <- function(x, verbose = FALSE) {
   # validate arguments
-  assertthat::assert_that(inherits(x, "sf"), inherits(saga_env, "list"),
+  assertthat::assert_that(inherits(x, "sf"),
                           assertthat::is.flag(verbose))
   # extract precision
   precision <- sf::st_precision(x)
@@ -129,29 +128,21 @@ st_erase_overlaps <- function(x, saga_env = RSAGA::rsaga.env(),
     ## if overlapping geometries then calculate difference
     if (length(ovr) > 0) {
       ## create union
-      ### first attempt to use sf
-      u <- try(sf::st_union(sf::st_set_precision(o[ovr], precision)),
-               silent = TRUE)
-      ### if sf fails, then try to use saga instead
-      if (inherits(u, "try-error"))
-        u <- saga_union(o[ovr], saga_env)
+      ### run union
+      u <- sf::st_union(sf::st_set_precision(o[ovr], precision))
       ### repair the geometry if there are any issues
       if (!all(sf::st_is_valid(u)))
         u <- suppressWarnings(sf::st_collection_extract(
           lwgeom::st_make_valid(sf::st_set_precision(u, precision)),
           "POLYGON"))
       ## calculate difference
-      ### first attempt to use sf
-      d <- try(sf::st_difference(
+      ### run difference
+      d <- sf::st_difference(
         sf::st_set_precision(g[i], precision),
-        sf::st_set_precision(u, precision)), silent = TRUE)
-      if (!inherits(d, "try-error") && (length(d) == 0L))
+        sf::st_set_precision(u, precision))
+      if (length(d) == 0L)
         d[[1]] <- sf::st_polygon()
-      if (!inherits(d, "try-error"))
-        d <- suppressWarnings(sf::st_collection_extract(d, "POLYGON"))
-      ### if sf fails, then try to use saga instead
-      if (inherits(d, "try-error"))
-        d <- saga_difference(g[i], u, saga_env)
+      d <- suppressWarnings(sf::st_collection_extract(d, "POLYGON"))
       ### repair the geometry if there are any issues
       if (!all(sf::st_is_valid(d)))
         d <- suppressWarnings(sf::st_collection_extract(

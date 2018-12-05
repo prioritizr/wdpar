@@ -21,8 +21,11 @@ NULL
 #'   the spatial data (used with \code{\link[sf]{st_set_precision}}. The
 #'   default argument corresponds to the nearest millimeter (i.e. 1000).
 #'
-#' @param threads \code{integer} number of threads for parallel processing
-#'   with the \pkg{RSAGA} package.
+#' @param erase_overlaps \code{logical} should overlapping boundaries be removed
+#'   erased? This can be useful when the protected area boundaries are
+#'   going to be rasterized, and so processing time can be substantially
+#'   reduced by skipping this step because overlapping boundaries will not be a
+#'   problem. Defaults to \code{TRUE}.
 #'
 #' @param verbose \code{logical} should progress on data cleaning be reported?
 #'   Defaults to \code{TRUE} in an interactive session, otherwise
@@ -152,7 +155,7 @@ NULL
 wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs",
                        snap_tolerance = 1,
                        simplify_tolerance = 0, geometry_precision = 1000,
-                       threads = min(parallel::detectCores() - 1, 1),
+                       erase_overlaps = TRUE,
                        verbose = interactive()) {
   # check arguments are valid
   assertthat::assert_that(inherits(x, "sf"),
@@ -167,11 +170,9 @@ wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +da
                           assertthat::is.number(simplify_tolerance),
                           isTRUE(simplify_tolerance >= 0),
                           assertthat::is.count(geometry_precision),
-                          assertthat::is.count(threads),
+                          assertthat::is.flag(erase_overlaps),
                           assertthat::is.flag(verbose),
                           pingr::is_online())
-  # create saga environment
-  saga_env <- RSAGA::rsaga.env(cores = threads, parallel = threads > 1L)
   # check that x is in wgs1984
   assertthat::assert_that(sf::st_crs(x) == sf::st_crs(4326),
    msg = "argument to x is not longitude/latitude (i.e. EPSG:4326)")
@@ -357,19 +358,19 @@ wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +da
     message("formatting attribute data: ", cli::symbol$tick)
   }
   ## remove overlaps data
-  if (verbose) message("erasing overlaps: ", cli::symbol$continue)
-  x$IUCN_CAT <- factor(as.character(x$IUCN_CAT),
-                       levels = c("Ia", "Ib", "II", "III", "IV", "V", "VI",
-                                  "Not Reported", "Not Applicable",
-                                  "Not Assigned"))
-  x <- sf::st_set_precision(x, geometry_precision)
-  x <- st_erase_overlaps(x[order(x$IUCN_CAT, x$STATUS_YR), ], saga_env, verbose)
-  x$IUCN_CAT <- as.character(x$IUCN_CAT)
-  x <- x[!sf::st_is_empty(x), ]
-  x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
-  x <- sf::st_set_precision(x, geometry_precision)
-  if (verbose) {
-    message("erasing overlaps: ", cli::symbol$tick)
+  if (erase_overlaps) {
+    if (verbose) message("erasing overlaps: ", cli::symbol$continue)
+    x$IUCN_CAT <- factor(as.character(x$IUCN_CAT),
+                         levels = c("Ia", "Ib", "II", "III", "IV", "V", "VI",
+                                    "Not Reported", "Not Applicable",
+                                    "Not Assigned"))
+    x <- sf::st_set_precision(x, geometry_precision)
+    x <- st_erase_overlaps(x[order(x$IUCN_CAT, x$STATUS_YR), ], verbose)
+    x$IUCN_CAT <- as.character(x$IUCN_CAT)
+    x <- x[!sf::st_is_empty(x), ]
+    x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+    x <- sf::st_set_precision(x, geometry_precision)
+    if (verbose) message("erasing overlaps: ", cli::symbol$tick)
   }
   ## remove slivers
   if (verbose) message("removing slivers: ", cli::symbol$continue, "\r",

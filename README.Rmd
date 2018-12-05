@@ -6,7 +6,7 @@ output:
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(fig.path = "man/figures/README-", fig.align = "center",
-                      fig.height = 3.5, fig.width = 3.5)
+                      fig.height = 4.5, fig.width = 4.5)
 ```
 
 <!--- README.md is generated from README.Rmd. Please edit that file -->
@@ -73,7 +73,7 @@ head(mlt_pa_data)
 
 Finally, after cleaning the data, let's plot a map showing Malta's protected areas and color each area according to its management category ([as defined by the The International Union for Conservation of Nature](https://www.iucn.org/theme/protected-areas/about/protected-area-categories)).
 
-```{r "readme-map", message = FALSE, warning = FALSE, out.width = ifelse(isTRUE(knitr:::is_html_output(excludes = c("markdown"))), "40%", "60%")}
+```{r "readme-map", message = FALSE, warning = FALSE, out.width = ifelse(isTRUE(knitr:::is_html_output(excludes = c("markdown"))), "40%", "50%")}
 # reproject data to longitude/latitude for plotting
 mlt_pa_data <- st_transform(mlt_pa_data, 4326)
 

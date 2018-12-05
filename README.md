@@ -76,6 +76,7 @@ head(mlt_pa_data)
 
 Finally, after cleaning the data, let's plot a map showing Malta's protected areas and color each area according to its management category ([as defined by the The International Union for Conservation of Nature](https://www.iucn.org/theme/protected-areas/about/protected-area-categories)).
 
+<p align="center">
 ``` r
 # reproject data to longitude/latitude for plotting
 mlt_pa_data <- st_transform(mlt_pa_data, 4326)
@@ -92,6 +93,7 @@ theme(axis.title = element_blank(), legend.position = "bottom")
 
 <img src="man/figures/README-readme-map-1.png" width="50%" align="center" style="display: block; margin: auto;" />
 
+</p>
 For more examples using the *wdpar R* package, please refer to the [package vignette](https://github.com/prioritizr/wdpar/articles/wdpar.html).
 
 ### Citation

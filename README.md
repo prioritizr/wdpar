@@ -90,7 +90,7 @@ geom_sf(aes(fill = IUCN_CAT), data = mlt_pa_data, inherit.aes = FALSE) +
 theme(axis.title = element_blank(), legend.position = "bottom")
 ```
 
-<img src="man/figures/README-unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-readme-map-1.png" width="80%" style="display: block; margin: auto;" />
 
 For more examples using the *wdpar R* package, please refer to the [package vignette](https://github.com/prioritizr/wdpar/articles/wdpar.html).
 

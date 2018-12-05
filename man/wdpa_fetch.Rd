@@ -42,7 +42,9 @@ Download data from the World Database on Protected Areas (WDPA)
 \details{
 This function will download the specified protected area
   data and return it. \strong{It is strongly recommended that the data be
-  cleaned prior to analysis}. Check out the
+  cleaned prior to analysis}. Please note that
+  downloading data for an individual country will not include any protected
+  areas represented as point localities. Check out the
   \code{\link{wdpa_clean}} function to clean the data according to standard
   practices. For information on this database,
   prefer refer to the official manual

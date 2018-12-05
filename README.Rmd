@@ -24,10 +24,7 @@ devtools::load_all()
 
 ### Overview
 
-The _wdpar R_ package provides an interface to the World Database on
-Protected Areas (WDPA). It provides functions for automatically downloading
-data (from [Protected Planet](http://protectedplanet.net)) and cleaning
-data following best practices (outlined in [Butchart _et al._ 2015](https://dx.doi.org/10.1111/conl.12158); [Runge _et al._ 2015](https://dx.doi.org/10.1126/science.aac9180); and [Protected Planet](https://www.protectedplanet.net/c/calculating-protected-area-coverage)).
+The _wdpar R_ package provides an interface to the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/). It provides functions for downloading and cleaning data following best practices (outlined in [Butchart _et al._ 2015](https://dx.doi.org/10.1111/conl.12158); [Runge _et al._ 2015](https://dx.doi.org/10.1126/science.aac9180); and [Protected Planet](https://www.protectedplanet.net/c/calculating-protected-area-coverage)).
 
 ### Installation
 

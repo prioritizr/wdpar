@@ -31,7 +31,9 @@ NULL
 #'
 #' @details This function will download the specified protected area
 #'   data and return it. \strong{It is strongly recommended that the data be
-#'   cleaned prior to analysis}. Check out the
+#'   cleaned prior to analysis}. Please note that
+#'   downloading data for an individual country will not include any protected
+#'   areas represented as point localities. Check out the
 #'   \code{\link{wdpa_clean}} function to clean the data according to standard
 #'   practices. For information on this database,
 #'   prefer refer to the official manual
@@ -66,7 +68,7 @@ wdpa_fetch <- function(x, wait = FALSE,
     assertthat::is.dir(download_dir),
     assertthat::is.flag(force_download),
     assertthat::is.flag(verbose),
-    assertthat::is.string(country_code(x)))
+    identical(x, "global") || assertthat::is.string(country_code(x)))
   # try to find locally on system
   file_path <- try(wdpa_file(x, download_dir = download_dir), silent = TRUE)
   # fetch data

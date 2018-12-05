@@ -11,7 +11,9 @@ Imports:
     utils,
     methods,
     sp,
+    parallel,
     assertthat (>= 0.2.0),
+    progress (>= 1.2.0),
     rappdirs (>= 0.3.1),
     httr (>= 1.3.1),
     pingr (>= 1.1.2),
@@ -21,7 +23,8 @@ Imports:
     xml2 (>= 1.2.0),
     cli (>= 1.0.1),
     stringi (>= 1.2.4),
-    lwgeom(>= 0.1-4)
+    lwgeom (>= 0.1-4),
+    RSAGA (>= 1.3.0)
 Suggests:
     testthat (>= 2.0.1),
     knitr (>= 1.2.0),
@@ -42,6 +45,7 @@ RoxygenNote: 6.1.1
 Collate:
     'RcppExports.R'
     'internal.R'
+    'saga.R'
     'geo.R'
     'package.R'
     'wdpa_clean.R'

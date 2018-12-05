@@ -66,13 +66,20 @@ wdpa_fetch <- function(x, wait = FALSE,
   ## check that classes are correct
   dir.create(download_dir, showWarnings = FALSE, recursive = TRUE)
   assertthat::assert_that(assertthat::is.string(x),
-                          assertthat::is.dir(download_dir),
-                          assertthat::is.flag(force_download),
-                          assertthat::is.flag(verbose))
-  if (force_download && !pingr::is_online())
-    stop("not connected to the internet")
+    assertthat::is.dir(download_dir),
+    assertthat::is.flag(force_download),
+    assertthat::is.flag(verbose),
+    assertthat::is.string(country_code(x)))
+  # try to find locally on system
+  file_path <- try(wdpa_file(x, download_dir = download_dir), silent = TRUE)
   # fetch data
-  if (pingr::is_online() || force_download) {
+  if (force_download || inherits(file_path, "try-error")) {
+    ## check for internet connection
+    if (force_download)
+      stop("force_download is TRUE and no internet connection available.")
+    if (!pingr::is_online())
+      stop(paste0("data not found in download_dir, and no internet connection",
+                  "to download it."))
     ## find the download link and set file path to save the data
     download_url <- wdpa_url(x, wait = wait)
     file_name <- basename(httr::HEAD(download_url)$url)
@@ -93,7 +100,18 @@ wdpa_fetch <- function(x, wait = FALSE,
     if (!file.exists(file_path))
       stop("downloading data failed")
   } else {
-    file_path <- wdpa_file(x, download_dir = download_dir)
+    # parse month-year from file
+    month_year <- vapply(strsplit(basename(file_path), "_", fixed = TRUE), `[[`,
+                         character(1), 2)
+    month <- gsub("[[:digit:]]", "", month_year)
+    year <- gsub("[[:alpha:]]", "", month_year)
+    file_date <- as.POSIXct(strptime(paste0("01/", month, "/", year),
+                            "%d/%b/%Y"))
+    current_date <- as.POSIXct(strptime(paste(replace(
+                      strsplit(as.character(Sys.Date()), "-")[[1]],
+                      3, "01"), collapse = "/"), "%Y/%m/%d"))
+    if (file_date < current_date)
+      warning(paste0("local data is out of date: ", format(file_date, "%b %Y")))
   }
   # import the data
   wdpa_read(file_path)

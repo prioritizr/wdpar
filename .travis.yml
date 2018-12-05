@@ -44,7 +44,6 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install ghostscript; fi;
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then sudo tlmgr update --self; fi;
 
-
 r_packages:
   - covr
   - rmarkdown

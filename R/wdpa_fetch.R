@@ -33,13 +33,16 @@ NULL
 #'   data and return it. \strong{It is strongly recommended that the data be
 #'   cleaned prior to using for analysis}. Check out the
 #'   \code{\link{wdpa_clean}} function to clean the data according to standard
-#'   practices.
+#'   practices. For information on this database,
+#'   prefer refer to the official manual
+#'   (\url{https://www.protectedplanet.net/c/wdpa-manual}).
 #'
 #' @return \code{\link[sf]{sf}} object.
 #'
 #' @seealso \code{\link{wdpa_clean}}, \code{\link{wdpa_read}},
 #'   \code{\link{wdpa_url}}, \code{\link[countrycode]{countrycode}},
-#'   \url{http://protectedplanet.net}.
+#'   \url{http://protectedplanet.net},
+#'   \url{https://www.protectedplanet.net/c/wdpa-manual}
 #'
 #' @examples
 #' \donttest{

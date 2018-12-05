@@ -21,12 +21,6 @@ man:
 readme:
 	R --slave -e "rmarkdown::render('README.Rmd')"
 
-vigns:
-	R --slave -e "devtools::build_vignettes()"
-
-site:
-	R --slave -e "pkgdown::build_site()"
-
 test:
 	R --slave -e "devtools::test()" > test.log 2>&1
 	rm -f tests/testthat/Rplots.pdf
@@ -35,7 +29,6 @@ vigns:
 	R --slave -e "devtools::build_vignettes()"
 	cp -R doc inst/
 	touch inst/doc/.gitkeep
-
 
 quicksite:
 	R --slave -e "pkgdown::build_site(run_dont_run = TRUE, lazy = TRUE)"
@@ -70,4 +63,4 @@ build:
 install:
 	R --slave -e "devtools::install_local('../wdpar')"
 
-.PHONY: initc clean data docs readme site test check checkwb build  install man
+.PHONY: initc vigns clean data docs readme site test check checkwb build  install man

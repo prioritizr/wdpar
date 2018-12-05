@@ -7,7 +7,8 @@
 wdpa_clean(x,
   crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs",
   snap_tolerance = 1, simplify_tolerance = 0,
-  geometry_precision = 1000, verbose = interactive())
+  geometry_precision = 1000, erase_overlaps = TRUE,
+  verbose = interactive())
 }
 \arguments{
 \item{x}{\code{\link[sf]{sf}} object containing protected area data.}
@@ -25,6 +26,12 @@ Defaults to 1 meters.}
 \item{geometry_precision}{\code{numeric} level of precision for processing
 the spatial data (used with \code{\link[sf]{st_set_precision}}. The
 default argument corresponds to the nearest millimeter (i.e. 1000).}
+
+\item{erase_overlaps}{\code{logical} should overlapping boundaries be removed
+erased? This can be useful when the protected area boundaries are
+going to be rasterized, and so processing time can be substantially
+reduced by skipping this step because overlapping boundaries will not be a
+problem. Defaults to \code{TRUE}.}
 
 \item{verbose}{\code{logical} should progress on data cleaning be reported?
 Defaults to \code{TRUE} in an interactive session, otherwise

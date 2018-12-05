@@ -3,11 +3,11 @@
 wdpar: Interface to the World Database on Protected Areas
 ---------------------------------------------------------
 
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![Travis Build Status](https://img.shields.io/travis/jeffreyhanson/wdpar/master.svg?label=Mac%20OSX%20%26%20Linux)](https://travis-ci.org/jeffreyhanson/wdpar) [![AppVeyor Build Status](https://img.shields.io/appveyor/ci/jeffreyhanson/wdpa/master.svg?label=Windows)](https://ci.appveyor.com/project/jeffreyhanson/wdpar) [![Coverage Status](https://codecov.io/github/jeffreyhanson/wdpa/coverage.svg?branch=master)](https://codecov.io/github/jeffreyhanson/wdpar?branch=master) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/wdpa)](https://CRAN.R-project.org/package=wdpar)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![Travis Build Status](https://img.shields.io/travis/prioritizr/wdpar/master.svg?label=Mac%20OSX%20%26%20Linux)](https://travis-ci.org/prioritizr/wdpar) [![AppVeyor Build Status](https://img.shields.io/appveyor/ci/prioritizr/wdpar/master.svg?label=Windows)](https://ci.appveyor.com/project/prioritizr/wdpar) [![Coverage Status](https://codecov.io/github/prioritizr/wdpar/coverage.svg?branch=master)](https://codecov.io/github/prioritizr/wdpar?branch=master) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/wdpar)](https://CRAN.R-project.org/package=wdpar)
 
 ### Overview
 
-The *wdpar R* package provides an interface to the World Database on Protected Areas (WDPA). It provides functions for automatically downloading data (from [Protected Planet](http://protectedplanet.net)) and cleaning data following best practices (outlined in [Butchart *et al.* 2015](https://dx.doi.org/10.1111/conl.12158) and [Runge *et al.* 2015](https://dx.doi.org/10.1126/science.aac9180)). These functions are designed to be scalable and can employ parallel processing to complete data processing in a feasible period of time.
+The *wdpar R* package provides an interface to the World Database on Protected Areas (WDPA). It provides functions for automatically downloading data (from [Protected Planet](http://protectedplanet.net)) and cleaning data following best practices (outlined in [Butchart *et al.* 2015](https://dx.doi.org/10.1111/conl.12158); [Runge *et al.* 2015](https://dx.doi.org/10.1126/science.aac9180); and [Protected Planet](https://www.protectedplanet.net/c/calculating-protected-area-coverage)).
 
 ### Installation
 
@@ -16,22 +16,18 @@ To install the developmental version of *wdpar*, use the following *R* code:
 ``` r
 if (!require(devtools))
   install.packages("devtools")
-devtools::install_github("jeffreyhanson/wdpar")
+devtools::install_github("prioritizr/wdpar")
 ```
 
-Note that this package requires the developmental version of the [*lwgeom R* package](https://github.com/r-spatial/lwgeom). If you have trouble installing this package, check out its [installation instructions](https://github.com/r-spatial/lwgeom).
+### Usage
 
-### Example usage
-
-Here we will provide a short introduction to the *wdpar R* package.
-
-First, we will load the *wdpar R* package. We will also load the *sf* and *dplyr R* packages to help explore protected area data.
+Here we will provide a short introduction to the *wdpar R* package. First, we will load the *wdpar R* package. We will also load the *sf* and *dplyr R* packages to help explore the data.
 
 ``` r
 # load packages
 library(wdpar)
-library(sf)
 library(dplyr)
+library(ggmap)
 ```
 
 Now we will download protected area data for Malta. Note that we could have alternatively downloaded the data using Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (MLT).
@@ -41,147 +37,90 @@ Now we will download protected area data for Malta. Note that we could have alte
 mlt_raw_pa_data <- wdpa_fetch("Malta", wait = TRUE)
 ```
 
-Next, we will clean the data set. Note that we will only use a single thread for data processing, but you could use the `threads` argument to use multiple threads for data processing. See the help page for `wdpa_clean` for a detailed description on the data cleaning process.
+Next, we will clean the data set. See `?wdpa_clean` for a detailed description of the data cleaning process.
 
 ``` r
 # clean Malta data
 mlt_pa_data <- wdpa_clean(mlt_raw_pa_data)
 ```
 
-    ## [1] 1
-    ## Time difference of 0.4742389 secs
-    ## [1] 2
-    ## Time difference of 0.03633904 secs
-    ## [1] 3
-    ## Time difference of 0.1438615 secs
-    ## [1] 4
-    ## Time difference of 0.6138225 secs
-    ## [1] 5
-    ## Time difference of 0.06190014 secs
-    ## [1] 6
-    ## Time difference of 0.3188405 secs
-    ## [1] 7
-    ## Time difference of 8.249283e-05 secs
-    ## [1] 8
-    ## Time difference of 0.3099353 secs
-    ## [1] 9
-    ## Time difference of 0.2636416 secs
-    ## [1] 10
-    ## Time difference of 0.2694864 secs
-    ## [1] 11
-    ## Time difference of 0.0008969307 secs
-    ## [1] 12
-    ## [1] 12.1
-    ## [1] 12.2
-    ## [1] 12.3
-    ## Time difference of 0.7042413 secs
-    ## [1] 13
-    ## Time difference of 0.004696369 secs
-    ## [1] 14
-    ## Time difference of 0.05973053 secs
-    ## [1] 15
-    ## Time difference of 0.01681566 secs
-    ## [1] 16
-
-Now that we have finished cleaning the data, let's calculate some statistics. We can calculate the total amount of area inside inside Malta's protected area system (km**<sup>2</sup>). Note that this includes marine and terrestrial protected areas.
+Print preview of the data associated with each protected area.
 
 ``` r
-# calculate total amount of area inside protected areas (km^2)
-statistic <- mlt_pa_data %>%
-             as.data.frame %>%
-             summarize(area = sum(AREA_KM2))
-
-# print statistic
-print(statistic)
+# print preview
+head(mlt_pa_data)
 ```
 
-    ##           area
-    ## 1 1.290205e+16
+    ## Simple feature collection with 6 features and 28 fields
+    ## geometry type:  MULTIPOLYGON
+    ## dimension:      XY
+    ## bbox:           xmin: 1382455 ymin: 4280784 xmax: 1399726 ymax: 4299684
+    ## epsg (SRID):    NA
+    ## proj4string:    +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs
+    ## precision:      1000 
+    ## # A tibble: 6 x 29
+    ##   WDPAID WDPA_PID PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE
+    ##    <dbl> <chr>    <chr>  <chr> <chr>     <chr> <chr>     <chr>     
+    ## 1 1.94e5 194420   1      Filf… Filfla    Rise… Nature R… National  
+    ## 2 1.94e5 194425   1      Il-G… Il-Gżejj… Rise… Nature R… National  
+    ## 3 5.56e8 5555886… 1      Il-M… Il-Majji… Park… National… National  
+    ## 4 1.75e5 174757   1      Il-Ġ… Il-Ġonna… List… List of … National  
+    ## 5 1.75e5 174758   1      Bidn… Bidnija,… List… List of … National  
+    ## 6 1.94e5 194415   1      Il-Ġ… Il-Ġonna… List… List of … National  
+    ## # ... with 21 more variables: IUCN_CAT <chr>, INT_CRIT <chr>,
+    ## #   MARINE <chr>, REP_M_AREA <dbl>, REP_AREA <dbl>, NO_TAKE <chr>,
+    ## #   NO_TK_AREA <dbl>, STATUS <chr>, STATUS_YR <dbl>, GOV_TYPE <chr>,
+    ## #   OWN_TYPE <chr>, MANG_AUTH <chr>, MANG_PLAN <chr>, VERIF <chr>,
+    ## #   METADATAID <dbl>, SUB_LOC <chr>, PARENT_ISO <chr>, ISO3 <chr>,
+    ## #   GEOMETRY_TYPE <chr>, AREA_KM2 <dbl>, geometry <MULTIPOLYGON [m]>
 
-We can also calculate the percentage of land inside [protected areas that are designated strictly to protect biodiversity (and also potentially geological/geomorphological features)](https://www.iucn.org/theme/protected-areas/about/protected-area-categories).
+Finally, after cleaning the data, let's plot a map showing Malta's protected areas and color each area according to its management category ([as defined by the The International Union for Conservation of Nature](https://www.iucn.org/theme/protected-areas/about/protected-area-categories)).
 
 ``` r
-# fetch spatial data for Malta's land mass and calculate its area (km^2)
-mlt_land_data <- land_and_eez_fetch("Malta") %>%
-                 filter(TYPE == "LAND") %>%
-                 summarize(area = as.numeric(st_area(.)) * 1e+6)
+# reproject data to longitude/latitude for plotting
+mlt_pa_data <- st_transform(mlt_pa_data, 4326)
+
+# download basemap imagery
+bg <- get_stamenmap(unname(st_bbox(mlt_pa_data)), zoom = 8,
+                    maptype = "watercolor", force = TRUE)
 ```
 
-    ## [1] 1
-    ## Time difference of 0.6393619 secs
-    ## [1] 2
-    ## Time difference of 0.02693558 secs
-    ## [1] 3
-    ## Time difference of 0.1011107 secs
-    ## [1] 4
-    ## Time difference of 0.5683408 secs
-    ## [1] 5
-    ## Time difference of 0.02619481 secs
-    ## [1] 6
-    ## Time difference of 0.3536148 secs
-    ## [1] 7
-    ## Time difference of 0.0003430843 secs
-    ## [1] 8
-    ## Time difference of 0.4194188 secs
-    ## [1] 9
-    ## Time difference of 0.1162148 secs
-    ## [1] 10
-    ## Time difference of 0.5506358 secs
-    ## [1] 11
-    ## Time difference of 0.01719689 secs
-    ## [1] 12
-    ## [1] 12.1
-    ## [1] 12.2
-    ## [1] 12.3
-    ## Time difference of 0.7157557 secs
-    ## [1] 13
-    ## Time difference of 0.01217365 secs
-    ## [1] 14
-    ## Time difference of 0.09532595 secs
-    ## [1] 15
-    ## Time difference of 0.03188038 secs
-    ## [1] 16
+    ## Map from URL : http://tile.stamen.com/watercolor/8/137/100.jpg
+
+    ## Map from URL : http://tile.stamen.com/watercolor/8/138/100.jpg
+
+    ## Map from URL : http://tile.stamen.com/watercolor/8/137/101.jpg
+
+    ## Map from URL : http://tile.stamen.com/watercolor/8/138/101.jpg
 
 ``` r
-# calculate percentage of land inside protected areas (km^2)
-statistic <- mlt_pa_data %>%
-             as.data.frame %>%
-             filter(MARINE == "terrestrial", IUCN_CAT == "Ia") %>%
-             summarize(area_protected = sum(AREA_KM2)) %>%
-             mutate(total_land_area = mlt_land_data[["area"]]) %>%
-             mutate(percentage_protected = (area_protected / total_land_area) *
-                                           100)
-
-# print statistic
-print(statistic)
+# make map
+ggmap(bg) +
+geom_sf(aes(fill = IUCN_CAT), data = mlt_pa_data, inherit.aes = FALSE) +
+theme(axis.title = element_blank(), legend.position = "bottom")
 ```
 
-    ##   area_protected total_land_area percentage_protected
-    ## 1   250391500000    4.949877e+14            0.0505854
+    ## Coordinate system already present. Adding new coordinate system, which will replace the existing one.
 
-Finally, let's plot a map showing Malta's protected areas and color each area according to its management category.
+<img src="man/figures/README-unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
 
-``` r
-plot(mlt_pa_data[, "IUCN_CAT"], main = "IUCN Category", key.size = lcm("4"))
-```
-
-<img src="man/figures/README-unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+For more examples using the *wdpar R* package, please refer to the [package vignette](https://github.com/prioritizr/wdpar/articles/wdpar.html).
 
 ### Citation
 
-Please use the following references for citing the *wdpar R* package and the World Database on Protected Areas (WDPA) in publications.
+Please cite the *wdpar R* package and the World Database on Protected Areas (WDPA) in publications.
 
 
     To cite the wdpar package in publications, use:
+
+      Hanson JO (2018) wdpar: Interface to the World Database on
+      Protected Areas. R package version 0.0.0.1. Available at:
+      https://github.com/jeffreyhanson/wdpar
 
       UNEP-WCMC and IUCN (2018) Protected Planet: The World Database
       on Protected Areas (WDPA), [insert month/year of the version
       downloaded], Cambridge, UK: UNEP-WCMC and IUCN. Available at:
       www.protectedplanet.net.
-
-      Hanson JO (2018) wdpar: Interface to the World Database on
-      Protected Areas. R package version 0.0.0.1. Available at:
-      https://github.com/jeffreyhanson/wdpar
 
     Please cite both the World Database on Protected Areas data set
     and this package.

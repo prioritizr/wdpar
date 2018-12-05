@@ -16,6 +16,7 @@ citEntry(
      "Protected Areas. R package version ", meta$Version, ". ",
      "Available at: https://github.com/jeffreyhanson/wdpar"
   )
+)
 
 citEntry(
   entry = "Manual",
@@ -30,8 +31,6 @@ citEntry(
     "Protected Areas (WDPA), [insert month/year of the version downloaded], ",
     "Cambridge, UK: UNEP-WCMC and IUCN. Available at: www.protectedplanet.net."
   )
-)
-
 )
 
 citFooter("Please cite both the World Database on Protected Areas data set and this package.\n")

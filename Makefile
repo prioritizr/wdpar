@@ -31,26 +31,41 @@ test:
 	R --slave -e "devtools::test()" > test.log 2>&1
 	rm -f tests/testthat/Rplots.pdf
 
+vigns:
+	R --slave -e "devtools::build_vignettes()"
+	cp -R doc inst/
+	touch inst/doc/.gitkeep
+
+
+quicksite:
+	R --slave -e "pkgdown::build_site(run_dont_run = TRUE, lazy = TRUE)"
+
+site:
+	R --slave -e "pkgdown::clean_site()"
+	R --slave -e "pkgdown::build_site(run_dont_run = TRUE, lazy = TRUE)"
+
+quickcheck:
+	echo "\n===== R CMD CHECK =====\n" > check.log 2>&1
+	R --slave -e "devtools::check(build_args = '--no-build-vignettes', args = '--no-build-vignettes', run_dont_test = TRUE, vignettes = FALSE)" >> check.log 2>&1
+	cp -R doc inst/
+	touch inst/doc/.gitkeep
+
 check:
 	echo "\n===== R CMD CHECK =====\n" > check.log 2>&1
-	R --slave -e "devtools::check()" >> check.log 2>&1
-
-spellcheck:
-	echo "\n===== SPELL CHECK =====\n" > spell.log 2>&1
-	R --slave -e "devtools::spell_check(ignore = readLines('inst/extdata/dictionary.txt'))" >> spell.log 2>&1
+	R --slave -e "devtools::check(build_args = '--no-build-vignettes', args = '--no-build-vignettes', run_dont_test = TRUE, vignettes = FALSE)" >> check.log 2>&1
+	cp -R doc inst/
+	touch inst/doc/.gitkeep
 
 wbcheck:
 	R --slave -e "devtools::build_win()"
-
-gpcheck:
-	echo "\n===== GOOD PRACTICES CHECK =====\n" > gp.log 2>&1
-	R --slave -e "goodpractice::gp(checks = setdiff(goodpractice::all_checks(), c('covr', 'cyclocomp', 'no_description_depends', 'no_import_package_as_a_whole')), quiet = FALSE)" >> gp.log 2>&1
 
 solarischeck:
 	R --slave -e "rhub::check(platform = 'solaris-x86-patched', email = 'jeffrey.hanson@uqconnect.edu.au', show_status = FALSE)"
 
 build:
 	R --slave -e "devtools::build()"
+	cp -R doc inst/
+	touch inst/doc/.gitkeep
 
 install:
 	R --slave -e "devtools::install_local('../wdpar')"

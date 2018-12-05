@@ -59,7 +59,7 @@ NULL
 #      \code{"REP_AREA"}).
 #'
 #'   \item Geometries are wrapped to the dateline (using
-#'     \code{\link[lwgeom]{st_wrapdateline}} with the options
+#'     \code{\link[sf]{st_wrap_dateline}} with the options
 #'     \code{"WRAPDATELINE=YES"} and \code{"DATELINEOFFSET=180"}).
 #'
 #'   \item Reproject data to coordinate system specified in argument to
@@ -147,7 +147,9 @@ NULL
 #' plot(lie_data)
 #' }
 #' @export
-wdpa_clean <- function(x, crs = "+proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs",
+wdpa_clean <- function(x,
+                       crs = paste("+proj=cea +lon_0=0 +lat_ts=30 +x_0=0",
+                       "+y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs"),
                        snap_tolerance = 1,
                        simplify_tolerance = 0, geometry_precision = 1000,
                        erase_overlaps = TRUE,

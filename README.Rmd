@@ -5,7 +5,8 @@ output:
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(fig.path = "man/figures/README-", fig.align = "center")
+knitr::opts_chunk$set(fig.path = "man/figures/README-", fig.align = "center",
+                      fig.height = 4.5, fig.width = 4.5)
 ```
 
 <!--- README.md is generated from README.Rmd. Please edit that file -->
@@ -19,8 +20,6 @@ knitr::opts_chunk$set(fig.path = "man/figures/README-", fig.align = "center")
 
 ```{r, include = FALSE}
 devtools::load_all()
-knitr::opts_chunk$set(fig.align = "center",
-                      fig.height = 4.5, fig.width = 4.5)
 ```
 
 ### Overview

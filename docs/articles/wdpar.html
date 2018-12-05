@@ -139,10 +139,10 @@ bg &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocument
 <span class="kw"><a href="https://www.rdocumentation.org/packages/ggmap/topics/ggmap">ggmap</a></span>(bg) <span class="op">+</span>
 <span class="kw">geom_sf</span>(<span class="dt">data =</span> mlt_pa_data, <span class="dt">fill =</span> <span class="st">"#31A35480"</span>, <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
 <span class="kw">theme</span>(<span class="dt">axis.title =</span> <span class="kw">element_blank</span>())</code></pre></div>
-<p><img src="wdpar_files/figure-html/unnamed-chunk-8-1.png" width="336" style="display: block; margin: auto;"></p>
+<p><img src="wdpar_files/figure-html/unnamed-chunk-8-1.png" width="432" style="display: block; margin: auto;"></p>
 <p>We can also create a histogram showing the year when each protected area was established.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/hist">hist</a></span>(mlt_pa_data<span class="op">$</span>STATUS_YR, <span class="dt">main =</span> <span class="st">"Malta's protected areas"</span>, <span class="dt">xlab =</span> <span class="st">"Year established"</span>)</code></pre></div>
-<p><img src="wdpar_files/figure-html/unnamed-chunk-9-1.png" width="336" style="display: block; margin: auto;"></p>
+<p><img src="wdpar_files/figure-html/unnamed-chunk-9-1.png" width="432" style="display: block; margin: auto;"></p>
 <p>Now let’s calculate some statistics. We can calculate the total amount of land and ocean inside Malta’s protected area system (km<sup>2</sup>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate total amount of area inside protected areas (km^2)</span>
 statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
@@ -189,7 +189,7 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggmap/topics/ggmap">ggmap</a></span>(bg) <span class="op">+</span>
 <span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> IUCN_CAT), <span class="dt">data =</span> mlt_pa_data, <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
 <span class="kw">theme</span>(<span class="dt">axis.title =</span> <span class="kw">element_blank</span>(), <span class="dt">legend.position =</span> <span class="st">"bottom"</span>)</code></pre></div>
-<p><img src="wdpar_files/figure-html/unnamed-chunk-12-1.png" width="336" style="display: block; margin: auto;"></p>
+<p><img src="wdpar_files/figure-html/unnamed-chunk-12-1.png" width="432" style="display: block; margin: auto;"></p>
 </div>
 <div id="citation" class="section level3">
 <h3 class="hasAnchor">

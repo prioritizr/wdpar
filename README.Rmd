@@ -28,13 +28,15 @@ The _wdpar R_ package provides an interface to the [World Database on Protected 
 
 ### Installation
 
-To install the developmental version of _wdpar_, use the following _R_ code:
+To install the developmental version of the _wdpar R_ package, use the following _R_ code:
 
 ```{r, eval = FALSE}
 if (!require(devtools))
   install.packages("devtools")
 devtools::install_github("prioritizr/wdpar")
 ```
+
+Please note that this package requires the [_curl_](https://github.com/jeroen/curl) and [_sf R_](https://github.com/r-spatial/sf) packages which may require additional software to be installed. If you encounter problems installing the _wdpar R_ package, please consult the installation instructions for these packages.
 
 ### Usage
 

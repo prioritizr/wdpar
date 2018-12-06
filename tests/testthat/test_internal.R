@@ -90,6 +90,7 @@ test_that("wdpa_url (country)", {
 
 test_that("wdpa_url (global)", {
   skip_on_cran()
+  skip_on_os("mac")
   skip_if_not(pingr::is_online())
   # verify that wdpa_url yields a result
   x <- suppressWarnings(wdpa_url("global", wait = TRUE))

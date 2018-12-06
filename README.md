@@ -21,7 +21,7 @@ devtools::install_github("prioritizr/wdpar")
 
 ### Usage
 
-Here we will provide a short introduction to the *wdpar R* package. First, we will load the *wdpar R* package. We will also load the *sf* and *dplyr R* packages to help explore the data.
+Here we will provide a short introduction to the *wdpar R* package. First, we will load the *wdpar R* package. We will also load the *dplyr* and *ggmap R* packages to help explore the data.
 
 ``` r
 # load packages

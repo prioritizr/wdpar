@@ -34,7 +34,7 @@ The _wdpar R_ package provides an interface to the [World Database on Protected 
 
 ### Tutorial
 
-Here we will provide a short introduction to the _wdpar R_ package. First, we will load the _wdpar R_ package. We will also load the _sf_ and _dplyr R_ packages to help explore the data. Additionally, we will load the _ggmap R_ package to visualize the data.
+Here we will provide a short introduction to the _wdpar R_ package. First, we will load the _wdpar R_ package. We will also load the _dplyr_ and _ggmap R_ packages to help explore the data.
 
 ```{r, message = FALSE, warning = FALSE}
 # load packages
@@ -131,8 +131,6 @@ ggmap(bg) +
 geom_sf(aes(fill = IUCN_CAT), data = mlt_pa_data, inherit.aes = FALSE) +
 theme(axis.title = element_blank(), legend.position = "bottom")
 ```
-
-
 
 ### Citation
 

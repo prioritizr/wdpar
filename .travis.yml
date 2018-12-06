@@ -29,6 +29,7 @@ env:
 
 apt_packages:
   - curl
+  - wget
   - qpdf
 
 r_packages:

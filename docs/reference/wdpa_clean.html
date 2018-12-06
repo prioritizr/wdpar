@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.2</span>
       </span>
     </div>
 
@@ -226,8 +226,8 @@ Defaults to <code>TRUE</code> in an interactive session, otherwise
     that areas associated with more effective management
     categories (<code>"IUCN_CAT"</code>) or have historical precedence are retained
     (using <code><a href='https://www.rdocumentation.org/packages/sf/topics/geos_binary_ops'>st_difference</a></code>).</p></li>
-<li><p>Slivers are removed (geometries with areas less than 1e-10 square
-    kilometers).</p></li>
+<li><p>Slivers are removed (geometries with areas less than 0.1 square
+    meters).</p></li>
 <li><p>The size of areas are calculated in square kilometers and stored in
     the field <code>"AREA_KM2"</code>.</p></li>
 </ol>

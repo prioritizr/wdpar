@@ -116,8 +116,8 @@ This function cleans data from World Database on Protected Areas
     categories (\code{"IUCN_CAT"}) or have historical precedence are retained
     (using \code{\link[sf]{st_difference}}).
 
-  \item Slivers are removed (geometries with areas less than 1e-10 square
-    kilometers).
+  \item Slivers are removed (geometries with areas less than 0.1 square
+    meters).
 
   \item The size of areas are calculated in square kilometers and stored in
     the field \code{"AREA_KM2"}.

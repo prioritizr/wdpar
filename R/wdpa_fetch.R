@@ -95,7 +95,7 @@ wdpa_fetch <- function(x, wait = FALSE,
     file_path <- file.path(download_dir, file_name)
     ## download the data
     if (!file.exists(file_path) || force_download) {
-      utils::download.file(download_url, file_path, quiet = !verbose)
+      curl::curl_download(download_url, file_path, quiet = !verbose)
       if (verbose)
         message("\n")
     }

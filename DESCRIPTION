@@ -26,7 +26,6 @@ Imports:
 Suggests:
     testthat (>= 2.0.1),
     knitr (>= 1.2.0),
-    units (>= 0.6-1),
     roxygen2 (>= 6.1.1),
     rmarkdown (>= 1.10),
     ggmap (>= 2.6.1),

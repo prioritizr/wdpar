@@ -105,6 +105,4 @@ test_that("wdpa_url (global)", {
   expect_gt(length(dir(f2, "^.*\\.shp$")), 0)
   unlink(f1, recursive = TRUE, force = TRUE)
   unlink(f2, recursive = TRUE, force = TRUE)
-
-
 })

@@ -70,3 +70,41 @@ test_that("wdpa_file (country - different year same month)", {
   # cleanup
   unlink(td)
 })
+
+test_that("wdpa_url (country)", {
+  skip_on_cran()
+  skip_if_not(pingr::is_online())
+  # verify that wdpa_url yields a result
+  x <- suppressWarnings(wdpa_url("NZL", wait = TRUE))
+  expect_is(x, "character")
+  # verify that downloading the file at wdpa_url yields a zipped shapefile
+  f1 <- tempfile(fileext = ".zip")
+  f2 <- file.path(tempdir(), basename(tempfile()))
+  utils::download.file(x, f1)
+  expect_true(file.exists(f1))
+  unzip(f1, exdir = f2)
+  expect_gt(length(dir(f2, "^.*\\.shp$")), 0)
+  unlink(f1, recursive = TRUE, force = TRUE)
+  unlink(f2, recursive = TRUE, force = TRUE)
+})
+
+test_that("wdpa_url (global)", {
+  skip_on_cran()
+  skip_if_not(pingr::is_online())
+  # verify that wdpa_url yields a result
+  x <- suppressWarnings(wdpa_url("global", wait = TRUE))
+  expect_is(x, "character")
+  # verify that downloading the file at wdpa_url yields a zipped shapefile
+  skip_if(mean(pingr::ping("www.google.com", count = 10)) > 10,
+         "slow internet connection detected")
+  f1 <- tempfile(fileext = ".zip")
+  f2 <- file.path(tempdir(), basename(tempfile()))
+  utils::download.file(x, f1)
+  expect_true(file.exists(f1))
+  unzip(f1, exdir = f2)
+  expect_gt(length(dir(f2, "^.*\\.shp$")), 0)
+  unlink(f1, recursive = TRUE, force = TRUE)
+  unlink(f2, recursive = TRUE, force = TRUE)
+
+
+})

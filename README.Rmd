@@ -47,7 +47,7 @@ library(dplyr)
 library(ggmap)
 ```
 
-Now we will download protected area data for Malta from [Protected Planet](protectedplanet.net). We can achieve this by specifying Malta's country name (i.e. `"Malta"`) or Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (i.e. `"MLT"`). Note that protected areas represented as point localities will be absent when fetching data for an individual country. Please refer to the package vignette for information on obtaining all protected areas and including those that are represented as point localities.
+Now we will download protected area data for Malta from [Protected Planet](protectedplanet.net). We can achieve this by specifying Malta's country name (i.e. `"Malta"`) or Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (i.e. `"MLT"`).
 
 ```{r}
 # download protected area data for Malta

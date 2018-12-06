@@ -24,5 +24,4 @@
 NULL
 
 #' @import sf
-#' @useDynLib wdpar, .registration = TRUE
 NULL

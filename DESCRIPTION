@@ -36,14 +36,11 @@ Depends:
     sf(>= 0.7-1)
 License: GPL-3
 LazyData: true
-LinkingTo: Rcpp
-SystemRequirements: C++11
-URL: https://github.com/jeffreyhanson/wdpar
-BugReports: https://github.com/jeffreyhanson/wdpar/issues
+URL: https://github.com/prioritizr/wdpar
+BugReports: https://github.com/prioritizr/wdpar/issues
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
 Collate:
-    'RcppExports.R'
     'internal.R'
     'geo.R'
     'package.R'

@@ -8,7 +8,7 @@ test_that("wdpa_read (without point data)", {
   # path to save file zipfile with data
   path <- tempfile(pattern = "WDPA_", fileext = ".zip")
   # download zipfile
-  result <- httr::GET(download_url, httr::write_disk(path))
+  result <- utils::download.file(download_url, path)
   # load data
   x <- wdpa_read(path)
   # tests
@@ -26,7 +26,7 @@ test_that("wdpa_read (with point data)", {
   # path to save file zipfile with data
   path <- tempfile(pattern = "WDPA_", fileext = ".zip")
   # download zipfile
-  result <- httr::GET(download_url, httr::write_disk(path))
+  result <- utils::download.file(download_url, path)
   # load data
   x <- wdpa_read(path)
   # tests

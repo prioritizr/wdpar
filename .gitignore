@@ -26,3 +26,4 @@ gp.log
 # devtools files
 doc/*
 Meta/*
+.build.timestamp

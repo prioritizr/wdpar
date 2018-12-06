@@ -85,16 +85,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">library</span>(wdpar)
 <span class="kw">library</span>(dplyr)
 <span class="kw">library</span>(ggmap)</code></pre></div>
-<p>Now we will download protected area data for Malta from <a href="protectedplanet.net">Protected Planet</a>. We can achieve this by specifying Malta’s country name (i.e. <code>&quot;Malta&quot;</code>) or Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO3 code</a> (i.e. <code>&quot;MLT&quot;</code>). Note that protected areas represented as point localities will be absent when fetching data for an individual country.</p>
+<p>Now we will download protected area data for Malta from <a href="protectedplanet.net">Protected Planet</a>. We can achieve this by specifying Malta’s country name (i.e. <code>&quot;Malta&quot;</code>) or Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO3 code</a> (i.e. <code>&quot;MLT&quot;</code>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download protected area data for Malta</span>
 <span class="co"># (excluding areas represented as point localities)</span>
 mlt_raw_pa_data &lt;-<span class="st"> </span><span class="kw">wdpa_fetch</span>(<span class="st">&quot;Malta&quot;</span>)</code></pre></div>
-<p>If you require all protected area data for a country, including areas represented as point localities, you will need to fetch the global dataset (approx. 1GB) and filter out protected areas manually. Below is some example code to achieve this, but note that it can take over 20 minutes to complete. This code is provided to serve as a reference and you do not need to run it to complete this tutorial.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># # fetch global data</span>
-<span class="co"># global_raw_data &lt;- wdpa_fetch(&quot;global&quot;, wait = TRUE)</span>
-<span class="co">#</span>
-<span class="co"># # subset data to include only Malta</span>
-<span class="co"># mlt_raw_pa_data &lt;- global_raw_data %&gt;% filter(ISO == &quot;MLT&quot;)</span></code></pre></div>
 <p>Next, we will clean the data set. See the help page for <code>wdpa_clean</code> for a detailed description on the data cleaning process.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># clean Malta data</span>
 mlt_pa_data &lt;-<span class="st"> </span><span class="kw">wdpa_clean</span>(mlt_raw_pa_data)</code></pre></div>

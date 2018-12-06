@@ -18,9 +18,7 @@ reference:
       - wdpa_clean
       - wdpa_read
       - wdpa_url
-  - title: Spatial functions
-    desc: Functions for processing spatial data
+  - title: Miscellaneous functions
+    desc: Additional functions distributed with the package
     contents:
       - st_erase_overlaps
-      - st_extract_holes
-      - st_remove_holes

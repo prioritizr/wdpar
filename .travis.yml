@@ -31,6 +31,11 @@ apt_packages:
   - curl
   - qpdf
 
+r_packages:
+  - covr
+  - rmarkdown
+  - testthat
+
 before_install:
   - echo "TRAVIS_OS_NAME = $TRAVIS_OS_NAME"
   - echo "options(repos = c(CRAN='http://cran.rstudio.com'))" > ~/.Rprofile
@@ -44,11 +49,6 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install ghostscript; fi;
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install udunits; fi;
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then sudo tlmgr update --self; fi;
-
-r_packages:
-  - covr
-  - rmarkdown
-  - testthat
 
 after_success:
   - Rscript -e 'covr::codecov()'

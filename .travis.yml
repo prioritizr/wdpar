@@ -46,6 +46,7 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get update; fi;
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install libudunits2-dev libgdal-dev libgeos-dev libproj-dev; fi;
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then Rscript -e "install.packages(c('sp', 'devtools'))"; fi;
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo fallocate -l 10G /swapfile && sudo chmod 600 /swapfile && sudo mkswap /swapfile && sudo swapon /swapfile; fi;
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install Caskroom/cask/xquartz; fi;
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install ghostscript; fi;
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install udunits; fi;

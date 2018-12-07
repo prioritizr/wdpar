@@ -7,7 +7,7 @@ wdpar: Interface to the World Database on Protected Areas
 
 ### Overview
 
-The *wdpar R* package provides an interface to the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/). It provides functions for downloading and cleaning data following best practices (outlined in [Butchart *et al.* 2015](https://dx.doi.org/10.1111/conl.12158); [Runge *et al.* 2015](https://dx.doi.org/10.1126/science.aac9180); and [Protected Planet](https://www.protectedplanet.net/c/calculating-protected-area-coverage)).
+The [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/) is the most comprehensive global dataset of protected areas. It is used to monitor the performance of existing protected areas and pinpoint priority areas for establishing new protected areas. Additionally, this database receives monthly updates from government agencies and non-governmental organizations. However, this dataset is associated with [many issues that need to be addressed prior to analysis](https://www.protectedplanet.net/c/calculating-protected-area-coverage) and the dynamic nature of this dataset means that the entire data cleaning process needs to be repeated after obtaining a new version of the dataset. The *wdpar R* package provides an interface to the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/) and functions for cleaning the data following best practices (outlined in [Butchart *et al.* 2015](https://dx.doi.org/10.1111/conl.12158); [Runge *et al.* 2015](https://dx.doi.org/10.1126/science.aac9180); [Protected Planet](https://www.protectedplanet.net/c/calculating-protected-area-coverage)).
 
 ### Installation
 
@@ -39,7 +39,7 @@ Now we will download protected area data for Malta from [Protected Planet](prote
 mlt_raw_pa_data <- wdpa_fetch("Malta", wait = TRUE)
 ```
 
-Next, we will clean the data set. See `?wdpa_clean` for a detailed description of the data cleaning process.
+Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. `"0"`) with missing data values (i.e. `NA`), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see `?wdpa_clean`.
 
 ``` r
 # clean Malta data
@@ -94,7 +94,7 @@ theme(axis.title = element_blank(), legend.position = "bottom")
 
 <img src="man/figures/README-readme-map-1.png" width="50%" style="display: block; margin: auto;" />
 
-For more examples using the *wdpar R* package, please refer to the [package vignette](https://github.com/prioritizr/wdpar/articles/wdpar.html).
+If you need to calculate protected area coverage statistics for a country, please note that you will need to manually clip the cleaned protected area data to the countries' coastline and its Exclusive Economic Zone (EEZ) to obtain accurate results (see [official data cleaning guidelines](https://www.protectedplanet.net/c/calculating-protected-area-coverage)). This step is not performed by the *wdpar R* package because there is no single "best" coastline and Exclusive Economic Zone (EEZ) dataset, since the "best" dataset for any given project depends on the level of required precision and available computational resources. For more examples---including an example of clipping the cleaned data to a coastline---please refer to the [package vignette](https://github.com/prioritizr/wdpar/articles/wdpar.html).
 
 ### Citation
 
@@ -104,7 +104,7 @@ Please cite the *wdpar R* package and the World Database on Protected Areas (WDP
     To cite the wdpar package in publications, use:
 
       Hanson JO (2018) wdpar: Interface to the World Database on
-      Protected Areas. R package version 0.0.0.1. Available at:
+      Protected Areas. R package version 0.0.0.3. Available at:
       https://github.com/jeffreyhanson/wdpar
 
       UNEP-WCMC and IUCN (2018) Protected Planet: The World Database

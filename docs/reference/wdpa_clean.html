@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.3</span>
       </span>
     </div>
 
@@ -177,9 +177,13 @@ Defaults to <code>TRUE</code> in an interactive session, otherwise
   following best practices (Butchart <em>et al.</em> 2015, Runge <em>et al.</em>
   2015,
   <a href='https://protectedplanet.net/c/calculating-protected-area-coverage'>https://protectedplanet.net/c/calculating-protected-area-coverage</a>).
-  Although this function can be used to clean the global dataset, this
-  process can take several weeks to complete. Therefore, it is strongly
-  recommended to use alternative methods for cleaning the global dataset.</p>
+  To obtain accurate protected area coverage statistics for a country,
+  please note that you will need to manually clip the cleaned data to
+  the countries' coastline and its Exclusive Economic Zone (EEZ).
+  Although this function can <em>in theory</em> be used to clean the global
+  dataset, this process can take several weeks to complete. Therefore, it is
+  strongly recommended to use alternative methods for cleaning the global
+  dataset.</p>
 <p></p><ol>
 <li><p>Repair invalid geometry (using <code><a href='https://www.rdocumentation.org/packages/lwgeom/topics/valid'>st_make_valid</a></code>).</p></li>
 <li><p>Exclude protected areas that are not currently implemented
@@ -201,7 +205,8 @@ Defaults to <code>TRUE</code> in an interactive session, otherwise
     (using <code><a href='https://www.rdocumentation.org/packages/lwgeom/topics/valid'>st_make_valid</a></code>).</p></li>
 <li><p>Buffer areas represented as point localities to circular areas
     using their reported spatial extent (using data in the field
-    <code>"REP_AREA"</code> and <code><a href='https://www.rdocumentation.org/packages/sf/topics/geos_unary'>st_buffer</a></code>).</p></li>
+    <code>"REP_AREA"</code> and <code><a href='https://www.rdocumentation.org/packages/sf/topics/geos_unary'>st_buffer</a></code>; see Visconti
+    <em>et al.</em> 2013).</p></li>
 <li><p>Snap the geometries to a grid to fix any remaining
     geometry issues (using argument to <code>snap_tolerance</code> and
     <code><a href='https://www.rdocumentation.org/packages/lwgeom/topics/st_snap_to_grid'>st_snap_to_grid</a></code>).</p></li>
@@ -247,16 +252,20 @@ designations. <em>PloS One</em>, <strong>12</strong>: e0188681.</p>
 <p>Runge CA, Watson JEM, Butchart HM, Hanson JO, Possingham HP &amp; Fuller RA
 (2015) Protected areas and global conservation of migratory birds.
 <em>Science</em>, <strong>350</strong>: 1255--1258.</p>
+<p>Visconti P, Di Marco M, Alvarez-Romero JG, Januchowski-Hartley SR, Pressey,
+RL, Weeks R &amp; Rondinini C (2013) Effects of errors and gaps in spatial data
+sets on assessment of conservation progress. <em>Conservation Biology</em>,
+<strong>27</strong>: 1000--1010.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>wdpa_fetch</code>,
+    <div class='dont-index'><p><code><a href='wdpa_fetch.html'>wdpa_fetch</a></code>,
   <a href='https://protectedplanet.net/c/calculating-protected-area-coverage'>https://protectedplanet.net/c/calculating-protected-area-coverage</a>.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># fetch data for the Liechtenstein</span>
-<span class='no'>lie_raw_data</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_fetch</span>(<span class='st'>"LIE"</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>lie_raw_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='wdpa_fetch.html'>wdpa_fetch</a></span>(<span class='st'>"LIE"</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># clean data</span>
 <span class='no'>lie_data</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_clean</span>(<span class='no'>lie_raw_data</span>)

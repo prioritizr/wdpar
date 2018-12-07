@@ -30,7 +30,7 @@ devtools::load_all()
 
 ### Overview
 
-The _wdpar R_ package provides an interface to the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/). It provides functions for downloading and cleaning data following best practices (outlined in [Butchart _et al._ 2015](https://dx.doi.org/10.1111/conl.12158); [Runge _et al._ 2015](https://dx.doi.org/10.1126/science.aac9180); and [Protected Planet](https://www.protectedplanet.net/c/calculating-protected-area-coverage)).
+The [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/) is the most comprehensive global dataset of protected areas. It is used to monitor the performance of existing protected areas and pinpoint priority areas for establishing new protected areas. Additionally, this database receives monthly updates from government agencies and non-governmental organizations. However, this dataset is associated with [many issues that need to be addressed prior to analysis](https://www.protectedplanet.net/c/calculating-protected-area-coverage) and the dynamic nature of this dataset means that the entire data cleaning process needs to be repeated after obtaining a new version of the dataset. The _wdpar R_ package provides an interface to the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/) and functions for cleaning the data following best practices (outlined in [Butchart _et al._ 2015](https://dx.doi.org/10.1111/conl.12158); [Runge _et al._ 2015](https://dx.doi.org/10.1126/science.aac9180); [Protected Planet](https://www.protectedplanet.net/c/calculating-protected-area-coverage)).
 
 ### Tutorial
 
@@ -51,11 +51,51 @@ Now we will download protected area data for Malta from [Protected Planet](prote
 mlt_raw_pa_data <- wdpa_fetch("Malta")
 ```
 
-Next, we will clean the data set. See the help page for `wdpa_clean` for a detailed description on the data cleaning process.
+Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. `"0"`) with missing data values (i.e. `NA`), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see `?wdpa_clean`.
 
 ```{r}
 # clean Malta data
 mlt_pa_data <- wdpa_clean(mlt_raw_pa_data)
+```
+
+After cleaning the data set, we will perform an additional step that involves
+clipping the terrestrial protected areas to Malta's coastline. Ideally, we would
+also clip the marine protected areas to Malta's Exclusive Economic Zone (EEZ) but such data are as easy to obtain on a per country basis (but see http://www.marineregions.org/eez.php).
+
+```{r}
+# download Malta boundary from Global Administrative Areas dataset
+file_path <- tempfile(fileext = "rds")
+download.file("https://biogeo.ucdavis.edu/data/gadm3.6/Rsf/gadm36_MLT_0_sf.rds",
+              file_path)
+
+# import Malta's boundary
+mlt_boundary_data <- readRDS(file_path)
+
+# repair any geometry issues, dissolve the border, and reproject to same
+# coordinate system as the protected area data
+mlt_boundary_data <- mlt_boundary_data %>%
+                     st_set_precision(1000) %>%
+                     lwgeom::st_make_valid() %>%
+                     st_set_precision(1000) %>%
+                     st_combine() %>%
+                     st_union() %>%
+                     st_set_precision(1000) %>%
+                     lwgeom::st_make_valid() %>%
+                     st_transform(st_crs(mlt_pa_data))
+
+# clip Malta's protected areas to the coastline
+mlt_pa_data <- mlt_pa_data %>%
+               filter(MARINE == "terrestrial") %>%
+               st_intersection(mlt_boundary_data) %>%
+               rbind(mlt_pa_data %>%
+                     filter(MARINE == "marine") %>%
+                     st_difference(mlt_boundary_data)) %>%
+               rbind(mlt_pa_data %>% filter(!MARINE %in% c("terrestrial",
+                                                           "marine")))
+
+# recalculate the area of each protected area
+mlt_pa_data <- mlt_pa_data %>%
+               mutate(AREA_KM2 = as.numeric(st_area(.)) * 1e-6)
 ```
 
 Now that we have finished cleaning the data, let's preview the data. For more information on what these columns mean, please refer to the [official manual](https://www.protectedplanet.net/c/wdpa-manual) (available in [English](http://wcmc.io/WDPA_Manual), [Spanish](http://wcmc.io/WDPA_Manual_ES), [French](http://wcmc.io/WDPA_Manual_FR), and [Russian](http://wcmc.io/WDPA_Manual_RU)).
@@ -131,6 +171,19 @@ ggmap(bg) +
 geom_sf(aes(fill = IUCN_CAT), data = mlt_pa_data, inherit.aes = FALSE) +
 theme(axis.title = element_blank(), legend.position = "bottom")
 ```
+
+### Additional datasets
+
+Although the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/) is the most comprehensive global dataset, many datasets are available for specific countries or regions that do not require such extensive data cleaning procedures. As a consequence, it is often worth looking for alternative data sets when working at smaller geographic scales before considering the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/). The list below outlines several alternative protected area datasets and information on where they can be obtained. If you know of any such datasets that are missing, [please create an issue on the GitHub repository](https://github.com/prioritizr/wdpar/issues) and we can add them to the list.
+
+* Arctic
+    + [Arctic Protected Areas - 2017](http://geo.abds.is/geonetwork/srv/eng/catalog.search#/metadata/2e56ee1f-50a9-4983-88f4-edaa8588950d)
+* Australia
+    + [Collaborative Australian Protected Area Database (CAPAD)](http://www.environment.gov.au/land/nrs/science/capad)
+* Canada
+    + [Conservation Areas Reporting and Tracking System (CARTS)](http://www.ccea.org/carts/)
+* The United States of America
+    + [Protected Areas Database of the US, PAD-US (CBI Edition)](https://consbio.org/products/projects/pad-us-cbi-edition)
 
 ### Citation
 

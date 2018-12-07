@@ -48,9 +48,13 @@ This function cleans data from World Database on Protected Areas
   following best practices (Butchart \emph{et al.} 2015, Runge \emph{et al.}
   2015,
   \url{https://protectedplanet.net/c/calculating-protected-area-coverage}).
-  Although this function can be used to clean the global dataset, this
-  process can take several weeks to complete. Therefore, it is strongly
-  recommended to use alternative methods for cleaning the global dataset.
+  To obtain accurate protected area coverage statistics for a country,
+  please note that you will need to manually clip the cleaned data to
+  the countries' coastline and its Exclusive Economic Zone (EEZ).
+  Although this function can \emph{in theory} be used to clean the global
+  dataset, this process can take several weeks to complete. Therefore, it is
+  strongly recommended to use alternative methods for cleaning the global
+  dataset.
 
   \enumerate{
 
@@ -82,7 +86,8 @@ This function cleans data from World Database on Protected Areas
 
   \item Buffer areas represented as point localities to circular areas
     using their reported spatial extent (using data in the field
-    \code{"REP_AREA"} and \code{\link[sf]{st_buffer}}).
+    \code{"REP_AREA"} and \code{\link[sf]{st_buffer}}; see Visconti
+    \emph{et al.} 2013).
 
   \item Snap the geometries to a grid to fix any remaining
     geometry issues (using argument to \code{snap_tolerance} and
@@ -153,6 +158,11 @@ designations. \emph{PloS One}, \strong{12}: e0188681.
 Runge CA, Watson JEM, Butchart HM, Hanson JO, Possingham HP & Fuller RA
 (2015) Protected areas and global conservation of migratory birds.
 \emph{Science}, \strong{350}: 1255--1258.
+
+Visconti P, Di Marco M, Alvarez-Romero JG, Januchowski-Hartley SR, Pressey,
+RL, Weeks R & Rondinini C (2013) Effects of errors and gaps in spatial data
+sets on assessment of conservation progress. \emph{Conservation Biology},
+\strong{27}: 1000--1010.
 }
 \seealso{
 \code{\link{wdpa_fetch}},

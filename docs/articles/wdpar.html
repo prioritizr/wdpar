@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.3</span>
       </span>
     </div>
 
@@ -74,7 +74,7 @@
       <h1>wdpar: Interface to the World Database on Protected Areas</h1>
                         <h4 class="author">Jeffrey O. Hanson</h4>
             
-            <h4 class="date">2018-12-06</h4>
+            <h4 class="date">2018-12-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/wdpar/blob/master/vignettes/wdpar.Rmd"><code>vignettes/wdpar.Rmd</code></a></small>
       <div class="hidden name"><code>wdpar.Rmd</code></div>
@@ -86,7 +86,7 @@
 <div id="overview" class="section level3">
 <h3 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h3>
-<p>The <em>wdpar R</em> package provides an interface to the <a href="https://www.protectedplanet.net/">World Database on Protected Areas (WDPA)</a>. It provides functions for downloading and cleaning data following best practices (outlined in <a href="https://dx.doi.org/10.1111/conl.12158">Butchart <em>et al.</em> 2015</a>; <a href="https://dx.doi.org/10.1126/science.aac9180">Runge <em>et al.</em> 2015</a>; and <a href="https://www.protectedplanet.net/c/calculating-protected-area-coverage">Protected Planet</a>).</p>
+<p>The <a href="https://www.protectedplanet.net/">World Database on Protected Areas (WDPA)</a> is the most comprehensive global dataset of protected areas. It is used to monitor the performance of existing protected areas and pinpoint priority areas for establishing new protected areas. Additionally, this database receives monthly updates from government agencies and non-governmental organizations. However, this dataset is associated with <a href="https://www.protectedplanet.net/c/calculating-protected-area-coverage">many issues that need to be addressed prior to analysis</a> and the dynamic nature of this dataset means that the entire data cleaning process needs to be repeated after obtaining a new version of the dataset. The <em>wdpar R</em> package provides an interface to the <a href="https://www.protectedplanet.net/">World Database on Protected Areas (WDPA)</a> and functions for cleaning the data following best practices (outlined in <a href="https://dx.doi.org/10.1111/conl.12158">Butchart <em>et al.</em> 2015</a>; <a href="https://dx.doi.org/10.1126/science.aac9180">Runge <em>et al.</em> 2015</a>; <a href="https://www.protectedplanet.net/c/calculating-protected-area-coverage">Protected Planet</a>).</p>
 </div>
 <div id="tutorial" class="section level3">
 <h3 class="hasAnchor">
@@ -99,20 +99,57 @@
 <p>Now we will download protected area data for Malta from <a href="protectedplanet.net">Protected Planet</a>. We can achieve this by specifying Malta’s country name (i.e. <code>"Malta"</code>) or Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO3 code</a> (i.e. <code>"MLT"</code>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download protected area data for Malta</span>
 <span class="co"># (excluding areas represented as point localities)</span>
-mlt_raw_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/wdpar/topics/wdpa_fetch">wdpa_fetch</a></span>(<span class="st">"Malta"</span>)</code></pre></div>
-<p>Next, we will clean the data set. See the help page for <code>wdpa_clean</code> for a detailed description on the data cleaning process.</p>
+mlt_raw_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/wdpa_fetch.html">wdpa_fetch</a></span>(<span class="st">"Malta"</span>)</code></pre></div>
+<p>Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. <code>"0"</code>) with missing data values (i.e. <code>NA</code>), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see <code><a href="../reference/wdpa_clean.html">?wdpa_clean</a></code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># clean Malta data</span>
-mlt_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/wdpar/topics/wdpa_clean">wdpa_clean</a></span>(mlt_raw_pa_data)</code></pre></div>
+mlt_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/wdpa_clean.html">wdpa_clean</a></span>(mlt_raw_pa_data)</code></pre></div>
+<p>After cleaning the data set, we will perform an additional step that involves clipping the terrestrial protected areas to Malta’s coastline. Ideally, we would also clip the marine protected areas to Malta’s Exclusive Economic Zone (EEZ) but such data are as easy to obtain on a per country basis (but see <a href="http://www.marineregions.org/eez.php" class="uri">http://www.marineregions.org/eez.php</a>).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download Malta boundary from Global Administrative Areas dataset</span>
+file_path &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempfile</a></span>(<span class="dt">fileext =</span> <span class="st">"rds"</span>)
+<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/download.file">download.file</a></span>(<span class="st">"https://biogeo.ucdavis.edu/data/gadm3.6/Rsf/gadm36_MLT_0_sf.rds"</span>,
+              file_path)
+
+<span class="co"># import Malta's boundary</span>
+mlt_boundary_data &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readRDS">readRDS</a></span>(file_path)
+
+<span class="co"># repair any geometry issues, dissolve the border, and reproject to same</span>
+<span class="co"># coordinate system as the protected area data</span>
+mlt_boundary_data &lt;-<span class="st"> </span>mlt_boundary_data <span class="op">%&gt;%</span>
+<span class="st">                     </span><span class="kw">st_set_precision</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span>
+<span class="st">                     </span>lwgeom<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/lwgeom/topics/valid">st_make_valid</a></span>() <span class="op">%&gt;%</span>
+<span class="st">                     </span><span class="kw">st_set_precision</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span>
+<span class="st">                     </span><span class="kw">st_combine</span>() <span class="op">%&gt;%</span>
+<span class="st">                     </span><span class="kw">st_union</span>() <span class="op">%&gt;%</span>
+<span class="st">                     </span><span class="kw">st_set_precision</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span>
+<span class="st">                     </span>lwgeom<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/lwgeom/topics/valid">st_make_valid</a></span>() <span class="op">%&gt;%</span>
+<span class="st">                     </span><span class="kw">st_transform</span>(<span class="kw">st_crs</span>(mlt_pa_data))
+
+<span class="co"># clip Malta's protected areas to the coastline</span>
+mlt_pa_data &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
+<span class="st">               </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(MARINE <span class="op">==</span><span class="st"> "terrestrial"</span>) <span class="op">%&gt;%</span>
+<span class="st">               </span><span class="kw">st_intersection</span>(mlt_boundary_data) <span class="op">%&gt;%</span>
+<span class="st">               </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">rbind</a></span>(mlt_pa_data <span class="op">%&gt;%</span>
+<span class="st">                     </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(MARINE <span class="op">==</span><span class="st"> "marine"</span>) <span class="op">%&gt;%</span>
+<span class="st">                     </span><span class="kw">st_difference</span>(mlt_boundary_data)) <span class="op">%&gt;%</span>
+<span class="st">               </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">rbind</a></span>(mlt_pa_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span>MARINE <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"terrestrial"</span>,
+                                                           <span class="st">"marine"</span>)))</code></pre></div>
+<pre><code>## Warning: attribute variables are assumed to be spatially constant
+## throughout all geometries
+
+## Warning: attribute variables are assumed to be spatially constant
+## throughout all geometries</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># recalculate the area of each protected area</span>
+mlt_pa_data &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
+<span class="st">               </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">AREA_KM2 =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/numeric">as.numeric</a></span>(<span class="kw">st_area</span>(.)) <span class="op">*</span><span class="st"> </span><span class="fl">1e-6</span>)</code></pre></div>
 <p>Now that we have finished cleaning the data, let’s preview the data. For more information on what these columns mean, please refer to the <a href="https://www.protectedplanet.net/c/wdpa-manual">official manual</a> (available in <a href="http://wcmc.io/WDPA_Manual">English</a>, <a href="http://wcmc.io/WDPA_Manual_ES">Spanish</a>, <a href="http://wcmc.io/WDPA_Manual_FR">French</a>, and <a href="http://wcmc.io/WDPA_Manual_RU">Russian</a>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># print first six rows of the data</span>
 <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(mlt_pa_data)</code></pre></div>
 <pre><code>## Simple feature collection with 6 features and 28 fields
-## geometry type:  MULTIPOLYGON
+## geometry type:  POLYGON
 ## dimension:      XY
-## bbox:           xmin: 1382455 ymin: 4280784 xmax: 1399726 ymax: 4299684
+## bbox:           xmin: 1382455 ymin: 4280784 xmax: 1399726 ymax: 4299580
 ## epsg (SRID):    NA
 ## proj4string:    +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs
-## precision:      1000 
 ## # A tibble: 6 x 29
 ##   WDPAID WDPA_PID PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE
 ##    &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;     
@@ -127,7 +164,7 @@ mlt_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="https://www.
 ## #   NO_TK_AREA &lt;dbl&gt;, STATUS &lt;chr&gt;, STATUS_YR &lt;dbl&gt;, GOV_TYPE &lt;chr&gt;,
 ## #   OWN_TYPE &lt;chr&gt;, MANG_AUTH &lt;chr&gt;, MANG_PLAN &lt;chr&gt;, VERIF &lt;chr&gt;,
 ## #   METADATAID &lt;dbl&gt;, SUB_LOC &lt;chr&gt;, PARENT_ISO &lt;chr&gt;, ISO3 &lt;chr&gt;,
-## #   GEOMETRY_TYPE &lt;chr&gt;, AREA_KM2 &lt;dbl&gt;, geometry &lt;MULTIPOLYGON [m]&gt;</code></pre>
+## #   GEOMETRY_TYPE &lt;chr&gt;, AREA_KM2 &lt;dbl&gt;, geometry &lt;POLYGON [m]&gt;</code></pre>
 <p>We will now reproject the data to longitude/latitude coordinates (<a href="http://spatialreference.org/ref/epsg/wgs-84/">EPSG:4326</a>) for visualization purposes.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># reproject data</span>
 mlt_pa_data &lt;-<span class="st"> </span><span class="kw">st_transform</span>(mlt_pa_data, <span class="dv">4326</span>)</code></pre></div>
@@ -140,10 +177,10 @@ bg &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocument
 <span class="kw"><a href="https://www.rdocumentation.org/packages/ggmap/topics/ggmap">ggmap</a></span>(bg) <span class="op">+</span>
 <span class="kw">geom_sf</span>(<span class="dt">data =</span> mlt_pa_data, <span class="dt">fill =</span> <span class="st">"#31A35480"</span>, <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
 <span class="kw">theme</span>(<span class="dt">axis.title =</span> <span class="kw">element_blank</span>())</code></pre></div>
-<p><img src="wdpar_files/figure-html/unnamed-chunk-8-1.png" width="432" style="display: block; margin: auto;"></p>
+<p><img src="wdpar_files/figure-html/unnamed-chunk-9-1.png" width="432" style="display: block; margin: auto;"></p>
 <p>We can also create a histogram showing the year when each protected area was established.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/hist">hist</a></span>(mlt_pa_data<span class="op">$</span>STATUS_YR, <span class="dt">main =</span> <span class="st">"Malta's protected areas"</span>, <span class="dt">xlab =</span> <span class="st">"Year established"</span>)</code></pre></div>
-<p><img src="wdpar_files/figure-html/unnamed-chunk-9-1.png" width="432" style="display: block; margin: auto;"></p>
+<p><img src="wdpar_files/figure-html/unnamed-chunk-10-1.png" width="432" style="display: block; margin: auto;"></p>
 <p>Now let’s calculate some statistics. We can calculate the total amount of land and ocean inside Malta’s protected area system (km<sup>2</sup>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate total amount of area inside protected areas (km^2)</span>
 statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
@@ -159,8 +196,8 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 <pre><code>## # A tibble: 3 x 2
 ##   MARINE       area_km
 ##   &lt;chr&gt;          &lt;dbl&gt;
-## 1 marine      8655.   
-## 2 terrestrial   92.0  
+## 1 marine      8649.   
+## 2 terrestrial   88.2  
 ## 3 partial        0.135</code></pre>
 <p>We can also calculate the percentage of land inside its protected area system that are managed under different categories (i.e. <a href="https://www.iucn.org/theme/protected-areas/about/protected-area-categories">using the protected area management categories defined by The International Union for Conservation of Nature</a>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate percentage of land inside protected areas (km^2)</span>
@@ -178,19 +215,46 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 <pre><code>## # A tibble: 8 x 3
 ##   IUCN_CAT       area_km percentage
 ##   &lt;chr&gt;            &lt;dbl&gt;      &lt;dbl&gt;
-## 1 IV           4471.       51.1    
-## 2 Not Reported 4236.       48.4    
-## 3 V              29.0       0.331  
-## 4 Not Assigned    8.69      0.0993 
-## 5 II              2.47      0.0283 
-## 6 VI              0.512     0.00586
-## 7 III             0.205     0.00235
-## 8 Ia              0.0904    0.00103</code></pre>
+## 1 IV           4465.      51.1     
+## 2 Not Reported 4234.      48.5     
+## 3 V              25.8      0.295   
+## 4 Not Assigned    8.69     0.0995  
+## 5 II              2.47     0.0283  
+## 6 VI              0.512    0.00586 
+## 7 III             0.205    0.00235 
+## 8 Ia              0.0851   0.000974</code></pre>
 <p>We can also plot a map showing Malta’s protected areas and color each area according to it’s management category.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggmap/topics/ggmap">ggmap</a></span>(bg) <span class="op">+</span>
 <span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> IUCN_CAT), <span class="dt">data =</span> mlt_pa_data, <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
 <span class="kw">theme</span>(<span class="dt">axis.title =</span> <span class="kw">element_blank</span>(), <span class="dt">legend.position =</span> <span class="st">"bottom"</span>)</code></pre></div>
-<p><img src="wdpar_files/figure-html/unnamed-chunk-12-1.png" width="432" style="display: block; margin: auto;"></p>
+<p><img src="wdpar_files/figure-html/unnamed-chunk-13-1.png" width="432" style="display: block; margin: auto;"></p>
+</div>
+<div id="additional-datasets" class="section level3">
+<h3 class="hasAnchor">
+<a href="#additional-datasets" class="anchor"></a>Additional datasets</h3>
+<p>Although the <a href="https://www.protectedplanet.net/">World Database on Protected Areas (WDPA)</a> is the most comprehensive global dataset, many datasets are available for specific countries or regions that do not require such extensive data cleaning procedures. As a consequence, it is often worth looking for alternative data sets when working at smaller geographic scales before considering the <a href="https://www.protectedplanet.net/">World Database on Protected Areas (WDPA)</a>. The list below outlines several alternative protected area datasets and information on where they can be obtained. If you know of any such datasets that are missing, <a href="https://github.com/prioritizr/wdpar/issues">please create an issue on the GitHub repository</a> and we can add them to the list.</p>
+<ul>
+<li>Arctic
+<ul>
+<li><a href="http://geo.abds.is/geonetwork/srv/eng/catalog.search#/metadata/2e56ee1f-50a9-4983-88f4-edaa8588950d">Arctic Protected Areas - 2017</a></li>
+</ul>
+</li>
+<li>Australia
+<ul>
+<li><a href="http://www.environment.gov.au/land/nrs/science/capad">Collaborative Australian Protected Area Database (CAPAD)</a></li>
+</ul>
+</li>
+<li>Canada
+<ul>
+<li><a href="http://www.ccea.org/carts/">Conservation Areas Reporting and Tracking System (CARTS)</a></li>
+</ul>
+</li>
+<li>The United States of America
+<ul>
+<li><a href="https://consbio.org/products/projects/pad-us-cbi-edition">Protected Areas Database of the US, PAD-US (CBI Edition)</a></li>
+</ul>
+</li>
+</ul>
 </div>
 <div id="citation" class="section level3">
 <h3 class="hasAnchor">
@@ -200,7 +264,7 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 To cite the wdpar package in publications, use:
 
   Hanson JO (2018) wdpar: Interface to the World Database on
-  Protected Areas. R package version 0.0.0.2. Available at:
+  Protected Areas. R package version 0.0.0.3. Available at:
   https://github.com/jeffreyhanson/wdpar
 
   UNEP-WCMC and IUCN (2018) Protected Planet: The World Database

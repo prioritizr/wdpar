@@ -1,6 +1,6 @@
-## R CMD check results
+Dear CRAN maintainers,
 
-0 errors | 0 warnings | 0 notes
+I am pleased to submit the initial release of the _wdpar_ R package.
 
 ## Test environments
 
@@ -12,6 +12,11 @@
 * Windows Server 2008 (x64), R-release (win-builder)
 * Windows Server 2008 (x64), R-devel (win-builder)
 
-## Downstream dependencies
+## R CMD check results
 
-There are no existing packages that depend on this package.
+0 errors | 0 warnings | 1 note
+
+## Notes
+
+* checking CRAN incoming feasibility ... NOTE
+  Maintainer: 'Jeffrey O Hanson <jeffrey.hanson@uqconnect.edu.au>'

@@ -10,7 +10,7 @@ citEntry(
   title = "wdpar: Interface to the World Database on Protected Areas",
   year = year,
   note = paste("R package version", meta$Version),
-  url = "https://github.com/jeffreyhanson/wdpar",
+  url = "https://github.com/prioritizr/wdpar",
   textVersion = paste0(
      "Hanson JO (", year, ") wdpar: Interface to the World Database on ",
      "Protected Areas. R package version ", meta$Version, ". ",

@@ -3,7 +3,7 @@
 wdpar: Interface to the World Database on Protected Areas
 ---------------------------------------------------------
 
-[![lifecycle](https://img.shields.io/badge/Lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing) [![Travis Build Status](https://img.shields.io/travis/prioritizr/wdpar/master.svg?label=Linux%20%26%20Mac%20OSX)](https://travis-ci.org/prioritizr/wdpar) [![AppVeyor Build Status](https://img.shields.io/appveyor/ci/jeffreyhanson/wdpar/master.svg?label=Windows)](https://ci.appveyor.com/project/jeffreyhanson/wdpar) [![Coverage Status](https://codecov.io/github/prioritizr/wdpar/coverage.svg?branch=master)](https://codecov.io/github/prioritizr/wdpar?branch=master) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/wdpar)](https://CRAN.R-project.org/package=wdpar)
+[![lifecycle](https://img.shields.io/badge/Lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) [![Travis Build Status](https://img.shields.io/travis/prioritizr/wdpar/master.svg?label=Linux%20%26%20Mac%20OSX)](https://travis-ci.org/prioritizr/wdpar) [![AppVeyor Build Status](https://img.shields.io/appveyor/ci/jeffreyhanson/wdpar/master.svg?label=Windows)](https://ci.appveyor.com/project/jeffreyhanson/wdpar) [![Coverage Status](https://codecov.io/github/prioritizr/wdpar/coverage.svg?branch=master)](https://codecov.io/github/prioritizr/wdpar?branch=master) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/wdpar)](https://CRAN.R-project.org/package=wdpar)
 
 ### Overview
 
@@ -38,6 +38,9 @@ Now we will download protected area data for Malta from [Protected Planet](prote
 # download protected area data for Malta
 mlt_raw_pa_data <- wdpa_fetch("Malta", wait = TRUE)
 ```
+
+    ## Warning in wdpa_fetch("Malta", wait = TRUE): local data is out of date: Dec
+    ## 2018
 
 Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. `"0"`) with missing data values (i.e. `NA`), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see `?wdpa_clean`.
 
@@ -94,7 +97,7 @@ theme(axis.title = element_blank(), legend.position = "bottom")
 
 <img src="man/figures/README-readme-map-1.png" width="50%" style="display: block; margin: auto;" />
 
-If you need to calculate protected area coverage statistics for a country, please note that you will need to manually clip the cleaned protected area data to the countries' coastline and its Exclusive Economic Zone (EEZ) to obtain accurate results (see [official data cleaning guidelines](https://www.protectedplanet.net/c/calculating-protected-area-coverage)). This step is not performed by the *wdpar R* package because there is no single "best" coastline and Exclusive Economic Zone (EEZ) dataset, since the "best" dataset for any given project depends on the level of required precision and available computational resources. For more examples---including an example of clipping the cleaned data to a coastline---please refer to the [package vignette](https://github.com/prioritizr/wdpar/articles/wdpar.html).
+If you need to calculate protected area coverage statistics for a country, please note that you will need to manually clip the cleaned protected area data to the countries' coastline and its Exclusive Economic Zone (EEZ) to obtain accurate results (see [official data cleaning guidelines](https://www.protectedplanet.net/c/calculating-protected-area-coverage)). This step is not performed by the *wdpar R* package because there is no single "best" coastline and Exclusive Economic Zone (EEZ) dataset, since the "best" dataset for any given project depends on the level of required precision and available computational resources. For more examples---including an example of clipping the cleaned data to a coastline---please refer to the [package vignette](https://prioritizr.github.io/wdpar/articles/wdpar.html).
 
 ### Citation
 
@@ -103,11 +106,11 @@ Please cite the *wdpar R* package and the World Database on Protected Areas (WDP
 
     To cite the wdpar package in publications, use:
 
-      Hanson JO (2018) wdpar: Interface to the World Database on
-      Protected Areas. R package version 0.0.0.3. Available at:
+      Hanson JO (2019) wdpar: Interface to the World Database on
+      Protected Areas. R package version 0.0.0.4. Available at:
       https://github.com/jeffreyhanson/wdpar
 
-      UNEP-WCMC and IUCN (2018) Protected Planet: The World Database
+      UNEP-WCMC and IUCN (2019) Protected Planet: The World Database
       on Protected Areas (WDPA), [insert month/year of the version
       downloaded], Cambridge, UK: UNEP-WCMC and IUCN. Available at:
       www.protectedplanet.net.

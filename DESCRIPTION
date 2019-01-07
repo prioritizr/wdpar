@@ -1,6 +1,6 @@
 Package: wdpar
 Type: Package
-Version: 0.0.0.3
+Version: 0.0.0.4
 Title: Interface to the World Database on Protected Areas
 Description: Fetch and clean data from the World Database on Protected
     Areas (WDPA). Data is obtained from Protected Planet
@@ -36,7 +36,7 @@ Depends:
     sf(>= 0.7-1)
 License: GPL-3
 LazyData: true
-URL: https://github.com/prioritizr/wdpar
+URL: https://prioritizr.github.io/wdpar, https://github.com/prioritizr/wdpar
 BugReports: https://github.com/prioritizr/wdpar/issues
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1

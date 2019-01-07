@@ -33,4 +33,4 @@ citEntry(
   )
 )
 
-citFooter("Please cite both the World Database on Protected Areas data set and this package.\n")
+citFooter("Please cite both the World Database on Protected Areas data set and this package.\n\n")

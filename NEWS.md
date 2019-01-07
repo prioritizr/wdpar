@@ -1,3 +1,9 @@
+# wdpar 0.0.0.4 (unreleased)
+
+- Fix broken link in README, add package website to DESCRIPTION.
+- Update lifecycle badge to stable.
+- Fix bug that threw a bogus error message in `wdpa_fetch` when `force = TRUE`.
+
 # wdpar 0.0.0.3 (unreleased)
 
 - Update overview in README and vignette (#3; @rungec).

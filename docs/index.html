@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.4</span>
       </span>
     </div>
 
@@ -102,6 +102,8 @@ devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumen
 <p>Now we will download protected area data for Malta from <a href="protectedplanet.net">Protected Planet</a>. We can achieve this by specifying Malta’s country name (i.e. <code>"Malta"</code>) or Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO3 code</a> (i.e. <code>"MLT"</code>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download protected area data for Malta</span>
 mlt_raw_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/wdpa_fetch.html">wdpa_fetch</a></span>(<span class="st">"Malta"</span>, <span class="dt">wait =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>## Warning in wdpa_fetch("Malta", wait = TRUE): local data is out of date: Dec
+## 2018</code></pre>
 <p>Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. <code>"0"</code>) with missing data values (i.e. <code>NA</code>), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see <code><a href="reference/wdpa_clean.html">?wdpa_clean</a></code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># clean Malta data</span>
 mlt_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/wdpa_clean.html">wdpa_clean</a></span>(mlt_raw_pa_data)</code></pre></div>
@@ -143,7 +145,7 @@ bg &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocument
 <span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> IUCN_CAT), <span class="dt">data =</span> mlt_pa_data, <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
 <span class="kw">theme</span>(<span class="dt">axis.title =</span> <span class="kw">element_blank</span>(), <span class="dt">legend.position =</span> <span class="st">"bottom"</span>)</code></pre></div>
 <p><img src="reference/figures/README-readme-map-1.png" width="60%" style="display: block; margin: auto;"></p>
-<p>If you need to calculate protected area coverage statistics for a country, please note that you will need to manually clip the cleaned protected area data to the countries’ coastline and its Exclusive Economic Zone (EEZ) to obtain accurate results (see <a href="https://www.protectedplanet.net/c/calculating-protected-area-coverage">official data cleaning guidelines</a>). This step is not performed by the <em>wdpar R</em> package because there is no single “best” coastline and Exclusive Economic Zone (EEZ) dataset, since the “best” dataset for any given project depends on the level of required precision and available computational resources. For more examples—including an example of clipping the cleaned data to a coastline—please refer to the <a href="https://github.com/prioritizr/wdpar/articles/wdpar.html">package vignette</a>.</p>
+<p>If you need to calculate protected area coverage statistics for a country, please note that you will need to manually clip the cleaned protected area data to the countries’ coastline and its Exclusive Economic Zone (EEZ) to obtain accurate results (see <a href="https://www.protectedplanet.net/c/calculating-protected-area-coverage">official data cleaning guidelines</a>). This step is not performed by the <em>wdpar R</em> package because there is no single “best” coastline and Exclusive Economic Zone (EEZ) dataset, since the “best” dataset for any given project depends on the level of required precision and available computational resources. For more examples—including an example of clipping the cleaned data to a coastline—please refer to the <a href="https://prioritizr.github.io/wdpar/articles/wdpar.html">package vignette</a>.</p>
 </div>
 <div id="citation" class="section level3">
 <h3 class="hasAnchor">
@@ -152,11 +154,11 @@ bg &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocument
 <pre><code>
 To cite the wdpar package in publications, use:
 
-  Hanson JO (2018) wdpar: Interface to the World Database on
-  Protected Areas. R package version 0.0.0.3. Available at:
+  Hanson JO (2019) wdpar: Interface to the World Database on
+  Protected Areas. R package version 0.0.0.4. Available at:
   https://github.com/jeffreyhanson/wdpar
 
-  UNEP-WCMC and IUCN (2018) Protected Planet: The World Database
+  UNEP-WCMC and IUCN (2019) Protected Planet: The World Database
   on Protected Areas (WDPA), [insert month/year of the version
   downloaded], Cambridge, UK: UNEP-WCMC and IUCN. Available at:
   www.protectedplanet.net.
@@ -203,7 +205,7 @@ bibtex=TRUE)', 'toBibtex(.)', or set
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/Lifecycle-maturing-blue.svg" alt="lifecycle"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#stable"><img src="https://img.shields.io/badge/Lifecycle-stable-brightgreen.svg" alt="lifecycle"></a></li>
 <li><a href="https://travis-ci.org/prioritizr/wdpar"><img src="https://img.shields.io/travis/prioritizr/wdpar/master.svg?label=Linux%20%26%20Mac%20OSX" alt="Travis Build Status"></a></li>
 <li><a href="https://ci.appveyor.com/project/jeffreyhanson/wdpar"><img src="https://img.shields.io/appveyor/ci/jeffreyhanson/wdpar/master.svg?label=Windows" alt="AppVeyor Build Status"></a></li>
 <li><a href="https://codecov.io/github/prioritizr/wdpar?branch=master"><img src="https://codecov.io/github/prioritizr/wdpar/coverage.svg?branch=master" alt="Coverage Status"></a></li>

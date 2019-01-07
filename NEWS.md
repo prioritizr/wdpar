@@ -1,3 +1,7 @@
+# wdpar 0.0.1
+
+- CRAN release.
+
 # wdpar 0.0.0.4 (unreleased)
 
 - Fix broken link in README, add package website to DESCRIPTION.

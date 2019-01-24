@@ -20,7 +20,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-home">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.1</span>
       </span>
     </div>
 
@@ -71,7 +71,11 @@
 
       
       </header><div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
+    
+
+    
+    
 <!--- README.md is generated from README.Rmd. Please edit that file -->
 <div id="wdpar-interface-to-the-world-database-on-protected-areas" class="section level2">
 <h2 class="hasAnchor">
@@ -102,8 +106,6 @@ devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumen
 <p>Now we will download protected area data for Malta from <a href="protectedplanet.net">Protected Planet</a>. We can achieve this by specifying Malta’s country name (i.e. <code>"Malta"</code>) or Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO3 code</a> (i.e. <code>"MLT"</code>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download protected area data for Malta</span>
 mlt_raw_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/wdpa_fetch.html">wdpa_fetch</a></span>(<span class="st">"Malta"</span>, <span class="dt">wait =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<pre><code>## Warning in wdpa_fetch("Malta", wait = TRUE): local data is out of date: Dec
-## 2018</code></pre>
 <p>Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. <code>"0"</code>) with missing data values (i.e. <code>NA</code>), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see <code><a href="reference/wdpa_clean.html">?wdpa_clean</a></code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># clean Malta data</span>
 mlt_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/wdpa_clean.html">wdpa_clean</a></span>(mlt_raw_pa_data)</code></pre></div>
@@ -113,7 +115,7 @@ mlt_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/wd
 <pre><code>## Simple feature collection with 6 features and 28 fields
 ## geometry type:  MULTIPOLYGON
 ## dimension:      XY
-## bbox:           xmin: 1382455 ymin: 4280784 xmax: 1399726 ymax: 4299684
+## bbox:           xmin: 1383613 ymin: 4280784 xmax: 1399726 ymax: 4299580
 ## epsg (SRID):    NA
 ## proj4string:    +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs
 ## precision:      1000 
@@ -126,12 +128,12 @@ mlt_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/wd
 ## 4 1.75e5 174757   1      Il-Ġ… Il-Ġonna… List… List of … National  
 ## 5 1.75e5 174758   1      Bidn… Bidnija,… List… List of … National  
 ## 6 1.94e5 194415   1      Il-Ġ… Il-Ġonna… List… List of … National  
-## # ... with 21 more variables: IUCN_CAT &lt;chr&gt;, INT_CRIT &lt;chr&gt;,
-## #   MARINE &lt;chr&gt;, REP_M_AREA &lt;dbl&gt;, REP_AREA &lt;dbl&gt;, NO_TAKE &lt;chr&gt;,
-## #   NO_TK_AREA &lt;dbl&gt;, STATUS &lt;chr&gt;, STATUS_YR &lt;dbl&gt;, GOV_TYPE &lt;chr&gt;,
-## #   OWN_TYPE &lt;chr&gt;, MANG_AUTH &lt;chr&gt;, MANG_PLAN &lt;chr&gt;, VERIF &lt;chr&gt;,
-## #   METADATAID &lt;dbl&gt;, SUB_LOC &lt;chr&gt;, PARENT_ISO &lt;chr&gt;, ISO3 &lt;chr&gt;,
-## #   GEOMETRY_TYPE &lt;chr&gt;, AREA_KM2 &lt;dbl&gt;, geometry &lt;MULTIPOLYGON [m]&gt;</code></pre>
+## # … with 21 more variables: IUCN_CAT &lt;chr&gt;, INT_CRIT &lt;chr&gt;, MARINE &lt;chr&gt;,
+## #   REP_M_AREA &lt;dbl&gt;, REP_AREA &lt;dbl&gt;, NO_TAKE &lt;chr&gt;, NO_TK_AREA &lt;dbl&gt;,
+## #   STATUS &lt;chr&gt;, STATUS_YR &lt;dbl&gt;, GOV_TYPE &lt;chr&gt;, OWN_TYPE &lt;chr&gt;,
+## #   MANG_AUTH &lt;chr&gt;, MANG_PLAN &lt;chr&gt;, VERIF &lt;chr&gt;, METADATAID &lt;dbl&gt;,
+## #   SUB_LOC &lt;chr&gt;, PARENT_ISO &lt;chr&gt;, ISO3 &lt;chr&gt;, GEOMETRY_TYPE &lt;chr&gt;,
+## #   AREA_KM2 &lt;dbl&gt;, geometry &lt;MULTIPOLYGON [m]&gt;</code></pre>
 <p>Finally, after cleaning the data, let’s plot a map showing Malta’s protected areas and color each area according to its management category (<a href="https://www.iucn.org/theme/protected-areas/about/protected-area-categories">as defined by the The International Union for Conservation of Nature</a>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># reproject data to longitude/latitude for plotting</span>
 mlt_pa_data &lt;-<span class="st"> </span><span class="kw">st_transform</span>(mlt_pa_data, <span class="dv">4326</span>)
@@ -155,8 +157,8 @@ bg &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocument
 To cite the wdpar package in publications, use:
 
   Hanson JO (2019) wdpar: Interface to the World Database on
-  Protected Areas. R package version 0.0.1. Available at:
-  https://github.com/jeffreyhanson/wdpar
+  Protected Areas. R package version 0.0.1.1.
+  https://github.com/prioritizr/wdpar
 
   UNEP-WCMC and IUCN (2019) Protected Planet: The World Database
   on Protected Areas (WDPA), [insert month/year of the version
@@ -172,10 +174,12 @@ bibtex=TRUE)', 'toBibtex(.)', or set
 </div>
   </div>
 
-  <div class="col-md-3" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
+<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=wdpar">https://​cloud.r-project.org/​package=wdpar</a>
+</li>
 <li>Browse source code at <br><a href="https://github.com/prioritizr/wdpar">https://​github.com/​prioritizr/​wdpar</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/prioritizr/wdpar/issues">https://​github.com/​prioritizr/​wdpar/​issues</a>
@@ -202,7 +206,7 @@ bibtex=TRUE)', 'toBibtex(.)', or set
 </ul>
 </div>
 
-  <div class="dev-status">
+      <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://www.tidyverse.org/lifecycle/#stable"><img src="https://img.shields.io/badge/Lifecycle-stable-brightgreen.svg" alt="lifecycle"></a></li>
@@ -213,6 +217,7 @@ bibtex=TRUE)', 'toBibtex(.)', or set
 </ul>
 </div>
 </div>
+
 </div>
 
 
@@ -221,7 +226,7 @@ bibtex=TRUE)', 'toBibtex(.)', or set
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
 </div>

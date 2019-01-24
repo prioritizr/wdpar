@@ -1,6 +1,6 @@
 Package: wdpar
 Type: Package
-Version: 0.0.1
+Version: 0.0.1.1
 Title: Interface to the World Database on Protected Areas
 Description: Fetch and clean data from the World Database on Protected
     Areas (WDPA). Data is obtained from Protected Planet

@@ -52,6 +52,7 @@ wdpa_url <- function(x, wait = FALSE) {
       rd$navigate(paste0("https://protectedplanet.net/country/", x))
       elem <- rd$findElement(using = "css", ".link-with-icon--bold")
       elem$clickElement()
+      Sys.sleep(3) # wait 3 seconds for page to load
       elem <- rd$findElement(using = "css",
                              paste(".link-with-icon~ .link-with-icon+",
                                    ".link-with-icon"))

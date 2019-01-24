@@ -2,6 +2,13 @@ year <- sub("-.*", "", meta$Date)
 if (is.null(year) || identical(year, "") || isTRUE(length(year) == 0))
   year <- format(Sys.Date(), "%Y")
 
+ndots <- length(gregexpr(".", meta$Version, fixed = TRUE)[[1]])
+if (ndots == 3) {
+  cite_url <- "https://github.com/prioritizr/wdpar"
+} else {
+  cite_url <- "https://CRAN.R-project.org/package=wdpar"
+}
+
 citHeader("To cite the wdpar package in publications, use:")
 
 citEntry(
@@ -10,11 +17,11 @@ citEntry(
   title = "wdpar: Interface to the World Database on Protected Areas",
   year = year,
   note = paste("R package version", meta$Version),
-  url = "https://github.com/prioritizr/wdpar",
+  url = cite_url,
   textVersion = paste0(
      "Hanson JO (", year, ") wdpar: Interface to the World Database on ",
      "Protected Areas. R package version ", meta$Version, ". ",
-     "Available at: https://github.com/jeffreyhanson/wdpar"
+     cite_url
   )
 )
 

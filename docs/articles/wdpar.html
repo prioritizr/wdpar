@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.1</span>
       </span>
     </div>
 
@@ -74,7 +74,7 @@
       <h1>wdpar: Interface to the World Database on Protected Areas</h1>
                         <h4 class="author">Jeffrey O. Hanson</h4>
             
-            <h4 class="date">2019-01-07</h4>
+            <h4 class="date">2019-01-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/wdpar/blob/master/vignettes/wdpar.Rmd"><code>vignettes/wdpar.Rmd</code></a></small>
       <div class="hidden name"><code>wdpar.Rmd</code></div>
@@ -100,7 +100,6 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download protected area data for Malta</span>
 <span class="co"># (excluding areas represented as point localities)</span>
 mlt_raw_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/wdpa_fetch.html">wdpa_fetch</a></span>(<span class="st">"Malta"</span>)</code></pre></div>
-<pre><code>## Warning in wdpa_fetch("Malta"): local data is out of date: Dec 2018</code></pre>
 <p>Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. <code>"0"</code>) with missing data values (i.e. <code>NA</code>), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see <code><a href="../reference/wdpa_clean.html">?wdpa_clean</a></code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># clean Malta data</span>
 mlt_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/wdpa_clean.html">wdpa_clean</a></span>(mlt_raw_pa_data)</code></pre></div>
@@ -148,7 +147,7 @@ mlt_pa_data &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</s
 <pre><code>## Simple feature collection with 6 features and 28 fields
 ## geometry type:  POLYGON
 ## dimension:      XY
-## bbox:           xmin: 1382455 ymin: 4280784 xmax: 1399726 ymax: 4299580
+## bbox:           xmin: 1383613 ymin: 4280784 xmax: 1399726 ymax: 4299580
 ## epsg (SRID):    NA
 ## proj4string:    +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs
 ## # A tibble: 6 x 29
@@ -160,12 +159,12 @@ mlt_pa_data &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</s
 ## 4 1.75e5 174757   1      Il-Ġ… Il-Ġonna… List… List of … National  
 ## 5 1.75e5 174758   1      Bidn… Bidnija,… List… List of … National  
 ## 6 1.94e5 194415   1      Il-Ġ… Il-Ġonna… List… List of … National  
-## # ... with 21 more variables: IUCN_CAT &lt;chr&gt;, INT_CRIT &lt;chr&gt;,
-## #   MARINE &lt;chr&gt;, REP_M_AREA &lt;dbl&gt;, REP_AREA &lt;dbl&gt;, NO_TAKE &lt;chr&gt;,
-## #   NO_TK_AREA &lt;dbl&gt;, STATUS &lt;chr&gt;, STATUS_YR &lt;dbl&gt;, GOV_TYPE &lt;chr&gt;,
-## #   OWN_TYPE &lt;chr&gt;, MANG_AUTH &lt;chr&gt;, MANG_PLAN &lt;chr&gt;, VERIF &lt;chr&gt;,
-## #   METADATAID &lt;dbl&gt;, SUB_LOC &lt;chr&gt;, PARENT_ISO &lt;chr&gt;, ISO3 &lt;chr&gt;,
-## #   GEOMETRY_TYPE &lt;chr&gt;, AREA_KM2 &lt;dbl&gt;, geometry &lt;POLYGON [m]&gt;</code></pre>
+## # … with 21 more variables: IUCN_CAT &lt;chr&gt;, INT_CRIT &lt;chr&gt;, MARINE &lt;chr&gt;,
+## #   REP_M_AREA &lt;dbl&gt;, REP_AREA &lt;dbl&gt;, NO_TAKE &lt;chr&gt;, NO_TK_AREA &lt;dbl&gt;,
+## #   STATUS &lt;chr&gt;, STATUS_YR &lt;dbl&gt;, GOV_TYPE &lt;chr&gt;, OWN_TYPE &lt;chr&gt;,
+## #   MANG_AUTH &lt;chr&gt;, MANG_PLAN &lt;chr&gt;, VERIF &lt;chr&gt;, METADATAID &lt;dbl&gt;,
+## #   SUB_LOC &lt;chr&gt;, PARENT_ISO &lt;chr&gt;, ISO3 &lt;chr&gt;, GEOMETRY_TYPE &lt;chr&gt;,
+## #   AREA_KM2 &lt;dbl&gt;, geometry &lt;POLYGON [m]&gt;</code></pre>
 <p>We will now reproject the data to longitude/latitude coordinates (<a href="http://spatialreference.org/ref/epsg/wgs-84/">EPSG:4326</a>) for visualization purposes.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># reproject data</span>
 mlt_pa_data &lt;-<span class="st"> </span><span class="kw">st_transform</span>(mlt_pa_data, <span class="dv">4326</span>)</code></pre></div>
@@ -195,11 +194,11 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 <span class="co"># print statistic</span>
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(statistic)</code></pre></div>
 <pre><code>## # A tibble: 3 x 2
-##   MARINE       area_km
-##   &lt;chr&gt;          &lt;dbl&gt;
-## 1 marine      8649.   
-## 2 terrestrial   88.2  
-## 3 partial        0.135</code></pre>
+##   MARINE      area_km
+##   &lt;chr&gt;         &lt;dbl&gt;
+## 1 marine      8432.  
+## 2 terrestrial   95.1 
+## 3 partial        8.74</code></pre>
 <p>We can also calculate the percentage of land inside its protected area system that are managed under different categories (i.e. <a href="https://www.iucn.org/theme/protected-areas/about/protected-area-categories">using the protected area management categories defined by The International Union for Conservation of Nature</a>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate percentage of land inside protected areas (km^2)</span>
 statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
@@ -216,14 +215,14 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 <pre><code>## # A tibble: 8 x 3
 ##   IUCN_CAT       area_km percentage
 ##   &lt;chr&gt;            &lt;dbl&gt;      &lt;dbl&gt;
-## 1 IV           4465.      51.1     
-## 2 Not Reported 4234.      48.5     
-## 3 V              25.8      0.295   
-## 4 Not Assigned    8.69     0.0995  
-## 5 II              2.47     0.0283  
-## 6 VI              0.512    0.00586 
-## 7 III             0.205    0.00235 
-## 8 Ia              0.0851   0.000974</code></pre>
+## 1 IV           4470.      52.4     
+## 2 Not Reported 4041.      47.3     
+## 3 V              14.6      0.171   
+## 4 Not Assigned    8.76     0.103   
+## 5 VI              0.512    0.00600 
+## 6 III             0.205    0.00241 
+## 7 Ia              0.155    0.00182 
+## 8 II              0.0101   0.000118</code></pre>
 <p>We can also plot a map showing Malta’s protected areas and color each area according to it’s management category.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggmap/topics/ggmap">ggmap</a></span>(bg) <span class="op">+</span>
 <span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> IUCN_CAT), <span class="dt">data =</span> mlt_pa_data, <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
@@ -265,8 +264,8 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 To cite the wdpar package in publications, use:
 
   Hanson JO (2019) wdpar: Interface to the World Database on
-  Protected Areas. R package version 0.0.1. Available at:
-  https://github.com/jeffreyhanson/wdpar
+  Protected Areas. R package version 0.0.1.1.
+  https://github.com/prioritizr/wdpar
 
   UNEP-WCMC and IUCN (2019) Protected Planet: The World Database
   on Protected Areas (WDPA), [insert month/year of the version
@@ -292,7 +291,7 @@ bibtex=TRUE)', 'toBibtex(.)', or set
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
 </div>
       </footer>
 </div>

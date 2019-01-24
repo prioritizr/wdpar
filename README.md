@@ -39,9 +39,6 @@ Now we will download protected area data for Malta from [Protected Planet](prote
 mlt_raw_pa_data <- wdpa_fetch("Malta", wait = TRUE)
 ```
 
-    ## Warning in wdpa_fetch("Malta", wait = TRUE): local data is out of date: Dec
-    ## 2018
-
 Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. `"0"`) with missing data values (i.e. `NA`), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see `?wdpa_clean`.
 
 ``` r
@@ -59,7 +56,7 @@ head(mlt_pa_data)
     ## Simple feature collection with 6 features and 28 fields
     ## geometry type:  MULTIPOLYGON
     ## dimension:      XY
-    ## bbox:           xmin: 1382455 ymin: 4280784 xmax: 1399726 ymax: 4299684
+    ## bbox:           xmin: 1383613 ymin: 4280784 xmax: 1399726 ymax: 4299580
     ## epsg (SRID):    NA
     ## proj4string:    +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs
     ## precision:      1000 
@@ -72,12 +69,12 @@ head(mlt_pa_data)
     ## 4 1.75e5 174757   1      Il-Ġ… Il-Ġonna… List… List of … National  
     ## 5 1.75e5 174758   1      Bidn… Bidnija,… List… List of … National  
     ## 6 1.94e5 194415   1      Il-Ġ… Il-Ġonna… List… List of … National  
-    ## # ... with 21 more variables: IUCN_CAT <chr>, INT_CRIT <chr>,
-    ## #   MARINE <chr>, REP_M_AREA <dbl>, REP_AREA <dbl>, NO_TAKE <chr>,
-    ## #   NO_TK_AREA <dbl>, STATUS <chr>, STATUS_YR <dbl>, GOV_TYPE <chr>,
-    ## #   OWN_TYPE <chr>, MANG_AUTH <chr>, MANG_PLAN <chr>, VERIF <chr>,
-    ## #   METADATAID <dbl>, SUB_LOC <chr>, PARENT_ISO <chr>, ISO3 <chr>,
-    ## #   GEOMETRY_TYPE <chr>, AREA_KM2 <dbl>, geometry <MULTIPOLYGON [m]>
+    ## # … with 21 more variables: IUCN_CAT <chr>, INT_CRIT <chr>, MARINE <chr>,
+    ## #   REP_M_AREA <dbl>, REP_AREA <dbl>, NO_TAKE <chr>, NO_TK_AREA <dbl>,
+    ## #   STATUS <chr>, STATUS_YR <dbl>, GOV_TYPE <chr>, OWN_TYPE <chr>,
+    ## #   MANG_AUTH <chr>, MANG_PLAN <chr>, VERIF <chr>, METADATAID <dbl>,
+    ## #   SUB_LOC <chr>, PARENT_ISO <chr>, ISO3 <chr>, GEOMETRY_TYPE <chr>,
+    ## #   AREA_KM2 <dbl>, geometry <MULTIPOLYGON [m]>
 
 Finally, after cleaning the data, let's plot a map showing Malta's protected areas and color each area according to its management category ([as defined by the The International Union for Conservation of Nature](https://www.iucn.org/theme/protected-areas/about/protected-area-categories)).
 
@@ -107,8 +104,8 @@ Please cite the *wdpar R* package and the World Database on Protected Areas (WDP
     To cite the wdpar package in publications, use:
 
       Hanson JO (2019) wdpar: Interface to the World Database on
-      Protected Areas. R package version 0.0.0.4. Available at:
-      https://github.com/jeffreyhanson/wdpar
+      Protected Areas. R package version 0.0.1.1.
+      https://github.com/prioritizr/wdpar
 
       UNEP-WCMC and IUCN (2019) Protected Planet: The World Database
       on Protected Areas (WDPA), [insert month/year of the version

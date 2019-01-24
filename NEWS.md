@@ -1,3 +1,9 @@
+# wdpar 0.0.1.1
+
+- Fix `Summary: ElementNotVisible` bug (#8).
+- Citation automatically reports the correct URL (i.e. CRAN or GitHub) based on
+  package version number.
+
 # wdpar 0.0.1
 
 - CRAN release.

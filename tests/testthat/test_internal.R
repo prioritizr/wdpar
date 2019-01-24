@@ -108,3 +108,7 @@ test_that("wdpa_url (global)", {
   unlink(f1, recursive = TRUE, force = TRUE)
   unlink(f2, recursive = TRUE, force = TRUE)
 })
+
+test_that("citation", {
+  expect_is(citation("wdpar"), "citation")
+})

@@ -84,3 +84,9 @@ wdpa_file <- function(x, download_dir = rappdirs::user_data_dir("wdpar")) {
   # return file path
   return(file_path)
 }
+
+# define dummy function to avoid CRAN notes for dependencies
+import_deps <- function() {
+  x <- rappdirs::user_data_dir("wdpar")
+  x <- sp::spTransform
+}

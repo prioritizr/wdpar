@@ -1,6 +1,6 @@
 Package: wdpar
 Type: Package
-Version: 0.0.1.1
+Version: 0.0.1.2
 Title: Interface to the World Database on Protected Areas
 Description: Fetch and clean data from the World Database on Protected
     Areas (WDPA). Data is obtained from Protected Planet
@@ -9,7 +9,6 @@ Authors@R: c(person(c('Jeffrey', 'O'), 'Hanson',
     email='jeffrey.hanson@uqconnect.edu.au', role = c('aut', 'cre')))
 Imports:
     utils,
-    methods,
     sp,
     assertthat (>= 0.2.0),
     progress (>= 1.2.0),
@@ -22,7 +21,6 @@ Imports:
     RSelenium (>= 1.7.4),
     xml2 (>= 1.2.0),
     cli (>= 1.0.1),
-    stringi (>= 1.2.4),
     lwgeom (>= 0.1-4)
 Suggests:
     testthat (>= 2.0.1),

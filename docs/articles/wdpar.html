@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.2</span>
       </span>
     </div>
 
@@ -74,7 +74,7 @@
       <h1>wdpar: Interface to the World Database on Protected Areas</h1>
                         <h4 class="author">Jeffrey O. Hanson</h4>
             
-            <h4 class="date">2019-01-24</h4>
+            <h4 class="date">2019-01-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/wdpar/blob/master/vignettes/wdpar.Rmd"><code>vignettes/wdpar.Rmd</code></a></small>
       <div class="hidden name"><code>wdpar.Rmd</code></div>
@@ -198,7 +198,7 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 ##   &lt;chr&gt;         &lt;dbl&gt;
 ## 1 marine      8432.  
 ## 2 terrestrial   95.1 
-## 3 partial        8.74</code></pre>
+## 3 partial        8.75</code></pre>
 <p>We can also calculate the percentage of land inside its protected area system that are managed under different categories (i.e. <a href="https://www.iucn.org/theme/protected-areas/about/protected-area-categories">using the protected area management categories defined by The International Union for Conservation of Nature</a>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate percentage of land inside protected areas (km^2)</span>
 statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
@@ -216,7 +216,7 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 ##   IUCN_CAT       area_km percentage
 ##   &lt;chr&gt;            &lt;dbl&gt;      &lt;dbl&gt;
 ## 1 IV           4470.      52.4     
-## 2 Not Reported 4041.      47.3     
+## 2 Not Reported 4042.      47.3     
 ## 3 V              14.6      0.171   
 ## 4 Not Assigned    8.76     0.103   
 ## 5 VI              0.512    0.00600 
@@ -264,7 +264,7 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 To cite the wdpar package in publications, use:
 
   Hanson JO (2019) wdpar: Interface to the World Database on
-  Protected Areas. R package version 0.0.1.1.
+  Protected Areas. R package version 0.0.1.2.
   https://github.com/prioritizr/wdpar
 
   UNEP-WCMC and IUCN (2019) Protected Planet: The World Database

@@ -1,3 +1,10 @@
+# wdpar 0.0.1.2
+
+- Fix bug where protected areas represented as POINT and MULTIPOINT geometries
+  were incorrectly omitted (#9).
+- Address CRAN check NOTES by removing unused Imports, or manually calling one
+  of their functions.
+
 # wdpar 0.0.1.1
 
 - Fix `Summary: ElementNotVisible` bug (#8).

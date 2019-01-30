@@ -13,7 +13,8 @@ test_that("wdpa_clean (single country with eez)", {
   skip_on_cran()
   skip_if_not(pingr::is_online())
   # fetch data
-  x <- wdpa_clean(suppressWarnings(wdpa_fetch("MHL", wait = TRUE)))
+  x <- wdpa_clean(suppressWarnings(wdpa_fetch("MHL", wait = TRUE,
+                                              force = TRUE)))
   # run tests
   expect_is(x, "sf")
   expect_true(all(names(x) %in% wdpa_column_names))
@@ -29,7 +30,8 @@ test_that("wdpa_clean (single country without eez)", {
   skip_on_cran()
   skip_if_not(pingr::is_online())
   # fetch data
-  x <- wdpa_clean(suppressWarnings(wdpa_fetch("LIE", wait = TRUE)))
+  x <- wdpa_clean(suppressWarnings(wdpa_fetch("LIE", wait = TRUE,
+                                              force = TRUE)))
   # run tests
   expect_gt(nrow(x), 0)
   expect_true(all(wdpa_column_names %in% names(x)))
@@ -44,7 +46,8 @@ test_that("wdpa_clean (single country with simplification)", {
   skip_on_cran()
   skip_if_not(pingr::is_online())
   # fetch data
-  x <- wdpa_clean(suppressWarnings(wdpa_fetch("MHL", wait = TRUE)),
+  x <- wdpa_clean(suppressWarnings(wdpa_fetch("MHL", force = TRUE,
+                                              wait = TRUE)),
                   simplify_tolerance = 100)
   # run tests
   expect_is(x, "sf")
@@ -60,7 +63,8 @@ test_that("wdpa_clean (single country without overlap removal)", {
   skip_on_cran()
   skip_if_not(pingr::is_online())
   # fetch data
-  x <- wdpa_clean(suppressWarnings(wdpa_fetch("BDI", wait = TRUE)),
+  x <- wdpa_clean(suppressWarnings(wdpa_fetch("BDI", wait = TRUE,
+                                              force = TRUE)),
                   erase_overlaps = FALSE)
   # run tests
   expect_gt(nrow(x), 0)
@@ -70,4 +74,16 @@ test_that("wdpa_clean (single country without overlap removal)", {
   expect_gt(sum(x$MARINE == "terrestrial"), 0)
   expect_equal(sum(is.na(x$AREA_KM2)), 0)
   expect_gt(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
+})
+
+test_that("wdpa_clean (country with MULTIPOINT protected areas)", {
+  skip_on_cran()
+  skip_if_not(pingr::is_online())
+  # fetch data
+  x <- wdpa_fetch("BOL", wait = TRUE, force = TRUE)
+  x_points <- vapply(x$geometry, inherits, logical(1),
+                     c("POINT", "MULTIPOINT"))
+  x <- x[c(which(x_points), 15), , drop = FALSE]
+  y <- suppressWarnings(wdpa_clean(x, erase_overlaps = FALSE))
+  expect_gt(nrow(x), 0)
 })

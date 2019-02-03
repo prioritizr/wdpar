@@ -56,7 +56,7 @@ head(mlt_pa_data)
     ## Simple feature collection with 6 features and 28 fields
     ## geometry type:  MULTIPOLYGON
     ## dimension:      XY
-    ## bbox:           xmin: 1383613 ymin: 4280784 xmax: 1399726 ymax: 4299580
+    ## bbox:           xmin: 1382455 ymin: 4280784 xmax: 1399726 ymax: 4299580
     ## epsg (SRID):    NA
     ## proj4string:    +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs
     ## precision:      1000 
@@ -104,7 +104,7 @@ Please cite the *wdpar R* package and the World Database on Protected Areas (WDP
     To cite the wdpar package in publications, use:
 
       Hanson JO (2019) wdpar: Interface to the World Database on
-      Protected Areas. R package version 0.0.1.1.
+      Protected Areas. R package version 0.0.1.3.
       https://github.com/prioritizr/wdpar
 
       UNEP-WCMC and IUCN (2019) Protected Planet: The World Database

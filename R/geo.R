@@ -95,6 +95,9 @@ st_erase_overlaps <- function(x, verbose = FALSE) {
     } else {
       d <- sf::st_sfc(sf::st_polygon())
     }
+    ## if d contains multiple geometries, then union them
+    if (length(d) > 1)
+      d <- sf::st_union(d)
     ## store geometry
     o[i] <- d[[1]]
     ## increment progress bar

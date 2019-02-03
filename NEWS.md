@@ -1,3 +1,8 @@
+# wdpar 0.0.1.3
+
+- Fix bug where parts of MULTIPOLYGON protected areas would be incorrectly
+  erased during data cleaning (#9).
+
 # wdpar 0.0.1.2
 
 - Fix bug where protected areas represented as POINT and MULTIPOINT geometries

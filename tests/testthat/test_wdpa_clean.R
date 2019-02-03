@@ -87,3 +87,13 @@ test_that("wdpa_clean (country with MULTIPOINT protected areas)", {
   y <- suppressWarnings(wdpa_clean(x, erase_overlaps = FALSE))
   expect_gt(nrow(x), 0)
 })
+
+test_that("wdpa_clean (country with MULTIPOLYGON protected area)", {
+  skip_on_cran()
+  skip_if_not(pingr::is_online())
+  # fetch data
+  x <- wdpa_fetch("BOL", wait = TRUE, force = TRUE)
+  y <- suppressWarnings(wdpa_clean(x, erase_overlaps = TRUE))
+  p <- y[y$WDPAID == 98183, ]
+  expect_equal(length(sf::st_cast(p$geometry, "POLYGON")), 2)
+})

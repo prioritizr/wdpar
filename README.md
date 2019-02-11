@@ -11,15 +11,19 @@ The [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/)
 
 ### Installation
 
-To install the developmental version of the *wdpar R* package, use the following *R* code:
+The [latest official version of the *wdpar R* package](https://CRAN.R-project.org/package=wdpar) can be installed using the following R code. Please note that this package requires the [*curl*](https://github.com/jeroen/curl) and [*sf R*](https://github.com/r-spatial/sf) packages which may require additional software to be installed. If you encounter problems installing the *wdpar R* package, please consult the installation instructions for these packages.
+
+``` r
+install.packages("wdpar", repos = "https://cran.rstudio.com/")
+```
+
+Alternatively, the latest developmental version can be installed using the following *R* code. Please note that while developmental versions may contain additional features not present in the official version, they may also contain coding errors.
 
 ``` r
 if (!require(devtools))
   install.packages("devtools")
 devtools::install_github("prioritizr/wdpar")
 ```
-
-Please note that this package requires the [*curl*](https://github.com/jeroen/curl) and [*sf R*](https://github.com/r-spatial/sf) packages which may require additional software to be installed. If you encounter problems installing the *wdpar R* package, please consult the installation instructions for these packages.
 
 ### Usage
 
@@ -104,8 +108,8 @@ Please cite the *wdpar R* package and the World Database on Protected Areas (WDP
     To cite the wdpar package in publications, use:
 
       Hanson JO (2019) wdpar: Interface to the World Database on
-      Protected Areas. R package version 0.0.1.3.
-      https://github.com/prioritizr/wdpar
+      Protected Areas. R package version 0.0.2.
+      https://CRAN.R-project.org/package=wdpar
 
       UNEP-WCMC and IUCN (2019) Protected Planet: The World Database
       on Protected Areas (WDPA), [insert month/year of the version

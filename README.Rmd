@@ -28,15 +28,19 @@ The [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/)
 
 ### Installation
 
-To install the developmental version of the _wdpar R_ package, use the following _R_ code:
+The [latest official version of the _wdpar R_ package](https://CRAN.R-project.org/package=wdpar) can be installed using the following R code. Please note that this package requires the [_curl_](https://github.com/jeroen/curl) and [_sf R_](https://github.com/r-spatial/sf) packages which may require additional software to be installed. If you encounter problems installing the _wdpar R_ package, please consult the installation instructions for these packages.
+
+```{r, eval = FALSE}
+install.packages("wdpar", repos = "https://cran.rstudio.com/")
+```
+
+Alternatively, the latest developmental version can be installed using the following _R_ code. Please note that while developmental versions may contain additional features not present in the official version, they may also contain coding errors.
 
 ```{r, eval = FALSE}
 if (!require(devtools))
   install.packages("devtools")
 devtools::install_github("prioritizr/wdpar")
 ```
-
-Please note that this package requires the [_curl_](https://github.com/jeroen/curl) and [_sf R_](https://github.com/r-spatial/sf) packages which may require additional software to be installed. If you encounter problems installing the _wdpar R_ package, please consult the installation instructions for these packages.
 
 ### Usage
 

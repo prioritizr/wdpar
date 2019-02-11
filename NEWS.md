@@ -1,3 +1,7 @@
+# wdpar 0.0.2
+
+- CRAN release.
+
 # wdpar 0.0.1.3
 
 - Fix bug where parts of MULTIPOLYGON protected areas would be incorrectly

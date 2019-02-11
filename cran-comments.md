@@ -1,6 +1,10 @@
 Dear CRAN maintainers,
 
-I am pleased to submit the initial release of the _wdpar_ R package.
+This version removes unused dependencies, and also contains a couple of bug fixes.
+
+Thank you,
+
+Jeff
 
 ## Test environments
 
@@ -14,9 +18,4 @@ I am pleased to submit the initial release of the _wdpar_ R package.
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
-
-## Notes
-
-* checking CRAN incoming feasibility ... NOTE
-  Maintainer: 'Jeffrey O Hanson <jeffrey.hanson@uqconnect.edu.au>'
+0 errors | 0 warnings | 0 note

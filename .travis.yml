@@ -55,6 +55,11 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install curl; fi;
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then sudo tlmgr update --self; fi;
 
+script:
+  - |
+    R CMD build .
+    travis_wait 120 R CMD check wdpar*tar.gz
+
 after_success:
   - Rscript -e 'covr::codecov()'
 

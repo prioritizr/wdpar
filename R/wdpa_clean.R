@@ -95,7 +95,7 @@ NULL
 #'     to descriptive names (i.e. \code{0} = \code{"terrestrial"},
 #'     \code{1} = \code{"partial"}, \code{2} = \code{"marine"}).
 #'
-#'   \item Zeros in the \code{"STATUS_YR"} fi_eld are replaced with
+#'   \item Zeros in the \code{"STATUS_YR"} field are replaced with
 #'     missing values (i.e. \code{NA_real_} values).
 #'
 #'   \item Zeros in the \code{"NO_TK_AREA"} field are replaced with \code{NA}

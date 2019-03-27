@@ -98,7 +98,7 @@ This function cleans data from World Database on Protected Areas
 
   \item Simplify the protected area geometries to reduce computational burden
     (using argument to \code{simplify_tolerance} and
-    \code{link{sf::st_simplify}}).
+    \code{\link{sf::st_simplify}}).
 
   \item Fix any invalid geometries that have manifested (using
     (using \code{\link[lwgeom]{st_make_valid}}).

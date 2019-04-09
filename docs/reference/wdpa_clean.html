@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2.1</span>
       </span>
     </div>
 
@@ -265,7 +265,8 @@ sets on assessment of conservation progress. <em>Conservation Biology</em>,
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># fetch data for the Liechtenstein</span>
-<span class='no'>lie_raw_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='wdpa_fetch.html'>wdpa_fetch</a></span>(<span class='st'>"LIE"</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: local data is out of date: Feb 2019</span></div><div class='input'>
+<span class='no'>lie_raw_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='wdpa_fetch.html'>wdpa_fetch</a></span>(<span class='st'>"LIE"</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
 <span class='co'># clean data</span>
 <span class='no'>lie_data</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_clean</span>(<span class='no'>lie_raw_data</span>)
 

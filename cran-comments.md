@@ -1,6 +1,6 @@
 Dear CRAN maintainers,
 
-This version removes unused dependencies, and also contains a couple of bug fixes.
+This version fixes compatibility issues with recent changes to the Protected Planet website which hosts the data.
 
 Thank you,
 

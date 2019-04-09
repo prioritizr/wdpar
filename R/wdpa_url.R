@@ -48,16 +48,14 @@ wdpa_url <- function(x, wait = FALSE) {
       rd <- RSelenium::remoteDriver(port = 4567L, browserName = "phantomjs")
       rd$open(silent = TRUE)
       rd$maxWindowSize()
-      ## navigate to url and open download modal
       rd$navigate(paste0("https://protectedplanet.net/country/", x))
+      Sys.sleep(2) # wait 2 seconds for page to load
       elem <- rd$findElement(using = "css", ".link-with-icon--bold")
       elem$clickElement()
-      Sys.sleep(3) # wait 3 seconds for page to load
-      elem <- rd$findElement(using = "css",
-                             paste(".link-with-icon~ .link-with-icon+",
-                                   ".link-with-icon"))
+      Sys.sleep(2) # wait 2 seconds for page to load
+      elem <- rd$findElement(using = "css", ".link-with-icon+ .link-with-icon")
       elem$clickElement()
-      Sys.sleep(3) # wait 3 seconds for dialog to open
+      Sys.sleep(2) # wait 2 seconds for dialog to open
       ## extract html for modal
       src <- xml2::read_html(rd$getPageSource()[[1]][[1]], encoding = "UTF-8")
       divs <- xml2::xml_find_all(src, ".//div")

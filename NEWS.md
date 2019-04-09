@@ -1,3 +1,7 @@
+# wdpar 0.0.2.1
+
+- Fix compatibility issue changes to Protected Planet website (#11).
+
 # wdpar 0.0.2
 
 - CRAN release.

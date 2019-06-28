@@ -84,7 +84,7 @@ wdpa_fetch <- function(x, wait = FALSE,
   # fetch data
   if (force_download || inherits(file_path, "try-error")) {
     ## check for internet connection
-   if (!pingr::is_online())
+   if (!curl::has_internet())
       stop(paste0("data not found in download_dir, and no internet connection",
                   "to download it."))
     ## find the download link and set file path to save the data

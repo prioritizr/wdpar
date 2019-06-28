@@ -11,7 +11,7 @@ wdpa_column_names <- c("WDPAID", "WDPA_PID", "PA_DEF", "NAME", "ORIG_NAME",
 
 test_that("wdpa_clean (single country with eez)", {
   skip_on_cran()
-  skip_if_not(pingr::is_online())
+  skip_if_not(curl::has_internet())
   # fetch data
   x <- wdpa_clean(suppressWarnings(wdpa_fetch("MHL", wait = TRUE,
                                               force = TRUE)))
@@ -28,7 +28,7 @@ test_that("wdpa_clean (single country with eez)", {
 
 test_that("wdpa_clean (single country without eez)", {
   skip_on_cran()
-  skip_if_not(pingr::is_online())
+  skip_if_not(curl::has_internet())
   # fetch data
   x <- wdpa_clean(suppressWarnings(wdpa_fetch("LIE", wait = TRUE,
                                               force = TRUE)))
@@ -44,7 +44,7 @@ test_that("wdpa_clean (single country without eez)", {
 
 test_that("wdpa_clean (single country with simplification)", {
   skip_on_cran()
-  skip_if_not(pingr::is_online())
+  skip_if_not(curl::has_internet())
   # fetch data
   x <- wdpa_clean(suppressWarnings(wdpa_fetch("MHL", force = TRUE,
                                               wait = TRUE)),
@@ -61,7 +61,7 @@ test_that("wdpa_clean (single country with simplification)", {
 
 test_that("wdpa_clean (single country without overlap removal)", {
   skip_on_cran()
-  skip_if_not(pingr::is_online())
+  skip_if_not(curl::has_internet())
   # fetch data
   x <- wdpa_clean(suppressWarnings(wdpa_fetch("BDI", wait = TRUE,
                                               force = TRUE)),
@@ -78,7 +78,7 @@ test_that("wdpa_clean (single country without overlap removal)", {
 
 test_that("wdpa_clean (country with MULTIPOINT protected areas)", {
   skip_on_cran()
-  skip_if_not(pingr::is_online())
+  skip_if_not(curl::has_internet())
   # fetch data
   x <- wdpa_fetch("BOL", wait = TRUE, force = TRUE)
   x_points <- vapply(x$geometry, inherits, logical(1),
@@ -90,7 +90,7 @@ test_that("wdpa_clean (country with MULTIPOINT protected areas)", {
 
 test_that("wdpa_clean (country with MULTIPOLYGON protected area)", {
   skip_on_cran()
-  skip_if_not(pingr::is_online())
+  skip_if_not(curl::has_internet())
   # fetch data
   x <- wdpa_fetch("BOL", wait = TRUE, force = TRUE)
   y <- suppressWarnings(wdpa_clean(x, erase_overlaps = TRUE))

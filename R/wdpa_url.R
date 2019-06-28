@@ -38,7 +38,7 @@ NULL
 wdpa_url <- function(x, wait = FALSE) {
   # validate arguments
   assertthat::assert_that(assertthat::is.string(x), assertthat::is.flag(wait),
-                          pingr::is_online())
+                          curl::has_internet())
   # declare hidden function
   try_and_find_url <- function(x) {
     ## initialize web driver

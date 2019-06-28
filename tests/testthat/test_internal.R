@@ -73,7 +73,7 @@ test_that("wdpa_file (country - different year same month)", {
 
 test_that("wdpa_url (country)", {
   skip_on_cran()
-  skip_if_not(pingr::is_online())
+  skip_if_not(curl::has_internet())
   # verify that wdpa_url yields a result
   x <- suppressWarnings(wdpa_url("NZL", wait = TRUE))
   expect_is(x, "character")
@@ -91,7 +91,7 @@ test_that("wdpa_url (country)", {
 test_that("wdpa_url (global)", {
   skip_on_cran()
   skip_on_os("mac")
-  skip_if_not(pingr::is_online())
+  skip_if_not(curl::has_internet())
   # verify that wdpa_url yields a result
   x <- suppressWarnings(wdpa_url("global", wait = TRUE))
   expect_is(x, "character")

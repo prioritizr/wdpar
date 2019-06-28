@@ -1,3 +1,7 @@
+# wdpar 1.0.0
+
+- CRAN release.
+
 # wdpar 0.0.4
 
 - Fix false reports of lack of Internet connectivity (#10).

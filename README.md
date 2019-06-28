@@ -111,7 +111,7 @@ Please cite the *wdpar R* package and the World Database on Protected Areas (WDP
     To cite the wdpar package in publications, use:
 
       Hanson JO (2019) wdpar: Interface to the World Database on
-      Protected Areas. R package version 0.0.4.
+      Protected Areas. R package version 1.0.0.
       https://CRAN.R-project.org/package=wdpar
 
       UNEP-WCMC and IUCN (2019) Protected Planet: The World Database

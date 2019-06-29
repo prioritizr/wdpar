@@ -1,6 +1,6 @@
 Dear CRAN maintainers,
 
-This version fixes compatibility issues with recent changes to the Protected Planet website which hosts the data.
+This version fixes an issue that prevented users from downloading data on slow internet connections due to false reports of no internet connection.
 
 Thank you,
 

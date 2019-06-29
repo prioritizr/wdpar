@@ -74,7 +74,7 @@
       <h1>wdpar: Interface to the World Database on Protected Areas</h1>
                         <h4 class="author">Jeffrey O. Hanson</h4>
             
-            <h4 class="date">2019-06-28</h4>
+            <h4 class="date">2019-06-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/wdpar/blob/master/vignettes/wdpar.Rmd"><code>vignettes/wdpar.Rmd</code></a></small>
       <div class="hidden name"><code>wdpar.Rmd</code></div>
@@ -96,7 +96,7 @@
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(wdpar)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggmap)</code></pre></div>
-<p>Now we will download protected area data for Malta from <a href="protectedplanet.net">Protected Planet</a>. We can achieve this by specifying Malta’s country name (i.e. <code>"Malta"</code>) or Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO3 code</a> (i.e. <code>"MLT"</code>).</p>
+<p>Now we will download protected area data for Malta from <a href="https://protectedplanet.net">Protected Planet</a>. We can achieve this by specifying Malta’s country name (i.e. <code>"Malta"</code>) or Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO3 code</a> (i.e. <code>"MLT"</code>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download protected area data for Malta</span>
 <span class="co"># (excluding areas represented as point localities)</span>
 mlt_raw_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/wdpa_fetch.html">wdpa_fetch</a></span>(<span class="st">"Malta"</span>)</code></pre></div>
@@ -246,7 +246,7 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 </li>
 <li>Canada
 <ul>
-<li><a href="http://www.ccea.org/carts/">Conservation Areas Reporting and Tracking System (CARTS)</a></li>
+<li><a href="http://ccea.org/carts/">Conservation Areas Reporting and Tracking System (CARTS)</a></li>
 </ul>
 </li>
 <li>The United States of America

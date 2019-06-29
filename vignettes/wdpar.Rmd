@@ -43,7 +43,7 @@ library(dplyr)
 library(ggmap)
 ```
 
-Now we will download protected area data for Malta from [Protected Planet](protectedplanet.net). We can achieve this by specifying Malta's country name (i.e. `"Malta"`) or Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (i.e. `"MLT"`).
+Now we will download protected area data for Malta from [Protected Planet](https://protectedplanet.net). We can achieve this by specifying Malta's country name (i.e. `"Malta"`) or Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (i.e. `"MLT"`).
 
 ```{r}
 # download protected area data for Malta
@@ -181,7 +181,7 @@ Although the [World Database on Protected Areas (WDPA)](https://www.protectedpla
 * Australia
     + [Collaborative Australian Protected Area Database (CAPAD)](http://www.environment.gov.au/land/nrs/science/capad)
 * Canada
-    + [Conservation Areas Reporting and Tracking System (CARTS)](http://www.ccea.org/carts/)
+    + [Conservation Areas Reporting and Tracking System (CARTS)](http://ccea.org/carts/)
 * The United States of America
     + [Protected Areas Database of the US, PAD-US (CBI Edition)](https://consbio.org/products/projects/pad-us-cbi-edition)
 

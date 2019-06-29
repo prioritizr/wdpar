@@ -104,7 +104,7 @@ devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumen
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(wdpar)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggmap)</code></pre></div>
-<p>Now we will download protected area data for Malta from <a href="protectedplanet.net">Protected Planet</a>. We can achieve this by specifying Malta’s country name (i.e. <code>"Malta"</code>) or Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO3 code</a> (i.e. <code>"MLT"</code>).</p>
+<p>Now we will download protected area data for Malta from <a href="https://www.protectedplanet.net/">Protected Planet</a>. We can achieve this by specifying Malta’s country name (i.e. <code>"Malta"</code>) or Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO3 code</a> (i.e. <code>"MLT"</code>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download protected area data for Malta</span>
 mlt_raw_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/wdpa_fetch.html">wdpa_fetch</a></span>(<span class="st">"Malta"</span>, <span class="dt">wait =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>## Warning in wdpa_fetch("Malta", wait = TRUE): local data is out of date: Apr

@@ -71,8 +71,8 @@ download.file("https://biogeo.ucdavis.edu/data/gadm3.6/Rsf/gadm36_MLT_0_sf.rds",
 # import Malta's boundary
 mlt_boundary_data <- readRDS(file_path)
 
-# repair any geometry issues, dissolve the border, and reproject to same
-# coordinate system as the protected area data
+# repair any geometry issues, dissolve the border, reproject to same
+# coordinate system as the protected area data, and repair the geometry again
 mlt_boundary_data <- mlt_boundary_data %>%
                      st_set_precision(1000) %>%
                      lwgeom::st_make_valid() %>%
@@ -81,7 +81,8 @@ mlt_boundary_data <- mlt_boundary_data %>%
                      st_union() %>%
                      st_set_precision(1000) %>%
                      lwgeom::st_make_valid() %>%
-                     st_transform(st_crs(mlt_pa_data))
+                     st_transform(st_crs(mlt_pa_data)) %>%
+                     lwgeom::st_make_valid()
 
 # clip Malta's protected areas to the coastline
 mlt_pa_data <- mlt_pa_data %>%

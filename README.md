@@ -43,9 +43,6 @@ Now we will download protected area data for Malta from [Protected Planet](https
 mlt_raw_pa_data <- wdpa_fetch("Malta", wait = TRUE)
 ```
 
-    ## Warning in wdpa_fetch("Malta", wait = TRUE): local data is out of date: Apr
-    ## 2019
-
 Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. `"0"`) with missing data values (i.e. `NA`), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see `?wdpa_clean`.
 
 ``` r
@@ -73,9 +70,9 @@ head(mlt_pa_data)
     ## 1 1.94e5 194420   1      Filf… Filfla    Rise… Nature R… National  
     ## 2 1.94e5 194425   1      Il-G… Il-Gżejj… Rise… Nature R… National  
     ## 3 5.56e8 5555886… 1      Il-M… Il-Majji… Park… National… National  
-    ## 4 1.75e5 174757   1      Il-Ġ… Il-Ġonna… List… List of … National  
-    ## 5 1.75e5 174758   1      Bidn… Bidnija,… List… List of … National  
-    ## 6 1.94e5 194415   1      Il-Ġ… Il-Ġonna… List… List of … National  
+    ## 4 1.75e5 174757   1      Il-Ġ… Il-Ġonna… List… List Of … National  
+    ## 5 1.75e5 174758   1      Bidn… Bidnija,… List… List Of … National  
+    ## 6 1.94e5 194415   1      Il-Ġ… Il-Ġonna… List… List Of … National  
     ## # … with 21 more variables: IUCN_CAT <chr>, INT_CRIT <chr>, MARINE <chr>,
     ## #   REP_M_AREA <dbl>, REP_AREA <dbl>, NO_TAKE <chr>, NO_TK_AREA <dbl>,
     ## #   STATUS <chr>, STATUS_YR <dbl>, GOV_TYPE <chr>, OWN_TYPE <chr>,
@@ -111,8 +108,8 @@ Please cite the *wdpar R* package and the World Database on Protected Areas (WDP
     To cite the wdpar package in publications, use:
 
       Hanson JO (2019) wdpar: Interface to the World Database on
-      Protected Areas. R package version 1.0.0.
-      https://CRAN.R-project.org/package=wdpar
+      Protected Areas. R package version 1.0.0.1.
+      https://github.com/prioritizr/wdpar
 
       UNEP-WCMC and IUCN (2019) Protected Planet: The World Database
       on Protected Areas (WDPA), [insert month/year of the version

@@ -8,10 +8,12 @@
 
 <title>Read data from the World Database on Protected Areas — wdpa_read • wdpar</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -30,13 +32,14 @@
 
 
 
-<meta property="og:title" content="Read data from the World Database on Protected Areas — wdpa_read" />
 
+<meta property="og:title" content="Read data from the World Database on Protected Areas — wdpa_read" />
 <meta property="og:description" content="Read data from the World Database on Protected Areas from a local file.
 This function assumes that the data has already been downloaded to
 your computer, see the wdpa_fetch function for automatically
 downloading and importing the data into the current session." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -66,7 +69,7 @@ downloading and importing the data into the current session." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.1</span>
       </span>
     </div>
 
@@ -88,7 +91,6 @@ downloading and importing the data into the current session." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/prioritizr/wdpar">
@@ -114,16 +116,14 @@ downloading and importing the data into the current session." />
     </div>
 
     <div class="ref-description">
-    
     <p>Read data from the World Database on Protected Areas from a local file.
 This function assumes that the data has already been downloaded to
 your computer, see the <code><a href='wdpa_fetch.html'>wdpa_fetch</a></code> function for automatically
 downloading and importing the data into the current session.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>wdpa_read</span>(<span class='no'>x</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -133,16 +133,14 @@ downloading and importing the data into the current session.</p>
 <a href='http://protectedplanet.net'>http://protectedplanet.net</a>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code><a href='https://www.rdocumentation.org/packages/sf/topics/sf'>sf</a></code> object.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='wdpa_fetch.html'>wdpa_fetch</a></code>, <code><a href='wdpa_clean.html'>wdpa_clean</a></code>,
   <a href='http://protectedplanet.net'>http://protectedplanet.net</a>.</p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># find url for Liechtenstein dataset</span>
@@ -152,7 +150,7 @@ downloading and importing the data into the current session.</p>
 <span class='no'>path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempfile</a></span>(<span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"WDPA_"</span>, <span class='kw'>fileext</span> <span class='kw'>=</span> <span class='st'>".zip"</span>)
 
 <span class='co'># download zipfile</span>
-<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>httr</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/httr/topics/GET'>GET</a></span>(<span class='no'>download_url</span>, <span class='kw pkg'>httr</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/httr/topics/write_disk'>write_disk</a></span>(<span class='no'>path</span>))
+<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>httr</span><span class='kw ns'>::</span><span class='fu'><a href='https://httr.r-lib.org/reference/GET.html'>GET</a></span>(<span class='no'>download_url</span>, <span class='kw pkg'>httr</span><span class='kw ns'>::</span><span class='fu'><a href='https://httr.r-lib.org/reference/write_disk.html'>write_disk</a></span>(<span class='no'>path</span>))
 
 <span class='co'># load data</span>
 <span class='no'>lie_raw_data</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_read</span>(<span class='no'>path</span>)
@@ -164,11 +162,8 @@ downloading and importing the data into the current session.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.1</span>
       </span>
     </div>
 
@@ -74,7 +74,7 @@
       <h1>wdpar: Interface to the World Database on Protected Areas</h1>
                         <h4 class="author">Jeffrey O. Hanson</h4>
             
-            <h4 class="date">2019-06-29</h4>
+            <h4 class="date">2019-08-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/wdpar/blob/master/vignettes/wdpar.Rmd"><code>vignettes/wdpar.Rmd</code></a></small>
       <div class="hidden name"><code>wdpar.Rmd</code></div>
@@ -100,7 +100,6 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download protected area data for Malta</span>
 <span class="co"># (excluding areas represented as point localities)</span>
 mlt_raw_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/wdpa_fetch.html">wdpa_fetch</a></span>(<span class="st">"Malta"</span>)</code></pre></div>
-<pre><code>## Warning in wdpa_fetch("Malta"): local data is out of date: Apr 2019</code></pre>
 <p>Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. <code>"0"</code>) with missing data values (i.e. <code>NA</code>), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see <code><a href="../reference/wdpa_clean.html">?wdpa_clean</a></code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># clean Malta data</span>
 mlt_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/wdpa_clean.html">wdpa_clean</a></span>(mlt_raw_pa_data)</code></pre></div>
@@ -113,8 +112,8 @@ file_path &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rd
 <span class="co"># import Malta's boundary</span>
 mlt_boundary_data &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readRDS">readRDS</a></span>(file_path)
 
-<span class="co"># repair any geometry issues, dissolve the border, and reproject to same</span>
-<span class="co"># coordinate system as the protected area data</span>
+<span class="co"># repair any geometry issues, dissolve the border, reproject to same</span>
+<span class="co"># coordinate system as the protected area data, and repair the geometry again</span>
 mlt_boundary_data &lt;-<span class="st"> </span>mlt_boundary_data <span class="op">%&gt;%</span>
 <span class="st">                     </span><span class="kw">st_set_precision</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span>
 <span class="st">                     </span>lwgeom<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/lwgeom/topics/valid">st_make_valid</a></span>() <span class="op">%&gt;%</span>
@@ -123,7 +122,8 @@ mlt_boundary_data &lt;-<span class="st"> </span>mlt_boundary_data <span class="o
 <span class="st">                     </span><span class="kw">st_union</span>() <span class="op">%&gt;%</span>
 <span class="st">                     </span><span class="kw">st_set_precision</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span>
 <span class="st">                     </span>lwgeom<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/lwgeom/topics/valid">st_make_valid</a></span>() <span class="op">%&gt;%</span>
-<span class="st">                     </span><span class="kw">st_transform</span>(<span class="kw">st_crs</span>(mlt_pa_data))
+<span class="st">                     </span><span class="kw">st_transform</span>(<span class="kw">st_crs</span>(mlt_pa_data)) <span class="op">%&gt;%</span>
+<span class="st">                     </span>lwgeom<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/lwgeom/topics/valid">st_make_valid</a></span>()
 
 <span class="co"># clip Malta's protected areas to the coastline</span>
 mlt_pa_data &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
@@ -148,18 +148,18 @@ mlt_pa_data &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</s
 <pre><code>## Simple feature collection with 6 features and 28 fields
 ## geometry type:  GEOMETRY
 ## dimension:      XY
-## bbox:           xmin: 1382455 ymin: 4280784 xmax: 1399726 ymax: 4299580
+## bbox:           xmin: 1382455 ymin: 4288162 xmax: 1399726 ymax: 4299269
 ## epsg (SRID):    NA
 ## proj4string:    +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs
 ## # A tibble: 6 x 29
 ##   WDPAID WDPA_PID PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE
 ##    &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;     
-## 1 1.94e5 194420   1      Filf… Filfla    Rise… Nature R… National  
-## 2 1.94e5 194425   1      Il-G… Il-Gżejj… Rise… Nature R… National  
-## 3 5.56e8 5555886… 1      Il-M… Il-Majji… Park… National… National  
-## 4 1.75e5 174757   1      Il-Ġ… Il-Ġonna… List… List of … National  
-## 5 1.75e5 174758   1      Bidn… Bidnija,… List… List of … National  
-## 6 1.94e5 194415   1      Il-Ġ… Il-Ġonna… List… List of … National  
+## 1 5.56e8 5555886… 1      Il-M… Il-Majji… Park… National… National  
+## 2 1.75e5 174757   1      Il-Ġ… Il-Ġonna… List… List Of … National  
+## 3 1.75e5 174758   1      Bidn… Bidnija,… List… List Of … National  
+## 4 1.94e5 194415   1      Il-Ġ… Il-Ġonna… List… List Of … National  
+## 5 1.94e5 194416   1      Il-B… Il-Buske… List… List Of … National  
+## 6 1.94e5 194417   1      Il-W… Il-Wied … List… List Of … National  
 ## # … with 21 more variables: IUCN_CAT &lt;chr&gt;, INT_CRIT &lt;chr&gt;, MARINE &lt;chr&gt;,
 ## #   REP_M_AREA &lt;dbl&gt;, REP_AREA &lt;dbl&gt;, NO_TAKE &lt;chr&gt;, NO_TK_AREA &lt;dbl&gt;,
 ## #   STATUS &lt;chr&gt;, STATUS_YR &lt;dbl&gt;, GOV_TYPE &lt;chr&gt;, OWN_TYPE &lt;chr&gt;,
@@ -197,9 +197,9 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 <pre><code>## # A tibble: 3 x 2
 ##   MARINE      area_km
 ##   &lt;chr&gt;         &lt;dbl&gt;
-## 1 marine      8455.  
-## 2 terrestrial  124.  
-## 3 partial        8.75</code></pre>
+## 1 marine       8927. 
+## 2 terrestrial   114. 
+## 3 partial        14.1</code></pre>
 <p>We can also calculate the percentage of land inside its protected area system that are managed under different categories (i.e. <a href="https://www.iucn.org/theme/protected-areas/about/protected-area-categories">using the protected area management categories defined by The International Union for Conservation of Nature</a>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate percentage of land inside protected areas (km^2)</span>
 statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
@@ -213,16 +213,15 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 
 <span class="co"># print statistic</span>
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(statistic)</code></pre></div>
-<pre><code>## # A tibble: 7 x 3
+<pre><code>## # A tibble: 6 x 3
 ##   IUCN_CAT      area_km percentage
 ##   &lt;chr&gt;           &lt;dbl&gt;      &lt;dbl&gt;
-## 1 IV           4718.      54.9    
-## 2 Not Reported 3832.      44.6    
-## 3 V              26.4      0.307  
-## 4 Not Assigned    8.68     0.101  
-## 5 II              2.42     0.0282 
-## 6 III             0.205    0.00239
-## 7 Ia              0.155    0.00181</code></pre>
+## 1 IV           5370.      59.3    
+## 2 Not Reported 3653.      40.3    
+## 3 V              29.5      0.326  
+## 4 II              2.42     0.0267 
+## 5 III             0.205    0.00227
+## 6 Ia              0.160    0.00177</code></pre>
 <p>We can also plot a map showing Malta’s protected areas and color each area according to it’s management category.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggmap/topics/ggmap">ggmap</a></span>(bg) <span class="op">+</span>
 <span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> IUCN_CAT), <span class="dt">data =</span> mlt_pa_data, <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
@@ -264,8 +263,8 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 To cite the wdpar package in publications, use:
 
   Hanson JO (2019) wdpar: Interface to the World Database on
-  Protected Areas. R package version 1.0.0.
-  https://CRAN.R-project.org/package=wdpar
+  Protected Areas. R package version 1.0.0.1.
+  https://github.com/prioritizr/wdpar
 
   UNEP-WCMC and IUCN (2019) Protected Planet: The World Database
   on Protected Areas (WDPA), [insert month/year of the version
@@ -281,6 +280,7 @@ bibtex=TRUE)', 'toBibtex(.)', or set
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
       </div>
 
 </div>

@@ -1,3 +1,8 @@
+# wdpar 1.0.0.1
+
+- Add extra data cleaning step to vignette so that the tutorial has a better
+  chance at working when adapted to other countries.
+
 # wdpar 1.0.0
 
 - CRAN release.

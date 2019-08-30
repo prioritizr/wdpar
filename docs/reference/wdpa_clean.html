@@ -8,10 +8,12 @@
 
 <title>Clean data from the World Database on Protected Areas — wdpa_clean • wdpar</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -30,10 +32,11 @@
 
 
 
-<meta property="og:title" content="Clean data from the World Database on Protected Areas — wdpa_clean" />
 
+<meta property="og:title" content="Clean data from the World Database on Protected Areas — wdpa_clean" />
 <meta property="og:description" content="Clean data obtained from the World Database on Protected Areas (WDPA)." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -63,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.1</span>
       </span>
     </div>
 
@@ -85,7 +88,6 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/prioritizr/wdpar">
@@ -111,9 +113,7 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Clean data obtained from the World Database on Protected Areas (WDPA).</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>wdpa_clean</span>(<span class='no'>x</span>, <span class='kw'>crs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste</a></span>(<span class='st'>"+proj=cea +lon_0=0 +lat_ts=30 +x_0=0"</span>,
@@ -121,7 +121,7 @@
   <span class='kw'>snap_tolerance</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>simplify_tolerance</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>geometry_precision</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>erase_overlaps</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>())</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -166,11 +166,10 @@ Defaults to <code>TRUE</code> in an interactive session, otherwise
 <code>FALSE</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code><a href='https://www.rdocumentation.org/packages/sf/topics/sf'>sf</a></code> object.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function cleans data from World Database on Protected Areas
@@ -236,7 +235,6 @@ Defaults to <code>TRUE</code> in an interactive session, otherwise
 <li><p>The size of areas are calculated in square kilometers and stored in
     the field <code>"AREA_KM2"</code>.</p></li>
 </ol>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Butchart SH, Clarke M, Smith RJ, Sykes RE, Scharlemann JP,
@@ -256,12 +254,10 @@ designations. <em>PloS One</em>, <strong>12</strong>: e0188681.</p>
 RL, Weeks R &amp; Rondinini C (2013) Effects of errors and gaps in spatial data
 sets on assessment of conservation progress. <em>Conservation Biology</em>,
 <strong>27</strong>: 1000--1010.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='wdpa_fetch.html'>wdpa_fetch</a></code>,
   <a href='https://protectedplanet.net/c/calculating-protected-area-coverage'>https://protectedplanet.net/c/calculating-protected-area-coverage</a>.</p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># fetch data for the Liechtenstein</span>
@@ -277,15 +273,10 @@ sets on assessment of conservation progress. <em>Conservation Biology</em>,
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#references">References</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

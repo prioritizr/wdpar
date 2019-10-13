@@ -1,3 +1,8 @@
+# wdpar 1.0.0.2
+
+- Update `st_erase_overlaps` so that it has a higher success rate for
+  really invalid geometries (e.g. protected areas for Gabon).
+
 # wdpar 1.0.0.1
 
 - Add extra data cleaning step to vignette so that the tutorial has a better

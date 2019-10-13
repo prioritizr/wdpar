@@ -58,7 +58,8 @@ st_erase_overlaps <- function(x, verbose = FALSE) {
     if (length(ovr) > 0) {
       ## create union
       ### run union
-      u <- sf::st_union(sf::st_set_precision(o[ovr], precision))
+      u <- sf::st_union(sf::st_set_precision(sf::st_buffer(o[ovr], 0),
+                                             precision))
       ### repair the geometry if there are any issues
       if (!all(sf::st_is_valid(u)))
         u <- suppressWarnings(sf::st_collection_extract(

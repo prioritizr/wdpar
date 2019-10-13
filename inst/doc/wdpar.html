@@ -13,7 +13,7 @@
 
 <meta name="author" content="Jeffrey O. Hanson" />
 
-<meta name="date" content="2019-08-30" />
+<meta name="date" content="2019-10-13" />
 
 <title>wdpar: Interface to the World Database on Protected Areas</title>
 
@@ -96,7 +96,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">wdpar: Interface to the World Database on Protected Areas</h1>
 <h4 class="author">Jeffrey O. Hanson</h4>
-<h4 class="date">2019-08-30</h4>
+<h4 class="date">2019-10-13</h4>
 
 
 
@@ -115,6 +115,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download protected area data for Malta</span>
 <span class="co"># (excluding areas represented as point localities)</span>
 mlt_raw_pa_data &lt;-<span class="st"> </span><span class="kw">wdpa_fetch</span>(<span class="st">&quot;Malta&quot;</span>)</code></pre></div>
+<pre><code>## Warning in wdpa_fetch(&quot;Malta&quot;): local data is out of date: Sep 2019</code></pre>
 <p>Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. <code>&quot;0&quot;</code>) with missing data values (i.e. <code>NA</code>), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see <code>?wdpa_clean</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># clean Malta data</span>
 mlt_pa_data &lt;-<span class="st"> </span><span class="kw">wdpa_clean</span>(mlt_raw_pa_data)</code></pre></div>
@@ -272,7 +273,7 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 To cite the wdpar package in publications, use:
 
   Hanson JO (2019) wdpar: Interface to the World Database on
-  Protected Areas. R package version 1.0.0.1.
+  Protected Areas. R package version 1.0.0.2.
   https://github.com/prioritizr/wdpar
 
   UNEP-WCMC and IUCN (2019) Protected Planet: The World Database

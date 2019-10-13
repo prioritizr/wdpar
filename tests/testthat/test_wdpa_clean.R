@@ -97,3 +97,11 @@ test_that("wdpa_clean (country with MULTIPOLYGON protected area)", {
   p <- y[y$WDPAID == 98183, ]
   expect_equal(length(sf::st_cast(p$geometry, "POLYGON")), 2)
 })
+
+test_that("wdpa_clean (country with super invalid MULTIPOLYGON data)", {
+  skip_on_cran()
+  skip_if_not(curl::has_internet())
+  x <- wdpa_fetch("GAB", wait = TRUE, force = TRUE)
+  y <- suppressWarnings(wdpa_clean(x, erase_overlaps = TRUE))
+  expect_is(y, "sf")
+})

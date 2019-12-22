@@ -405,6 +405,11 @@ wdpa_clean <- function(x,
     message("calculating area: ", cli::symbol$tick)
   }
   ## move geometry to last column
+  if ((!"geometry" %in% names(x))) {
+    geom_col <- attr(x, "sf_column")
+    attr(x, "sf_column") <- "geometry"
+    names(x)[names(x) == geom_col] <- "geometry"
+  }
   x <- x[, c(setdiff(names(x), "geometry"), "geometry")]
   # return cleaned data
   return(x)

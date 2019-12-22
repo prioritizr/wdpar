@@ -105,3 +105,15 @@ test_that("wdpa_clean (country with super invalid MULTIPOLYGON data)", {
   y <- suppressWarnings(wdpa_clean(x, erase_overlaps = TRUE))
   expect_is(y, "sf")
 })
+
+test_that("wdpa_clean (geometries in non-geometry column)", {
+  skip_on_cran()
+  skip_if_not(curl::has_internet())
+  x <- wdpa_fetch("GAB", wait = TRUE, force = TRUE)
+  geom_col <- attr(x, "sf_column")
+  attr(x, "sf_column") <- "shape"
+  names(x)[names(x) == geom_col] <- "shape"
+  y <- suppressWarnings(wdpa_clean(x, erase_overlaps = TRUE))
+  expect_is(y, "sf")
+  expect_equal(attr(y, "sf_column"), "geometry")
+})

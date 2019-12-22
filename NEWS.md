@@ -1,3 +1,8 @@
+# wdpar 1.0.0.3
+
+- Update `wdpa_clean` so that works with shapefiles that do not have geometry
+  stored in the `geometry` column (e.g. global data).
+
 # wdpar 1.0.0.2
 
 - Update `st_erase_overlaps` so that it has a higher success rate for

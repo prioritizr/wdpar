@@ -67,7 +67,7 @@ Areas (WDPA)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.4</span>
       </span>
     </div>
 
@@ -149,10 +149,10 @@ will be thrown. Defaults to <code>FALSE</code>.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># obtain url for New Zealand data</span>
 <span class='no'>nzl_url</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_url</span>(<span class='st'>"New Zealand"</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>nzl_url</span>)</div><div class='output co'>#&gt; [1] "https://www.protectedplanet.net/downloads/WDPA_Dec2019_NZL?type=shapefile"</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>nzl_url</span>)</div><div class='output co'>#&gt; [1] "https://www.protectedplanet.net/downloads/WDPA_Jan2020_NZL?type=shapefile"</div><div class='input'>
 <span class='co'># obtain url for New Zealand data using its ISO3 code</span>
 <span class='no'>nzl_url</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_url</span>(<span class='st'>"NZL"</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>nzl_url</span>)</div><div class='output co'>#&gt; [1] "https://www.protectedplanet.net/downloads/WDPA_Dec2019_NZL?type=shapefile"</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>nzl_url</span>)</div><div class='output co'>#&gt; [1] "https://www.protectedplanet.net/downloads/WDPA_Jan2020_NZL?type=shapefile"</div><div class='input'>
 <span class='co'># obtain url for global data</span>
 <span class='no'>global_url</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_url</span>(<span class='st'>"global"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>global_url</span>)</div><div class='output co'>#&gt; [1] "http://wcmc.io/wdpa_current_release"</div></pre>

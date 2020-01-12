@@ -1,6 +1,11 @@
+# wdpar 1.0.0.4
+
+- Update `wdpa_clean` so that it works with a single protected area.
+- Tweak progress bar in `st_erase_overlaps`.
+
 # wdpar 1.0.0.3
 
-- Update `wdpa_clean` so that works with shapefiles that do not have geometry
+- Update `wdpa_clean` so that it works with shapefiles that do not have geometry
   stored in the `geometry` column (e.g. global data).
 
 # wdpar 1.0.0.2

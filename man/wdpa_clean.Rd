@@ -25,7 +25,10 @@ Defaults to 0 meters.}
 
 \item{geometry_precision}{\code{numeric} level of precision for processing
 the spatial data (used with \code{\link[sf]{st_set_precision}}). The
-default argument corresponds to the nearest millimeter (i.e. 1000).}
+default argument is 1000 (higher values indicate higher precision).
+This level of precision is generally suitable for analyses at the
+national-scale. For analyses at finer-scale resolutions, please
+consider using a greater value (e.g 10000).}
 
 \item{erase_overlaps}{\code{logical} should overlapping boundaries be removed
 erased? This can be useful when the protected area boundaries are

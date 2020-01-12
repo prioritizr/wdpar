@@ -66,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.4</span>
       </span>
     </div>
 
@@ -149,7 +149,10 @@ Defaults to 0 meters.</p></td>
       <th>geometry_precision</th>
       <td><p><code>numeric</code> level of precision for processing
 the spatial data (used with <code><a href='https://www.rdocumentation.org/packages/sf/topics/st_precision'>st_set_precision</a></code>). The
-default argument corresponds to the nearest millimeter (i.e. 1000).</p></td>
+default argument is 1000 (higher values indicate higher precision).
+This level of precision is generally suitable for analyses at the
+national-scale. For analyses at finer-scale resolutions, please
+consider using a greater value (e.g 10000).</p></td>
     </tr>
     <tr>
       <th>erase_overlaps</th>

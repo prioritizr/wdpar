@@ -85,6 +85,30 @@ wdpa_file <- function(x, download_dir = rappdirs::user_data_dir("wdpar")) {
   return(file_path)
 }
 
+#' Extract polygons and points
+#'
+#' Extract polygons and points from a \code{\link[sf]{sf}} object.
+#'
+#' @param x  \code{\link[sf]{sf}} object.
+#'
+#' @return \code{\link[sf]{sf}} object.
+#'
+#' @noRd
+extract_polygons_and_points <- function(x) {
+  # find point indices
+  ind <- vapply(sf::st_geometry(x), inherits, logical(1),
+                c("POINT", "MULTIPOINT"))
+  # extract polygons from geometries
+  if (inherits(sf::st_geometry(x),
+               c("sfc_GEOMETRY", "sfc_GEOMETRYCOLLECTION"))) {
+    o <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
+  } else {
+    o <- x[!ind, ]
+  }
+  # extract points
+  rbind(o, x[ind, , drop = FALSE])
+}
+
 # define dummy function to avoid CRAN notes for dependencies
 import_deps <- function() {
   x <- rappdirs::user_data_dir("wdpar")

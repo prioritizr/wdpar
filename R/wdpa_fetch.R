@@ -47,7 +47,6 @@ NULL
 #' @examples
 #' \donttest{
 #' # fetch data for Liechtenstein
-#' # note that this does not include areas represented as point localities
 #' lie_raw_data <- wdpa_fetch("Liechtenstein", wait = TRUE)
 #'
 #' # fetch data for Liechtenstein using the ISO3 code
@@ -55,17 +54,6 @@ NULL
 #'
 #' # plot data
 #' plot(lie_raw_data)
-#' }
-#' \dontrun{
-#' # fetch data for Liechtenstein, including areas represented as points
-#' # download global data
-#' global_raw_data <- wdpa_fetch("global", wait = TRUE)
-#'
-#' # subset data to include only Liechtenstein
-#' lie_raw_data2 <- global_raw_data %>% filter(ISO == "LIE")
-#'
-#' # plot data
-#' plot(lie_raw_data2)
 #' }
 #' @export
 wdpa_fetch <- function(x, wait = FALSE,

@@ -55,7 +55,7 @@ library(ggmap)
 
 Now we will download protected area data for Malta from [Protected Planet](https://www.protectedplanet.net/). We can achieve this by specifying Malta's country name (i.e. `"Malta"`) or Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (i.e. `"MLT"`).
 
-```{r}
+```{r, warning = FALSE}
 # download protected area data for Malta
 mlt_raw_pa_data <- wdpa_fetch("Malta", wait = TRUE)
 ```

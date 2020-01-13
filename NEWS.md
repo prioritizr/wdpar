@@ -1,3 +1,9 @@
+# wdpar 1.0.0.5
+
+- Update `st_erase_overlaps` so that it is more robust to invalid
+  geometry (#16).
+- Improve clarify of `wdpa_clean` documentation.
+
 # wdpar 1.0.0.4
 
 - Update `wdpa_clean` so that it works with a single protected area.

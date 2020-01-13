@@ -60,6 +60,8 @@ st_erase_overlaps <- function(x, verbose = FALSE) {
       ### run union
       u <- sf::st_union(sf::st_set_precision(sf::st_buffer(o[ovr], 0),
                                              precision))
+      ### buffer the union to fix any geometry issues
+      u <- sf::st_buffer(u, dist = 0)
       ### repair the geometry if there are any issues
       if (!all(sf::st_is_valid(u)))
         u <- suppressWarnings(sf::st_collection_extract(
@@ -69,7 +71,7 @@ st_erase_overlaps <- function(x, verbose = FALSE) {
       ### run difference
       d <- sf::st_difference(
         sf::st_set_precision(g[i], precision),
-        sf::st_set_precision(u, precision))
+        lwgeom::st_make_valid(sf::st_set_precision(u, precision)))
       if (length(d) == 0L)
         d[[1]] <- sf::st_polygon()
       d <- suppressWarnings(sf::st_collection_extract(d, "POLYGON"))

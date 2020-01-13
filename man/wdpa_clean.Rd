@@ -28,13 +28,15 @@ the spatial data (used with \code{\link[sf]{st_set_precision}}). The
 default argument is 1000 (higher values indicate higher precision).
 This level of precision is generally suitable for analyses at the
 national-scale. For analyses at finer-scale resolutions, please
-consider using a greater value (e.g 10000).}
+consider using a greater value (e.g. 10000).}
 
-\item{erase_overlaps}{\code{logical} should overlapping boundaries be removed
-erased? This can be useful when the protected area boundaries are
-going to be rasterized, and so processing time can be substantially
-reduced by skipping this step because overlapping boundaries will not be a
-problem. Defaults to \code{TRUE}.}
+\item{erase_overlaps}{\code{logical} should overlapping boundaries be
+erased? This is useful for making comparisons between individual
+protected areas and understanding their "effective" geographic coverage.
+On the other hand, this processing step may not be needed
+(e.g. if the protected area boundaries are going to be rasterized), and so
+processing time can be substantially by skipping this step and setting
+the argument to \code{FALSE}. Defaults to \code{TRUE}.}
 
 \item{verbose}{\code{logical} should progress on data cleaning be reported?
 Defaults to \code{TRUE} in an interactive session, otherwise
@@ -84,7 +86,7 @@ This function cleans data from World Database on Protected Areas
   \item Reproject data to coordinate system specified in argument to
     \code{crs} (using \code{\link[sf]{st_transform}}).
 
-  \item Fix any invalid geometries that have manifested (using
+  \item Fix any invalid geometries that have manifested
     (using \code{\link[lwgeom]{st_make_valid}}).
 
   \item Buffer areas represented as point localities to circular areas
@@ -96,14 +98,14 @@ This function cleans data from World Database on Protected Areas
     geometry issues (using argument to \code{snap_tolerance} and
     \code{\link[lwgeom]{st_snap_to_grid}}).
 
-  \item Fix any invalid geometries that have manifested (using
+  \item Fix any invalid geometries that have manifested
     (using \code{\link[lwgeom]{st_make_valid}}).
 
   \item Simplify the protected area geometries to reduce computational burden
     (using argument to \code{simplify_tolerance} and
     \code{\link[sf]{st_simplify}}).
 
-  \item Fix any invalid geometries that have manifested (using
+  \item Fix any invalid geometries that have manifested
     (using \code{\link[lwgeom]{st_make_valid}}).
 
   \item The \code{"MARINE"} field is converted from integer codes

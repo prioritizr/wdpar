@@ -66,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0.5</span>
       </span>
     </div>
 
@@ -152,15 +152,17 @@ the spatial data (used with <code><a href='https://www.rdocumentation.org/packag
 default argument is 1000 (higher values indicate higher precision).
 This level of precision is generally suitable for analyses at the
 national-scale. For analyses at finer-scale resolutions, please
-consider using a greater value (e.g 10000).</p></td>
+consider using a greater value (e.g. 10000).</p></td>
     </tr>
     <tr>
       <th>erase_overlaps</th>
-      <td><p><code>logical</code> should overlapping boundaries be removed
-erased? This can be useful when the protected area boundaries are
-going to be rasterized, and so processing time can be substantially
-reduced by skipping this step because overlapping boundaries will not be a
-problem. Defaults to <code>TRUE</code>.</p></td>
+      <td><p><code>logical</code> should overlapping boundaries be
+erased? This is useful for making comparisons between individual
+protected areas and understanding their "effective" geographic coverage.
+On the other hand, this processing step may not be needed
+(e.g. if the protected area boundaries are going to be rasterized), and so
+processing time can be substantially by skipping this step and setting
+the argument to <code>FALSE</code>. Defaults to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -203,7 +205,7 @@ Defaults to <code>TRUE</code> in an interactive session, otherwise
     <code>"WRAPDATELINE=YES"</code> and <code>"DATELINEOFFSET=180"</code>).</p></li>
 <li><p>Reproject data to coordinate system specified in argument to
     <code>crs</code> (using <code><a href='https://www.rdocumentation.org/packages/sf/topics/st_transform'>st_transform</a></code>).</p></li>
-<li><p>Fix any invalid geometries that have manifested (using
+<li><p>Fix any invalid geometries that have manifested
     (using <code><a href='https://www.rdocumentation.org/packages/lwgeom/topics/valid'>st_make_valid</a></code>).</p></li>
 <li><p>Buffer areas represented as point localities to circular areas
     using their reported spatial extent (using data in the field
@@ -212,12 +214,12 @@ Defaults to <code>TRUE</code> in an interactive session, otherwise
 <li><p>Snap the geometries to a grid to fix any remaining
     geometry issues (using argument to <code>snap_tolerance</code> and
     <code><a href='https://www.rdocumentation.org/packages/lwgeom/topics/st_snap_to_grid'>st_snap_to_grid</a></code>).</p></li>
-<li><p>Fix any invalid geometries that have manifested (using
+<li><p>Fix any invalid geometries that have manifested
     (using <code><a href='https://www.rdocumentation.org/packages/lwgeom/topics/valid'>st_make_valid</a></code>).</p></li>
 <li><p>Simplify the protected area geometries to reduce computational burden
     (using argument to <code>simplify_tolerance</code> and
     <code><a href='https://www.rdocumentation.org/packages/sf/topics/geos_unary'>st_simplify</a></code>).</p></li>
-<li><p>Fix any invalid geometries that have manifested (using
+<li><p>Fix any invalid geometries that have manifested
     (using <code><a href='https://www.rdocumentation.org/packages/lwgeom/topics/valid'>st_make_valid</a></code>).</p></li>
 <li><p>The <code>"MARINE"</code> field is converted from integer codes
     to descriptive names (i.e. <code>0</code> = <code>"terrestrial"</code>,

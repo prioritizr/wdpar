@@ -1,6 +1,6 @@
 Dear CRAN maintainers,
 
-This version fixes an issue that prevented users from downloading data on slow internet connections due to false reports of no internet connection.
+This package was archived last week because a couple of its dependencies were archived (i.e. wdman and RSelenium). Since these dependencies are now back on CRAN, I am re-submitting this package to CRAN.
 
 Thank you,
 

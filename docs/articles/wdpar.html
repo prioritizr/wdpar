@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.2</span>
       </span>
     </div>
 
@@ -149,7 +149,7 @@ mlt_pa_data &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</s
 <pre><code>## Simple feature collection with 6 features and 28 fields
 ## geometry type:  GEOMETRY
 ## dimension:      XY
-## bbox:           xmin: 1382455 ymin: 4288162 xmax: 1399726 ymax: 4299269
+## bbox:           xmin: 1382520 ymin: 4291797 xmax: 1399694 ymax: 4299338
 ## epsg (SRID):    NA
 ## proj4string:    +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs
 ## # A tibble: 6 x 29
@@ -159,8 +159,8 @@ mlt_pa_data &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</s
 ## 2 1.75e5 174757   1      Il-Ġ… Il-Ġonna… List… List Of … National  
 ## 3 1.75e5 174758   1      Bidn… Bidnija,… List… List Of … National  
 ## 4 1.94e5 194415   1      Il-Ġ… Il-Ġonna… List… List Of … National  
-## 5 1.94e5 194416   1      Il-B… Il-Buske… List… List Of … National  
-## 6 1.94e5 194417   1      Il-W… Il-Wied … List… List Of … National  
+## 5 1.94e5 194417   1      Il-W… Il-Wied … List… List Of … National  
+## 6 1.94e5 194418   1      Il-B… Il-Ballu… List… List Of … National  
 ## # … with 21 more variables: IUCN_CAT &lt;chr&gt;, INT_CRIT &lt;chr&gt;, MARINE &lt;chr&gt;,
 ## #   REP_M_AREA &lt;dbl&gt;, REP_AREA &lt;dbl&gt;, NO_TAKE &lt;chr&gt;, NO_TK_AREA &lt;dbl&gt;,
 ## #   STATUS &lt;chr&gt;, STATUS_YR &lt;dbl&gt;, GOV_TYPE &lt;chr&gt;, OWN_TYPE &lt;chr&gt;,
@@ -198,9 +198,9 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 <pre><code>## # A tibble: 3 x 2
 ##   MARINE      area_km
 ##   &lt;chr&gt;         &lt;dbl&gt;
-## 1 marine       8927. 
-## 2 terrestrial   114. 
-## 3 partial        14.1</code></pre>
+## 1 marine       8954. 
+## 2 terrestrial   107. 
+## 3 partial        14.9</code></pre>
 <p>We can also calculate the percentage of land inside its protected area system that are managed under different categories (i.e. <a href="https://www.iucn.org/theme/protected-areas/about/protected-area-categories">using the protected area management categories defined by The International Union for Conservation of Nature</a>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate percentage of land inside protected areas (km^2)</span>
 statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
@@ -214,15 +214,16 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 
 <span class="co"># print statistic</span>
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(statistic)</code></pre></div>
-<pre><code>## # A tibble: 6 x 3
-##   IUCN_CAT      area_km percentage
-##   &lt;chr&gt;           &lt;dbl&gt;      &lt;dbl&gt;
-## 1 IV           5370.      59.3    
-## 2 Not Reported 3653.      40.3    
-## 3 V              29.5      0.326  
-## 4 II              2.42     0.0267 
-## 5 III             0.205    0.00227
-## 6 Ia              0.160    0.00177</code></pre>
+<pre><code>## # A tibble: 7 x 3
+##   IUCN_CAT       area_km percentage
+##   &lt;chr&gt;            &lt;dbl&gt;      &lt;dbl&gt;
+## 1 IV           5388.      59.4     
+## 2 Not Reported 3656.      40.3     
+## 3 V              28.8      0.318   
+## 4 II              2.49     0.0275  
+## 5 III             0.183    0.00201 
+## 6 Ia              0.176    0.00194 
+## 7 VI              0.0279   0.000307</code></pre>
 <p>We can also plot a map showing Malta’s protected areas and color each area according to it’s management category.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggmap/topics/ggmap">ggmap</a></span>(bg) <span class="op">+</span>
 <span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> IUCN_CAT), <span class="dt">data =</span> mlt_pa_data, <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
@@ -264,7 +265,7 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 To cite the wdpar package in publications, use:
 
   Hanson JO (2020) wdpar: Interface to the World Database on
-  Protected Areas. R package version 1.0.1.1.
+  Protected Areas. R package version 1.0.1.2.
   https://github.com/prioritizr/wdpar
 
   UNEP-WCMC and IUCN (2020) Protected Planet: The World Database

@@ -1,3 +1,7 @@
+# wdpar 1.0.1.2
+
+- Increase default precision in `wdpa_clean` function.
+
 # wdpar 1.0.1.1
 
 - Make the `wdpa_clean` function more robust to typology issues (#20).

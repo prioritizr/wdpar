@@ -7,7 +7,7 @@
 wdpa_clean(x, crs = paste("+proj=cea +lon_0=0 +lat_ts=30 +x_0=0",
   "+y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs"),
   snap_tolerance = 1, simplify_tolerance = 0,
-  geometry_precision = 1000, erase_overlaps = TRUE,
+  geometry_precision = 1500, erase_overlaps = TRUE,
   verbose = interactive())
 }
 \arguments{
@@ -25,7 +25,7 @@ Defaults to 0 meters.}
 
 \item{geometry_precision}{\code{numeric} level of precision for processing
 the spatial data (used with \code{\link[sf]{st_set_precision}}). The
-default argument is 1000 (higher values indicate higher precision).
+default argument is 1500 (higher values indicate higher precision).
 This level of precision is generally suitable for analyses at the
 national-scale. For analyses at finer-scale resolutions, please
 consider using a greater value (e.g. 10000).}

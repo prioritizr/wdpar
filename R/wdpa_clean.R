@@ -184,8 +184,7 @@ wdpa_clean <- function(x,
                           isTRUE(simplify_tolerance >= 0),
                           assertthat::is.count(geometry_precision),
                           assertthat::is.flag(erase_overlaps),
-                          assertthat::is.flag(verbose),
-                          curl::has_internet())
+                          assertthat::is.flag(verbose))
   # check that x is in wgs1984
   assertthat::assert_that(sf::st_crs(x) == sf::st_crs(4326),
    msg = "argument to x is not longitude/latitude (i.e. EPSG:4326)")

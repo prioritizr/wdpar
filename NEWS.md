@@ -1,3 +1,8 @@
+# wdpar 1.0.1.1
+
+- Make the `wdpa_clean` function more robust to typology issues (#20).
+- Remove unnecessary internet connection check from `wdpa_clean` (#21).
+
 # wdpar 1.0.1
 
 - CRAN release.

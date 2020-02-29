@@ -70,7 +70,7 @@ st_erase_overlaps <- function(x, verbose = FALSE) {
       ## calculate difference
       ### run difference
       d <- sf::st_difference(
-        sf::st_set_precision(g[i], precision),
+        lwgeom::st_make_valid(sf::st_set_precision(g[i], precision)),
         lwgeom::st_make_valid(sf::st_set_precision(u, precision)))
       if (length(d) == 0L)
         d[[1]] <- sf::st_polygon()
@@ -99,8 +99,12 @@ st_erase_overlaps <- function(x, verbose = FALSE) {
       d <- sf::st_sfc(sf::st_polygon())
     }
     ## if d contains multiple geometries, then union them
-    if (length(d) > 1)
+    if (length(d) > 1) {
       d <- sf::st_union(d)
+      d <- suppressWarnings(sf::st_collection_extract(
+        lwgeom::st_make_valid(sf::st_set_precision(d, precision)),
+        "POLYGON"))
+    }
     ## store geometry
     o[i] <- d[[1]]
     ## increment progress bar

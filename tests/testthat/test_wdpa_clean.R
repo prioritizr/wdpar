@@ -123,3 +123,22 @@ test_that("wdpa_clean (geometries in non-geometry column)", {
   expect_is(y, "sf")
   expect_equal(attr(y, "sf_column"), "geometry")
 })
+
+test_that("wdpa_clean (single country with no valid non-empty geometries)", {
+  skip_on_cran()
+  skip_if_not(curl::has_internet())
+  x <-
+    suppressWarnings(wdpa_clean(wdpa_fetch("SOM", wait = TRUE, force = TRUE)))
+  y <- wdpa_clean(wdpa_fetch("MHL", wait = TRUE, force = TRUE))
+  crs <- paste("+proj=cea +lon_0=0 +lat_ts=30 +x_0=0",
+    "+y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs")
+  expect_identical(x, empty_wdpa_dataset(st_crs(crs)))
+  expect_equal(names(x), wdpa_column_names)
+  expect_equal(ncol(x), ncol(y))
+  expect_true(all(sapply(seq_along(x), function(i) {
+    class_x <- class(x[[i]])[1]
+    class_y <- class(y[[i]])[1]
+    (class_x == class_y) ||
+    (startsWith(class_x, "sf") && startsWith(class_y, "sf"))
+  })))
+})

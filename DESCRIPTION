@@ -1,6 +1,6 @@
 Package: wdpar
 Type: Package
-Version: 1.0.1.2
+Version: 1.0.1.3
 Title: Interface to the World Database on Protected Areas
 Description: Fetch and clean data from the World Database on Protected
     Areas (WDPA). Data is obtained from Protected Planet
@@ -20,7 +20,8 @@ Imports:
     RSelenium (>= 1.7.4),
     xml2 (>= 1.2.0),
     cli (>= 1.0.1),
-    lwgeom (>= 0.1-4)
+    lwgeom (>= 0.1-4),
+    tibble (>= 2.1.3)
 Suggests:
     testthat (>= 2.0.1),
     knitr (>= 1.2.0),
@@ -37,7 +38,7 @@ LazyData: true
 URL: https://prioritizr.github.io/wdpar, https://github.com/prioritizr/wdpar
 BugReports: https://github.com/prioritizr/wdpar/issues
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 Collate:
     'internal.R'
     'geo.R'

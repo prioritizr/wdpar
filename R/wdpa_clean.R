@@ -307,6 +307,12 @@ wdpa_clean <- function(x,
       message("buffering points: ", cli::symbol$tick)
     }
   }
+  ## return empty dataset if no valid non-empty geometries remain
+  if (all(sf::st_is_empty(x))) {
+    if (verbose) message("no valid non-empty geometries remain, return empty ",
+                         "dataset")
+    return(empty_wdpa_dataset(sf::st_crs(x)))
+  }
   ## simplify geometries
   if (simplify_tolerance > 0) {
     if (verbose) message("simplifying geometry: ", cli::symbol$continue,

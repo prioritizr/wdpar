@@ -1,3 +1,9 @@
+# wdpar 1.0.1.3
+
+- The `wdpa_clean` function now returns an empty result (i.e. `sf` object with
+  zero rows) for countries that do not have any protected areas represented by
+  spatially valid non-empty geometries (e.g. Somalia in February 2020, #19).
+
 # wdpar 1.0.1.2
 
 - Increase default precision in `wdpa_clean` function.

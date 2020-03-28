@@ -4,9 +4,13 @@
 \alias{wdpa_fetch}
 \title{Fetch data from the World Database on Protected Areas}
 \usage{
-wdpa_fetch(x, wait = FALSE,
+wdpa_fetch(
+  x,
+  wait = FALSE,
   download_dir = rappdirs::user_data_dir("wdpar"),
-  force_download = FALSE, verbose = interactive())
+  force_download = FALSE,
+  verbose = interactive()
+)
 }
 \arguments{
 \item{x}{\code{character} country for which to download data. This argument

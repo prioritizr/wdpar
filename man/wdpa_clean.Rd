@@ -4,11 +4,16 @@
 \alias{wdpa_clean}
 \title{Clean data from the World Database on Protected Areas}
 \usage{
-wdpa_clean(x, crs = paste("+proj=cea +lon_0=0 +lat_ts=30 +x_0=0",
-  "+y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs"),
-  snap_tolerance = 1, simplify_tolerance = 0,
-  geometry_precision = 1500, erase_overlaps = TRUE,
-  verbose = interactive())
+wdpa_clean(
+  x,
+  crs = paste("+proj=cea +lon_0=0 +lat_ts=30 +x_0=0",
+    "+y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs"),
+  snap_tolerance = 1,
+  simplify_tolerance = 0,
+  geometry_precision = 1500,
+  erase_overlaps = TRUE,
+  verbose = interactive()
+)
 }
 \arguments{
 \item{x}{\code{\link[sf]{sf}} object containing protected area data.}

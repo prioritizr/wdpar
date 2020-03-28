@@ -76,7 +76,7 @@ head(mlt_pa_data)
     ## # … with 21 more variables: IUCN_CAT <chr>, INT_CRIT <chr>, MARINE <chr>,
     ## #   REP_M_AREA <dbl>, REP_AREA <dbl>, NO_TAKE <chr>, NO_TK_AREA <dbl>,
     ## #   STATUS <chr>, STATUS_YR <dbl>, GOV_TYPE <chr>, OWN_TYPE <chr>,
-    ## #   MANG_AUTH <chr>, MANG_PLAN <chr>, VERIF <chr>, METADATAID <dbl>,
+    ## #   MANG_AUTH <chr>, MANG_PLAN <chr>, VERIF <chr>, METADATAID <int>,
     ## #   SUB_LOC <chr>, PARENT_ISO <chr>, ISO3 <chr>, GEOMETRY_TYPE <chr>,
     ## #   AREA_KM2 <dbl>, geometry <MULTIPOLYGON [m]>
 
@@ -108,7 +108,7 @@ Please cite the *wdpar R* package and the World Database on Protected Areas (WDP
     To cite the wdpar package in publications, use:
 
       Hanson JO (2020) wdpar: Interface to the World Database on
-      Protected Areas. R package version 1.0.1.2.
+      Protected Areas. R package version 1.0.1.3.
       https://github.com/prioritizr/wdpar
 
       UNEP-WCMC and IUCN (2020) Protected Planet: The World Database

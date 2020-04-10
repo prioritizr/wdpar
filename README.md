@@ -61,8 +61,7 @@ head(mlt_pa_data)
     ## geometry type:  MULTIPOLYGON
     ## dimension:      XY
     ## bbox:           xmin: 1369012 ymin: 4280784 xmax: 1399694 ymax: 4307909
-    ## epsg (SRID):    NA
-    ## proj4string:    +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs
+    ## CRS:            +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
     ## precision:      1500 
     ## # A tibble: 6 x 29
     ##   WDPAID WDPA_PID PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE
@@ -108,8 +107,8 @@ Please cite the *wdpar R* package and the World Database on Protected Areas (WDP
     To cite the wdpar package in publications, use:
 
       Hanson JO (2020) wdpar: Interface to the World Database on
-      Protected Areas. R package version 1.0.1.3.
-      https://github.com/prioritizr/wdpar
+      Protected Areas. R package version 1.0.2.
+      https://CRAN.R-project.org/package=wdpar
 
       UNEP-WCMC and IUCN (2020) Protected Planet: The World Database
       on Protected Areas (WDPA), [insert month/year of the version

@@ -119,7 +119,7 @@ import_deps <- function() {
 #'
 #' This function creates an empty WDPA dataset.
 #'
-#' @return \code{\link[sf]{sf} object.
+#' @return \code{\link[sf]{sf}} object.
 #'
 #' @examples
 #' empty_wdpa_dataset(st_crs("+init=epsg:4326"))

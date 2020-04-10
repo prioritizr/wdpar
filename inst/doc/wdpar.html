@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jeffrey O. Hanson" />
 
-<meta name="date" content="2020-03-28" />
+<meta name="date" content="2020-04-11" />
 
 <title>wdpar: Interface to the World Database on Protected Areas</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">wdpar: Interface to the World Database on Protected Areas</h1>
 <h4 class="author"><em>Jeffrey O. Hanson</em></h4>
-<h4 class="date"><em>2020-03-28</em></h4>
+<h4 class="date"><em>2020-04-11</em></h4>
 
 
 
@@ -103,34 +103,36 @@ mlt_boundary_data &lt;-<span class="st"> </span><span class="kw">readRDS</span>(
 
 <span class="co"># repair any geometry issues, dissolve the border, reproject to same</span>
 <span class="co"># coordinate system as the protected area data, and repair the geometry again</span>
-mlt_boundary_data &lt;-<span class="st"> </span>mlt_boundary_data <span class="op">%&gt;%</span>
-<span class="st">                     </span><span class="kw">st_set_precision</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span>
-<span class="st">                     </span>lwgeom<span class="op">::</span><span class="kw">st_make_valid</span>() <span class="op">%&gt;%</span>
-<span class="st">                     </span><span class="kw">st_set_precision</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span>
-<span class="st">                     </span><span class="kw">st_combine</span>() <span class="op">%&gt;%</span>
-<span class="st">                     </span><span class="kw">st_union</span>() <span class="op">%&gt;%</span>
-<span class="st">                     </span><span class="kw">st_set_precision</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span>
-<span class="st">                     </span>lwgeom<span class="op">::</span><span class="kw">st_make_valid</span>() <span class="op">%&gt;%</span>
-<span class="st">                     </span><span class="kw">st_transform</span>(<span class="kw">st_crs</span>(mlt_pa_data)) <span class="op">%&gt;%</span>
-<span class="st">                     </span>lwgeom<span class="op">::</span><span class="kw">st_make_valid</span>()
+mlt_boundary_data &lt;-
+<span class="st">  </span>mlt_boundary_data <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">st_set_precision</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span>sf<span class="op">::</span><span class="kw">st_make_valid</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">st_set_precision</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">st_combine</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">st_union</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">st_set_precision</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span>sf<span class="op">::</span><span class="kw">st_make_valid</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">st_transform</span>(<span class="kw">st_crs</span>(mlt_pa_data)) <span class="op">%&gt;%</span>
+<span class="st">  </span>sf<span class="op">::</span><span class="kw">st_make_valid</span>()
 
 <span class="co"># clip Malta's protected areas to the coastline</span>
-mlt_pa_data &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
-<span class="st">               </span><span class="kw">filter</span>(MARINE <span class="op">==</span><span class="st"> &quot;terrestrial&quot;</span>) <span class="op">%&gt;%</span>
-<span class="st">               </span><span class="kw">st_intersection</span>(mlt_boundary_data) <span class="op">%&gt;%</span>
-<span class="st">               </span><span class="kw">rbind</span>(mlt_pa_data <span class="op">%&gt;%</span>
-<span class="st">                     </span><span class="kw">filter</span>(MARINE <span class="op">==</span><span class="st"> &quot;marine&quot;</span>) <span class="op">%&gt;%</span>
-<span class="st">                     </span><span class="kw">st_difference</span>(mlt_boundary_data)) <span class="op">%&gt;%</span>
-<span class="st">               </span><span class="kw">rbind</span>(mlt_pa_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span>MARINE <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;terrestrial&quot;</span>,
-                                                           <span class="st">&quot;marine&quot;</span>)))</code></pre></div>
+mlt_pa_data &lt;-
+<span class="st">  </span>mlt_pa_data <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(MARINE <span class="op">==</span><span class="st"> &quot;terrestrial&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">st_intersection</span>(mlt_boundary_data) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">rbind</span>(mlt_pa_data <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">filter</span>(MARINE <span class="op">==</span><span class="st"> &quot;marine&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">st_difference</span>(mlt_boundary_data)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">rbind</span>(mlt_pa_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span>MARINE <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;terrestrial&quot;</span>, <span class="st">&quot;marine&quot;</span>)))</code></pre></div>
 <pre><code>## Warning: attribute variables are assumed to be spatially constant
 ## throughout all geometries
 
 ## Warning: attribute variables are assumed to be spatially constant
 ## throughout all geometries</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># recalculate the area of each protected area</span>
-mlt_pa_data &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
-<span class="st">               </span><span class="kw">mutate</span>(<span class="dt">AREA_KM2 =</span> <span class="kw">as.numeric</span>(<span class="kw">st_area</span>(.)) <span class="op">*</span><span class="st"> </span><span class="fl">1e-6</span>)</code></pre></div>
+mlt_pa_data &lt;-
+<span class="st">  </span>mlt_pa_data <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">AREA_KM2 =</span> <span class="kw">as.numeric</span>(<span class="kw">st_area</span>(.)) <span class="op">*</span><span class="st"> </span><span class="fl">1e-6</span>)</code></pre></div>
 <p>Now that we have finished cleaning the data, let’s preview the data. For more information on what these columns mean, please refer to the <a href="https://www.protectedplanet.net/c/wdpa-manual">official manual</a> (available in <a href="http://wcmc.io/WDPA_Manual">English</a>, <a href="http://wcmc.io/WDPA_Manual_ES">Spanish</a>, <a href="http://wcmc.io/WDPA_Manual_FR">French</a>, and <a href="http://wcmc.io/WDPA_Manual_RU">Russian</a>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># print first six rows of the data</span>
 <span class="kw">head</span>(mlt_pa_data)</code></pre></div>
@@ -138,8 +140,7 @@ mlt_pa_data &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</s
 ## geometry type:  GEOMETRY
 ## dimension:      XY
 ## bbox:           xmin: 1382520 ymin: 4291797 xmax: 1399694 ymax: 4299338
-## epsg (SRID):    NA
-## proj4string:    +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs
+## CRS:            +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
 ## # A tibble: 6 x 29
 ##   WDPAID WDPA_PID PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE
 ##    &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;     
@@ -173,13 +174,14 @@ bg &lt;-<span class="st"> </span><span class="kw">get_stamenmap</span>(<span cla
 <p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
 <p>Now let’s calculate some statistics. We can calculate the total amount of land and ocean inside Malta’s protected area system (km<sup>2</sup>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate total amount of area inside protected areas (km^2)</span>
-statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw">as.data.frame</span>() <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw">select</span>(<span class="op">-</span>geometry) <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw">group_by</span>(MARINE) <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw">summarize</span>(<span class="dt">area_km =</span> <span class="kw">sum</span>(AREA_KM2)) <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw">arrange</span>(<span class="kw">desc</span>(area_km))
+statistic &lt;-
+<span class="st">  </span>mlt_pa_data <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">as.data.frame</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>geometry) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(MARINE) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">area_km =</span> <span class="kw">sum</span>(AREA_KM2)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(area_km))
 
 <span class="co"># print statistic</span>
 <span class="kw">print</span>(statistic)</code></pre></div>
@@ -191,14 +193,15 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 ## 3 partial        14.9</code></pre>
 <p>We can also calculate the percentage of land inside its protected area system that are managed under different categories (i.e. <a href="https://www.iucn.org/theme/protected-areas/about/protected-area-categories">using the protected area management categories defined by The International Union for Conservation of Nature</a>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate percentage of land inside protected areas (km^2)</span>
-statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw">as.data.frame</span>() <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw">select</span>(<span class="op">-</span>geometry) <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw">group_by</span>(IUCN_CAT) <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw">summarize</span>(<span class="dt">area_km =</span> <span class="kw">sum</span>(AREA_KM2)) <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw">mutate</span>(<span class="dt">percentage =</span> (area_km <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(area_km)) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>) <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw">arrange</span>(<span class="kw">desc</span>(area_km))
+statistic &lt;-
+<span class="st">  </span>mlt_pa_data <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">as.data.frame</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>geometry) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(IUCN_CAT) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarize</span>(<span class="dt">area_km =</span> <span class="kw">sum</span>(AREA_KM2)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">percentage =</span> (area_km <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(area_km)) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(area_km))
 
 <span class="co"># print statistic</span>
 <span class="kw">print</span>(statistic)</code></pre></div>
@@ -247,8 +250,8 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 To cite the wdpar package in publications, use:
 
   Hanson JO (2020) wdpar: Interface to the World Database on
-  Protected Areas. R package version 1.0.1.3.
-  https://github.com/prioritizr/wdpar
+  Protected Areas. R package version 1.0.2.
+  https://CRAN.R-project.org/package=wdpar
 
   UNEP-WCMC and IUCN (2020) Protected Planet: The World Database
   on Protected Areas (WDPA), [insert month/year of the version

@@ -65,20 +65,20 @@ st_erase_overlaps <- function(x, verbose = FALSE) {
       ### repair the geometry if there are any issues
       if (!all(sf::st_is_valid(u)))
         u <- suppressWarnings(sf::st_collection_extract(
-          lwgeom::st_make_valid(sf::st_set_precision(u, precision)),
+          sf::st_make_valid(sf::st_set_precision(u, precision)),
           "POLYGON"))
       ## calculate difference
       ### run difference
       d <- sf::st_difference(
-        lwgeom::st_make_valid(sf::st_set_precision(g[i], precision)),
-        lwgeom::st_make_valid(sf::st_set_precision(u, precision)))
+        sf::st_make_valid(sf::st_set_precision(g[i], precision)),
+        sf::st_make_valid(sf::st_set_precision(u, precision)))
       if (length(d) == 0L)
         d[[1]] <- sf::st_polygon()
       d <- suppressWarnings(sf::st_collection_extract(d, "POLYGON"))
       ### repair the geometry if there are any issues
       if (!all(sf::st_is_valid(d)))
         d <- suppressWarnings(sf::st_collection_extract(
-          lwgeom::st_make_valid(sf::st_set_precision(d, precision)),
+          sf::st_make_valid(sf::st_set_precision(d, precision)),
           "POLYGON"))
     } else {
       d <- g[i]
@@ -102,7 +102,7 @@ st_erase_overlaps <- function(x, verbose = FALSE) {
     if (length(d) > 1) {
       d <- sf::st_union(d)
       d <- suppressWarnings(sf::st_collection_extract(
-        lwgeom::st_make_valid(sf::st_set_precision(d, precision)),
+        sf::st_make_valid(sf::st_set_precision(d, precision)),
         "POLYGON"))
     }
     ## store geometry

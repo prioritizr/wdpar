@@ -1,3 +1,12 @@
+# wdpar 1.0.2
+
+- CRAN release.
+
+# wdpar 1.0.1.4
+
+- Fix compatibility issues with upcoming `lwgeom` package release (#24).
+- Increase `lwgeom` and `sf` package version requirements.
+
 # wdpar 1.0.1.3
 
 - The `wdpa_clean` function now returns an empty result (i.e. `sf` object with

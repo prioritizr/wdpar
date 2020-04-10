@@ -73,30 +73,32 @@ mlt_boundary_data <- readRDS(file_path)
 
 # repair any geometry issues, dissolve the border, reproject to same
 # coordinate system as the protected area data, and repair the geometry again
-mlt_boundary_data <- mlt_boundary_data %>%
-                     st_set_precision(1000) %>%
-                     lwgeom::st_make_valid() %>%
-                     st_set_precision(1000) %>%
-                     st_combine() %>%
-                     st_union() %>%
-                     st_set_precision(1000) %>%
-                     lwgeom::st_make_valid() %>%
-                     st_transform(st_crs(mlt_pa_data)) %>%
-                     lwgeom::st_make_valid()
+mlt_boundary_data <-
+  mlt_boundary_data %>%
+  st_set_precision(1000) %>%
+  sf::st_make_valid() %>%
+  st_set_precision(1000) %>%
+  st_combine() %>%
+  st_union() %>%
+  st_set_precision(1000) %>%
+  sf::st_make_valid() %>%
+  st_transform(st_crs(mlt_pa_data)) %>%
+  sf::st_make_valid()
 
 # clip Malta's protected areas to the coastline
-mlt_pa_data <- mlt_pa_data %>%
-               filter(MARINE == "terrestrial") %>%
-               st_intersection(mlt_boundary_data) %>%
-               rbind(mlt_pa_data %>%
-                     filter(MARINE == "marine") %>%
-                     st_difference(mlt_boundary_data)) %>%
-               rbind(mlt_pa_data %>% filter(!MARINE %in% c("terrestrial",
-                                                           "marine")))
+mlt_pa_data <-
+  mlt_pa_data %>%
+  filter(MARINE == "terrestrial") %>%
+  st_intersection(mlt_boundary_data) %>%
+  rbind(mlt_pa_data %>%
+        filter(MARINE == "marine") %>%
+        st_difference(mlt_boundary_data)) %>%
+  rbind(mlt_pa_data %>% filter(!MARINE %in% c("terrestrial", "marine")))
 
 # recalculate the area of each protected area
-mlt_pa_data <- mlt_pa_data %>%
-               mutate(AREA_KM2 = as.numeric(st_area(.)) * 1e-6)
+mlt_pa_data <-
+  mlt_pa_data %>%
+  mutate(AREA_KM2 = as.numeric(st_area(.)) * 1e-6)
 ```
 
 Now that we have finished cleaning the data, let's preview the data. For more information on what these columns mean, please refer to the [official manual](https://www.protectedplanet.net/c/wdpa-manual) (available in [English](http://wcmc.io/WDPA_Manual), [Spanish](http://wcmc.io/WDPA_Manual_ES), [French](http://wcmc.io/WDPA_Manual_FR), and [Russian](http://wcmc.io/WDPA_Manual_RU)).
@@ -136,13 +138,14 @@ Now let's calculate some statistics. We can calculate the total amount of land a
 
 ```{r}
 # calculate total amount of area inside protected areas (km^2)
-statistic <- mlt_pa_data %>%
-             as.data.frame() %>%
-             select(-geometry) %>%
-             group_by(MARINE) %>%
-             summarize(area_km = sum(AREA_KM2)) %>%
-             ungroup() %>%
-             arrange(desc(area_km))
+statistic <-
+  mlt_pa_data %>%
+  as.data.frame() %>%
+  select(-geometry) %>%
+  group_by(MARINE) %>%
+  summarize(area_km = sum(AREA_KM2)) %>%
+  ungroup() %>%
+  arrange(desc(area_km))
 
 # print statistic
 print(statistic)
@@ -152,14 +155,15 @@ We can also calculate the percentage of land inside its protected area system th
 
 ```{r}
 # calculate percentage of land inside protected areas (km^2)
-statistic <- mlt_pa_data %>%
-             as.data.frame() %>%
-             select(-geometry) %>%
-             group_by(IUCN_CAT) %>%
-             summarize(area_km = sum(AREA_KM2)) %>%
-             ungroup() %>%
-             mutate(percentage = (area_km / sum(area_km)) * 100) %>%
-             arrange(desc(area_km))
+statistic <-
+  mlt_pa_data %>%
+  as.data.frame() %>%
+  select(-geometry) %>%
+  group_by(IUCN_CAT) %>%
+  summarize(area_km = sum(AREA_KM2)) %>%
+  ungroup() %>%
+  mutate(percentage = (area_km / sum(area_km)) * 100) %>%
+  arrange(desc(area_km))
 
 # print statistic
 print(statistic)

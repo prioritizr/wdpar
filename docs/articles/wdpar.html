@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -74,7 +74,7 @@
       <h1>wdpar: Interface to the World Database on Protected Areas</h1>
                         <h4 class="author">Jeffrey O. Hanson</h4>
             
-            <h4 class="date">2020-03-28</h4>
+            <h4 class="date">2020-04-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/wdpar/blob/master/vignettes/wdpar.Rmd"><code>vignettes/wdpar.Rmd</code></a></small>
       <div class="hidden name"><code>wdpar.Rmd</code></div>
@@ -114,34 +114,36 @@ mlt_boundary_data &lt;-<span class="st"> </span><span class="kw"><a href="https:
 
 <span class="co"># repair any geometry issues, dissolve the border, reproject to same</span>
 <span class="co"># coordinate system as the protected area data, and repair the geometry again</span>
-mlt_boundary_data &lt;-<span class="st"> </span>mlt_boundary_data <span class="op">%&gt;%</span>
-<span class="st">                     </span><span class="kw">st_set_precision</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span>
-<span class="st">                     </span>lwgeom<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/lwgeom/topics/valid">st_make_valid</a></span>() <span class="op">%&gt;%</span>
-<span class="st">                     </span><span class="kw">st_set_precision</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span>
-<span class="st">                     </span><span class="kw">st_combine</span>() <span class="op">%&gt;%</span>
-<span class="st">                     </span><span class="kw">st_union</span>() <span class="op">%&gt;%</span>
-<span class="st">                     </span><span class="kw">st_set_precision</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span>
-<span class="st">                     </span>lwgeom<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/lwgeom/topics/valid">st_make_valid</a></span>() <span class="op">%&gt;%</span>
-<span class="st">                     </span><span class="kw">st_transform</span>(<span class="kw">st_crs</span>(mlt_pa_data)) <span class="op">%&gt;%</span>
-<span class="st">                     </span>lwgeom<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/lwgeom/topics/valid">st_make_valid</a></span>()
+mlt_boundary_data &lt;-
+<span class="st">  </span>mlt_boundary_data <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">st_set_precision</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span>sf<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/valid">st_make_valid</a></span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">st_set_precision</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">st_combine</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">st_union</span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">st_set_precision</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span>sf<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/valid">st_make_valid</a></span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">st_transform</span>(<span class="kw">st_crs</span>(mlt_pa_data)) <span class="op">%&gt;%</span>
+<span class="st">  </span>sf<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/valid">st_make_valid</a></span>()
 
 <span class="co"># clip Malta's protected areas to the coastline</span>
-mlt_pa_data &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
-<span class="st">               </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(MARINE <span class="op">==</span><span class="st"> "terrestrial"</span>) <span class="op">%&gt;%</span>
-<span class="st">               </span><span class="kw">st_intersection</span>(mlt_boundary_data) <span class="op">%&gt;%</span>
-<span class="st">               </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">rbind</a></span>(mlt_pa_data <span class="op">%&gt;%</span>
-<span class="st">                     </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(MARINE <span class="op">==</span><span class="st"> "marine"</span>) <span class="op">%&gt;%</span>
-<span class="st">                     </span><span class="kw">st_difference</span>(mlt_boundary_data)) <span class="op">%&gt;%</span>
-<span class="st">               </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">rbind</a></span>(mlt_pa_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span>MARINE <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"terrestrial"</span>,
-                                                           <span class="st">"marine"</span>)))</code></pre></div>
+mlt_pa_data &lt;-
+<span class="st">  </span>mlt_pa_data <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(MARINE <span class="op">==</span><span class="st"> "terrestrial"</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">st_intersection</span>(mlt_boundary_data) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">rbind</a></span>(mlt_pa_data <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(MARINE <span class="op">==</span><span class="st"> "marine"</span>) <span class="op">%&gt;%</span>
+<span class="st">        </span><span class="kw">st_difference</span>(mlt_boundary_data)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">rbind</a></span>(mlt_pa_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span>MARINE <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"terrestrial"</span>, <span class="st">"marine"</span>)))</code></pre></div>
 <pre><code>## Warning: attribute variables are assumed to be spatially constant
 ## throughout all geometries
 
 ## Warning: attribute variables are assumed to be spatially constant
 ## throughout all geometries</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># recalculate the area of each protected area</span>
-mlt_pa_data &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
-<span class="st">               </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">AREA_KM2 =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/numeric">as.numeric</a></span>(<span class="kw">st_area</span>(.)) <span class="op">*</span><span class="st"> </span><span class="fl">1e-6</span>)</code></pre></div>
+mlt_pa_data &lt;-
+<span class="st">  </span>mlt_pa_data <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">AREA_KM2 =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/numeric">as.numeric</a></span>(<span class="kw">st_area</span>(.)) <span class="op">*</span><span class="st"> </span><span class="fl">1e-6</span>)</code></pre></div>
 <p>Now that we have finished cleaning the data, let’s preview the data. For more information on what these columns mean, please refer to the <a href="https://www.protectedplanet.net/c/wdpa-manual">official manual</a> (available in <a href="http://wcmc.io/WDPA_Manual">English</a>, <a href="http://wcmc.io/WDPA_Manual_ES">Spanish</a>, <a href="http://wcmc.io/WDPA_Manual_FR">French</a>, and <a href="http://wcmc.io/WDPA_Manual_RU">Russian</a>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># print first six rows of the data</span>
 <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(mlt_pa_data)</code></pre></div>
@@ -149,8 +151,7 @@ mlt_pa_data &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</s
 ## geometry type:  GEOMETRY
 ## dimension:      XY
 ## bbox:           xmin: 1382520 ymin: 4291797 xmax: 1399694 ymax: 4299338
-## epsg (SRID):    NA
-## proj4string:    +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs
+## CRS:            +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
 ## # A tibble: 6 x 29
 ##   WDPAID WDPA_PID PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE
 ##    &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;     
@@ -184,13 +185,14 @@ bg &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocument
 <p><img src="wdpar_files/figure-html/unnamed-chunk-10-1.png" width="432" style="display: block; margin: auto;"></p>
 <p>Now let’s calculate some statistics. We can calculate the total amount of land and ocean inside Malta’s protected area system (km<sup>2</sup>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate total amount of area inside protected areas (km^2)</span>
-statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.data.frame">as.data.frame</a></span>() <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>geometry) <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(MARINE) <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">area_km =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(AREA_KM2)) <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span>() <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span>(area_km))
+statistic &lt;-
+<span class="st">  </span>mlt_pa_data <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.data.frame">as.data.frame</a></span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>geometry) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(MARINE) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">area_km =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(AREA_KM2)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span>(area_km))
 
 <span class="co"># print statistic</span>
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(statistic)</code></pre></div>
@@ -202,14 +204,15 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 ## 3 partial        14.9</code></pre>
 <p>We can also calculate the percentage of land inside its protected area system that are managed under different categories (i.e. <a href="https://www.iucn.org/theme/protected-areas/about/protected-area-categories">using the protected area management categories defined by The International Union for Conservation of Nature</a>).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate percentage of land inside protected areas (km^2)</span>
-statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.data.frame">as.data.frame</a></span>() <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>geometry) <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(IUCN_CAT) <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">area_km =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(AREA_KM2)) <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span>() <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">percentage =</span> (area_km <span class="op">/</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(area_km)) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>) <span class="op">%&gt;%</span>
-<span class="st">             </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span>(area_km))
+statistic &lt;-
+<span class="st">  </span>mlt_pa_data <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.data.frame">as.data.frame</a></span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>geometry) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(IUCN_CAT) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">area_km =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(AREA_KM2)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span>() <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">percentage =</span> (area_km <span class="op">/</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(area_km)) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span>(area_km))
 
 <span class="co"># print statistic</span>
 <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(statistic)</code></pre></div>
@@ -264,8 +267,8 @@ statistic &lt;-<span class="st"> </span>mlt_pa_data <span class="op">%&gt;%</spa
 To cite the wdpar package in publications, use:
 
   Hanson JO (2020) wdpar: Interface to the World Database on
-  Protected Areas. R package version 1.0.1.3.
-  https://github.com/prioritizr/wdpar
+  Protected Areas. R package version 1.0.2.
+  https://CRAN.R-project.org/package=wdpar
 
   UNEP-WCMC and IUCN (2020) Protected Planet: The World Database
   on Protected Areas (WDPA), [insert month/year of the version

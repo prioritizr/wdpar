@@ -4,7 +4,7 @@
 
 # wdpar 1.0.1.4
 
-- Fix compatibility issues with new `lwgeom` package version 0.1-7 (#24).
+- Fix compatibility issues with new `lwgeom` package version 0.2-3 (#24).
 - Increase `lwgeom` and `sf` package version requirements.
 
 # wdpar 1.0.1.3

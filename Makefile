@@ -51,7 +51,6 @@ check:
 
 wbcheck:
 	R --slave -e "devtools::check_win_devel()"
-	R --slave -e "devtools::check_win_release()"
 	cp -R doc inst/
 
 solarischeck:

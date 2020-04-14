@@ -1,6 +1,6 @@
 Dear CRAN maintainers,
 
-This package was archived last week because a couple of its dependencies were archived (i.e. wdman and RSelenium). Since these dependencies are now back on CRAN, I am re-submitting this package to CRAN.
+This version addresses the issues casing the package to fail CRAN checks. Specifically, it fixes a compatibility issue with the new version of the lwgeom R package.
 
 Thank you,
 

@@ -37,6 +37,7 @@ r_packages:
   - covr
   - rmarkdown
   - testthat
+  - devtools
 
 before_install:
   - echo "TRAVIS_OS_NAME = $TRAVIS_OS_NAME"

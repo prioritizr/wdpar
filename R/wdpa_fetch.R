@@ -4,45 +4,45 @@ NULL
 #' Fetch data from the World Database on Protected Areas
 #'
 #' Download data from the World Database on Protected Areas (WDPA)
-#' (available at \url{http://protectedplanet.net}) and import it.
+#' (available at <http://protectedplanet.net>) and import it.
 #'
-#' @param x \code{character} country for which to download data. This argument
-#'   can be the name of the country (e.g. \code{"Liechtenstein"}) or the
-#'   ISO-3 code for the country (e.g. \code{"LIE"}). This argument can also
-#'   be set to \code{"global"} to download all of the protected areas available
+#' @param x `character` country for which to download data. This argument
+#'   can be the name of the country (e.g. `"Liechtenstein"`) or the
+#'   ISO-3 code for the country (e.g. `"LIE"`). This argument can also
+#'   be set to `"global"` to download all of the protected areas available
 #'   in the database (approximately 1.1 GB).
 #'
-#' @param wait \code{logical} if data is not immediately available for download
+#' @param wait `logical` if data is not immediately available for download
 #'   should the session be paused until it is ready for download? If argument
-#'   to \code{wait} is \code{FALSE} and the data is not ready then \code{NA}
-#'   will be returned. Defaults to \code{FALSE}.
+#'   to `wait` is `FALSE` and the data is not ready then `NA`
+#'   will be returned. Defaults to `FALSE`.
 #'
-#' @param download_dir \code{character} folder path to download the data.
+#' @param download_dir `character` folder path to download the data.
 #'  Defaults to a persistent data directory
-#'  (\code{rappdirs::user_data_dir("wdpar")}).
+#'  (`rappdirs::user_data_dir("wdpar")`).
 #'
-#' @param force_download \code{logical} if the data has previously been
-#'   downloaded and is available at argument to \code{download_dir}, should a
-#'   fresh copy be downloaded? Defaults to \code{FALSE}.
+#' @param force_download `logical` if the data has previously been
+#'   downloaded and is available at argument to `download_dir`, should a
+#'   fresh copy be downloaded? Defaults to `FALSE`.
 #'
-#' @param verbose \code{logical} should a progress on downloading data be
-#'   reported? Defaults to \code{TRUE} in an interactive session, otherwise
-#'   \code{FALSE}.
+#' @param verbose `logical` should a progress on downloading data be
+#'   reported? Defaults to `TRUE` in an interactive session, otherwise
+#'   `FALSE`.
 #'
 #' @details This function will download the specified protected area
-#'   data and return it. \strong{It is strongly recommended that the data be
-#'   cleaned prior to analysis}. Check out the
+#'   data and return it. **It is strongly recommended that the data be
+#'   cleaned prior to analysis**. Check out the
 #'   \code{\link{wdpa_clean}} function to clean the data according to standard
 #'   practices. For information on this database,
 #'   prefer refer to the official manual
-#'   (\url{https://www.protectedplanet.net/c/wdpa-manual}).
+#'   (<https://www.protectedplanet.net/c/wdpa-manual>).
 #'
 #' @return \code{\link[sf]{sf}} object.
 #'
 #' @seealso \code{\link{wdpa_clean}}, \code{\link{wdpa_read}},
 #'   \code{\link{wdpa_url}}, \code{\link[countrycode]{countrycode}},
-#'   \url{http://protectedplanet.net},
-#'   \url{https://www.protectedplanet.net/c/wdpa-manual}.
+#'   <http://protectedplanet.net>,
+#'   <https://www.protectedplanet.net/c/wdpa-manual>.
 #'
 #' @examples
 #' \donttest{

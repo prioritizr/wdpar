@@ -8,13 +8,13 @@ NULL
 #' your computer, see the \code{\link{wdpa_fetch}} function for automatically
 #' downloading and importing the data into the current session.
 #'
-#' @param x \code{character} file name for a zip archive file downloaded from
-#'   \url{http://protectedplanet.net}.
+#' @param x `character` file name for a zip archive file downloaded from
+#'   <http://protectedplanet.net>.
 #'
 #' @return \code{\link[sf]{sf}} object.
 #'
 #' @seealso \code{\link{wdpa_fetch}}, \code{\link{wdpa_clean}},
-#'   \url{http://protectedplanet.net}.
+#'   <http://protectedplanet.net>.
 #'
 #' @examples
 #' \donttest{

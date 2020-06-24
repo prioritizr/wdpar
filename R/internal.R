@@ -2,9 +2,9 @@
 #'
 #' Find ISO-3 country code for a country.
 #'
-#' @param x \code{character} name of country or its ISO-3 code.
+#' @param x `character` name of country or its ISO-3 code.
 #'
-#' @return \code{character} ISO-3 country code.
+#' @return `character` ISO-3 country code.
 #'
 #' @seealso \code{\link[countrycode]{countrycode}}.
 #'
@@ -36,16 +36,16 @@ country_code <- function(x) {
 #' Find the file in a folder which has the most recent version of the WDPA data #' set in it.
 #'
 #'
-#' @param x \code{character} Country for desired data. This argument
-#'   can be the name of the country (e.g. \code{"Liechtenstein"}) or the
-#'   ISO-3 code for the country (e.g. \code{"LIE"}). This argument can also
-#'   be set to \code{"global"} to obtain file path for the global dataset.
+#' @param x `character` Country for desired data. This argument
+#'   can be the name of the country (e.g. `"Liechtenstein"`) or the
+#'   ISO-3 code for the country (e.g. `"LIE"`). This argument can also
+#'   be set to `"global"` to obtain file path for the global dataset.
 #'
-#' @param download_dir \code{character} directory to which the data will be
+#' @param download_dir `character` directory to which the data will be
 #'  downloaded. Defaults to a persistent data directory
-#'  (\code{rappdirs::user_data_dir("wdpar")}).
+#'  (`rappdirs::user_data_dir("wdpar")`).
 #'
-#' @return \code{character} file path.
+#' @return `character` file path.
 #'
 #' @noRd
 wdpa_file <- function(x, download_dir = rappdirs::user_data_dir("wdpar")) {

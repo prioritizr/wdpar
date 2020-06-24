@@ -7,11 +7,11 @@ NULL
 #'
 #' @param x \code{\link[sf]{sf}} object.
 #'
-#' @param verbose \code{logical} should progress be reported? Defaults to
-#'   \code{FALSE}.
+#' @param verbose `logical` should progress be reported? Defaults to
+#'   `FALSE`.
 #'
 #' @details This is a more robust---albeit slower---implementation for
-#'   \code{\link{st_difference}} when \code{y} is missing.
+#'   \code{\link{st_difference}} when `y` is missing.
 #'
 #' @return \code{\link[sf]{sf}} object.
 #'

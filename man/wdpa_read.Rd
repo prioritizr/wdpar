@@ -39,5 +39,5 @@ plot(lie_raw_data)
 }
 \seealso{
 \code{\link{wdpa_fetch}}, \code{\link{wdpa_clean}},
-  \url{http://protectedplanet.net}.
+\url{http://protectedplanet.net}.
 }

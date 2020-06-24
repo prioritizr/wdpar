@@ -20,7 +20,7 @@ Erase overlapping geometries in a \code{\link[sf]{sf}} object.
 }
 \details{
 This is a more robust---albeit slower---implementation for
-  \code{\link{st_difference}} when \code{y} is missing.
+\code{\link{st_difference}} when \code{y} is missing.
 }
 \examples{
 # create data

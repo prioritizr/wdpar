@@ -1,3 +1,8 @@
+# wdpar 1.0.2.1
+
+- Pre-empt "Non-file package-anchored link(s) in documentation object" notes in
+  R-devel checks.
+
 # wdpar 1.0.2
 
 - CRAN release.

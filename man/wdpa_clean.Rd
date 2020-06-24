@@ -19,7 +19,7 @@ wdpa_clean(
 \item{x}{\code{\link[sf]{sf}} object containing protected area data.}
 
 \item{crs}{\code{character} or code{integer} object representing a
- coordinate reference system. Defaults to World Behrmann
+coordinate reference system. Defaults to World Behrmann
 (\emph{ESRI:54017}).}
 
 \item{snap_tolerance}{\code{numeric} tolerance for snapping geometry to a
@@ -55,89 +55,89 @@ Clean data obtained from the World Database on Protected Areas (WDPA).
 }
 \details{
 This function cleans data from World Database on Protected Areas
-  following best practices (Butchart \emph{et al.} 2015, Runge \emph{et al.}
-  2015,
-  \url{https://protectedplanet.net/c/calculating-protected-area-coverage}).
-  To obtain accurate protected area coverage statistics for a country,
-  please note that you will need to manually clip the cleaned data to
-  the countries' coastline and its Exclusive Economic Zone (EEZ).
-  Although this function can \emph{in theory} be used to clean the global
-  dataset, this process can take several weeks to complete. Therefore, it is
-  strongly recommended to use alternative methods for cleaning the global
-  dataset.
+following best practices (Butchart \emph{et al.} 2015, Runge \emph{et al.}
+2015,
+\url{https://protectedplanet.net/c/calculating-protected-area-coverage}).
+To obtain accurate protected area coverage statistics for a country,
+please note that you will need to manually clip the cleaned data to
+the countries' coastline and its Exclusive Economic Zone (EEZ).
+Although this function can \emph{in theory} be used to clean the global
+dataset, this process can take several weeks to complete. Therefore, it is
+strongly recommended to use alternative methods for cleaning the global
+dataset.
 
-  \enumerate{
+\enumerate{
 
-  \item Repair invalid geometry (using \code{\link[sf]{st_make_valid}}).
+\item Repair invalid geometry (using \code{\link[sf]{st_make_valid}}).
 
-  \item Exclude protected areas that are not currently implemented
-    (i.e. exclude areas without the status \code{"Designated"},
-    \code{"Inscribed"}, \code{"Established"}).
+\item Exclude protected areas that are not currently implemented
+(i.e. exclude areas without the status \code{"Designated"},
+\code{"Inscribed"}, \code{"Established"}).
 
-  \item Exclude United Nations Educational, Scientific and Cultural
-    Organization (UNESCO) Biosphere Reserves (Coetzer \emph{et al.} 2014).
+\item Exclude United Nations Educational, Scientific and Cultural
+Organization (UNESCO) Biosphere Reserves (Coetzer \emph{et al.} 2014).
 
-  \item Create a field (\code{"GEOMETRY_TYPE"}) indicating if areas are
-    represented as point localities (\code{"POINT"}) or as polygons
-    (\code{"POLYGON"}).
+\item Create a field (\code{"GEOMETRY_TYPE"}) indicating if areas are
+represented as point localities (\code{"POINT"}) or as polygons
+(\code{"POLYGON"}).
 
-  \item Exclude areas represented as point localities that do not
-    have a reported spatial extent (i.e. missing data for the field
+\item Exclude areas represented as point localities that do not
+have a reported spatial extent (i.e. missing data for the field
 
-  \item Geometries are wrapped to the dateline (using
-    \code{\link[sf]{st_wrap_dateline}} with the options
-    \code{"WRAPDATELINE=YES"} and \code{"DATELINEOFFSET=180"}).
+\item Geometries are wrapped to the dateline (using
+\code{\link[sf]{st_wrap_dateline}} with the options
+\code{"WRAPDATELINE=YES"} and \code{"DATELINEOFFSET=180"}).
 
-  \item Reproject data to coordinate system specified in argument to
-    \code{crs} (using \code{\link[sf]{st_transform}}).
+\item Reproject data to coordinate system specified in argument to
+\code{crs} (using \code{\link[sf]{st_transform}}).
 
-  \item Fix any invalid geometries that have manifested
-    (using \code{\link[sf]{st_make_valid}}).
+\item Fix any invalid geometries that have manifested
+(using \code{\link[sf]{st_make_valid}}).
 
-  \item Buffer areas represented as point localities to circular areas
-    using their reported spatial extent (using data in the field
-    \code{"REP_AREA"} and \code{\link[sf]{st_buffer}}; see Visconti
-    \emph{et al.} 2013).
+\item Buffer areas represented as point localities to circular areas
+using their reported spatial extent (using data in the field
+\code{"REP_AREA"} and \code{\link[sf]{st_buffer}}; see Visconti
+\emph{et al.} 2013).
 
-  \item Snap the geometries to a grid to fix any remaining
-    geometry issues (using argument to \code{snap_tolerance} and
-    \code{\link[lwgeom]{st_snap_to_grid}}).
+\item Snap the geometries to a grid to fix any remaining
+geometry issues (using argument to \code{snap_tolerance} and
+\code{\link[lwgeom]{st_snap_to_grid}}).
 
-  \item Fix any invalid geometries that have manifested
-    (using \code{\link[sf]{st_make_valid}}).
+\item Fix any invalid geometries that have manifested
+(using \code{\link[sf]{st_make_valid}}).
 
-  \item Simplify the protected area geometries to reduce computational burden
-    (using argument to \code{simplify_tolerance} and
-    \code{\link[sf]{st_simplify}}).
+\item Simplify the protected area geometries to reduce computational burden
+(using argument to \code{simplify_tolerance} and
+\code{\link[sf]{st_simplify}}).
 
-  \item Fix any invalid geometries that have manifested
-    (using \code{\link[sf]{st_make_valid}}).
+\item Fix any invalid geometries that have manifested
+(using \code{\link[sf]{st_make_valid}}).
 
-  \item The \code{"MARINE"} field is converted from integer codes
-    to descriptive names (i.e. \code{0} = \code{"terrestrial"},
-    \code{1} = \code{"partial"}, \code{2} = \code{"marine"}).
+\item The \code{"MARINE"} field is converted from integer codes
+to descriptive names (i.e. \code{0} = \code{"terrestrial"},
+\code{1} = \code{"partial"}, \code{2} = \code{"marine"}).
 
-  \item Zeros in the \code{"STATUS_YR"} field are replaced with
-    missing values (i.e. \code{NA_real_} values).
+\item Zeros in the \code{"STATUS_YR"} field are replaced with
+missing values (i.e. \code{NA_real_} values).
 
-  \item Zeros in the \code{"NO_TK_AREA"} field are replaced with \code{NA}
-    values for areas where such data are not reported or applicable
-    (i.e. areas with the values \code{"Not Applicable"}
-    or \code{"Not Reported"} in the \code{"NO_TK_AREA"} field).
+\item Zeros in the \code{"NO_TK_AREA"} field are replaced with \code{NA}
+values for areas where such data are not reported or applicable
+(i.e. areas with the values \code{"Not Applicable"}
+or \code{"Not Reported"} in the \code{"NO_TK_AREA"} field).
 
-  \item Overlapping geometries are erased from the protected area data
-    (discussed in Deguignet \emph{et al.} 2017). Geometries are erased such
-    that areas associated with more effective management
-    categories (\code{"IUCN_CAT"}) or have historical precedence are retained
-    (using \code{\link[sf]{st_difference}}).
+\item Overlapping geometries are erased from the protected area data
+(discussed in Deguignet \emph{et al.} 2017). Geometries are erased such
+that areas associated with more effective management
+categories (\code{"IUCN_CAT"}) or have historical precedence are retained
+(using \code{\link[sf]{st_difference}}).
 
-  \item Slivers are removed (geometries with areas less than 0.1 square
-    meters).
+\item Slivers are removed (geometries with areas less than 0.1 square
+meters).
 
-  \item The size of areas are calculated in square kilometers and stored in
-    the field \code{"AREA_KM2"}.
+\item The size of areas are calculated in square kilometers and stored in
+the field \code{"AREA_KM2"}.
 
- }
+}
 }
 \examples{
 \donttest{
@@ -176,5 +176,5 @@ sets on assessment of conservation progress. \emph{Conservation Biology},
 }
 \seealso{
 \code{\link{wdpa_fetch}},
-  \url{https://protectedplanet.net/c/calculating-protected-area-coverage}.
+\url{https://protectedplanet.net/c/calculating-protected-area-coverage}.
 }

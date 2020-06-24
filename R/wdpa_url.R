@@ -18,7 +18,7 @@ NULL
 #'
 #' @return `character` URL to download the data.
 #'
-#' @seealso \code{\link{wdpa_fetch}}, \code{\link[countrycode]{countrycode}}.
+#' @seealso [wdpa_fetch()], [countrycode::countrycode()].
 #'
 #' @examples
 #' \donttest{

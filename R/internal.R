@@ -6,7 +6,7 @@
 #'
 #' @return `character` ISO-3 country code.
 #'
-#' @seealso \code{\link[countrycode]{countrycode}}.
+#' @seealso [countrycode::countrycode()].
 #'
 #' @noRd
 country_code <- function(x) {
@@ -87,11 +87,11 @@ wdpa_file <- function(x, download_dir = rappdirs::user_data_dir("wdpar")) {
 
 #' Extract polygons and points
 #'
-#' Extract polygons and points from a \code{\link[sf]{sf}} object.
+#' Extract polygons and points from a [sf::sf()] object.
 #'
-#' @param x  \code{\link[sf]{sf}} object.
+#' @param x  [sf::sf()] object.
 #'
-#' @return \code{\link[sf]{sf}} object.
+#' @return [sf::sf()] object.
 #'
 #' @noRd
 extract_polygons_and_points <- function(x) {
@@ -119,7 +119,7 @@ import_deps <- function() {
 #'
 #' This function creates an empty WDPA dataset.
 #'
-#' @return \code{\link[sf]{sf}} object.
+#' @return [sf::sf()] object.
 #'
 #' @examples
 #' empty_wdpa_dataset(st_crs("+init=epsg:4326"))

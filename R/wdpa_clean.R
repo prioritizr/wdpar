@@ -5,7 +5,7 @@ NULL
 #'
 #' Clean data obtained from the World Database on Protected Areas (WDPA).
 #'
-#' @param x \code{\link[sf]{sf}} object containing protected area data.
+#' @param x [sf::sf()] object containing protected area data.
 #'
 #' @param crs `character` or code{integer} object representing a
 #'   coordinate reference system. Defaults to World Behrmann
@@ -18,7 +18,7 @@ NULL
 #'   Defaults to 0 meters.
 #'
 #' @param geometry_precision `numeric` level of precision for processing
-#'   the spatial data (used with \code{\link[sf]{st_set_precision}}). The
+#'   the spatial data (used with [sf::st_set_precision()]). The
 #'   default argument is 1500 (higher values indicate higher precision).
 #'   This level of precision is generally suitable for analyses at the
 #'   national-scale. For analyses at finer-scale resolutions, please
@@ -50,7 +50,7 @@ NULL
 #'
 #'   \enumerate{
 #'
-#'   \item Repair invalid geometry (using \code{\link[sf]{st_make_valid}}).
+#'   \item Repair invalid geometry (using [sf::st_make_valid()]).
 #'
 #'   \item Exclude protected areas that are not currently implemented
 #'     (i.e. exclude areas without the status `"Designated"`,
@@ -68,33 +68,33 @@ NULL
 #      \code{"REP_AREA"}).
 #'
 #'   \item Geometries are wrapped to the dateline (using
-#'     \code{\link[sf]{st_wrap_dateline}} with the options
+#'     [sf::st_wrap_dateline()] with the options
 #'     `"WRAPDATELINE=YES"` and `"DATELINEOFFSET=180"`).
 #'
 #'   \item Reproject data to coordinate system specified in argument to
-#'     `crs` (using \code{\link[sf]{st_transform}}).
+#'     `crs` (using [sf::st_transform()]).
 #'
 #'   \item Fix any invalid geometries that have manifested
-#'     (using \code{\link[sf]{st_make_valid}}).
+#'     (using [sf::st_make_valid()]).
 #'
 #'   \item Buffer areas represented as point localities to circular areas
 #'     using their reported spatial extent (using data in the field
-#'     `"REP_AREA"` and \code{\link[sf]{st_buffer}}; see Visconti
+#'     `"REP_AREA"` and [sf::st_buffer()]; see Visconti
 #'     *et al.* 2013).
 #'
 #'   \item Snap the geometries to a grid to fix any remaining
 #'     geometry issues (using argument to `snap_tolerance` and
-#'     \code{\link[lwgeom]{st_snap_to_grid}}).
+#'     [lwgeom::st_snap_to_grid()]).
 #'
 #'   \item Fix any invalid geometries that have manifested
-#'     (using \code{\link[sf]{st_make_valid}}).
+#'     (using [sf::st_make_valid()]).
 #'
 #'   \item Simplify the protected area geometries to reduce computational burden
 #'     (using argument to `simplify_tolerance` and
-#'     \code{\link[sf]{st_simplify}}).
+#'     [sf::st_simplify()]).
 #'
 #'   \item Fix any invalid geometries that have manifested
-#'     (using \code{\link[sf]{st_make_valid}}).
+#'     (using [sf::st_make_valid()]).
 #'
 #'   \item The `"MARINE"` field is converted from integer codes
 #'     to descriptive names (i.e. `0` = `"terrestrial"`,
@@ -112,7 +112,7 @@ NULL
 #'     (discussed in Deguignet *et al.* 2017). Geometries are erased such
 #'     that areas associated with more effective management
 #'     categories (`"IUCN_CAT"`) or have historical precedence are retained
-#'     (using \code{\link[sf]{st_difference}}).
+#'     (using [sf::st_difference()]).
 #'
 #'   \item Slivers are removed (geometries with areas less than 0.1 square
 #'     meters).
@@ -122,9 +122,9 @@ NULL
 #'
 #'  }
 #'
-#' @return \code{\link[sf]{sf}} object.
+#' @return [sf::sf()] object.
 #'
-#' @seealso \code{\link{wdpa_fetch}},
+#' @seealso [wdpa_fetch()],
 #'   <https://protectedplanet.net/c/calculating-protected-area-coverage>.
 #'
 #' @references

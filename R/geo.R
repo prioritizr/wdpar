@@ -3,19 +3,19 @@ NULL
 
 #' Erase overlaps
 #'
-#' Erase overlapping geometries in a \code{\link[sf]{sf}} object.
+#' Erase overlapping geometries in a [sf::sf()] object.
 #'
-#' @param x \code{\link[sf]{sf}} object.
+#' @param x [sf::sf()] object.
 #'
 #' @param verbose `logical` should progress be reported? Defaults to
 #'   `FALSE`.
 #'
 #' @details This is a more robust---albeit slower---implementation for
-#'   \code{\link{st_difference}} when `y` is missing.
+#'   [sf::st_difference()] when `y` is missing.
 #'
-#' @return \code{\link[sf]{sf}} object.
+#' @return [sf::sf()] object.
 #'
-#' @seealso \code{\link[sf]{st_difference}}.
+#' @seealso [sf::st_difference()].
 #'
 #' @examples
 #' # create data

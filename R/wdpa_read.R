@@ -5,15 +5,15 @@ NULL
 #'
 #' Read data from the World Database on Protected Areas from a local file.
 #' This function assumes that the data has already been downloaded to
-#' your computer, see the \code{\link{wdpa_fetch}} function for automatically
+#' your computer, see the [wdpa_fetch()] function for automatically
 #' downloading and importing the data into the current session.
 #'
 #' @param x `character` file name for a zip archive file downloaded from
 #'   <http://protectedplanet.net>.
 #'
-#' @return \code{\link[sf]{sf}} object.
+#' @return [sf::sf()] object.
 #'
-#' @seealso \code{\link{wdpa_fetch}}, \code{\link{wdpa_clean}},
+#' @seealso [wdpa_fetch()], [wdpa_clean()],
 #'   <http://protectedplanet.net>.
 #'
 #' @examples

@@ -32,15 +32,15 @@ NULL
 #' @details This function will download the specified protected area
 #'   data and return it. **It is strongly recommended that the data be
 #'   cleaned prior to analysis**. Check out the
-#'   \code{\link{wdpa_clean}} function to clean the data according to standard
+#'   [wdpa_clean()] function to clean the data according to standard
 #'   practices. For information on this database,
 #'   prefer refer to the official manual
 #'   (<https://www.protectedplanet.net/c/wdpa-manual>).
 #'
-#' @return \code{\link[sf]{sf}} object.
+#' @return [sf::sf()] object.
 #'
-#' @seealso \code{\link{wdpa_clean}}, \code{\link{wdpa_read}},
-#'   \code{\link{wdpa_url}}, \code{\link[countrycode]{countrycode}},
+#' @seealso [wdpa_clean()], [wdpa_read()],
+#'   [wdpa_url()], [countrycode::countrycode()],
 #'   <http://protectedplanet.net>,
 #'   <https://www.protectedplanet.net/c/wdpa-manual>.
 #'

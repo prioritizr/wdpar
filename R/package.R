@@ -4,8 +4,8 @@
 #' Protected Areas (WDPA). It provides functions for automatically downloading
 #' data (from [Protected Planet](http://protectedplanet.net)) and cleaning
 #' data following best practices (outlined in Butchart *et al.* 2015;
-#' Runge *et al.* 2015). The main functions are \code{\link{wdpa_fetch}}
-#' for downloading data and \code{\link{wdpa_clean}} for cleaning data. For
+#' Runge *et al.* 2015). The main functions are [wdpa_fetch()]
+#' for downloading data and [wdpa_clean()] for cleaning data. For
 #' more information, please see the package vignette.
 #'
 #' @references

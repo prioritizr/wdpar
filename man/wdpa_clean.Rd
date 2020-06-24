@@ -16,7 +16,7 @@ wdpa_clean(
 )
 }
 \arguments{
-\item{x}{\code{\link[sf]{sf}} object containing protected area data.}
+\item{x}{\code{\link[sf:sf]{sf::sf()}} object containing protected area data.}
 
 \item{crs}{\code{character} or code{integer} object representing a
 coordinate reference system. Defaults to World Behrmann
@@ -29,7 +29,7 @@ grid for resolving invalid geometries. Defaults to 1 meter.}
 Defaults to 0 meters.}
 
 \item{geometry_precision}{\code{numeric} level of precision for processing
-the spatial data (used with \code{\link[sf]{st_set_precision}}). The
+the spatial data (used with \code{\link[sf:st_precision]{sf::st_set_precision()}}). The
 default argument is 1500 (higher values indicate higher precision).
 This level of precision is generally suitable for analyses at the
 national-scale. For analyses at finer-scale resolutions, please
@@ -48,7 +48,7 @@ Defaults to \code{TRUE} in an interactive session, otherwise
 \code{FALSE}.}
 }
 \value{
-\code{\link[sf]{sf}} object.
+\code{\link[sf:sf]{sf::sf()}} object.
 }
 \description{
 Clean data obtained from the World Database on Protected Areas (WDPA).
@@ -68,7 +68,7 @@ dataset.
 
 \enumerate{
 
-\item Repair invalid geometry (using \code{\link[sf]{st_make_valid}}).
+\item Repair invalid geometry (using \code{\link[sf:valid]{sf::st_make_valid()}}).
 
 \item Exclude protected areas that are not currently implemented
 (i.e. exclude areas without the status \code{"Designated"},
@@ -85,33 +85,33 @@ represented as point localities (\code{"POINT"}) or as polygons
 have a reported spatial extent (i.e. missing data for the field
 
 \item Geometries are wrapped to the dateline (using
-\code{\link[sf]{st_wrap_dateline}} with the options
+\code{\link[sf:st_transform]{sf::st_wrap_dateline()}} with the options
 \code{"WRAPDATELINE=YES"} and \code{"DATELINEOFFSET=180"}).
 
 \item Reproject data to coordinate system specified in argument to
-\code{crs} (using \code{\link[sf]{st_transform}}).
+\code{crs} (using \code{\link[sf:st_transform]{sf::st_transform()}}).
 
 \item Fix any invalid geometries that have manifested
-(using \code{\link[sf]{st_make_valid}}).
+(using \code{\link[sf:valid]{sf::st_make_valid()}}).
 
 \item Buffer areas represented as point localities to circular areas
 using their reported spatial extent (using data in the field
-\code{"REP_AREA"} and \code{\link[sf]{st_buffer}}; see Visconti
+\code{"REP_AREA"} and \code{\link[sf:geos_unary]{sf::st_buffer()}}; see Visconti
 \emph{et al.} 2013).
 
 \item Snap the geometries to a grid to fix any remaining
 geometry issues (using argument to \code{snap_tolerance} and
-\code{\link[lwgeom]{st_snap_to_grid}}).
+\code{\link[lwgeom:st_snap_to_grid]{lwgeom::st_snap_to_grid()}}).
 
 \item Fix any invalid geometries that have manifested
-(using \code{\link[sf]{st_make_valid}}).
+(using \code{\link[sf:valid]{sf::st_make_valid()}}).
 
 \item Simplify the protected area geometries to reduce computational burden
 (using argument to \code{simplify_tolerance} and
-\code{\link[sf]{st_simplify}}).
+\code{\link[sf:geos_unary]{sf::st_simplify()}}).
 
 \item Fix any invalid geometries that have manifested
-(using \code{\link[sf]{st_make_valid}}).
+(using \code{\link[sf:valid]{sf::st_make_valid()}}).
 
 \item The \code{"MARINE"} field is converted from integer codes
 to descriptive names (i.e. \code{0} = \code{"terrestrial"},
@@ -129,7 +129,7 @@ or \code{"Not Reported"} in the \code{"NO_TK_AREA"} field).
 (discussed in Deguignet \emph{et al.} 2017). Geometries are erased such
 that areas associated with more effective management
 categories (\code{"IUCN_CAT"}) or have historical precedence are retained
-(using \code{\link[sf]{st_difference}}).
+(using \code{\link[sf:geos_binary_ops]{sf::st_difference()}}).
 
 \item Slivers are removed (geometries with areas less than 0.1 square
 meters).
@@ -175,6 +175,6 @@ sets on assessment of conservation progress. \emph{Conservation Biology},
 \strong{27}: 1000--1010.
 }
 \seealso{
-\code{\link{wdpa_fetch}},
+\code{\link[=wdpa_fetch]{wdpa_fetch()}},
 \url{https://protectedplanet.net/c/calculating-protected-area-coverage}.
 }

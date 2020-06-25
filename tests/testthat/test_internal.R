@@ -83,7 +83,11 @@ test_that("wdpa_url (country)", {
   curl::curl_download(x, f1)
   expect_true(file.exists(f1))
   unzip(f1, exdir = f2)
-  expect_gt(length(dir(f2, "^.*\\.shp$")), 0)
+  zip_path <- dir(f2, "^.*\\.zip$", recursive = TRUE, full.names = TRUE)
+  if (length(zip_path) > 0)
+    Map(utils::unzip, zip_path,
+        exdir = gsub(".zip", "", zip_path, fixed = TRUE))
+  expect_gt(length(dir(f2, "^.*\\.shp$", recursive = TRUE)), 0)
   unlink(f1, recursive = TRUE, force = TRUE)
   unlink(f2, recursive = TRUE, force = TRUE)
 })

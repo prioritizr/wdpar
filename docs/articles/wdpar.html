@@ -6,18 +6,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>wdpar: Interface to the World Database on Protected Areas • wdpar</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="wdpar: Interface to the World Database on Protected Areas">
-<meta property="og:description" content="">
-<meta name="twitter:card" content="summary">
+<meta property="og:description" content="wdpar">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -30,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2.1</span>
       </span>
     </div>
 
@@ -38,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -54,8 +55,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/prioritizr/wdpar">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/prioritizr/wdpar/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -68,13 +69,14 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>wdpar: Interface to the World Database on Protected Areas</h1>
+      <h1 data-toc-skip>wdpar: Interface to the World Database on Protected Areas</h1>
                         <h4 class="author">Jeffrey O. Hanson</h4>
             
-            <h4 class="date">2020-04-15</h4>
+            <h4 class="date">2020-06-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/wdpar/blob/master/vignettes/wdpar.Rmd"><code>vignettes/wdpar.Rmd</code></a></small>
       <div class="hidden name"><code>wdpar.Rmd</code></div>
@@ -92,110 +94,111 @@
 <h3 class="hasAnchor">
 <a href="#tutorial" class="anchor"></a>Tutorial</h3>
 <p>Here we will provide a short introduction to the <em>wdpar R</em> package. First, we will load the <em>wdpar R</em> package. We will also load the <em>dplyr</em> and <em>ggmap R</em> packages to help explore the data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load packages</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(wdpar)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggmap)</code></pre></div>
+<div class="sourceCode"><html><body><pre class="r"><span class="co"># load packages</span>
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">wdpar</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggmap</span>)</pre></body></html></div>
 <p>Now we will download protected area data for Malta from <a href="https://protectedplanet.net">Protected Planet</a>. We can achieve this by specifying Malta’s country name (i.e. <code>"Malta"</code>) or Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO3 code</a> (i.e. <code>"MLT"</code>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download protected area data for Malta</span>
+<div class="sourceCode"><html><body><pre class="r"><span class="co"># download protected area data for Malta</span>
 <span class="co"># (excluding areas represented as point localities)</span>
-mlt_raw_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/wdpa_fetch.html">wdpa_fetch</a></span>(<span class="st">"Malta"</span>)</code></pre></div>
+<span class="no">mlt_raw_pa_data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/wdpa_fetch.html">wdpa_fetch</a></span>(<span class="st">"Malta"</span>)</pre></body></html></div>
+<pre><code>## Warning in wdpa_fetch("Malta"): local data is out of date: Apr 2020</code></pre>
 <p>Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. <code>"0"</code>) with missing data values (i.e. <code>NA</code>), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see <code><a href="../reference/wdpa_clean.html">?wdpa_clean</a></code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># clean Malta data</span>
-mlt_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="../reference/wdpa_clean.html">wdpa_clean</a></span>(mlt_raw_pa_data)</code></pre></div>
+<div class="sourceCode"><html><body><pre class="r"><span class="co"># clean Malta data</span>
+<span class="no">mlt_pa_data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/wdpa_clean.html">wdpa_clean</a></span>(<span class="no">mlt_raw_pa_data</span>)</pre></body></html></div>
 <p>After cleaning the data set, we will perform an additional step that involves clipping the terrestrial protected areas to Malta’s coastline. Ideally, we would also clip the marine protected areas to Malta’s Exclusive Economic Zone (EEZ) but such data are as easy to obtain on a per country basis (but see <a href="http://www.marineregions.org/eez.php" class="uri">http://www.marineregions.org/eez.php</a>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download Malta boundary from Global Administrative Areas dataset</span>
-file_path &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempfile</a></span>(<span class="dt">fileext =</span> <span class="st">"rds"</span>)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/download.file">download.file</a></span>(<span class="st">"https://biogeo.ucdavis.edu/data/gadm3.6/Rsf/gadm36_MLT_0_sf.rds"</span>,
-              file_path)
+<div class="sourceCode"><html><body><pre class="r"><span class="co"># download Malta boundary from Global Administrative Areas dataset</span>
+<span class="no">file_path</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(<span class="kw">fileext</span> <span class="kw">=</span> <span class="st">"rds"</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span>(<span class="st">"https://biogeo.ucdavis.edu/data/gadm3.6/Rsf/gadm36_MLT_0_sf.rds"</span>,
+              <span class="no">file_path</span>)
 
 <span class="co"># import Malta's boundary</span>
-mlt_boundary_data &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readRDS">readRDS</a></span>(file_path)
+<span class="no">mlt_boundary_data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(<span class="no">file_path</span>)
 
 <span class="co"># repair any geometry issues, dissolve the border, reproject to same</span>
 <span class="co"># coordinate system as the protected area data, and repair the geometry again</span>
-mlt_boundary_data &lt;-
-<span class="st">  </span>mlt_boundary_data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">st_set_precision</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span>sf<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/valid">st_make_valid</a></span>() <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">st_set_precision</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">st_combine</span>() <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">st_union</span>() <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">st_set_precision</span>(<span class="dv">1000</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span>sf<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/valid">st_make_valid</a></span>() <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">st_transform</span>(<span class="kw">st_crs</span>(mlt_pa_data)) <span class="op">%&gt;%</span>
-<span class="st">  </span>sf<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/valid">st_make_valid</a></span>()
+<span class="no">mlt_boundary_data</span> <span class="kw">&lt;-</span>
+  <span class="no">mlt_boundary_data</span> <span class="kw">%&gt;%</span>
+  <span class="fu">st_set_precision</span>(<span class="fl">1000</span>) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">sf</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/sf/man/valid.html">st_make_valid</a></span>() <span class="kw">%&gt;%</span>
+  <span class="fu">st_set_precision</span>(<span class="fl">1000</span>) <span class="kw">%&gt;%</span>
+  <span class="fu">st_combine</span>() <span class="kw">%&gt;%</span>
+  <span class="fu">st_union</span>() <span class="kw">%&gt;%</span>
+  <span class="fu">st_set_precision</span>(<span class="fl">1000</span>) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">sf</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/sf/man/valid.html">st_make_valid</a></span>() <span class="kw">%&gt;%</span>
+  <span class="fu">st_transform</span>(<span class="fu">st_crs</span>(<span class="no">mlt_pa_data</span>)) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">sf</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/sf/man/valid.html">st_make_valid</a></span>()
 
 <span class="co"># clip Malta's protected areas to the coastline</span>
-mlt_pa_data &lt;-
-<span class="st">  </span>mlt_pa_data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(MARINE <span class="op">==</span><span class="st"> "terrestrial"</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">st_intersection</span>(mlt_boundary_data) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">rbind</a></span>(mlt_pa_data <span class="op">%&gt;%</span>
-<span class="st">        </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(MARINE <span class="op">==</span><span class="st"> "marine"</span>) <span class="op">%&gt;%</span>
-<span class="st">        </span><span class="kw">st_difference</span>(mlt_boundary_data)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">rbind</a></span>(mlt_pa_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="op">!</span>MARINE <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"terrestrial"</span>, <span class="st">"marine"</span>)))</code></pre></div>
-<pre><code>## Warning: attribute variables are assumed to be spatially constant
-## throughout all geometries
+<span class="no">mlt_pa_data</span> <span class="kw">&lt;-</span>
+  <span class="no">mlt_pa_data</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="no">MARINE</span> <span class="kw">==</span> <span class="st">"terrestrial"</span>) <span class="kw">%&gt;%</span>
+  <span class="fu">st_intersection</span>(<span class="no">mlt_boundary_data</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(<span class="no">mlt_pa_data</span> <span class="kw">%&gt;%</span>
+        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="no">MARINE</span> <span class="kw">==</span> <span class="st">"marine"</span>) <span class="kw">%&gt;%</span>
+        <span class="fu">st_difference</span>(<span class="no">mlt_boundary_data</span>)) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(<span class="no">mlt_pa_data</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(!<span class="no">MARINE</span> <span class="kw">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"terrestrial"</span>, <span class="st">"marine"</span>)))</pre></body></html></div>
+<pre><code>## Warning: attribute variables are assumed to be spatially constant throughout all
+## geometries
 
-## Warning: attribute variables are assumed to be spatially constant
-## throughout all geometries</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># recalculate the area of each protected area</span>
-mlt_pa_data &lt;-
-<span class="st">  </span>mlt_pa_data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">AREA_KM2 =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/numeric">as.numeric</a></span>(<span class="kw">st_area</span>(.)) <span class="op">*</span><span class="st"> </span><span class="fl">1e-6</span>)</code></pre></div>
+## Warning: attribute variables are assumed to be spatially constant throughout all
+## geometries</code></pre>
+<div class="sourceCode"><html><body><pre class="r"><span class="co"># recalculate the area of each protected area</span>
+<span class="no">mlt_pa_data</span> <span class="kw">&lt;-</span>
+  <span class="no">mlt_pa_data</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">AREA_KM2</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="fu">st_area</span>(<span class="no">.</span>)) * <span class="fl">1e-6</span>)</pre></body></html></div>
 <p>Now that we have finished cleaning the data, let’s preview the data. For more information on what these columns mean, please refer to the <a href="https://www.protectedplanet.net/c/wdpa-manual">official manual</a> (available in <a href="http://wcmc.io/WDPA_Manual">English</a>, <a href="http://wcmc.io/WDPA_Manual_ES">Spanish</a>, <a href="http://wcmc.io/WDPA_Manual_FR">French</a>, and <a href="http://wcmc.io/WDPA_Manual_RU">Russian</a>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># print first six rows of the data</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(mlt_pa_data)</code></pre></div>
+<div class="sourceCode"><html><body><pre class="r"><span class="co"># print first six rows of the data</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">mlt_pa_data</span>)</pre></body></html></div>
 <pre><code>## Simple feature collection with 6 features and 28 fields
 ## geometry type:  GEOMETRY
 ## dimension:      XY
 ## bbox:           xmin: 1382520 ymin: 4291797 xmax: 1399694 ymax: 4299338
 ## CRS:            +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
 ## # A tibble: 6 x 29
-##   WDPAID WDPA_PID PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE
-##    &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;     
-## 1 5.56e8 5555886… 1      Il-M… Il-Majji… Park… National… National  
-## 2 1.75e5 174757   1      Il-Ġ… Il-Ġonna… List… List Of … National  
-## 3 1.75e5 174758   1      Bidn… Bidnija,… List… List Of … National  
-## 4 1.94e5 194415   1      Il-Ġ… Il-Ġonna… List… List Of … National  
-## 5 1.94e5 194417   1      Il-W… Il-Wied … List… List Of … National  
-## 6 1.94e5 194418   1      Il-B… Il-Ballu… List… List Of … National  
-## # … with 21 more variables: IUCN_CAT &lt;chr&gt;, INT_CRIT &lt;chr&gt;, MARINE &lt;chr&gt;,
-## #   REP_M_AREA &lt;dbl&gt;, REP_AREA &lt;dbl&gt;, NO_TAKE &lt;chr&gt;, NO_TK_AREA &lt;dbl&gt;,
-## #   STATUS &lt;chr&gt;, STATUS_YR &lt;dbl&gt;, GOV_TYPE &lt;chr&gt;, OWN_TYPE &lt;chr&gt;,
-## #   MANG_AUTH &lt;chr&gt;, MANG_PLAN &lt;chr&gt;, VERIF &lt;chr&gt;, METADATAID &lt;int&gt;,
-## #   SUB_LOC &lt;chr&gt;, PARENT_ISO &lt;chr&gt;, ISO3 &lt;chr&gt;, GEOMETRY_TYPE &lt;chr&gt;,
-## #   AREA_KM2 &lt;dbl&gt;, geometry &lt;GEOMETRY [m]&gt;</code></pre>
+##   WDPAID WDPA_PID PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
+##    &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;   
+## 1 5.56e8 5555886… 1      Il-M… Il-Majji… Park… National… National   II      
+## 2 1.75e5 174757   1      Il-Ġ… Il-Ġonna… List… List Of … National   III     
+## 3 1.75e5 174758   1      Bidn… Bidnija,… List… List Of … National   III     
+## 4 1.94e5 194415   1      Il-Ġ… Il-Ġonna… List… List Of … National   III     
+## 5 1.94e5 194417   1      Il-W… Il-Wied … List… List Of … National   III     
+## 6 1.94e5 194418   1      Il-B… Il-Ballu… List… List Of … National   III     
+## # … with 20 more variables: INT_CRIT &lt;chr&gt;, MARINE &lt;chr&gt;, REP_M_AREA &lt;dbl&gt;,
+## #   REP_AREA &lt;dbl&gt;, NO_TAKE &lt;chr&gt;, NO_TK_AREA &lt;dbl&gt;, STATUS &lt;chr&gt;,
+## #   STATUS_YR &lt;dbl&gt;, GOV_TYPE &lt;chr&gt;, OWN_TYPE &lt;chr&gt;, MANG_AUTH &lt;chr&gt;,
+## #   MANG_PLAN &lt;chr&gt;, VERIF &lt;chr&gt;, METADATAID &lt;int&gt;, SUB_LOC &lt;chr&gt;,
+## #   PARENT_ISO &lt;chr&gt;, ISO3 &lt;chr&gt;, GEOMETRY_TYPE &lt;chr&gt;, AREA_KM2 &lt;dbl&gt;,
+## #   geometry &lt;GEOMETRY [m]&gt;</code></pre>
 <p>We will now reproject the data to longitude/latitude coordinates (<a href="http://spatialreference.org/ref/epsg/wgs-84/">EPSG:4326</a>) for visualization purposes.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># reproject data</span>
-mlt_pa_data &lt;-<span class="st"> </span><span class="kw">st_transform</span>(mlt_pa_data, <span class="dv">4326</span>)</code></pre></div>
+<div class="sourceCode"><html><body><pre class="r"><span class="co"># reproject data</span>
+<span class="no">mlt_pa_data</span> <span class="kw">&lt;-</span> <span class="fu">st_transform</span>(<span class="no">mlt_pa_data</span>, <span class="fl">4326</span>)</pre></body></html></div>
 <p>Next, we can plot a map showing the boundaries of Malta’s protected area system.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download basemap for making the map</span>
-bg &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggmap/topics/get_stamenmap">get_stamenmap</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unname">unname</a></span>(<span class="kw">st_bbox</span>(mlt_pa_data)), <span class="dt">zoom =</span> <span class="dv">8</span>,
-                    <span class="dt">maptype =</span> <span class="st">"watercolor"</span>, <span class="dt">force =</span> <span class="ot">TRUE</span>)
+<div class="sourceCode"><html><body><pre class="r"><span class="co"># download basemap for making the map</span>
+<span class="no">bg</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/get_stamenmap.html">get_stamenmap</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span>(<span class="fu">st_bbox</span>(<span class="no">mlt_pa_data</span>)), <span class="kw">zoom</span> <span class="kw">=</span> <span class="fl">8</span>,
+                    <span class="kw">maptype</span> <span class="kw">=</span> <span class="st">"watercolor"</span>, <span class="kw">force</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 
 <span class="co"># print map</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/ggmap/topics/ggmap">ggmap</a></span>(bg) <span class="op">+</span>
-<span class="kw">geom_sf</span>(<span class="dt">data =</span> mlt_pa_data, <span class="dt">fill =</span> <span class="st">"#31A35480"</span>, <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
-<span class="kw">theme</span>(<span class="dt">axis.title =</span> <span class="kw">element_blank</span>())</code></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggmap.html">ggmap</a></span>(<span class="no">bg</span>) +
+<span class="fu">geom_sf</span>(<span class="kw">data</span> <span class="kw">=</span> <span class="no">mlt_pa_data</span>, <span class="kw">fill</span> <span class="kw">=</span> <span class="st">"#31A35480"</span>, <span class="kw">inherit.aes</span> <span class="kw">=</span> <span class="fl">FALSE</span>) +
+<span class="fu">theme</span>(<span class="kw">axis.title</span> <span class="kw">=</span> <span class="fu">element_blank</span>())</pre></body></html></div>
 <p><img src="wdpar_files/figure-html/unnamed-chunk-9-1.png" width="432" style="display: block; margin: auto;"></p>
 <p>We can also create a histogram showing the year when each protected area was established.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/hist">hist</a></span>(mlt_pa_data<span class="op">$</span>STATUS_YR, <span class="dt">main =</span> <span class="st">"Malta's protected areas"</span>, <span class="dt">xlab =</span> <span class="st">"Year established"</span>)</code></pre></div>
+<div class="sourceCode"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span>(<span class="no">mlt_pa_data</span>$<span class="no">STATUS_YR</span>, <span class="kw">main</span> <span class="kw">=</span> <span class="st">"Malta's protected areas"</span>, <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">"Year established"</span>)</pre></body></html></div>
 <p><img src="wdpar_files/figure-html/unnamed-chunk-10-1.png" width="432" style="display: block; margin: auto;"></p>
 <p>Now let’s calculate some statistics. We can calculate the total amount of land and ocean inside Malta’s protected area system (km<sup>2</sup>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate total amount of area inside protected areas (km^2)</span>
-statistic &lt;-
-<span class="st">  </span>mlt_pa_data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.data.frame">as.data.frame</a></span>() <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>geometry) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(MARINE) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">area_km =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(AREA_KM2)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span>() <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span>(area_km))
-
-<span class="co"># print statistic</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(statistic)</code></pre></div>
+<div class="sourceCode"><html><body><pre class="r"><span class="co"># calculate total amount of area inside protected areas (km^2)</span>
+<span class="no">statistic</span> <span class="kw">&lt;-</span>
+  <span class="no">mlt_pa_data</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>() <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(-<span class="no">geometry</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">MARINE</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="kw">area_km</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">AREA_KM2</span>)) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span>() <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span>(<span class="no">area_km</span>))</pre></body></html></div>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<div class="sourceCode"><html><body><pre class="r"><span class="co"># print statistic</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">statistic</span>)</pre></body></html></div>
 <pre><code>## # A tibble: 3 x 2
 ##   MARINE      area_km
 ##   &lt;chr&gt;         &lt;dbl&gt;
@@ -203,19 +206,19 @@ statistic &lt;-
 ## 2 terrestrial   107. 
 ## 3 partial        14.9</code></pre>
 <p>We can also calculate the percentage of land inside its protected area system that are managed under different categories (i.e. <a href="https://www.iucn.org/theme/protected-areas/about/protected-area-categories">using the protected area management categories defined by The International Union for Conservation of Nature</a>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculate percentage of land inside protected areas (km^2)</span>
-statistic &lt;-
-<span class="st">  </span>mlt_pa_data <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/as.data.frame">as.data.frame</a></span>() <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="op">-</span>geometry) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(IUCN_CAT) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="dt">area_km =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(AREA_KM2)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span>() <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="dt">percentage =</span> (area_km <span class="op">/</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(area_km)) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span>(area_km))
-
-<span class="co"># print statistic</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(statistic)</code></pre></div>
+<div class="sourceCode"><html><body><pre class="r"><span class="co"># calculate percentage of land inside protected areas (km^2)</span>
+<span class="no">statistic</span> <span class="kw">&lt;-</span>
+  <span class="no">mlt_pa_data</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>() <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(-<span class="no">geometry</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">IUCN_CAT</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="kw">area_km</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">AREA_KM2</span>)) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span>() <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">percentage</span> <span class="kw">=</span> (<span class="no">area_km</span> / <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">area_km</span>)) * <span class="fl">100</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span>(<span class="no">area_km</span>))</pre></body></html></div>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<div class="sourceCode"><html><body><pre class="r"><span class="co"># print statistic</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">statistic</span>)</pre></body></html></div>
 <pre><code>## # A tibble: 7 x 3
 ##   IUCN_CAT       area_km percentage
 ##   &lt;chr&gt;            &lt;dbl&gt;      &lt;dbl&gt;
@@ -227,9 +230,9 @@ statistic &lt;-
 ## 6 Ia              0.176    0.00194 
 ## 7 VI              0.0279   0.000307</code></pre>
 <p>We can also plot a map showing Malta’s protected areas and color each area according to it’s management category.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/ggmap/topics/ggmap">ggmap</a></span>(bg) <span class="op">+</span>
-<span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> IUCN_CAT), <span class="dt">data =</span> mlt_pa_data, <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
-<span class="kw">theme</span>(<span class="dt">axis.title =</span> <span class="kw">element_blank</span>(), <span class="dt">legend.position =</span> <span class="st">"bottom"</span>)</code></pre></div>
+<div class="sourceCode"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggmap.html">ggmap</a></span>(<span class="no">bg</span>) +
+<span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="kw">fill</span> <span class="kw">=</span> <span class="no">IUCN_CAT</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">mlt_pa_data</span>, <span class="kw">inherit.aes</span> <span class="kw">=</span> <span class="fl">FALSE</span>) +
+<span class="fu">theme</span>(<span class="kw">axis.title</span> <span class="kw">=</span> <span class="fu">element_blank</span>(), <span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"bottom"</span>)</pre></body></html></div>
 <p><img src="wdpar_files/figure-html/unnamed-chunk-13-1.png" width="432" style="display: block; margin: auto;"></p>
 </div>
 <div id="additional-datasets" class="section level3">
@@ -266,28 +269,28 @@ statistic &lt;-
 <pre><code>
 To cite the wdpar package in publications, use:
 
-  Hanson JO (2020) wdpar: Interface to the World Database on
-  Protected Areas. R package version 1.0.2.
-  https://CRAN.R-project.org/package=wdpar
+  Hanson JO (2020) wdpar: Interface to the World Database on Protected
+  Areas. R package version 1.0.2.1. https://github.com/prioritizr/wdpar
 
-  UNEP-WCMC and IUCN (2020) Protected Planet: The World Database
-  on Protected Areas (WDPA), [insert month/year of the version
+  UNEP-WCMC and IUCN (2020) Protected Planet: The World Database on
+  Protected Areas (WDPA), [insert month/year of the version
   downloaded], Cambridge, UK: UNEP-WCMC and IUCN. Available at:
   www.protectedplanet.net.
 
-Please cite both the World Database on Protected Areas data set
-and this package.
+Please cite both the World Database on Protected Areas data set and
+this package.
 To see these entries in BibTeX format, use 'print(&lt;citation&gt;,
 bibtex=TRUE)', 'toBibtex(.)', or set
 'options(citation.bibtex.max=999)'.</code></pre>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
       </div>
 
 </div>
+
 
 
       <footer><div class="copyright">
@@ -295,12 +298,14 @@ bibtex=TRUE)', 'toBibtex(.)', or set
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

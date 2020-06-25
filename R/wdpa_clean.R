@@ -5,150 +5,150 @@ NULL
 #'
 #' Clean data obtained from the World Database on Protected Areas (WDPA).
 #'
-#' @param x \code{\link[sf]{sf}} object containing protected area data.
+#' @param x [sf::sf()] object containing protected area data.
 #'
-#' @param crs \code{character} or code{integer} object representing a
+#' @param crs `character` or code{integer} object representing a
 #'   coordinate reference system. Defaults to World Behrmann
-#'  (\emph{ESRI:54017}).
+#'  (*ESRI:54017*).
 #'
-#' @param snap_tolerance \code{numeric} tolerance for snapping geometry to a
+#' @param snap_tolerance `numeric` tolerance for snapping geometry to a
 #'   grid for resolving invalid geometries. Defaults to 1 meter.
 #'
-#' @param simplify_tolerance \code{numeric} simplification tolerance.
+#' @param simplify_tolerance `numeric` simplification tolerance.
 #'   Defaults to 0 meters.
 #'
-#' @param geometry_precision \code{numeric} level of precision for processing
-#'   the spatial data (used with \code{\link[sf]{st_set_precision}}). The
+#' @param geometry_precision `numeric` level of precision for processing
+#'   the spatial data (used with [sf::st_set_precision()]). The
 #'   default argument is 1500 (higher values indicate higher precision).
 #'   This level of precision is generally suitable for analyses at the
 #'   national-scale. For analyses at finer-scale resolutions, please
 #'   consider using a greater value (e.g. 10000).
 #'
-#' @param erase_overlaps \code{logical} should overlapping boundaries be
+#' @param erase_overlaps `logical` should overlapping boundaries be
 #'   erased? This is useful for making comparisons between individual
 #'   protected areas and understanding their "effective" geographic coverage.
 #'   On the other hand, this processing step may not be needed
 #'   (e.g. if the protected area boundaries are going to be rasterized), and so
 #'   processing time can be substantially by skipping this step and setting
-#'   the argument to \code{FALSE}. Defaults to \code{TRUE}.
+#'   the argument to `FALSE`. Defaults to `TRUE`.
 #'
-#' @param verbose \code{logical} should progress on data cleaning be reported?
-#'   Defaults to \code{TRUE} in an interactive session, otherwise
-#'   \code{FALSE}.
+#' @param verbose `logical` should progress on data cleaning be reported?
+#'   Defaults to `TRUE` in an interactive session, otherwise
+#'   `FALSE`.
 #'
 #' @details This function cleans data from World Database on Protected Areas
-#'   following best practices (Butchart \emph{et al.} 2015, Runge \emph{et al.}
+#'   following best practices (Butchart *et al.* 2015, Runge *et al.*
 #'   2015,
-#'   \url{https://protectedplanet.net/c/calculating-protected-area-coverage}).
+#'   <https://protectedplanet.net/c/calculating-protected-area-coverage>).
 #'   To obtain accurate protected area coverage statistics for a country,
 #'   please note that you will need to manually clip the cleaned data to
 #'   the countries' coastline and its Exclusive Economic Zone (EEZ).
-#'   Although this function can \emph{in theory} be used to clean the global
+#'   Although this function can *in theory* be used to clean the global
 #'   dataset, this process can take several weeks to complete. Therefore, it is
 #'   strongly recommended to use alternative methods for cleaning the global
 #'   dataset.
 #'
 #'   \enumerate{
 #'
-#'   \item Repair invalid geometry (using \code{\link[sf]{st_make_valid}}).
+#'   \item Repair invalid geometry (using [sf::st_make_valid()]).
 #'
 #'   \item Exclude protected areas that are not currently implemented
-#'     (i.e. exclude areas without the status \code{"Designated"},
-#'     \code{"Inscribed"}, \code{"Established"}).
+#'     (i.e. exclude areas without the status `"Designated"`,
+#'     `"Inscribed"`, `"Established"`).
 #'
 #'   \item Exclude United Nations Educational, Scientific and Cultural
-#'     Organization (UNESCO) Biosphere Reserves (Coetzer \emph{et al.} 2014).
+#'     Organization (UNESCO) Biosphere Reserves (Coetzer *et al.* 2014).
 #'
-#'   \item Create a field (\code{"GEOMETRY_TYPE"}) indicating if areas are
-#'     represented as point localities (\code{"POINT"}) or as polygons
-#'     (\code{"POLYGON"}).
+#'   \item Create a field (`"GEOMETRY_TYPE"`) indicating if areas are
+#'     represented as point localities (`"POINT"`) or as polygons
+#'     (`"POLYGON"`).
 #'
 #'   \item Exclude areas represented as point localities that do not
 #'     have a reported spatial extent (i.e. missing data for the field
 #      \code{"REP_AREA"}).
 #'
 #'   \item Geometries are wrapped to the dateline (using
-#'     \code{\link[sf]{st_wrap_dateline}} with the options
-#'     \code{"WRAPDATELINE=YES"} and \code{"DATELINEOFFSET=180"}).
+#'     [sf::st_wrap_dateline()] with the options
+#'     `"WRAPDATELINE=YES"` and `"DATELINEOFFSET=180"`).
 #'
 #'   \item Reproject data to coordinate system specified in argument to
-#'     \code{crs} (using \code{\link[sf]{st_transform}}).
+#'     `crs` (using [sf::st_transform()]).
 #'
 #'   \item Fix any invalid geometries that have manifested
-#'     (using \code{\link[sf]{st_make_valid}}).
+#'     (using [sf::st_make_valid()]).
 #'
 #'   \item Buffer areas represented as point localities to circular areas
 #'     using their reported spatial extent (using data in the field
-#'     \code{"REP_AREA"} and \code{\link[sf]{st_buffer}}; see Visconti
-#'     \emph{et al.} 2013).
+#'     `"REP_AREA"` and [sf::st_buffer()]; see Visconti
+#'     *et al.* 2013).
 #'
 #'   \item Snap the geometries to a grid to fix any remaining
-#'     geometry issues (using argument to \code{snap_tolerance} and
-#'     \code{\link[lwgeom]{st_snap_to_grid}}).
+#'     geometry issues (using argument to `snap_tolerance` and
+#'     [lwgeom::st_snap_to_grid()]).
 #'
 #'   \item Fix any invalid geometries that have manifested
-#'     (using \code{\link[sf]{st_make_valid}}).
+#'     (using [sf::st_make_valid()]).
 #'
 #'   \item Simplify the protected area geometries to reduce computational burden
-#'     (using argument to \code{simplify_tolerance} and
-#'     \code{\link[sf]{st_simplify}}).
+#'     (using argument to `simplify_tolerance` and
+#'     [sf::st_simplify()]).
 #'
 #'   \item Fix any invalid geometries that have manifested
-#'     (using \code{\link[sf]{st_make_valid}}).
+#'     (using [sf::st_make_valid()]).
 #'
-#'   \item The \code{"MARINE"} field is converted from integer codes
-#'     to descriptive names (i.e. \code{0} = \code{"terrestrial"},
-#'     \code{1} = \code{"partial"}, \code{2} = \code{"marine"}).
+#'   \item The `"MARINE"` field is converted from integer codes
+#'     to descriptive names (i.e. `0` = `"terrestrial"`,
+#'     `1` = `"partial"`, `2` = `"marine"`).
 #'
-#'   \item Zeros in the \code{"STATUS_YR"} field are replaced with
-#'     missing values (i.e. \code{NA_real_} values).
+#'   \item Zeros in the `"STATUS_YR"` field are replaced with
+#'     missing values (i.e. `NA_real_` values).
 #'
-#'   \item Zeros in the \code{"NO_TK_AREA"} field are replaced with \code{NA}
+#'   \item Zeros in the `"NO_TK_AREA"` field are replaced with `NA`
 #'     values for areas where such data are not reported or applicable
-#'     (i.e. areas with the values \code{"Not Applicable"}
-#'     or \code{"Not Reported"} in the \code{"NO_TK_AREA"} field).
+#'     (i.e. areas with the values `"Not Applicable"`
+#'     or `"Not Reported"` in the `"NO_TK_AREA"` field).
 #'
 #'   \item Overlapping geometries are erased from the protected area data
-#'     (discussed in Deguignet \emph{et al.} 2017). Geometries are erased such
+#'     (discussed in Deguignet *et al.* 2017). Geometries are erased such
 #'     that areas associated with more effective management
-#'     categories (\code{"IUCN_CAT"}) or have historical precedence are retained
-#'     (using \code{\link[sf]{st_difference}}).
+#'     categories (`"IUCN_CAT"`) or have historical precedence are retained
+#'     (using [sf::st_difference()]).
 #'
 #'   \item Slivers are removed (geometries with areas less than 0.1 square
 #'     meters).
 #'
 #'   \item The size of areas are calculated in square kilometers and stored in
-#'     the field \code{"AREA_KM2"}.
+#'     the field `"AREA_KM2"`.
 #'
 #'  }
 #'
-#' @return \code{\link[sf]{sf}} object.
+#' @return [sf::sf()] object.
 #'
-#' @seealso \code{\link{wdpa_fetch}},
-#'   \url{https://protectedplanet.net/c/calculating-protected-area-coverage}.
+#' @seealso [wdpa_fetch()],
+#'   <https://protectedplanet.net/c/calculating-protected-area-coverage>.
 #'
 #' @references
 #' Butchart SH, Clarke M, Smith RJ, Sykes RE, Scharlemann JP,
 #' Harfoot M, ... & Brooks TM (2015) Shortfalls and solutions for
 #' meeting national and global conservation area targets.
-#' \emph{Conservation Letters}, \strong{8}: 329--337.
+#' *Conservation Letters*, **8**: 329--337.
 #'
 #' Coetzer KL, Witkowski ET, & Erasmus BF (2014) Reviewing
 #' Biosphere Reserves globally: Effective conservation action or bureaucratic
-#' label? \emph{Biological Reviews}, \strong{89}: 82--104.
+#' label? *Biological Reviews*, **89**: 82--104.
 #'
 #' Deguignet M, Arnell A, Juffe-Bignoli D, Shi Y, Bingham H, MacSharry B &
 #' Kingston N (2017) Measuring the extent of overlaps in protected area
-#' designations. \emph{PloS One}, \strong{12}: e0188681.
+#' designations. *PloS One*, **12**: e0188681.
 #'
 #' Runge CA, Watson JEM, Butchart HM, Hanson JO, Possingham HP & Fuller RA
 #' (2015) Protected areas and global conservation of migratory birds.
-#' \emph{Science}, \strong{350}: 1255--1258.
+#' *Science*, **350**: 1255--1258.
 #'
 #' Visconti P, Di Marco M, Alvarez-Romero JG, Januchowski-Hartley SR, Pressey,
 #' RL, Weeks R & Rondinini C (2013) Effects of errors and gaps in spatial data
-#' sets on assessment of conservation progress. \emph{Conservation Biology},
-#' \strong{27}: 1000--1010.
+#' sets on assessment of conservation progress. *Conservation Biology*,
+#' **27**: 1000--1010.
 #'
 #' @examples
 #' \donttest{

@@ -40,5 +40,5 @@ print(global_url)
 }
 }
 \seealso{
-\code{\link{wdpa_fetch}}, \code{\link[countrycode]{countrycode}}.
+\code{\link[=wdpa_fetch]{wdpa_fetch()}}, \code{\link[countrycode:countrycode]{countrycode::countrycode()}}.
 }

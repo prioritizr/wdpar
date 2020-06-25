@@ -11,12 +11,12 @@ wdpa_read(x)
 \url{http://protectedplanet.net}.}
 }
 \value{
-\code{\link[sf]{sf}} object.
+\code{\link[sf:sf]{sf::sf()}} object.
 }
 \description{
 Read data from the World Database on Protected Areas from a local file.
 This function assumes that the data has already been downloaded to
-your computer, see the \code{\link{wdpa_fetch}} function for automatically
+your computer, see the \code{\link[=wdpa_fetch]{wdpa_fetch()}} function for automatically
 downloading and importing the data into the current session.
 }
 \examples{
@@ -38,6 +38,6 @@ plot(lie_raw_data)
 }
 }
 \seealso{
-\code{\link{wdpa_fetch}}, \code{\link{wdpa_clean}},
-  \url{http://protectedplanet.net}.
+\code{\link[=wdpa_fetch]{wdpa_fetch()}}, \code{\link[=wdpa_clean]{wdpa_clean()}},
+\url{http://protectedplanet.net}.
 }

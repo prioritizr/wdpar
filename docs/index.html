@@ -6,21 +6,22 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Interface to the World Database on Protected Areas • wdpar</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
+<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Interface to the World Database on Protected Areas">
 <meta property="og:description" content="Fetch and clean data from the World Database on Protected
     Areas (WDPA). Data is obtained from Protected Planet
     &lt;http://protectedplanet.net&gt;.">
-<meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
-    <div class="container template-article">
+<body data-spy="scroll" data-target="#toc">
+    <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -32,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2.1</span>
       </span>
     </div>
 
@@ -40,7 +41,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -56,8 +57,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/prioritizr/wdpar">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/prioritizr/wdpar/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -70,13 +71,9 @@
 <!--/.navbar -->
 
       
-      </header><div class="row">
-  <div class="col-md-9 contents">
-    
 
-    
-    
-<!--- README.md is generated from README.Rmd. Please edit that file -->
+      </header><div class="row">
+  <div class="contents col-md-9">
 <div id="wdpar-interface-to-the-world-database-on-protected-areas" class="section level2">
 <h2 class="hasAnchor">
 <a href="#wdpar-interface-to-the-world-database-on-protected-areas" class="anchor"></a>wdpar: Interface to the World Database on Protected Areas</h2>
@@ -90,97 +87,95 @@
 <h3 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h3>
 <p>The <a href="https://CRAN.R-project.org/package=wdpar">latest official version of the <em>wdpar R</em> package</a> can be installed using the following R code. Please note that this package requires the <a href="https://github.com/jeroen/curl"><em>curl</em></a> and <a href="https://github.com/r-spatial/sf"><em>sf R</em></a> packages which may require additional software to be installed. If you encounter problems installing the <em>wdpar R</em> package, please consult the installation instructions for these packages.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"wdpar"</span>, <span class="dt">repos =</span> <span class="st">"https://cran.rstudio.com/"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"wdpar"</span>, <span class="kw">repos</span> <span class="kw">=</span> <span class="st">"https://cran.rstudio.com/"</span>)</pre></div>
 <p>Alternatively, the latest developmental version can be installed using the following <em>R</em> code. Please note that while developmental versions may contain additional features not present in the official version, they may also contain coding errors.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(devtools))
-  <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)
-devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/remote-reexports">install_github</a></span>(<span class="st">"prioritizr/wdpar"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="r"><span class="kw">if</span> (!<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">devtools</span>))
+  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)
+<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"prioritizr/wdpar"</span>)</pre></div>
 </div>
 <div id="usage" class="section level3">
 <h3 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h3>
 <p>Here we will provide a short introduction to the <em>wdpar R</em> package. First, we will load the <em>wdpar R</em> package. We will also load the <em>dplyr</em> and <em>ggmap R</em> packages to help explore the data.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load packages</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(wdpar)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggmap)</code></pre></div>
+<div class="sourceCode"><pre class="r"><span class="co"># load packages</span>
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">wdpar</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggmap</span>)</pre></div>
 <p>Now we will download protected area data for Malta from <a href="https://www.protectedplanet.net/">Protected Planet</a>. We can achieve this by specifying Malta’s country name (i.e. <code>"Malta"</code>) or Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO3 code</a> (i.e. <code>"MLT"</code>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download protected area data for Malta</span>
-mlt_raw_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/wdpa_fetch.html">wdpa_fetch</a></span>(<span class="st">"Malta"</span>, <span class="dt">wait =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="r"><span class="co"># download protected area data for Malta</span>
+<span class="no">mlt_raw_pa_data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/wdpa_fetch.html">wdpa_fetch</a></span>(<span class="st">"Malta"</span>, <span class="kw">wait</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></div>
 <p>Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. <code>"0"</code>) with missing data values (i.e. <code>NA</code>), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see <code><a href="reference/wdpa_clean.html">?wdpa_clean</a></code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># clean Malta data</span>
-mlt_pa_data &lt;-<span class="st"> </span><span class="kw"><a href="reference/wdpa_clean.html">wdpa_clean</a></span>(mlt_raw_pa_data)</code></pre></div>
+<div class="sourceCode"><pre class="r"><span class="co"># clean Malta data</span>
+<span class="no">mlt_pa_data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/wdpa_clean.html">wdpa_clean</a></span>(<span class="no">mlt_raw_pa_data</span>)</pre></div>
 <p>Print preview of the data associated with each protected area.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># print preview</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(mlt_pa_data)</code></pre></div>
-<pre><code>## Simple feature collection with 6 features and 28 fields
+<div class="sourceCode"><pre class="r"><span class="co"># print preview</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">mlt_pa_data</span>)</pre></div>
+<div class="sourceCode"><pre class="sourceCode R"><code class="sourceCode r">## Simple feature collection with 6 features and 28 fields
 ## geometry type:  MULTIPOLYGON
 ## dimension:      XY
 ## bbox:           xmin: 1369012 ymin: 4280784 xmax: 1399694 ymax: 4307909
 ## CRS:            +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
 ## precision:      1500 
 ## # A tibble: 6 x 29
-##   WDPAID WDPA_PID PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE
-##    &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;     
-## 1 1.94e5 194420   1      Filf… Filfla    Rise… Nature R… National  
-## 2 1.94e5 194423   1      Il-Ġ… Il-Ġebla… Rise… Nature R… National  
-## 3 1.94e5 194425   1      Il-G… Il-Gżejj… Rise… Nature R… National  
-## 4 5.56e8 5555886… 1      Il-M… Il-Majji… Park… National… National  
-## 5 1.75e5 174757   1      Il-Ġ… Il-Ġonna… List… List Of … National  
-## 6 1.75e5 174758   1      Bidn… Bidnija,… List… List Of … National  
-## # … with 21 more variables: IUCN_CAT &lt;chr&gt;, INT_CRIT &lt;chr&gt;, MARINE &lt;chr&gt;,
-## #   REP_M_AREA &lt;dbl&gt;, REP_AREA &lt;dbl&gt;, NO_TAKE &lt;chr&gt;, NO_TK_AREA &lt;dbl&gt;,
-## #   STATUS &lt;chr&gt;, STATUS_YR &lt;dbl&gt;, GOV_TYPE &lt;chr&gt;, OWN_TYPE &lt;chr&gt;,
-## #   MANG_AUTH &lt;chr&gt;, MANG_PLAN &lt;chr&gt;, VERIF &lt;chr&gt;, METADATAID &lt;int&gt;,
-## #   SUB_LOC &lt;chr&gt;, PARENT_ISO &lt;chr&gt;, ISO3 &lt;chr&gt;, GEOMETRY_TYPE &lt;chr&gt;,
-## #   AREA_KM2 &lt;dbl&gt;, geometry &lt;MULTIPOLYGON [m]&gt;</code></pre>
+##   WDPAID WDPA_PID PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
+##    &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;   
+## 1 1.94e5 194420   1      Filf… Filfla    Rise… Nature R… National   Ia      
+## 2 1.94e5 194423   1      Il-Ġ… Il-Ġebla… Rise… Nature R… National   Ia      
+## 3 1.94e5 194425   1      Il-G… Il-Gżejj… Rise… Nature R… National   Ia      
+## 4 5.56e8 5555886… 1      Il-M… Il-Majji… Park… National… National   II      
+## 5 1.75e5 174757   1      Il-Ġ… Il-Ġonna… List… List Of … National   III     
+## 6 1.75e5 174758   1      Bidn… Bidnija,… List… List Of … National   III     
+## # … with 20 more variables: INT_CRIT &lt;chr&gt;, MARINE &lt;chr&gt;, REP_M_AREA &lt;dbl&gt;,
+## #   REP_AREA &lt;dbl&gt;, NO_TAKE &lt;chr&gt;, NO_TK_AREA &lt;dbl&gt;, STATUS &lt;chr&gt;,
+## #   STATUS_YR &lt;dbl&gt;, GOV_TYPE &lt;chr&gt;, OWN_TYPE &lt;chr&gt;, MANG_AUTH &lt;chr&gt;,
+## #   MANG_PLAN &lt;chr&gt;, VERIF &lt;chr&gt;, METADATAID &lt;int&gt;, SUB_LOC &lt;chr&gt;,
+## #   PARENT_ISO &lt;chr&gt;, ISO3 &lt;chr&gt;, GEOMETRY_TYPE &lt;chr&gt;, AREA_KM2 &lt;dbl&gt;,
+## #   geometry &lt;MULTIPOLYGON [m]&gt;</code></pre></div>
 <p>Finally, after cleaning the data, let’s plot a map showing Malta’s protected areas and color each area according to its management category (<a href="https://www.iucn.org/theme/protected-areas/about/protected-area-categories">as defined by the The International Union for Conservation of Nature</a>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># reproject data to longitude/latitude for plotting</span>
-mlt_pa_data &lt;-<span class="st"> </span><span class="kw">st_transform</span>(mlt_pa_data, <span class="dv">4326</span>)
+<div class="sourceCode"><pre class="r"><span class="co"># reproject data to longitude/latitude for plotting</span>
+<span class="no">mlt_pa_data</span> <span class="kw">&lt;-</span> <span class="fu">st_transform</span>(<span class="no">mlt_pa_data</span>, <span class="fl">4326</span>)
 
 <span class="co"># download basemap imagery</span>
-bg &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/ggmap/topics/get_stamenmap">get_stamenmap</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unname">unname</a></span>(<span class="kw">st_bbox</span>(mlt_pa_data)), <span class="dt">zoom =</span> <span class="dv">8</span>,
-                    <span class="dt">maptype =</span> <span class="st">"watercolor"</span>, <span class="dt">force =</span> <span class="ot">TRUE</span>)
+<span class="no">bg</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/get_stamenmap.html">get_stamenmap</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span>(<span class="fu">st_bbox</span>(<span class="no">mlt_pa_data</span>)), <span class="kw">zoom</span> <span class="kw">=</span> <span class="fl">8</span>,
+                    <span class="kw">maptype</span> <span class="kw">=</span> <span class="st">"watercolor"</span>, <span class="kw">force</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 
 <span class="co"># make map</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/ggmap/topics/ggmap">ggmap</a></span>(bg) <span class="op">+</span>
-<span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> IUCN_CAT), <span class="dt">data =</span> mlt_pa_data, <span class="dt">inherit.aes =</span> <span class="ot">FALSE</span>) <span class="op">+</span>
-<span class="kw">theme</span>(<span class="dt">axis.title =</span> <span class="kw">element_blank</span>(), <span class="dt">legend.position =</span> <span class="st">"bottom"</span>)</code></pre></div>
-<p><img src="reference/figures/README-readme-map-1.png" width="60%" style="display: block; margin: auto;"></p>
+<span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggmap.html">ggmap</a></span>(<span class="no">bg</span>) +
+<span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="kw">fill</span> <span class="kw">=</span> <span class="no">IUCN_CAT</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">mlt_pa_data</span>, <span class="kw">inherit.aes</span> <span class="kw">=</span> <span class="fl">FALSE</span>) +
+<span class="fu">theme</span>(<span class="kw">axis.title</span> <span class="kw">=</span> <span class="fu">element_blank</span>(), <span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"bottom"</span>)</pre></div>
+<p><img src="reference/figures/README-readme-map-1.png" width="50%" style="display: block; margin: auto;"></p>
 <p>If you need to calculate protected area coverage statistics for a country, please note that you will need to manually clip the cleaned protected area data to the countries’ coastline and its Exclusive Economic Zone (EEZ) to obtain accurate results (see <a href="https://www.protectedplanet.net/c/calculating-protected-area-coverage">official data cleaning guidelines</a>). This step is not performed by the <em>wdpar R</em> package because there is no single “best” coastline and Exclusive Economic Zone (EEZ) dataset, since the “best” dataset for any given project depends on the level of required precision and available computational resources. For more examples—including an example of clipping the cleaned data to a coastline—please refer to the <a href="https://prioritizr.github.io/wdpar/articles/wdpar.html">package vignette</a>.</p>
 </div>
 <div id="citation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#citation" class="anchor"></a>Citation</h3>
 <p>Please cite the <em>wdpar R</em> package and the World Database on Protected Areas (WDPA) in publications.</p>
-<pre><code>
-To cite the wdpar package in publications, use:
+<div class="sourceCode"><pre class="sourceCode R"><code class="sourceCode r">To cite the wdpar package <span class="cf">in</span> publications, use<span class="op">:</span>
 
-  Hanson JO (2020) wdpar: Interface to the World Database on
-  Protected Areas. R package version 1.0.2.
-  https://CRAN.R-project.org/package=wdpar
+<span class="st">  </span>Hanson <span class="kw">JO</span> (<span class="dv">2020</span>) wdpar<span class="op">:</span><span class="st"> </span>Interface to the World Database on Protected
+  Areas. R package version <span class="fl">1.0</span>.<span class="fl">2.1</span>. https<span class="op">:</span><span class="er">//</span>github.com<span class="op">/</span>prioritizr<span class="op">/</span>wdpar
 
-  UNEP-WCMC and IUCN (2020) Protected Planet: The World Database
-  on Protected Areas (WDPA), [insert month/year of the version
-  downloaded], Cambridge, UK: UNEP-WCMC and IUCN. Available at:
-  www.protectedplanet.net.
+  UNEP<span class="op">-</span>WCMC and <span class="kw">IUCN</span> (<span class="dv">2020</span>) Protected Planet<span class="op">:</span><span class="st"> </span>The World Database on
+  Protected <span class="kw">Areas</span> (WDPA), [insert month<span class="op">/</span>year of the version
+  downloaded], Cambridge, UK<span class="op">:</span><span class="st"> </span>UNEP<span class="op">-</span>WCMC and IUCN. Available at<span class="op">:</span>
+<span class="st">  </span>www.protectedplanet.net.
 
-Please cite both the World Database on Protected Areas data set
-and this package.
-To see these entries in BibTeX format, use 'print(&lt;citation&gt;,
-bibtex=TRUE)', 'toBibtex(.)', or set
-'options(citation.bibtex.max=999)'.</code></pre>
+Please cite both the World Database on Protected Areas data set and
+this package.
+To see these entries <span class="cf">in</span> BibTeX format, use <span class="st">'print(&lt;citation&gt;,</span>
+<span class="st">bibtex=TRUE)'</span>, <span class="st">'toBibtex(.)'</span>, or set
+<span class="st">'options(citation.bibtex.max=999)'</span>.</code></pre></div>
 </div>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
 <li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=wdpar">https://​cloud.r-project.org/​package=wdpar</a>
 </li>
-<li>Browse source code at <br><a href="https://github.com/prioritizr/wdpar">https://​github.com/​prioritizr/​wdpar</a>
+<li>Browse source code at <br><a href="https://github.com/prioritizr/wdpar/">https://​github.com/​prioritizr/​wdpar/​</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/prioritizr/wdpar/issues">https://​github.com/​prioritizr/​wdpar/​issues</a>
 </li>
@@ -206,8 +201,7 @@ bibtex=TRUE)', 'toBibtex(.)', or set
 </ul>
 </div>
 
-
-      <div class="dev-status">
+  <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://www.tidyverse.org/lifecycle/#stable"><img src="https://img.shields.io/badge/Lifecycle-stable-brightgreen.svg" alt="lifecycle"></a></li>
@@ -218,7 +212,6 @@ bibtex=TRUE)', 'toBibtex(.)', or set
 </ul>
 </div>
 </div>
-
 </div>
 
 
@@ -227,12 +220,14 @@ bibtex=TRUE)', 'toBibtex(.)', or set
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

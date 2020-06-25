@@ -37,7 +37,7 @@ reported? Defaults to \code{TRUE} in an interactive session, otherwise
 \code{FALSE}.}
 }
 \value{
-\code{\link[sf]{sf}} object.
+\code{\link[sf:sf]{sf::sf()}} object.
 }
 \description{
 Download data from the World Database on Protected Areas (WDPA)
@@ -45,12 +45,12 @@ Download data from the World Database on Protected Areas (WDPA)
 }
 \details{
 This function will download the specified protected area
-  data and return it. \strong{It is strongly recommended that the data be
-  cleaned prior to analysis}. Check out the
-  \code{\link{wdpa_clean}} function to clean the data according to standard
-  practices. For information on this database,
-  prefer refer to the official manual
-  (\url{https://www.protectedplanet.net/c/wdpa-manual}).
+data and return it. \strong{It is strongly recommended that the data be
+cleaned prior to analysis}. Check out the
+\code{\link[=wdpa_clean]{wdpa_clean()}} function to clean the data according to standard
+practices. For information on this database,
+prefer refer to the official manual
+(\url{https://www.protectedplanet.net/c/wdpa-manual}).
 }
 \examples{
 \donttest{
@@ -65,8 +65,8 @@ plot(lie_raw_data)
 }
 }
 \seealso{
-\code{\link{wdpa_clean}}, \code{\link{wdpa_read}},
-  \code{\link{wdpa_url}}, \code{\link[countrycode]{countrycode}},
-  \url{http://protectedplanet.net},
-  \url{https://www.protectedplanet.net/c/wdpa-manual}.
+\code{\link[=wdpa_clean]{wdpa_clean()}}, \code{\link[=wdpa_read]{wdpa_read()}},
+\code{\link[=wdpa_url]{wdpa_url()}}, \code{\link[countrycode:countrycode]{countrycode::countrycode()}},
+\url{http://protectedplanet.net},
+\url{https://www.protectedplanet.net/c/wdpa-manual}.
 }

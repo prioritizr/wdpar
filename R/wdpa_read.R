@@ -5,16 +5,16 @@ NULL
 #'
 #' Read data from the World Database on Protected Areas from a local file.
 #' This function assumes that the data has already been downloaded to
-#' your computer, see the \code{\link{wdpa_fetch}} function for automatically
+#' your computer, see the [wdpa_fetch()] function for automatically
 #' downloading and importing the data into the current session.
 #'
-#' @param x \code{character} file name for a zip archive file downloaded from
-#'   \url{http://protectedplanet.net}.
+#' @param x `character` file name for a zip archive file downloaded from
+#'   <http://protectedplanet.net>.
 #'
-#' @return \code{\link[sf]{sf}} object.
+#' @return [sf::sf()] object.
 #'
-#' @seealso \code{\link{wdpa_fetch}}, \code{\link{wdpa_clean}},
-#'   \url{http://protectedplanet.net}.
+#' @seealso [wdpa_fetch()], [wdpa_clean()],
+#'   <http://protectedplanet.net>.
 #'
 #' @examples
 #' \donttest{
@@ -48,10 +48,13 @@ wdpa_read <- function(x) {
   # load data
   month_year <- strsplit(basename(x), "_", fixed = TRUE)[[1]][[2]]
   if (grepl("Public", basename(x))) {
+    ## find geodatabsae
     gdb_path <- dir(tdir, "^.*\\.gdb$", recursive = TRUE,
                     full.names = TRUE, include.dirs = TRUE)[[1]]
+    ## extract point and polygon data
     wdpa_polygon_data <- sf::read_sf(gdb_path, paste0("WDPA_poly_", month_year))
     wdpa_point_data <- sf::read_sf(gdb_path, paste0("WDPA_point_", month_year))
+    ## merge data together
     polygon_matching_cols <- which(names(wdpa_polygon_data) %in%
                                    names(wdpa_point_data))
     point_matching_cols <- which(names(wdpa_point_data) %in%
@@ -60,9 +63,16 @@ wdpa_read <- function(x) {
     wdpa_point_data <- wdpa_point_data[, point_matching_cols]
     wdpa_data <- rbind(wdpa_polygon_data, wdpa_point_data)
   } else {
+    ## extract any data stored in zip files
+    zip_path <- dir(tdir, "^.*\\.zip$", recursive = TRUE, full.names = TRUE)
+    if (length(zip_path) > 0)
+      result <- Map(utils::unzip, zip_path,
+                    exdir = gsub(".zip", "", zip_path, fixed = TRUE))
+    ## import shapefile data
     shapefile_path <- dir(tdir, "^.*\\.shp$", recursive = TRUE,
                           full.names = TRUE)
     wdpa_data <- lapply(shapefile_path, sf::read_sf)
+    ## merge shapefile data together
     if (length(wdpa_data) > 1) {
       col_names <- Reduce(base::intersect, lapply(wdpa_data, names))
       wdpa_data <- lapply(wdpa_data, function(x) x[, col_names])

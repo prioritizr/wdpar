@@ -6,19 +6,19 @@ NULL
 #' Obtain the URL for downloading data from the World Database on Protected
 #' Areas (WDPA).
 #'
-#' @param x \code{character} country for desired data. This argument
-#'   can be the name of the country (e.g. \code{"Liechtenstein"}) or the
-#'   ISO-3 code for the country (e.g. \code{"LIE"}). This argument can also
-#'   be set to \code{"global"} to obtain the URL for the global dataset.
+#' @param x `character` country for desired data. This argument
+#'   can be the name of the country (e.g. `"Liechtenstein"`) or the
+#'   ISO-3 code for the country (e.g. `"LIE"`). This argument can also
+#'   be set to `"global"` to obtain the URL for the global dataset.
 #'
-#' @param wait \code{logical} if data is not immediately available for download
+#' @param wait `logical` if data is not immediately available for download
 #'   should the session be paused until it is ready for download? If argument
-#'   to \code{wait} is \code{FALSE} and the data is not ready then an error
-#'   will be thrown. Defaults to \code{FALSE}.
+#'   to `wait` is `FALSE` and the data is not ready then an error
+#'   will be thrown. Defaults to `FALSE`.
 #'
-#' @return \code{character} URL to download the data.
+#' @return `character` URL to download the data.
 #'
-#' @seealso \code{\link{wdpa_fetch}}, \code{\link[countrycode]{countrycode}}.
+#' @seealso [wdpa_fetch()], [countrycode::countrycode()].
 #'
 #' @examples
 #' \donttest{

@@ -3,7 +3,7 @@
 \docType{package}
 \name{wdpar}
 \alias{wdpar}
-\title{\pkg{wdpar}: Interface to the World Database on Protected Areas}
+\title{wdpar: Interface to the World Database on Protected Areas}
 \description{
 The \pkg{wdpar} R package provides an interface to the World Database on
 Protected Areas (WDPA). It provides functions for automatically downloading

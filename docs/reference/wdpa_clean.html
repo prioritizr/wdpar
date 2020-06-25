@@ -10,21 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -35,7 +41,6 @@
 
 <meta property="og:title" content="Clean data from the World Database on Protected Areas — wdpa_clean" />
 <meta property="og:description" content="Clean data obtained from the World Database on Protected Areas (WDPA)." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -50,9 +55,10 @@
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -66,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2.1</span>
       </span>
     </div>
 
@@ -74,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -90,8 +96,8 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/prioritizr/wdpar">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/prioritizr/wdpar/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -102,6 +108,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -118,13 +125,13 @@
 
     <pre class="usage"><span class='fu'>wdpa_clean</span>(
   <span class='no'>x</span>,
-  <span class='kw'>crs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste</a></span>(<span class='st'>"+proj=cea +lon_0=0 +lat_ts=30 +x_0=0"</span>,
+  <span class='kw'>crs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='st'>"+proj=cea +lon_0=0 +lat_ts=30 +x_0=0"</span>,
     <span class='st'>"+y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs"</span>),
   <span class='kw'>snap_tolerance</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>simplify_tolerance</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>geometry_precision</span> <span class='kw'>=</span> <span class='fl'>1500</span>,
   <span class='kw'>erase_overlaps</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>()
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -132,12 +139,12 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p><code><a href='https://www.rdocumentation.org/packages/sf/topics/sf'>sf</a></code> object containing protected area data.</p></td>
+      <td><p><code><a href='https://rdrr.io/pkg/sf/man/sf.html'>sf::sf()</a></code> object containing protected area data.</p></td>
     </tr>
     <tr>
       <th>crs</th>
       <td><p><code>character</code> or codeinteger object representing a
- coordinate reference system. Defaults to World Behrmann
+coordinate reference system. Defaults to World Behrmann
 (<em>ESRI:54017</em>).</p></td>
     </tr>
     <tr>
@@ -153,7 +160,7 @@ Defaults to 0 meters.</p></td>
     <tr>
       <th>geometry_precision</th>
       <td><p><code>numeric</code> level of precision for processing
-the spatial data (used with <code><a href='https://www.rdocumentation.org/packages/sf/topics/st_precision'>st_set_precision</a></code>). The
+the spatial data (used with <code><a href='https://rdrr.io/pkg/sf/man/st_precision.html'>sf::st_set_precision()</a></code>). The
 default argument is 1500 (higher values indicate higher precision).
 This level of precision is generally suitable for analyses at the
 national-scale. For analyses at finer-scale resolutions, please
@@ -179,72 +186,73 @@ Defaults to <code>TRUE</code> in an interactive session, otherwise
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code><a href='https://www.rdocumentation.org/packages/sf/topics/sf'>sf</a></code> object.</p>
+    <p><code><a href='https://rdrr.io/pkg/sf/man/sf.html'>sf::sf()</a></code> object.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function cleans data from World Database on Protected Areas
-  following best practices (Butchart <em>et al.</em> 2015, Runge <em>et al.</em>
-  2015,
-  <a href='https://protectedplanet.net/c/calculating-protected-area-coverage'>https://protectedplanet.net/c/calculating-protected-area-coverage</a>).
-  To obtain accurate protected area coverage statistics for a country,
-  please note that you will need to manually clip the cleaned data to
-  the countries' coastline and its Exclusive Economic Zone (EEZ).
-  Although this function can <em>in theory</em> be used to clean the global
-  dataset, this process can take several weeks to complete. Therefore, it is
-  strongly recommended to use alternative methods for cleaning the global
-  dataset.</p>
-<p></p><ol>
-<li><p>Repair invalid geometry (using <code><a href='https://www.rdocumentation.org/packages/sf/topics/valid'>st_make_valid</a></code>).</p></li>
+following best practices (Butchart <em>et al.</em> 2015, Runge <em>et al.</em>
+2015,
+<a href='https://protectedplanet.net/c/calculating-protected-area-coverage'>https://protectedplanet.net/c/calculating-protected-area-coverage</a>).
+To obtain accurate protected area coverage statistics for a country,
+please note that you will need to manually clip the cleaned data to
+the countries' coastline and its Exclusive Economic Zone (EEZ).
+Although this function can <em>in theory</em> be used to clean the global
+dataset, this process can take several weeks to complete. Therefore, it is
+strongly recommended to use alternative methods for cleaning the global
+dataset.</p>
+<ol>
+<li><p>Repair invalid geometry (using <code><a href='https://rdrr.io/pkg/sf/man/valid.html'>sf::st_make_valid()</a></code>).</p></li>
 <li><p>Exclude protected areas that are not currently implemented
-    (i.e. exclude areas without the status <code>"Designated"</code>,
-    <code>"Inscribed"</code>, <code>"Established"</code>).</p></li>
+(i.e. exclude areas without the status <code>"Designated"</code>,
+<code>"Inscribed"</code>, <code>"Established"</code>).</p></li>
 <li><p>Exclude United Nations Educational, Scientific and Cultural
-    Organization (UNESCO) Biosphere Reserves (Coetzer <em>et al.</em> 2014).</p></li>
+Organization (UNESCO) Biosphere Reserves (Coetzer <em>et al.</em> 2014).</p></li>
 <li><p>Create a field (<code>"GEOMETRY_TYPE"</code>) indicating if areas are
-    represented as point localities (<code>"POINT"</code>) or as polygons
-    (<code>"POLYGON"</code>).</p></li>
+represented as point localities (<code>"POINT"</code>) or as polygons
+(<code>"POLYGON"</code>).</p></li>
 <li><p>Exclude areas represented as point localities that do not
-    have a reported spatial extent (i.e. missing data for the field</p></li>
+have a reported spatial extent (i.e. missing data for the field</p></li>
 <li><p>Geometries are wrapped to the dateline (using
-    <code><a href='https://www.rdocumentation.org/packages/sf/topics/st_transform'>st_wrap_dateline</a></code> with the options
-    <code>"WRAPDATELINE=YES"</code> and <code>"DATELINEOFFSET=180"</code>).</p></li>
+<code><a href='https://rdrr.io/pkg/sf/man/st_transform.html'>sf::st_wrap_dateline()</a></code> with the options
+<code>"WRAPDATELINE=YES"</code> and <code>"DATELINEOFFSET=180"</code>).</p></li>
 <li><p>Reproject data to coordinate system specified in argument to
-    <code>crs</code> (using <code><a href='https://www.rdocumentation.org/packages/sf/topics/st_transform'>st_transform</a></code>).</p></li>
+<code>crs</code> (using <code><a href='https://rdrr.io/pkg/sf/man/st_transform.html'>sf::st_transform()</a></code>).</p></li>
 <li><p>Fix any invalid geometries that have manifested
-    (using <code><a href='https://www.rdocumentation.org/packages/sf/topics/valid'>st_make_valid</a></code>).</p></li>
+(using <code><a href='https://rdrr.io/pkg/sf/man/valid.html'>sf::st_make_valid()</a></code>).</p></li>
 <li><p>Buffer areas represented as point localities to circular areas
-    using their reported spatial extent (using data in the field
-    <code>"REP_AREA"</code> and <code><a href='https://www.rdocumentation.org/packages/sf/topics/geos_unary'>st_buffer</a></code>; see Visconti
-    <em>et al.</em> 2013).</p></li>
+using their reported spatial extent (using data in the field
+<code>"REP_AREA"</code> and <code><a href='https://rdrr.io/pkg/sf/man/geos_unary.html'>sf::st_buffer()</a></code>; see Visconti
+<em>et al.</em> 2013).</p></li>
 <li><p>Snap the geometries to a grid to fix any remaining
-    geometry issues (using argument to <code>snap_tolerance</code> and
-    <code><a href='https://www.rdocumentation.org/packages/lwgeom/topics/st_snap_to_grid'>st_snap_to_grid</a></code>).</p></li>
+geometry issues (using argument to <code>snap_tolerance</code> and
+<code><a href='https://rdrr.io/pkg/lwgeom/man/st_snap_to_grid.html'>lwgeom::st_snap_to_grid()</a></code>).</p></li>
 <li><p>Fix any invalid geometries that have manifested
-    (using <code><a href='https://www.rdocumentation.org/packages/sf/topics/valid'>st_make_valid</a></code>).</p></li>
+(using <code><a href='https://rdrr.io/pkg/sf/man/valid.html'>sf::st_make_valid()</a></code>).</p></li>
 <li><p>Simplify the protected area geometries to reduce computational burden
-    (using argument to <code>simplify_tolerance</code> and
-    <code><a href='https://www.rdocumentation.org/packages/sf/topics/geos_unary'>st_simplify</a></code>).</p></li>
+(using argument to <code>simplify_tolerance</code> and
+<code><a href='https://rdrr.io/pkg/sf/man/geos_unary.html'>sf::st_simplify()</a></code>).</p></li>
 <li><p>Fix any invalid geometries that have manifested
-    (using <code><a href='https://www.rdocumentation.org/packages/sf/topics/valid'>st_make_valid</a></code>).</p></li>
+(using <code><a href='https://rdrr.io/pkg/sf/man/valid.html'>sf::st_make_valid()</a></code>).</p></li>
 <li><p>The <code>"MARINE"</code> field is converted from integer codes
-    to descriptive names (i.e. <code>0</code> = <code>"terrestrial"</code>,
-    <code>1</code> = <code>"partial"</code>, <code>2</code> = <code>"marine"</code>).</p></li>
+to descriptive names (i.e. <code>0</code> = <code>"terrestrial"</code>,
+<code>1</code> = <code>"partial"</code>, <code>2</code> = <code>"marine"</code>).</p></li>
 <li><p>Zeros in the <code>"STATUS_YR"</code> field are replaced with
-    missing values (i.e. <code>NA_real_</code> values).</p></li>
+missing values (i.e. <code>NA_real_</code> values).</p></li>
 <li><p>Zeros in the <code>"NO_TK_AREA"</code> field are replaced with <code>NA</code>
-    values for areas where such data are not reported or applicable
-    (i.e. areas with the values <code>"Not Applicable"</code>
-    or <code>"Not Reported"</code> in the <code>"NO_TK_AREA"</code> field).</p></li>
+values for areas where such data are not reported or applicable
+(i.e. areas with the values <code>"Not Applicable"</code>
+or <code>"Not Reported"</code> in the <code>"NO_TK_AREA"</code> field).</p></li>
 <li><p>Overlapping geometries are erased from the protected area data
-    (discussed in Deguignet <em>et al.</em> 2017). Geometries are erased such
-    that areas associated with more effective management
-    categories (<code>"IUCN_CAT"</code>) or have historical precedence are retained
-    (using <code><a href='https://www.rdocumentation.org/packages/sf/topics/geos_binary_ops'>st_difference</a></code>).</p></li>
+(discussed in Deguignet <em>et al.</em> 2017). Geometries are erased such
+that areas associated with more effective management
+categories (<code>"IUCN_CAT"</code>) or have historical precedence are retained
+(using <code><a href='https://rdrr.io/pkg/sf/man/geos_binary_ops.html'>sf::st_difference()</a></code>).</p></li>
 <li><p>Slivers are removed (geometries with areas less than 0.1 square
-    meters).</p></li>
+meters).</p></li>
 <li><p>The size of areas are calculated in square kilometers and stored in
-    the field <code>"AREA_KM2"</code>.</p></li>
+the field <code>"AREA_KM2"</code>.</p></li>
 </ol>
+
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Butchart SH, Clarke M, Smith RJ, Sykes RE, Scharlemann JP,
@@ -266,32 +274,28 @@ sets on assessment of conservation progress. <em>Conservation Biology</em>,
 <strong>27</strong>: 1000--1010.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='wdpa_fetch.html'>wdpa_fetch</a></code>,
-  <a href='https://protectedplanet.net/c/calculating-protected-area-coverage'>https://protectedplanet.net/c/calculating-protected-area-coverage</a>.</p></div>
+    <div class='dont-index'><p><code><a href='wdpa_fetch.html'>wdpa_fetch()</a></code>,
+<a href='https://protectedplanet.net/c/calculating-protected-area-coverage'>https://protectedplanet.net/c/calculating-protected-area-coverage</a>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># fetch data for the Liechtenstein</span>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='co'># fetch data for the Liechtenstein</span>
 <span class='no'>lie_raw_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='wdpa_fetch.html'>wdpa_fetch</a></span>(<span class='st'>"LIE"</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># clean data</span>
 <span class='no'>lie_data</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_clean</span>(<span class='no'>lie_raw_data</span>)
 
 <span class='co'># plot cleaned dataset</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>lie_data</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: plotting the first 9 out of 30 attributes; use max.plot = 30 to plot all</span></div><div class='img'><img src='wdpa_clean-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>lie_data</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: plotting the first 9 out of 30 attributes; use max.plot = 30 to plot all</span></div><div class='img'><img src='wdpa_clean-1.png' alt='' width='700' height='433' /></div><div class='input'># }
+</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -299,13 +303,16 @@ sets on assessment of conservation progress. <em>Conservation Biology</em>,
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

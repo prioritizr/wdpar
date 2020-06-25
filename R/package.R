@@ -1,4 +1,4 @@
-#' \pkg{wdpar}: Interface to the World Database on Protected Areas
+#' wdpar: Interface to the World Database on Protected Areas
 #'
 #' The \pkg{wdpar} R package provides an interface to the World Database on
 #' Protected Areas (WDPA). It provides functions for automatically downloading

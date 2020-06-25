@@ -33,8 +33,10 @@ NULL
 #'
 #' # plot data for visual comparison
 #' par(mfrow = c(1, 2))
-#' plot(sf::st_geometry(x), main = "original", col = "white")
-#' plot(sf::st_geometry(y), main = "no overlaps", col = "white")
+#' plot(sf::st_geometry(x), xlim = c(0, 200), ylim = c(0, 250),
+#'      main = "original", col = "transparent")
+#' plot(sf::st_geometry(y), , xlim = c(0, 200), ylim = c(0, 250),
+#'      main = "no overlaps", col = "transparent")
 #' @export
 st_erase_overlaps <- function(x, verbose = FALSE) {
   # validate arguments

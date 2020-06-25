@@ -10,21 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -36,7 +42,6 @@
 <meta property="og:title" content="Fetch data from the World Database on Protected Areas — wdpa_fetch" />
 <meta property="og:description" content="Download data from the World Database on Protected Areas (WDPA)
 (available at http://protectedplanet.net) and import it." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -51,9 +56,10 @@
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -67,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2.1</span>
       </span>
     </div>
 
@@ -75,7 +81,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -91,8 +97,8 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/prioritizr/wdpar">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/prioritizr/wdpar/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -103,6 +109,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -121,9 +128,9 @@
     <pre class="usage"><span class='fu'>wdpa_fetch</span>(
   <span class='no'>x</span>,
   <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>download_dir</span> <span class='kw'>=</span> <span class='kw pkg'>rappdirs</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rappdirs/topics/user_data_dir'>user_data_dir</a></span>(<span class='st'>"wdpar"</span>),
+  <span class='kw'>download_dir</span> <span class='kw'>=</span> <span class='kw pkg'>rappdirs</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rappdirs/man/user_data_dir.html'>user_data_dir</a></span>(<span class='st'>"wdpar"</span>),
   <span class='kw'>force_download</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/interactive'>interactive</a></span>()
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -148,7 +155,7 @@ will be returned. Defaults to <code>FALSE</code>.</p></td>
       <th>download_dir</th>
       <td><p><code>character</code> folder path to download the data.
 Defaults to a persistent data directory
-(<code><a href='https://www.rdocumentation.org/packages/rappdirs/topics/user_data_dir'>rappdirs::user_data_dir("wdpar")</a></code>).</p></td>
+(<code><a href='https://rdrr.io/pkg/rappdirs/man/user_data_dir.html'>rappdirs::user_data_dir("wdpar")</a></code>).</p></td>
     </tr>
     <tr>
       <th>force_download</th>
@@ -166,45 +173,42 @@ reported? Defaults to <code>TRUE</code> in an interactive session, otherwise
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code><a href='https://www.rdocumentation.org/packages/sf/topics/sf'>sf</a></code> object.</p>
+    <p><code><a href='https://rdrr.io/pkg/sf/man/sf.html'>sf::sf()</a></code> object.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function will download the specified protected area
-  data and return it. <strong>It is strongly recommended that the data be
-  cleaned prior to analysis</strong>. Check out the
-  <code><a href='wdpa_clean.html'>wdpa_clean</a></code> function to clean the data according to standard
-  practices. For information on this database,
-  prefer refer to the official manual
-  (<a href='https://www.protectedplanet.net/c/wdpa-manual'>https://www.protectedplanet.net/c/wdpa-manual</a>).</p>
+data and return it. <strong>It is strongly recommended that the data be
+cleaned prior to analysis</strong>. Check out the
+<code><a href='wdpa_clean.html'>wdpa_clean()</a></code> function to clean the data according to standard
+practices. For information on this database,
+prefer refer to the official manual
+(<a href='https://www.protectedplanet.net/c/wdpa-manual'>https://www.protectedplanet.net/c/wdpa-manual</a>).</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='wdpa_clean.html'>wdpa_clean</a></code>, <code><a href='wdpa_read.html'>wdpa_read</a></code>,
-  <code><a href='wdpa_url.html'>wdpa_url</a></code>, <code><a href='https://www.rdocumentation.org/packages/countrycode/topics/countrycode'>countrycode</a></code>,
-  <a href='http://protectedplanet.net'>http://protectedplanet.net</a>,
-  <a href='https://www.protectedplanet.net/c/wdpa-manual'>https://www.protectedplanet.net/c/wdpa-manual</a>.</p></div>
+    <div class='dont-index'><p><code><a href='wdpa_clean.html'>wdpa_clean()</a></code>, <code><a href='wdpa_read.html'>wdpa_read()</a></code>,
+<code><a href='wdpa_url.html'>wdpa_url()</a></code>, <code><a href='https://rdrr.io/pkg/countrycode/man/countrycode.html'>countrycode::countrycode()</a></code>,
+<a href='http://protectedplanet.net'>http://protectedplanet.net</a>,
+<a href='https://www.protectedplanet.net/c/wdpa-manual'>https://www.protectedplanet.net/c/wdpa-manual</a>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># fetch data for Liechtenstein</span>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='co'># fetch data for Liechtenstein</span>
 <span class='no'>lie_raw_data</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_fetch</span>(<span class='st'>"Liechtenstein"</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># fetch data for Liechtenstein using the ISO3 code</span>
 <span class='no'>lie_raw_data</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_fetch</span>(<span class='st'>"LIE"</span>)
 
 <span class='co'># plot data</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>lie_raw_data</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: plotting the first 10 out of 28 attributes; use max.plot = 28 to plot all</span></div><div class='img'><img src='wdpa_fetch-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>lie_raw_data</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: plotting the first 10 out of 28 attributes; use max.plot = 28 to plot all</span></div><div class='img'><img src='wdpa_fetch-1.png' alt='' width='700' height='433' /></div><div class='input'># }
+</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -212,13 +216,16 @@ reported? Defaults to <code>TRUE</code> in an interactive session, otherwise
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

@@ -1,3 +1,7 @@
+# wdpar 1.0.3
+
+- CRAN release.
+
 # wdpar 1.0.2.1
 
 - Pre-empt "Non-file package-anchored link(s) in documentation object" notes in

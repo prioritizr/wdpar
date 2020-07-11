@@ -51,10 +51,10 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get clean; fi;
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get autoremove --purge; fi;
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get --purge remove tex.\*-doc$; fi;
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install Caskroom/cask/xquartz; fi;
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install ghostscript; fi;
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install udunits; fi;
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install curl; fi;
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install Caskroom/cask/xquartz || echo "fail 1"; fi;
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install ghostscript || echo "fail 2"; fi;
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install udunits || echo "fail 3"; fi;
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install curl || echo "fail 4"; fi;
 
 script:
   - |

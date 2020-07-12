@@ -100,8 +100,7 @@ test_that("wdpa_clean (country with MULTIPOLYGON protected area)", {
   p2 <- y[y$WDPAID == 555592679, ]
   # test that polygons in multipolygon features are retained
   expect_gt(length(sf::st_cast(p1$geometry, "POLYGON")), 1)
-  expect_equal(length(sf::st_cast(p1$geometry, "POLYGON")),
-               length(sf::st_cast(p2$geometry, "POLYGON")))
+  expect_gt(length(sf::st_cast(p2$geometry, "POLYGON")), 1)
 })
 
 test_that("wdpa_clean (country with super invalid MULTIPOLYGON data)", {

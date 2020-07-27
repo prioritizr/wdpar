@@ -20,7 +20,7 @@ your computer, see the \code{\link[=wdpa_fetch]{wdpa_fetch()}} function for auto
 downloading and importing the data into the current session.
 }
 \examples{
-\donttest{
+\dontrun{
 # find url for Liechtenstein dataset
 download_url <- wdpa_url("LIE", wait = TRUE)
 

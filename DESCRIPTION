@@ -39,7 +39,7 @@ LazyData: true
 URL: https://prioritizr.github.io/wdpar, https://github.com/prioritizr/wdpar
 BugReports: https://github.com/prioritizr/wdpar/issues
 VignetteBuilder: knitr
-RoxygenNote: 7.1.0.9000
+RoxygenNote: 7.1.1
 Collate:
     'internal.R'
     'geo.R'

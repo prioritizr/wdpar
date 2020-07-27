@@ -24,7 +24,7 @@ devtools::load_all()
 
 ### Overview
 
-The [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/) is the most comprehensive global dataset of protected areas. It is used to monitor the performance of existing protected areas and pinpoint priority areas for establishing new protected areas. Additionally, this database receives monthly updates from government agencies and non-governmental organizations. However, this dataset is associated with [many issues that need to be addressed prior to analysis](https://www.protectedplanet.net/c/calculating-protected-area-coverage) and the dynamic nature of this dataset means that the entire data cleaning process needs to be repeated after obtaining a new version of the dataset. The _wdpar R_ package provides an interface to the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/) and functions for cleaning the data following best practices (outlined in [Butchart _et al._ 2015](https://dx.doi.org/10.1111/conl.12158); [Runge _et al._ 2015](https://dx.doi.org/10.1126/science.aac9180); [Protected Planet](https://www.protectedplanet.net/c/calculating-protected-area-coverage)).
+The [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/) is the most comprehensive global dataset of protected areas. It is used to monitor the performance of existing protected areas and pinpoint priority areas for establishing new protected areas. Additionally, this database receives monthly updates from government agencies and non-governmental organizations. However, this dataset is associated with [many issues that need to be addressed prior to analysis](https://www.protectedplanet.net/c/calculating-protected-area-coverage) and the dynamic nature of this dataset means that the entire data cleaning process needs to be repeated after obtaining a new version of the dataset. The _wdpar R_ package provides an interface to the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/) and functions for cleaning the data following best practices (outlined in [Butchart _et al._ 2015](https://doi.org/10.1111/conl.12158); [Runge _et al._ 2015](https://science.sciencemag.org/lookup/doi/10.1126/science.aac9180); [Protected Planet](https://www.protectedplanet.net/c/calculating-protected-area-coverage)).
 
 ### Installation
 
@@ -55,7 +55,12 @@ library(ggmap)
 
 Now we will download protected area data for Malta from [Protected Planet](https://www.protectedplanet.net/). We can achieve this by specifying Malta's country name (i.e. `"Malta"`) or Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (i.e. `"MLT"`).
 
-```{r, warning = FALSE}
+```{r, include = FALSE}
+# download protected area data for Malta
+mlt_raw_pa_data <- wdpa_fetch("Malta", wait = TRUE, force = TRUE)
+```
+
+```{r, eval = FALSE}
 # download protected area data for Malta
 mlt_raw_pa_data <- wdpa_fetch("Malta", wait = TRUE)
 ```

@@ -25,7 +25,7 @@ Obtain the URL for downloading data from the World Database on Protected
 Areas (WDPA).
 }
 \examples{
-\donttest{
+\dontrun{
 # obtain url for New Zealand data
 nzl_url <- wdpa_url("New Zealand", wait = TRUE)
 print(nzl_url)

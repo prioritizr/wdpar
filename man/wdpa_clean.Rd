@@ -140,7 +140,7 @@ the field \code{"AREA_KM2"}.
 }
 }
 \examples{
-\donttest{
+\dontrun{
 # fetch data for the Liechtenstein
 lie_raw_data <- wdpa_fetch("LIE", wait = TRUE)
 

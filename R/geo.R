@@ -97,8 +97,6 @@ st_erase_overlaps <- function(x, verbose = FALSE) {
       if (length(d) == 0)
         d[[1]] <- sf::st_polygon()
        d <- suppressWarnings(sf::st_collection_extract(d, "POLYGON"))
-    } else {
-      d <- sf::st_sfc(sf::st_polygon())
     }
     ## if d contains multiple geometries, then union them
     if (length(d) > 1) {
@@ -106,6 +104,10 @@ st_erase_overlaps <- function(x, verbose = FALSE) {
       d <- suppressWarnings(sf::st_collection_extract(
         sf::st_make_valid(sf::st_set_precision(d, precision)),
         "POLYGON"))
+    }
+    ## create empty geometry if empty
+    if (length(d) == 0) {
+      d <- sf::st_sfc(sf::st_polygon())
     }
     ## store geometry
     o[i] <- d[[1]]

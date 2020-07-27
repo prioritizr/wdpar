@@ -7,7 +7,7 @@ wdpar: Interface to the World Database on Protected Areas
 
 ### Overview
 
-The [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/) is the most comprehensive global dataset of protected areas. It is used to monitor the performance of existing protected areas and pinpoint priority areas for establishing new protected areas. Additionally, this database receives monthly updates from government agencies and non-governmental organizations. However, this dataset is associated with [many issues that need to be addressed prior to analysis](https://www.protectedplanet.net/c/calculating-protected-area-coverage) and the dynamic nature of this dataset means that the entire data cleaning process needs to be repeated after obtaining a new version of the dataset. The *wdpar R* package provides an interface to the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/) and functions for cleaning the data following best practices (outlined in [Butchart *et al.* 2015](https://dx.doi.org/10.1111/conl.12158); [Runge *et al.* 2015](https://dx.doi.org/10.1126/science.aac9180); [Protected Planet](https://www.protectedplanet.net/c/calculating-protected-area-coverage)).
+The [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/) is the most comprehensive global dataset of protected areas. It is used to monitor the performance of existing protected areas and pinpoint priority areas for establishing new protected areas. Additionally, this database receives monthly updates from government agencies and non-governmental organizations. However, this dataset is associated with [many issues that need to be addressed prior to analysis](https://www.protectedplanet.net/c/calculating-protected-area-coverage) and the dynamic nature of this dataset means that the entire data cleaning process needs to be repeated after obtaining a new version of the dataset. The *wdpar R* package provides an interface to the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/) and functions for cleaning the data following best practices (outlined in [Butchart *et al.* 2015](https://doi.org/10.1111/conl.12158); [Runge *et al.* 2015](https://science.sciencemag.org/lookup/doi/10.1126/science.aac9180); [Protected Planet](https://www.protectedplanet.net/c/calculating-protected-area-coverage)).
 
 ### Installation
 
@@ -57,13 +57,13 @@ Print preview of the data associated with each protected area.
 head(mlt_pa_data)
 ```
 
-    ## Simple feature collection with 6 features and 28 fields
+    ## Simple feature collection with 6 features and 30 fields
     ## geometry type:  MULTIPOLYGON
     ## dimension:      XY
     ## bbox:           xmin: 1369012 ymin: 4280784 xmax: 1399694 ymax: 4307909
     ## CRS:            +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
     ## precision:      1500 
-    ## # A tibble: 6 x 29
+    ## # A tibble: 6 x 31
     ##   WDPAID WDPA_PID PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
     ##    <dbl> <chr>    <chr>  <chr> <chr>     <chr> <chr>     <chr>      <chr>   
     ## 1 1.94e5 194420   1      Filf… Filfla    Rise… Nature R… National   Ia      
@@ -72,12 +72,12 @@ head(mlt_pa_data)
     ## 4 5.56e8 5555886… 1      Il-M… Il-Majji… Park… National… National   II      
     ## 5 1.75e5 174757   1      Il-Ġ… Il-Ġonna… List… List Of … National   III     
     ## 6 1.75e5 174758   1      Bidn… Bidnija,… List… List Of … National   III     
-    ## # … with 20 more variables: INT_CRIT <chr>, MARINE <chr>, REP_M_AREA <dbl>,
-    ## #   REP_AREA <dbl>, NO_TAKE <chr>, NO_TK_AREA <dbl>, STATUS <chr>,
-    ## #   STATUS_YR <dbl>, GOV_TYPE <chr>, OWN_TYPE <chr>, MANG_AUTH <chr>,
-    ## #   MANG_PLAN <chr>, VERIF <chr>, METADATAID <int>, SUB_LOC <chr>,
-    ## #   PARENT_ISO <chr>, ISO3 <chr>, GEOMETRY_TYPE <chr>, AREA_KM2 <dbl>,
-    ## #   geometry <MULTIPOLYGON [m]>
+    ## # … with 22 more variables: INT_CRIT <chr>, MARINE <chr>, REP_M_AREA <dbl>,
+    ## #   GIS_M_AREA <dbl>, REP_AREA <dbl>, GIS_AREA <dbl>, NO_TAKE <chr>,
+    ## #   NO_TK_AREA <dbl>, STATUS <chr>, STATUS_YR <dbl>, GOV_TYPE <chr>,
+    ## #   OWN_TYPE <chr>, MANG_AUTH <chr>, MANG_PLAN <chr>, VERIF <chr>,
+    ## #   METADATAID <int>, SUB_LOC <chr>, PARENT_ISO <chr>, ISO3 <chr>,
+    ## #   GEOMETRY_TYPE <chr>, AREA_KM2 <dbl>, geometry <MULTIPOLYGON [m]>
 
 Finally, after cleaning the data, let's plot a map showing Malta's protected areas and color each area according to its management category ([as defined by the The International Union for Conservation of Nature](https://www.iucn.org/theme/protected-areas/about/protected-area-categories)).
 

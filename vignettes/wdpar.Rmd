@@ -101,7 +101,7 @@ mlt_pa_data <-
   mutate(AREA_KM2 = as.numeric(st_area(.)) * 1e-6)
 ```
 
-Now that we have finished cleaning the data, let's preview the data. For more information on what these columns mean, please refer to the [official manual](https://www.protectedplanet.net/c/wdpa-manual) (available in [English](http://wcmc.io/WDPA_Manual), [Spanish](http://wcmc.io/WDPA_Manual_ES), [French](http://wcmc.io/WDPA_Manual_FR), and [Russian](http://wcmc.io/WDPA_Manual_RU)).
+Now that we have finished cleaning the data, let's preview the data. For more information on what these columns mean, please refer to the [official manual](https://www.protectedplanet.net/c/wdpa-manual) (available in [English](http://wcmc.io/WDPA_Manual), [Spanish](http://wcmc.io/WDPA_Manual_ES), and [Russian](http://wcmc.io/WDPA_Manual_RU)).
 
 ```{r}
 # print first six rows of the data

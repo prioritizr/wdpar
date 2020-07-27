@@ -1,4 +1,4 @@
-all: clean initc data docs test check
+all: clean initc docs test check
 
 clean:
 	rm -rf man/*
@@ -11,9 +11,6 @@ initc:
 	R --slave -e "tools::package_native_routine_registration_skeleton('.', 'src/init.c', character_only = FALSE)"
 
 docs: man readme vigns site
-
-data:
-	Rscript --slave inst/extdata/simulate_data.R
 
 man:
 	R --slave -e "devtools::document()"
@@ -31,11 +28,11 @@ vigns:
 	touch inst/doc/.gitkeep
 
 quicksite:
-	R --slave -e "pkgdown::build_site(run_dont_run = FALSE, lazy = TRUE)"
+	R --slave -e "pkgdown::build_site(run_dont_run = TRUE, lazy = TRUE)"
 
 site:
 	R --slave -e "pkgdown::clean_site()"
-	R --slave -e "pkgdown::build_site(run_dont_run = FALSE, lazy = TRUE)"
+	R --slave -e "pkgdown::build_site(run_dont_run = TRUE, lazy = FALSE)"
 
 quickcheck:
 	echo "\n===== R CMD CHECK =====\n" > check.log 2>&1
@@ -59,9 +56,12 @@ solarischeck:
 build:
 	R --slave -e "devtools::build()"
 	cp -R doc inst/
-	touch inst/doc/.gitkeep
 
 install:
 	R --slave -e "devtools::install_local('../wdpar')"
 
-.PHONY: initc vigns clean data docs readme site test check checkwb build  install man
+spellcheck:
+	echo "\n===== SPELL CHECK =====\n" > spell.log 2>&1
+	R --slave -e "devtools::spell_check()" >> spell.log 2>&1
+
+.PHONY: initc vigns clean data docs readme site test check checkwb build  install man spellcheck

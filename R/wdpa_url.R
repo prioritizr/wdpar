@@ -21,7 +21,7 @@ NULL
 #' @seealso [wdpa_fetch()], [countrycode::countrycode()].
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # obtain url for New Zealand data
 #' nzl_url <- wdpa_url("New Zealand", wait = TRUE)
 #' print(nzl_url)

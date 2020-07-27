@@ -4,12 +4,14 @@
 
 # wdpar 1.0.2.1
 
-- Pre-empt "Non-file package-anchored link(s) in documentation object" warnings
+- Fix "Non-file package-anchored link(s) in documentation object" warnings
   in R-devel checks.
 - Update `wdpa_read` so that it is compatible with the new data format provided
   by <https://protectedplanet.net>.
 - Update examples for `st_erase_overlaps` so that overlapping geometries are
   clearly shown.
+- Update examples to run with CRAN checks (i.e. `--run-donttest`).
+- Update `st_erase_overlaps` so that it is more robust to geometry issues.
 
 # wdpar 1.0.2
 
@@ -102,13 +104,13 @@
 
 - CRAN release.
 
-# wdpar 0.0.0.4 (unreleased)
+# wdpar 0.0.0.4
 
 - Fix broken link in README, add package website to DESCRIPTION.
 - Update lifecycle badge to stable.
 - Fix bug that threw a bogus error message in `wdpa_fetch` when `force = TRUE`.
 
-# wdpar 0.0.0.3 (unreleased)
+# wdpar 0.0.0.3
 
 - Update overview in README and vignette (#3; @rungec).
 - Add list with other datasets to vignette (#4; @rungec).
@@ -116,10 +118,10 @@
 - Add Visconti _et al._ 2013 citation to `wdpa_clean` help page, regarding the
   buffering of point localities.
 
-# wdpar 0.0.0.2 (unreleased)
+# wdpar 0.0.0.2
 
 - Initial "everything works" version.
 
-# wdpar 0.0.0.1 (unreleased)
+# wdpar 0.0.0.1
 
 - Initial package version.

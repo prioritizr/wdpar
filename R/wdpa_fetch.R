@@ -45,7 +45,7 @@ NULL
 #'   <https://www.protectedplanet.net/c/wdpa-manual>.
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # fetch data for Liechtenstein
 #' lie_raw_data <- wdpa_fetch("Liechtenstein", wait = TRUE)
 #'

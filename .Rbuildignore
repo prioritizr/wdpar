@@ -18,5 +18,5 @@ test.log
 gp.log
 spell.log
 README.Rmd
-inst/extdata/dictionary.txt
+inst/WORDLIST
 ^_pkgdown\.yml$

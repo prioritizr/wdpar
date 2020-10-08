@@ -73,7 +73,7 @@ Areas (WDPA)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
       </span>
     </div>
 
@@ -157,10 +157,10 @@ will be thrown. Defaults to <code>FALSE</code>.</p></td>
     <pre class="examples"><div class='input'><span class='co'># \dontrun{</span>
 <span class='co'># obtain url for New Zealand data</span>
 <span class='no'>nzl_url</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_url</span>(<span class='st'>"New Zealand"</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>nzl_url</span>)</div><div class='output co'>#&gt; [1] "https://www.protectedplanet.net/downloads/WDPA_Jul2020_NZL?type=shapefile"</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>nzl_url</span>)</div><div class='output co'>#&gt; [1] "http://d1gam3xoknrgr2.cloudfront.net/current/WDPA_WDOECM_NZL_shp.zip"</div><div class='input'>
 <span class='co'># obtain url for New Zealand data using its ISO3 code</span>
 <span class='no'>nzl_url</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_url</span>(<span class='st'>"NZL"</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>nzl_url</span>)</div><div class='output co'>#&gt; [1] "https://www.protectedplanet.net/downloads/WDPA_Jul2020_NZL?type=shapefile"</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>nzl_url</span>)</div><div class='output co'>#&gt; [1] "http://d1gam3xoknrgr2.cloudfront.net/current/WDPA_WDOECM_NZL_shp.zip"</div><div class='input'>
 <span class='co'># obtain url for global data</span>
 <span class='no'>global_url</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_url</span>(<span class='st'>"global"</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>global_url</span>)</div><div class='output co'>#&gt; [1] "http://wcmc.io/wdpa_current_release"</div><div class='input'># }

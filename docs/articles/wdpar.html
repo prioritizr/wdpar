@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
       </span>
     </div>
 
@@ -76,7 +76,7 @@
       <h1 data-toc-skip>wdpar: Interface to the World Database on Protected Areas</h1>
                         <h4 class="author">Jeffrey O. Hanson</h4>
             
-            <h4 class="date">2020-07-29</h4>
+            <h4 class="date">2020-10-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/wdpar/blob/master/vignettes/wdpar.Rmd"><code>vignettes/wdpar.Rmd</code></a></small>
       <div class="hidden name"><code>wdpar.Rmd</code></div>
@@ -149,12 +149,12 @@
 <p>Now that we have finished cleaning the data, let’s preview the data. For more information on what these columns mean, please refer to the <a href="https://www.protectedplanet.net/c/wdpa-manual">official manual</a> (available in <a href="http://wcmc.io/WDPA_Manual">English</a>, <a href="http://wcmc.io/WDPA_Manual_ES">Spanish</a>, and <a href="http://wcmc.io/WDPA_Manual_RU">Russian</a>).</p>
 <div class="sourceCode"><html><body><pre class="r"><span class="co"># print first six rows of the data</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">mlt_pa_data</span>)</pre></body></html></div>
-<pre><code>## Simple feature collection with 6 features and 30 fields
+<pre><code>## Simple feature collection with 6 features and 32 fields
 ## geometry type:  GEOMETRY
 ## dimension:      XY
 ## bbox:           xmin: 1382520 ymin: 4291797 xmax: 1399694 ymax: 4299338
 ## CRS:            +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
-## # A tibble: 6 x 31
+## # A tibble: 6 x 33
 ##   WDPAID WDPA_PID PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
 ##    &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;   
 ## 1 5.56e8 5555886… 1      Il-M… Il-Majji… Park… National… National   II      
@@ -163,12 +163,13 @@
 ## 4 1.94e5 194415   1      Il-Ġ… Il-Ġonna… List… List Of … National   III     
 ## 5 1.94e5 194417   1      Il-W… Il-Wied … List… List Of … National   III     
 ## 6 1.94e5 194418   1      Il-B… Il-Ballu… List… List Of … National   III     
-## # … with 22 more variables: INT_CRIT &lt;chr&gt;, MARINE &lt;chr&gt;, REP_M_AREA &lt;dbl&gt;,
+## # … with 24 more variables: INT_CRIT &lt;chr&gt;, MARINE &lt;chr&gt;, REP_M_AREA &lt;dbl&gt;,
 ## #   GIS_M_AREA &lt;dbl&gt;, REP_AREA &lt;dbl&gt;, GIS_AREA &lt;dbl&gt;, NO_TAKE &lt;chr&gt;,
 ## #   NO_TK_AREA &lt;dbl&gt;, STATUS &lt;chr&gt;, STATUS_YR &lt;dbl&gt;, GOV_TYPE &lt;chr&gt;,
 ## #   OWN_TYPE &lt;chr&gt;, MANG_AUTH &lt;chr&gt;, MANG_PLAN &lt;chr&gt;, VERIF &lt;chr&gt;,
 ## #   METADATAID &lt;int&gt;, SUB_LOC &lt;chr&gt;, PARENT_ISO &lt;chr&gt;, ISO3 &lt;chr&gt;,
-## #   GEOMETRY_TYPE &lt;chr&gt;, AREA_KM2 &lt;dbl&gt;, geometry &lt;GEOMETRY [m]&gt;</code></pre>
+## #   SUPP_INFO &lt;chr&gt;, CONS_OBJ &lt;chr&gt;, GEOMETRY_TYPE &lt;chr&gt;, AREA_KM2 &lt;dbl&gt;,
+## #   geometry &lt;GEOMETRY [m]&gt;</code></pre>
 <p>We will now reproject the data to longitude/latitude coordinates (<a href="http://spatialreference.org/ref/epsg/wgs-84/">EPSG:4326</a>) for visualization purposes.</p>
 <div class="sourceCode"><html><body><pre class="r"><span class="co"># reproject data</span>
 <span class="no">mlt_pa_data</span> <span class="kw">&lt;-</span> <span class="fu">st_transform</span>(<span class="no">mlt_pa_data</span>, <span class="fl">4326</span>)</pre></body></html></div>
@@ -201,9 +202,9 @@
 <pre><code>## # A tibble: 3 x 2
 ##   MARINE      area_km
 ##   &lt;chr&gt;         &lt;dbl&gt;
-## 1 marine       9344. 
-## 2 terrestrial   110. 
-## 3 partial        14.9</code></pre>
+## 1 marine       9343. 
+## 2 terrestrial   111. 
+## 3 partial        16.6</code></pre>
 <p>We can also calculate the percentage of land inside its protected area system that are managed under different categories (i.e. <a href="https://www.iucn.org/theme/protected-areas/about/protected-area-categories">using the protected area management categories defined by The International Union for Conservation of Nature</a>).</p>
 <div class="sourceCode"><html><body><pre class="r"><span class="co"># calculate percentage of land inside protected areas (km^2)</span>
 <span class="no">statistic</span> <span class="kw">&lt;-</span>
@@ -218,16 +219,17 @@
 <pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <div class="sourceCode"><html><body><pre class="r"><span class="co"># print statistic</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">statistic</span>)</pre></body></html></div>
-<pre><code>## # A tibble: 7 x 3
+<pre><code>## # A tibble: 8 x 3
 ##   IUCN_CAT       area_km percentage
 ##   &lt;chr&gt;            &lt;dbl&gt;      &lt;dbl&gt;
-## 1 IV           5388.      56.9     
-## 2 Not Reported 4049.      42.8     
+## 1 IV           5391.      56.9     
+## 2 Not Reported 4040.      42.7     
 ## 3 V              28.8      0.305   
-## 4 II              2.49     0.0263  
-## 5 III             0.183    0.00193 
-## 6 Ia              0.176    0.00186 
-## 7 VI              0.0279   0.000295</code></pre>
+## 4 Not Assigned    8.58     0.0906  
+## 5 II              2.49     0.0263  
+## 6 III             0.196    0.00207 
+## 7 Ia              0.176    0.00186 
+## 8 VI              0.0279   0.000295</code></pre>
 <p>We can also plot a map showing Malta’s protected areas and color each area according to it’s management category.</p>
 <div class="sourceCode"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggmap.html">ggmap</a></span>(<span class="no">bg</span>) +
 <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="kw">fill</span> <span class="kw">=</span> <span class="no">IUCN_CAT</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">mlt_pa_data</span>, <span class="kw">inherit.aes</span> <span class="kw">=</span> <span class="fl">FALSE</span>) +
@@ -265,7 +267,7 @@
 To cite the wdpar package in publications, use:
 
   Hanson JO (2020) wdpar: Interface to the World Database on Protected
-  Areas. R package version 1.0.3.
+  Areas. R package version 1.0.4.
   https://CRAN.R-project.org/package=wdpar
 
   UNEP-WCMC and IUCN (2020) Protected Planet: The World Database on

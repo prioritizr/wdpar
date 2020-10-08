@@ -116,3 +116,13 @@ test_that("wdpa_url (global)", {
 test_that("citation", {
   expect_is(citation("wdpar"), "citation")
 })
+
+test_that("wdpa_version", {
+  expect_equal(wdpa_version("WDPA_Jan2018_LIE-shapefile.zip"), "Jan2018")
+})
+
+test_that("convert_wdpa_version_to_POSIXct", {
+  expect_equal(convert_wdpa_version_to_POSIXct("Feb2018"),
+               as.POSIXct(strptime(paste0("01/Feb/2018"), "%d/%b/%Y")))
+  expect_error(convert_wdpa_version_to_POSIXct("asdf2018"))
+})

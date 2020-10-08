@@ -33,8 +33,8 @@ country_code <- function(x) {
 
 #' Find most recent version of WDPA dataset in folder
 #'
-#' Find the file in a folder which has the most recent version of the WDPA data #' set in it.
-#'
+#' Find the file in a folder which has the most recent version of the WDPA data
+#' set in it.
 #'
 #' @param x `character` Country for desired data. This argument
 #'   can be the name of the country (e.g. `"Liechtenstein"`) or the
@@ -67,18 +67,8 @@ wdpa_file <- function(x, download_dir = rappdirs::user_data_dir("wdpar")) {
   if (length(file_paths) == 0)
     stop("data not found in \"download_dir\" folder")
   # parse date-times
-  # note that date-times easily cannot be parsed using base::strptime due to
-  # bug where date-times with month before year (e.g. Nov2011) will return NA
-  # see this post on Stack Overflow
-  # https://stackoverflow.com/questions/26997864/strptime-not-recognizing-b-b
-  # therefore we must---unsatisfyingly---extract the month and years separately
-  # reorder them, and then parse using base::strptime
-  month_year <- vapply(strsplit(basename(file_paths), "_", fixed = TRUE), `[[`,
-                       character(1), 2)
-  months <- gsub("[[:digit:]]", "", month_year)
-  years <- gsub("[[:alpha:]]", "", month_year)
-  file_dates <- as.POSIXct(strptime(paste0("01/", months, "/", years),
-                           "%d/%b/%Y"))
+  file_versions <- vapply(file_paths, wdpa_version, character(1))
+  file_dates <- convert_wdpa_version_to_POSIXct(file_versions)
   # set file_path as latest version
   file_path <- file_paths[which.max(file_dates)]
   # return file path
@@ -153,7 +143,57 @@ empty_wdpa_dataset <- function(crs) {
     SUB_LOC = character(0),
     PARENT_ISO = character(0),
     ISO3 = character(0),
+    SUPP_INFO = character(0),
+    CONS_OBJ = character(0),
     GEOMETRY_TYPE = character(0),
     AREA_KM2 = numeric(0)),
     geometry = sf::st_sfc(crs = crs))
+}
+
+#' Dataset version
+#'
+#' Determine the version of protected area data.
+#'
+#' @param x `character` file name.
+#'
+#' @return `character` version.
+#'
+#' @noRd
+wdpa_version <- function(x) {
+  # verify argument is valid
+  assertthat::assert_that(assertthat::is.string(x), assertthat::noNA(x))
+  strsplit(basename(x), "_", fixed = TRUE)[[1]][[2]]
+}
+
+#' Covert dataset version to POSIXct
+#'
+#' Coerce data version to `POSIXct` format.
+#'
+#' @param x `character` file name.
+#'
+#' @return `character` version.
+#'
+#' @noRd
+convert_wdpa_version_to_POSIXct <- function(x) {
+  # verify argument is valid
+  assertthat::assert_that(is.character(x), assertthat::noNA(x))
+  # parse date-times
+  # note that date-times easily cannot be parsed using base::strptime due to
+  # bug where date-times with month before year (e.g. Nov2011) will return NA
+  # see this post on Stack Overflow
+  # https://stackoverflow.com/questions/26997864/strptime-not-recognizing-b-b
+  # therefore we must---unsatisfyingly---extract the month and years separately
+  # reorder them, and then parse using base::strptime
+  month <- gsub("[[:digit:]]", "", x)
+  year <- gsub("[[:alpha:]]", "", x)
+  out <- try(as.POSIXct(strptime(paste0("01/", month, "/", year), "%d/%b/%Y")),
+             silent = TRUE)
+  # verify valid date
+  if (inherits(out, "try-error"))
+    stop("version not recognized")
+  assertthat::assert_that(
+    all(!is.na(out)), all(nchar(year) == 4), all(nchar(month) == 3),
+    msg = "version not recognized")
+  # return result
+  out
 }

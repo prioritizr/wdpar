@@ -41,7 +41,8 @@
 
 <meta property="og:title" content="Fetch data from the World Database on Protected Areas — wdpa_fetch" />
 <meta property="og:description" content="Download data from the World Database on Protected Areas (WDPA)
-(available at http://protectedplanet.net) and import it." />
+(available at http://protectedplanet.net) and import it.
+Note that data are downloaded assuming non-commercial use." />
 
 
 
@@ -73,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
       </span>
     </div>
 
@@ -122,7 +123,8 @@
 
     <div class="ref-description">
     <p>Download data from the World Database on Protected Areas (WDPA)
-(available at <a href='http://protectedplanet.net'>http://protectedplanet.net</a>) and import it.</p>
+(available at <a href='http://protectedplanet.net'>http://protectedplanet.net</a>) and import it.
+Note that data are downloaded assuming non-commercial use.</p>
     </div>
 
     <pre class="usage"><span class='fu'>wdpa_fetch</span>(
@@ -183,6 +185,10 @@ cleaned prior to analysis</strong>. Check out the
 practices. For information on this database,
 prefer refer to the official manual
 (<a href='https://www.protectedplanet.net/c/wdpa-manual'>https://www.protectedplanet.net/c/wdpa-manual</a>).</p>
+<p>Please note that this function will sometimes return the error
+<code>PhantomJS signals port = 4567 is already in use</code>. This can occur
+when you have previously run the function and terminated it early.
+To address this issue, you will need to restart your computer.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='wdpa_clean.html'>wdpa_clean()</a></code>, <code><a href='wdpa_read.html'>wdpa_read()</a></code>,
@@ -198,9 +204,78 @@ prefer refer to the official manual
 <span class='co'># fetch data for Liechtenstein using the ISO3 code</span>
 <span class='no'>lie_raw_data</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_fetch</span>(<span class='st'>"LIE"</span>)
 
+<span class='co'># print data</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>lie_raw_data</span>)</div><div class='output co'>#&gt; Simple feature collection with 45 features and 30 fields
+#&gt; geometry type:  MULTIPOLYGON
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: 9.475186 ymin: 47.04974 xmax: 9.636976 ymax: 47.26538
+#&gt; CRS:            4326
+#&gt; <span style='color: #555555;'># A tibble: 45 x 31</span><span>
+#&gt;    WDPAID WDPA_PID PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
+#&gt;  </span><span style='color: #555555;'>*</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   
+#&gt; </span><span style='color: #555555;'> 1</span><span>  </span><span style='text-decoration: underline;'>18</span><span>107 18107    1      Rugg… Ruggelle… Natu… Nature R… National   Ia      
+#&gt; </span><span style='color: #555555;'> 2</span><span>  </span><span style='text-decoration: underline;'>18</span><span>109 18109    1      Schw… Schwabbr… Natu… Nature R… National   Ia      
+#&gt; </span><span style='color: #555555;'> 3</span><span>  </span><span style='text-decoration: underline;'>30</span><span>747 30747    1      Gamp… Gamprine… Natu… Nature R… National   Ia      
+#&gt; </span><span style='color: #555555;'> 4</span><span>  </span><span style='text-decoration: underline;'>30</span><span>750 30750    1      Äule… Äulehäg   Natu… Nature R… National   Ia      
+#&gt; </span><span style='color: #555555;'> 5</span><span>  </span><span style='text-decoration: underline;'>30</span><span>752 30752    1      Trie… Triesner… Natu… Nature R… National   Ia      
+#&gt; </span><span style='color: #555555;'> 6</span><span>  </span><span style='text-decoration: underline;'>30</span><span>753 30753    1      Wisa… Wisanels  Natu… Nature R… National   Ia      
+#&gt; </span><span style='color: #555555;'> 7</span><span>  </span><span style='text-decoration: underline;'>30</span><span>754 30754    1      Birka Birka     Natu… Nature R… National   Ia      
+#&gt; </span><span style='color: #555555;'> 8</span><span>  </span><span style='text-decoration: underline;'>30</span><span>755 30755    1      Schn… Schnecke… Natu… Nature R… National   Ia      
+#&gt; </span><span style='color: #555555;'> 9</span><span>  </span><span style='text-decoration: underline;'>30</span><span>756 30756    1      Au    Au        Natu… Nature R… National   Ia      
+#&gt; </span><span style='color: #555555;'>10</span><span>  </span><span style='text-decoration: underline;'>30</span><span>757 30757    1      Pfla… Pflanzen… Gesc… Protecte… National   V       
+#&gt; </span><span style='color: #555555;'># … with 35 more rows, and 22 more variables: INT_CRIT </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, MARINE </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   REP_M_AREA </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, GIS_M_AREA </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, REP_AREA </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, GIS_AREA </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   NO_TAKE </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, NO_TK_AREA </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, STATUS </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, STATUS_YR </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   GOV_TYPE </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, OWN_TYPE </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, MANG_AUTH </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, MANG_PLAN </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   VERIF </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, METADATAID </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, SUB_LOC </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, PARENT_ISO </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, ISO3 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   SUPP_INFO </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, CONS_OBJ </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, geometry </span><span style='color: #555555;font-style: italic;'>&lt;MULTIPOLYGON [°]&gt;</span><span></div><div class='input'>
 <span class='co'># plot data</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>lie_raw_data</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: plotting the first 10 out of 28 attributes; use max.plot = 28 to plot all</span></div><div class='img'><img src='wdpa_fetch-1.png' alt='' width='700' height='433' /></div><div class='input'># }
-</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>lie_raw_data</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: plotting the first 10 out of 30 attributes; use max.plot = 30 to plot all</span></div><div class='img'><img src='wdpa_fetch-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># data for multiple countries can be downloaded separately and combined,</span>
+<span class='co'># this is useful to avoid having to download the global dataset</span>
+<span class='co'>## load packages to easily merge datasets</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tibble</span>)
+
+<span class='co'>## define country names to download</span>
+<span class='no'>country_codes</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"LIE"</span>, <span class='st'>"MHL"</span>)
+
+<span class='co'>## download data for each country</span>
+<span class='no'>mult_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>country_codes</span>, <span class='no'>wdpa_fetch</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='co'>## merge datasets together</span>
+<span class='no'>mult_dat</span> <span class='kw'>&lt;-</span> <span class='fu'>st_as_sf</span>(<span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(<span class='no'>mult_data</span>)))
+
+<span class='co'>## print data</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>mult_dat</span>)</div><div class='output co'>#&gt; Simple feature collection with 61 features and 30 fields
+#&gt; geometry type:  GEOMETRY
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: 9.475186 ymin: 5.586051 xmax: 171.9985 ymax: 47.26538
+#&gt; CRS:            4326
+#&gt; </span><span style='color: #555555;'># A tibble: 61 x 31</span><span>
+#&gt;    WDPAID WDPA_PID PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
+#&gt;     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   
+#&gt; </span><span style='color: #555555;'> 1</span><span>  </span><span style='text-decoration: underline;'>18</span><span>107 18107    1      Rugg… Ruggelle… Natu… Nature R… National   Ia      
+#&gt; </span><span style='color: #555555;'> 2</span><span>  </span><span style='text-decoration: underline;'>18</span><span>109 18109    1      Schw… Schwabbr… Natu… Nature R… National   Ia      
+#&gt; </span><span style='color: #555555;'> 3</span><span>  </span><span style='text-decoration: underline;'>30</span><span>747 30747    1      Gamp… Gamprine… Natu… Nature R… National   Ia      
+#&gt; </span><span style='color: #555555;'> 4</span><span>  </span><span style='text-decoration: underline;'>30</span><span>750 30750    1      Äule… Äulehäg   Natu… Nature R… National   Ia      
+#&gt; </span><span style='color: #555555;'> 5</span><span>  </span><span style='text-decoration: underline;'>30</span><span>752 30752    1      Trie… Triesner… Natu… Nature R… National   Ia      
+#&gt; </span><span style='color: #555555;'> 6</span><span>  </span><span style='text-decoration: underline;'>30</span><span>753 30753    1      Wisa… Wisanels  Natu… Nature R… National   Ia      
+#&gt; </span><span style='color: #555555;'> 7</span><span>  </span><span style='text-decoration: underline;'>30</span><span>754 30754    1      Birka Birka     Natu… Nature R… National   Ia      
+#&gt; </span><span style='color: #555555;'> 8</span><span>  </span><span style='text-decoration: underline;'>30</span><span>755 30755    1      Schn… Schnecke… Natu… Nature R… National   Ia      
+#&gt; </span><span style='color: #555555;'> 9</span><span>  </span><span style='text-decoration: underline;'>30</span><span>756 30756    1      Au    Au        Natu… Nature R… National   Ia      
+#&gt; </span><span style='color: #555555;'>10</span><span>  </span><span style='text-decoration: underline;'>30</span><span>757 30757    1      Pfla… Pflanzen… Gesc… Protecte… National   V       
+#&gt; </span><span style='color: #555555;'># … with 51 more rows, and 22 more variables: INT_CRIT </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, MARINE </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   REP_M_AREA </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, GIS_M_AREA </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, REP_AREA </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, GIS_AREA </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   NO_TAKE </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, NO_TK_AREA </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, STATUS </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, STATUS_YR </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   GOV_TYPE </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, OWN_TYPE </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, MANG_AUTH </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, MANG_PLAN </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   VERIF </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, METADATAID </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, SUB_LOC </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, PARENT_ISO </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, ISO3 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   SUPP_INFO </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, CONS_OBJ </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, geometry </span><span style='color: #555555;font-style: italic;'>&lt;MULTIPOLYGON [°]&gt;</span><span></div><div class='input'># }
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

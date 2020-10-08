@@ -1,10 +1,11 @@
-#' @include internal.R wdpa_url.R
+#' @include internal.R wdpa_url.R wdpa_latest_version.R
 NULL
 
 #' Fetch data from the World Database on Protected Areas
 #'
 #' Download data from the World Database on Protected Areas (WDPA)
 #' (available at <http://protectedplanet.net>) and import it.
+#' Note that data are downloaded assuming non-commercial use.
 #'
 #' @param x `character` country for which to download data. This argument
 #'   can be the name of the country (e.g. `"Liechtenstein"`) or the
@@ -37,6 +38,11 @@ NULL
 #'   prefer refer to the official manual
 #'   (<https://www.protectedplanet.net/c/wdpa-manual>).
 #'
+#'   Please note that this function will sometimes return the error
+#'   `PhantomJS signals port = 4567 is already in use`. This can occur
+#'   when you have previously run the function and terminated it early.
+#'   To address this issue, you will need to restart your computer.
+#'
 #' @return [sf::sf()] object.
 #'
 #' @seealso [wdpa_clean()], [wdpa_read()],
@@ -52,8 +58,29 @@ NULL
 #' # fetch data for Liechtenstein using the ISO3 code
 #' lie_raw_data <- wdpa_fetch("LIE")
 #'
+#' # print data
+#' print(lie_raw_data)
+#'
 #' # plot data
 #' plot(lie_raw_data)
+#'
+#' # data for multiple countries can be downloaded separately and combined,
+#' # this is useful to avoid having to download the global dataset
+#' ## load packages to easily merge datasets
+#' library(dplyr)
+#' library(tibble)
+#'
+#' ## define country names to download
+#' country_codes <- c("LIE", "MHL")
+#'
+#' ## download data for each country
+#' mult_data <- lapply(country_codes, wdpa_fetch, wait = TRUE)
+#'
+#' ## merge datasets together
+#' mult_dat <- st_as_sf(as_tibble(bind_rows(mult_data)))
+#'
+#' ## print data
+#' print(mult_dat)
 #' }
 #' @export
 wdpa_fetch <- function(x, wait = FALSE,
@@ -62,7 +89,8 @@ wdpa_fetch <- function(x, wait = FALSE,
   # check that arguments are valid
   ## check that classes are correct
   dir.create(download_dir, showWarnings = FALSE, recursive = TRUE)
-  assertthat::assert_that(assertthat::is.string(x),
+  assertthat::assert_that(
+    assertthat::is.string(x),
     assertthat::is.dir(download_dir),
     assertthat::is.flag(force_download),
     assertthat::is.flag(verbose),
@@ -75,9 +103,15 @@ wdpa_fetch <- function(x, wait = FALSE,
    if (!curl::has_internet())
       stop(paste0("data not found in download_dir, and no internet connection",
                   "to download it."))
+    ## find latest version of the dataset
+    current_month_year <- wdpa_latest_version()
     ## find the download link and set file path to save the data
     download_url <- wdpa_url(x, wait = wait)
-    file_name <- basename(httr::HEAD(download_url)$url)
+    ## note that file name conventions on protectedplanet.net have changed
+    ## (detected on 8th Oct 2020) and so file names are manually changed
+    ## to follow the previous convention
+    file_name <- paste0("WDPA_", current_month_year, "_", country_code(x),
+                        "-shapefile.zip")
     file_path <- file.path(download_dir, file_name)
     ## download the data
     if (!file.exists(file_path) || force_download) {
@@ -89,18 +123,21 @@ wdpa_fetch <- function(x, wait = FALSE,
     if (!file.exists(file_path))
       stop("downloading data failed")
   } else {
-    # parse month-year from file
-    month_year <- vapply(strsplit(basename(file_path), "_", fixed = TRUE), `[[`,
-                         character(1), 2)
-    month <- gsub("[[:digit:]]", "", month_year)
-    year <- gsub("[[:alpha:]]", "", month_year)
-    file_date <- as.POSIXct(strptime(paste0("01/", month, "/", year),
-                            "%d/%b/%Y"))
-    current_date <- as.POSIXct(strptime(paste(replace(
-                      strsplit(as.character(Sys.Date()), "-")[[1]],
-                      3, "01"), collapse = "/"), "%Y/%m/%d"))
-    if (file_date < current_date)
-      warning(paste0("local data is out of date: ", format(file_date, "%b %Y")))
+    # if internet is available, then check version of available version
+    if (curl::has_internet()) {
+      ## parse month-year from input file
+      input_version <- wdpa_version(file_path)
+      input_file_date <- convert_wdpa_version_to_POSIXct(input_version)
+      ## parse month-year from latest release
+      current_version <- wdpa_latest_version()
+      current_file_date <- convert_wdpa_version_to_POSIXct(current_version)
+      ## throw warning if out of date
+      if (input_file_date < current_file_date)
+        warning(paste0("local data is out of date: ",
+                       format(input_file_date, "%b %Y")))
+    } else {
+      warning("cannot verify if version on disk is up to date.")
+    }
   }
   # import the data
   wdpa_read(file_path)

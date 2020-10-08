@@ -7,7 +7,8 @@ wdpa_column_names <- c("WDPAID", "WDPA_PID", "PA_DEF", "NAME", "ORIG_NAME",
                        "NO_TAKE", "NO_TK_AREA", "STATUS", "STATUS_YR",
                        "GOV_TYPE", "OWN_TYPE", "MANG_AUTH", "MANG_PLAN",
                        "VERIF", "METADATAID", "SUB_LOC", "PARENT_ISO", "ISO3",
-                       "GEOMETRY_TYPE", "AREA_KM2", "geometry")
+                       "SUPP_INFO", "CONS_OBJ", "GEOMETRY_TYPE", "AREA_KM2",
+                       "geometry")
 
 test_that("wdpa_clean (single country with eez)", {
   skip_on_cran()

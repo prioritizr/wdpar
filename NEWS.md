@@ -1,3 +1,15 @@
+# wdpar 1.0.4
+
+- CRAN release.
+
+# wdpar 1.0.3.1
+
+- Add example for multiple countries to `wdpa_clean` documentation (#28).
+- Add information on port error to `wdpa_clean` documentation (#29).
+- Update package to work with new version of Protected Planet website (#30).
+- New `wdpa_latest_version` function for determining the latest version of the
+  dataset.
+
 # wdpar 1.0.3
 
 - CRAN release.

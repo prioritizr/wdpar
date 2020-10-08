@@ -12,12 +12,13 @@ reference:
     contents:
       - wdpar
   - title: WDPA functions
-    desc: Functions for fetching and cleaning data
+    desc: Functions for working with data
     contents:
       - wdpa_fetch
       - wdpa_clean
       - wdpa_read
       - wdpa_url
+      - wdpa_latest_version
   - title: Miscellaneous functions
     desc: Additional functions distributed with the package
     contents:

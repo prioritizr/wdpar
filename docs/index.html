@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
       </span>
     </div>
 
@@ -110,13 +110,13 @@
 <p>Print preview of the data associated with each protected area.</p>
 <div class="sourceCode"><pre class="r"><span class="co"># print preview</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">mlt_pa_data</span>)</pre></div>
-<div class="sourceCode"><pre class="sourceCode R"><code class="sourceCode r">## Simple feature collection with 6 features and 30 fields
+<div class="sourceCode"><pre class="sourceCode R"><code class="sourceCode r">## Simple feature collection with 6 features and 32 fields
 ## geometry type:  MULTIPOLYGON
 ## dimension:      XY
 ## bbox:           xmin: 1369012 ymin: 4280784 xmax: 1399694 ymax: 4307909
 ## CRS:            +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
 ## precision:      1500 
-## # A tibble: 6 x 31
+## # A tibble: 6 x 33
 ##   WDPAID WDPA_PID PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
 ##    &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;   
 ## 1 1.94e5 194420   1      Filf… Filfla    Rise… Nature R… National   Ia      
@@ -125,12 +125,13 @@
 ## 4 5.56e8 5555886… 1      Il-M… Il-Majji… Park… National… National   II      
 ## 5 1.75e5 174757   1      Il-Ġ… Il-Ġonna… List… List Of … National   III     
 ## 6 1.75e5 174758   1      Bidn… Bidnija,… List… List Of … National   III     
-## # … with 22 more variables: INT_CRIT &lt;chr&gt;, MARINE &lt;chr&gt;, REP_M_AREA &lt;dbl&gt;,
+## # … with 24 more variables: INT_CRIT &lt;chr&gt;, MARINE &lt;chr&gt;, REP_M_AREA &lt;dbl&gt;,
 ## #   GIS_M_AREA &lt;dbl&gt;, REP_AREA &lt;dbl&gt;, GIS_AREA &lt;dbl&gt;, NO_TAKE &lt;chr&gt;,
 ## #   NO_TK_AREA &lt;dbl&gt;, STATUS &lt;chr&gt;, STATUS_YR &lt;dbl&gt;, GOV_TYPE &lt;chr&gt;,
 ## #   OWN_TYPE &lt;chr&gt;, MANG_AUTH &lt;chr&gt;, MANG_PLAN &lt;chr&gt;, VERIF &lt;chr&gt;,
 ## #   METADATAID &lt;int&gt;, SUB_LOC &lt;chr&gt;, PARENT_ISO &lt;chr&gt;, ISO3 &lt;chr&gt;,
-## #   GEOMETRY_TYPE &lt;chr&gt;, AREA_KM2 &lt;dbl&gt;, geometry &lt;MULTIPOLYGON [m]&gt;</code></pre></div>
+## #   SUPP_INFO &lt;chr&gt;, CONS_OBJ &lt;chr&gt;, GEOMETRY_TYPE &lt;chr&gt;, AREA_KM2 &lt;dbl&gt;,
+## #   geometry &lt;MULTIPOLYGON [m]&gt;</code></pre></div>
 <p>Finally, after cleaning the data, let’s plot a map showing Malta’s protected areas and color each area according to its management category (<a href="https://www.iucn.org/theme/protected-areas/about/protected-area-categories">as defined by the The International Union for Conservation of Nature</a>).</p>
 <div class="sourceCode"><pre class="r"><span class="co"># reproject data to longitude/latitude for plotting</span>
 <span class="no">mlt_pa_data</span> <span class="kw">&lt;-</span> <span class="fu">st_transform</span>(<span class="no">mlt_pa_data</span>, <span class="fl">4326</span>)
@@ -153,7 +154,7 @@
 <div class="sourceCode"><pre class="sourceCode R"><code class="sourceCode r">To cite the wdpar package <span class="cf">in</span> publications, use<span class="op">:</span>
 
 <span class="st">  </span>Hanson <span class="kw">JO</span> (<span class="dv">2020</span>) wdpar<span class="op">:</span><span class="st"> </span>Interface to the World Database on Protected
-  Areas. R package version <span class="fl">1.0</span>.<span class="dv">3</span>.
+  Areas. R package version <span class="fl">1.0</span>.<span class="dv">4</span>.
   https<span class="op">:</span><span class="er">//</span>CRAN.R<span class="op">-</span>project.org<span class="op">/</span>package=wdpar
 
   UNEP<span class="op">-</span>WCMC and <span class="kw">IUCN</span> (<span class="dv">2020</span>) Protected Planet<span class="op">:</span><span class="st"> </span>The World Database on

@@ -42,6 +42,7 @@ reported? Defaults to \code{TRUE} in an interactive session, otherwise
 \description{
 Download data from the World Database on Protected Areas (WDPA)
 (available at \url{http://protectedplanet.net}) and import it.
+Note that data are downloaded assuming non-commercial use.
 }
 \details{
 This function will download the specified protected area
@@ -51,6 +52,11 @@ cleaned prior to analysis}. Check out the
 practices. For information on this database,
 prefer refer to the official manual
 (\url{https://www.protectedplanet.net/c/wdpa-manual}).
+
+Please note that this function will sometimes return the error
+\verb{PhantomJS signals port = 4567 is already in use}. This can occur
+when you have previously run the function and terminated it early.
+To address this issue, you will need to restart your computer.
 }
 \examples{
 \dontrun{
@@ -60,8 +66,29 @@ lie_raw_data <- wdpa_fetch("Liechtenstein", wait = TRUE)
 # fetch data for Liechtenstein using the ISO3 code
 lie_raw_data <- wdpa_fetch("LIE")
 
+# print data
+print(lie_raw_data)
+
 # plot data
 plot(lie_raw_data)
+
+# data for multiple countries can be downloaded separately and combined,
+# this is useful to avoid having to download the global dataset
+## load packages to easily merge datasets
+library(dplyr)
+library(tibble)
+
+## define country names to download
+country_codes <- c("LIE", "MHL")
+
+## download data for each country
+mult_data <- lapply(country_codes, wdpa_fetch, wait = TRUE)
+
+## merge datasets together
+mult_dat <- st_as_sf(as_tibble(bind_rows(mult_data)))
+
+## print data
+print(mult_dat)
 }
 }
 \seealso{

@@ -1,6 +1,6 @@
 Package: wdpar
 Type: Package
-Version: 1.0.3
+Version: 1.0.4
 Title: Interface to the World Database on Protected Areas
 Description: Fetch and clean data from the World Database on Protected
     Areas (WDPA). Data is obtained from Protected Planet
@@ -31,8 +31,8 @@ Suggests:
     ggplot2 (>= 3.1.0),
     pingr (>= 1.1.2)
 Depends:
-    R(>= 3.5.0),
-    sf(>= 0.9-0)
+    R (>= 3.5.0),
+    sf (>= 0.9-0)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -47,6 +47,7 @@ Collate:
     'package.R'
     'wdpa_clean.R'
     'wdpa_url.R'
+    'wdpa_latest_version.R'
     'wdpa_fetch.R'
     'wdpa_read.R'
     'zzz.R'

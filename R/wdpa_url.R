@@ -43,26 +43,32 @@ wdpa_url <- function(x, wait = FALSE) {
   try_and_find_url <- function(x) {
     ## initialize web driver
     result <- suppressMessages(tryCatch({
+      ## initialize URL
       url <- character(0)
+      ## navigate to download web page
       pjs <- wdman::phantomjs(verbose = FALSE)
       rd <- RSelenium::remoteDriver(port = 4567L, browserName = "phantomjs")
       rd$open(silent = TRUE)
       rd$maxWindowSize()
       rd$navigate(paste0("https://protectedplanet.net/country/", x))
       Sys.sleep(2) # wait 2 seconds for page to load
-      elem <- rd$findElement(using = "css", ".link-with-icon--bold")
+      elem <- rd$findElement(using = "css", ".download__trigger")
       elem$clickElement()
       Sys.sleep(2) # wait 2 seconds for page to load
-      elem <- rd$findElement(using = "css", ".link-with-icon+ .link-with-icon")
+      elem <- rd$findElement(using = "css", "li:nth-child(2) .popup__link")
+      elem$clickElement()
+      Sys.sleep(2) # wait 2 seconds for dialog to open
+      elem <- rd$findElement(
+        using = "css", ".modal__link-non-commercial .modal__link-title")
       elem$clickElement()
       Sys.sleep(2) # wait 2 seconds for dialog to open
       ## extract html for modal
       src <- xml2::read_html(rd$getPageSource()[[1]][[1]], encoding = "UTF-8")
       divs <- xml2::xml_find_all(src, ".//div")
-      divs <- divs[which(xml2::xml_attr(divs, "id") == "download-modal")]
+      divs <- divs[which(xml2::xml_attr(divs, "class") == "modal__content")]
       ## parse download link
       attrs <- xml2::xml_attr(xml2::xml_find_all(divs, ".//a"), "href")
-      url <- grep("shapefile", attrs, fixed = TRUE, value = TRUE)
+      url <- grep("shp.zip", attrs, fixed = TRUE, value = TRUE)
     },
     finally = {
       ## clean up web driver
@@ -74,7 +80,7 @@ wdpa_url <- function(x, wait = FALSE) {
     ## prepare output
     if (length(url) == 0)
       return(NA_character_)
-    return(paste0("https://www.protectedplanet.net", url))
+    return(url)
   }
   # find url
   if (x == "global") {

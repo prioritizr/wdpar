@@ -18,10 +18,18 @@ os:
   - linux
   - osx
 
+latex:
+  - false
+  - true
+
 matrix:
   exclude:
     - os: osx
       r: devel
+      latex: true
+  exclude:
+    - os: linux
+      latex: false
 
 env:
   global:
@@ -50,8 +58,8 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get clean; fi;
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get autoremove --purge; fi;
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get --purge remove tex.\*-doc$; fi;
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then travis_wait 120 sudo tlmgr update --self; fi;
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then travis_wait 120 sudo tlmgr install titling framed inconsolata; fi;
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then Rscript - e "install.packages('tinytex');tinytex::install_tinytex()"; fi;
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then sudo tlmgr install titling framed inconsolata; fi;
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install Caskroom/cask/xquartz || echo "fail 1"; fi;
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install ghostscript || echo "fail 2"; fi;
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install udunits || echo "fail 3"; fi;

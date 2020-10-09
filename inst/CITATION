@@ -32,7 +32,7 @@ citEntry(
   year = year,
   publisher = "UNEP-WCMC and IUCN",
   publisheraddress = "Cambridge, UK",
-  url = "https://www.protectedplanet.net",
+  url = "https://www.protectedplanet.net/en",
   textVersion = paste0(
     "UNEP-WCMC and IUCN (", year, ") Protected Planet: The World Database on ",
     "Protected Areas (WDPA), [insert month/year of the version downloaded], ",

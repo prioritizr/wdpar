@@ -30,7 +30,7 @@ devtools::load_all()
 
 ### Overview
 
-The [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/) is the most comprehensive global dataset of protected areas. It is used to monitor the performance of existing protected areas and pinpoint priority areas for establishing new protected areas. Additionally, this database receives monthly updates from government agencies and non-governmental organizations. However, this dataset is associated with [many issues that need to be addressed prior to analysis](https://www.protectedplanet.net/c/calculating-protected-area-coverage) and the dynamic nature of this dataset means that the entire data cleaning process needs to be repeated after obtaining a new version of the dataset. The _wdpar R_ package provides an interface to the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/) and functions for cleaning the data following best practices (outlined in [Butchart _et al._ 2015](https://dx.doi.org/10.1111/conl.12158); [Runge _et al._ 2015](https://science.sciencemag.org/content/350/6265/1255); [Protected Planet](https://www.protectedplanet.net/c/calculating-protected-area-coverage)).
+The [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/en) is the most comprehensive global dataset of protected areas. It is used to monitor the performance of existing protected areas and pinpoint priority areas for establishing new protected areas. Additionally, this database receives monthly updates from government agencies and non-governmental organizations. However, this dataset is associated with [many issues that need to be addressed prior to analysis](https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage) and the dynamic nature of this dataset means that the entire data cleaning process needs to be repeated after obtaining a new version of the dataset. The _wdpar R_ package provides an interface to the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/en) and functions for cleaning the data following best practices (outlined in [Butchart _et al._ 2015](https://dx.doi.org/10.1111/conl.12158); [Runge _et al._ 2015](https://science.sciencemag.org/content/350/6265/1255); [Protected Planet](https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage)).
 
 ### Tutorial
 
@@ -43,7 +43,7 @@ library(dplyr)
 library(ggmap)
 ```
 
-Now we will download protected area data for Malta from [Protected Planet](https://protectedplanet.net). We can achieve this by specifying Malta's country name (i.e. `"Malta"`) or Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (i.e. `"MLT"`).
+Now we will download protected area data for Malta from [Protected Planet](https://www.protectedplanet.net/en). We can achieve this by specifying Malta's country name (i.e. `"Malta"`) or Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (i.e. `"MLT"`).
 
 ```{r}
 # download protected area data for Malta
@@ -101,14 +101,14 @@ mlt_pa_data <-
   mutate(AREA_KM2 = as.numeric(st_area(.)) * 1e-6)
 ```
 
-Now that we have finished cleaning the data, let's preview the data. For more information on what these columns mean, please refer to the [official manual](https://www.protectedplanet.net/c/wdpa-manual) (available in [English](http://wcmc.io/WDPA_Manual), [Spanish](http://wcmc.io/WDPA_Manual_ES), and [Russian](http://wcmc.io/WDPA_Manual_RU)).
+Now that we have finished cleaning the data, let's preview the data. For more information on what these columns mean, please refer to the [official manual](https://www.protectedplanet.net/en/resources/wdpa-manual) (available in English, French, Spanish, and Russian).
 
 ```{r}
 # print first six rows of the data
 head(mlt_pa_data)
 ```
 
-We will now reproject the data to longitude/latitude coordinates ([EPSG:4326](http://spatialreference.org/ref/epsg/wgs-84/)) for visualization purposes.
+We will now reproject the data to longitude/latitude coordinates ([EPSG:4326](https://spatialreference.org/ref/epsg/wgs-84/)) for visualization purposes.
 
 ```{r}
 # reproject data
@@ -179,7 +179,7 @@ theme(axis.title = element_blank(), legend.position = "bottom")
 
 ### Additional datasets
 
-Although the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/) is the most comprehensive global dataset, many datasets are available for specific countries or regions that do not require such extensive data cleaning procedures. As a consequence, it is often worth looking for alternative data sets when working at smaller geographic scales before considering the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/). The list below outlines several alternative protected area datasets and information on where they can be obtained. If you know of any such datasets that are missing, [please create an issue on the GitHub repository](https://github.com/prioritizr/wdpar/issues) and we can add them to the list.
+Although the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/en) is the most comprehensive global dataset, many datasets are available for specific countries or regions that do not require such extensive data cleaning procedures. As a consequence, it is often worth looking for alternative data sets when working at smaller geographic scales before considering the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/en). The list below outlines several alternative protected area datasets and information on where they can be obtained. If you know of any such datasets that are missing, [please create an issue on the GitHub repository](https://github.com/prioritizr/wdpar/issues) and we can add them to the list.
 
 * Arctic
     + [Arctic Protected Areas - 2017](http://geo.abds.is/geonetwork/srv/eng/catalog.search#/metadata/2e56ee1f-50a9-4983-88f4-edaa8588950d)

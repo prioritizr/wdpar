@@ -19,7 +19,7 @@
 - Fix "Non-file package-anchored link(s) in documentation object" warnings
   in R-devel checks.
 - Update `wdpa_read` so that it is compatible with the new data format provided
-  by <https://protectedplanet.net>.
+  by <https://www.protectedplanet.net/en>.
 - Update examples for `st_erase_overlaps` so that overlapping geometries are
   clearly shown.
 - Update examples to run with CRAN checks (i.e. `--run-donttest`).

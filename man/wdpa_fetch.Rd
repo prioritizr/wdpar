@@ -41,7 +41,7 @@ reported? Defaults to \code{TRUE} in an interactive session, otherwise
 }
 \description{
 Download data from the World Database on Protected Areas (WDPA)
-(available at \url{http://protectedplanet.net}) and import it.
+(available at \url{https://www.protectedplanet.net/en}) and import it.
 Note that data are downloaded assuming non-commercial use.
 }
 \details{
@@ -51,7 +51,7 @@ cleaned prior to analysis}. Check out the
 \code{\link[=wdpa_clean]{wdpa_clean()}} function to clean the data according to standard
 practices. For information on this database,
 prefer refer to the official manual
-(\url{https://www.protectedplanet.net/c/wdpa-manual}).
+(\url{https://www.protectedplanet.net/en/resources/wdpa-manual}).
 
 Please note that this function will sometimes return the error
 \verb{PhantomJS signals port = 4567 is already in use}. This can occur
@@ -94,6 +94,6 @@ print(mult_dat)
 \seealso{
 \code{\link[=wdpa_clean]{wdpa_clean()}}, \code{\link[=wdpa_read]{wdpa_read()}},
 \code{\link[=wdpa_url]{wdpa_url()}}, \code{\link[countrycode:countrycode]{countrycode::countrycode()}},
-\url{http://protectedplanet.net},
-\url{https://www.protectedplanet.net/c/wdpa-manual}.
+\url{https://www.protectedplanet.net/en},
+\url{https://www.protectedplanet.net/en/resources/wdpa-manual}.
 }

@@ -9,12 +9,12 @@ NULL
 #' downloading and importing the data into the current session.
 #'
 #' @param x `character` file name for a zip archive file downloaded from
-#'   <http://protectedplanet.net>.
+#'   <https://www.protectedplanet.net/en>.
 #'
 #' @return [sf::sf()] object.
 #'
 #' @seealso [wdpa_fetch()], [wdpa_clean()],
-#'   <http://protectedplanet.net>.
+#'   <https://www.protectedplanet.net/en>.
 #'
 #' @examples
 #' \dontrun{

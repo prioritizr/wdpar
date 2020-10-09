@@ -9,7 +9,7 @@ NULL
 #'
 #' @details The version number can be determined based on the file name for
 #'  the global dataset (currently available at:
-#'  <http://wcmc.io/wdpa_current_release>)
+#'  <https://wcmc.io/wdpa_current_release>)
 #'
 #' @return `character` version of the dataset.
 #'

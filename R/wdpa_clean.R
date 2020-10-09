@@ -39,7 +39,7 @@ NULL
 #' @details This function cleans data from World Database on Protected Areas
 #'   following best practices (Butchart *et al.* 2015, Runge *et al.*
 #'   2015,
-#'   <https://protectedplanet.net/c/calculating-protected-area-coverage>).
+#'   <https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage>).
 #'   To obtain accurate protected area coverage statistics for a country,
 #'   please note that you will need to manually clip the cleaned data to
 #'   the countries' coastline and its Exclusive Economic Zone (EEZ).
@@ -125,7 +125,7 @@ NULL
 #' @return [sf::sf()] object.
 #'
 #' @seealso [wdpa_fetch()],
-#'   <https://protectedplanet.net/c/calculating-protected-area-coverage>.
+#'   <https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage>.
 #'
 #' @references
 #' Butchart SH, Clarke M, Smith RJ, Sykes RE, Scharlemann JP,

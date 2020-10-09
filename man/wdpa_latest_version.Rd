@@ -17,7 +17,7 @@ This is a character identifier representing the month and year (e.g.
 \details{
 The version number can be determined based on the file name for
 the global dataset (currently available at:
-\url{http://wcmc.io/wdpa_current_release})
+\url{https://wcmc.io/wdpa_current_release})
 }
 \examples{
 \dontrun{

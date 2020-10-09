@@ -8,7 +8,7 @@ wdpa_read(x)
 }
 \arguments{
 \item{x}{\code{character} file name for a zip archive file downloaded from
-\url{http://protectedplanet.net}.}
+\url{https://www.protectedplanet.net/en}.}
 }
 \value{
 \code{\link[sf:sf]{sf::sf()}} object.
@@ -39,5 +39,5 @@ plot(lie_raw_data)
 }
 \seealso{
 \code{\link[=wdpa_fetch]{wdpa_fetch()}}, \code{\link[=wdpa_clean]{wdpa_clean()}},
-\url{http://protectedplanet.net}.
+\url{https://www.protectedplanet.net/en}.
 }

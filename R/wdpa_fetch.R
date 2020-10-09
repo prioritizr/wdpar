@@ -4,7 +4,7 @@ NULL
 #' Fetch data from the World Database on Protected Areas
 #'
 #' Download data from the World Database on Protected Areas (WDPA)
-#' (available at <http://protectedplanet.net>) and import it.
+#' (available at <https://www.protectedplanet.net/en>) and import it.
 #' Note that data are downloaded assuming non-commercial use.
 #'
 #' @param x `character` country for which to download data. This argument
@@ -36,7 +36,7 @@ NULL
 #'   [wdpa_clean()] function to clean the data according to standard
 #'   practices. For information on this database,
 #'   prefer refer to the official manual
-#'   (<https://www.protectedplanet.net/c/wdpa-manual>).
+#'   (<https://www.protectedplanet.net/en/resources/wdpa-manual>).
 #'
 #'   Please note that this function will sometimes return the error
 #'   `PhantomJS signals port = 4567 is already in use`. This can occur
@@ -47,8 +47,8 @@ NULL
 #'
 #' @seealso [wdpa_clean()], [wdpa_read()],
 #'   [wdpa_url()], [countrycode::countrycode()],
-#'   <http://protectedplanet.net>,
-#'   <https://www.protectedplanet.net/c/wdpa-manual>.
+#'   <https://www.protectedplanet.net/en>,
+#'   <https://www.protectedplanet.net/en/resources/wdpa-manual>.
 #'
 #' @examples
 #' \dontrun{

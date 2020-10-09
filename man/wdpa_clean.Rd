@@ -57,7 +57,7 @@ Clean data obtained from the World Database on Protected Areas (WDPA).
 This function cleans data from World Database on Protected Areas
 following best practices (Butchart \emph{et al.} 2015, Runge \emph{et al.}
 2015,
-\url{https://protectedplanet.net/c/calculating-protected-area-coverage}).
+\url{https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage}).
 To obtain accurate protected area coverage statistics for a country,
 please note that you will need to manually clip the cleaned data to
 the countries' coastline and its Exclusive Economic Zone (EEZ).
@@ -176,5 +176,5 @@ sets on assessment of conservation progress. \emph{Conservation Biology},
 }
 \seealso{
 \code{\link[=wdpa_fetch]{wdpa_fetch()}},
-\url{https://protectedplanet.net/c/calculating-protected-area-coverage}.
+\url{https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage}.
 }

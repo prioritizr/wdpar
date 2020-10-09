@@ -22,14 +22,17 @@ latex:
   - false
   - true
 
-matrix:
-  exclude:
+jobs:
+  include:
     - os: osx
-      r: devel
-    - os: osx
+      r: release
+      latex: false
+    - os: linux
+      r: release
       latex: true
     - os: linux
-      latex: false
+      r: devel
+      latex: true
 
 env:
   global:

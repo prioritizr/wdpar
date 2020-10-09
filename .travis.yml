@@ -8,19 +8,7 @@ dist: xenial
 
 warnings_are_errors: true
 
-r:
-  - release
-  - devel
-
 r_build_args: --no-build-vignettes
-
-os:
-  - linux
-  - osx
-
-latex:
-  - false
-  - true
 
 jobs:
   include:

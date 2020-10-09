@@ -26,8 +26,8 @@ matrix:
   exclude:
     - os: osx
       r: devel
+    - os: osx
       latex: true
-  exclude:
     - os: linux
       latex: false
 

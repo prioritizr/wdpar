@@ -60,7 +60,7 @@ mlt_pa_data <- wdpa_clean(mlt_raw_pa_data)
 
 After cleaning the data set, we will perform an additional step that involves
 clipping the terrestrial protected areas to Malta's coastline. Ideally, we would
-also clip the marine protected areas to Malta's Exclusive Economic Zone (EEZ) but such data are as easy to obtain on a per country basis (but see http://www.marineregions.org/eez.php).
+also clip the marine protected areas to Malta's Exclusive Economic Zone (EEZ) but such data are not as easy to obtain on a per country basis (but see https://www.marineregions.org/eez.php)).
 
 ```{r}
 # download Malta boundary from Global Administrative Areas dataset

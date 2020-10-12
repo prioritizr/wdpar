@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jeffrey O. Hanson" />
 
-<meta name="date" content="2020-10-10" />
+<meta name="date" content="2020-10-13" />
 
 <title>wdpar: Interface to the World Database on Protected Areas</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">wdpar: Interface to the World Database on Protected Areas</h1>
 <h4 class="author"><em>Jeffrey O. Hanson</em></h4>
-<h4 class="date"><em>2020-10-10</em></h4>
+<h4 class="date"><em>2020-10-13</em></h4>
 
 
 
@@ -92,7 +92,7 @@ mlt_raw_pa_data &lt;-<span class="st"> </span><span class="kw">wdpa_fetch</span>
 <p>Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. <code>&quot;0&quot;</code>) with missing data values (i.e. <code>NA</code>), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see <code>?wdpa_clean</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># clean Malta data</span>
 mlt_pa_data &lt;-<span class="st"> </span><span class="kw">wdpa_clean</span>(mlt_raw_pa_data)</code></pre></div>
-<p>After cleaning the data set, we will perform an additional step that involves clipping the terrestrial protected areas to Malta’s coastline. Ideally, we would also clip the marine protected areas to Malta’s Exclusive Economic Zone (EEZ) but such data are as easy to obtain on a per country basis (but see <a href="http://www.marineregions.org/eez.php" class="uri">http://www.marineregions.org/eez.php</a>).</p>
+<p>After cleaning the data set, we will perform an additional step that involves clipping the terrestrial protected areas to Malta’s coastline. Ideally, we would also clip the marine protected areas to Malta’s Exclusive Economic Zone (EEZ) but such data are not as easy to obtain on a per country basis (but see <a href="https://www.marineregions.org/eez.php" class="uri">https://www.marineregions.org/eez.php</a>)).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download Malta boundary from Global Administrative Areas dataset</span>
 file_path &lt;-<span class="st"> </span><span class="kw">tempfile</span>(<span class="dt">fileext =</span> <span class="st">&quot;rds&quot;</span>)
 <span class="kw">download.file</span>(<span class="st">&quot;https://biogeo.ucdavis.edu/data/gadm3.6/Rsf/gadm36_MLT_0_sf.rds&quot;</span>,

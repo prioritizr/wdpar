@@ -76,7 +76,7 @@
       <h1 data-toc-skip>wdpar: Interface to the World Database on Protected Areas</h1>
                         <h4 class="author">Jeffrey O. Hanson</h4>
             
-            <h4 class="date">2020-10-09</h4>
+            <h4 class="date">2020-10-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/wdpar/blob/master/vignettes/wdpar.Rmd"><code>vignettes/wdpar.Rmd</code></a></small>
       <div class="hidden name"><code>wdpar.Rmd</code></div>
@@ -105,7 +105,7 @@
 <p>Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. <code>"0"</code>) with missing data values (i.e. <code>NA</code>), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see <code><a href="../reference/wdpa_clean.html">?wdpa_clean</a></code>.</p>
 <div class="sourceCode"><html><body><pre class="r"><span class="co"># clean Malta data</span>
 <span class="no">mlt_pa_data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/wdpa_clean.html">wdpa_clean</a></span>(<span class="no">mlt_raw_pa_data</span>)</pre></body></html></div>
-<p>After cleaning the data set, we will perform an additional step that involves clipping the terrestrial protected areas to Malta’s coastline. Ideally, we would also clip the marine protected areas to Malta’s Exclusive Economic Zone (EEZ) but such data are as easy to obtain on a per country basis (but see <a href="http://www.marineregions.org/eez.php" class="uri">http://www.marineregions.org/eez.php</a>).</p>
+<p>After cleaning the data set, we will perform an additional step that involves clipping the terrestrial protected areas to Malta’s coastline. Ideally, we would also clip the marine protected areas to Malta’s Exclusive Economic Zone (EEZ) but such data are not as easy to obtain on a per country basis (but see <a href="https://www.marineregions.org/eez.php" class="uri">https://www.marineregions.org/eez.php</a>)).</p>
 <div class="sourceCode"><html><body><pre class="r"><span class="co"># download Malta boundary from Global Administrative Areas dataset</span>
 <span class="no">file_path</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(<span class="kw">fileext</span> <span class="kw">=</span> <span class="st">"rds"</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span>(<span class="st">"https://biogeo.ucdavis.edu/data/gadm3.6/Rsf/gadm36_MLT_0_sf.rds"</span>,
@@ -131,12 +131,12 @@
 <span class="co"># clip Malta's protected areas to the coastline</span>
 <span class="no">mlt_pa_data</span> <span class="kw">&lt;-</span>
   <span class="no">mlt_pa_data</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="no">MARINE</span> <span class="kw">==</span> <span class="st">"terrestrial"</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span>(<span class="no">MARINE</span> <span class="kw">==</span> <span class="st">"terrestrial"</span>) <span class="kw">%&gt;%</span>
   <span class="fu">st_intersection</span>(<span class="no">mlt_boundary_data</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(<span class="no">mlt_pa_data</span> <span class="kw">%&gt;%</span>
-        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="no">MARINE</span> <span class="kw">==</span> <span class="st">"marine"</span>) <span class="kw">%&gt;%</span>
+        <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span>(<span class="no">MARINE</span> <span class="kw">==</span> <span class="st">"marine"</span>) <span class="kw">%&gt;%</span>
         <span class="fu">st_difference</span>(<span class="no">mlt_boundary_data</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(<span class="no">mlt_pa_data</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(!<span class="no">MARINE</span> <span class="kw">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"terrestrial"</span>, <span class="st">"marine"</span>)))</pre></body></html></div>
+  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(<span class="no">mlt_pa_data</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/filter.html">filter</a></span>(!<span class="no">MARINE</span> <span class="kw">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"terrestrial"</span>, <span class="st">"marine"</span>)))</pre></body></html></div>
 <pre><code>## Warning: attribute variables are assumed to be spatially constant throughout all
 ## geometries
 
@@ -145,7 +145,7 @@
 <div class="sourceCode"><html><body><pre class="r"><span class="co"># recalculate the area of each protected area</span>
 <span class="no">mlt_pa_data</span> <span class="kw">&lt;-</span>
   <span class="no">mlt_pa_data</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">AREA_KM2</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="fu">st_area</span>(<span class="no">.</span>)) * <span class="fl">1e-6</span>)</pre></body></html></div>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span>(<span class="kw">AREA_KM2</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="fu">st_area</span>(<span class="no">.</span>)) * <span class="fl">1e-6</span>)</pre></body></html></div>
 <p>Now that we have finished cleaning the data, let’s preview the data. For more information on what these columns mean, please refer to the <a href="https://www.protectedplanet.net/en/resources/wdpa-manual">official manual</a> (available in English, French, Spanish, and Russian).</p>
 <div class="sourceCode"><html><body><pre class="r"><span class="co"># print first six rows of the data</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">mlt_pa_data</span>)</pre></body></html></div>
@@ -191,11 +191,11 @@
 <span class="no">statistic</span> <span class="kw">&lt;-</span>
   <span class="no">mlt_pa_data</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>() <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(-<span class="no">geometry</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">MARINE</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="kw">area_km</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">AREA_KM2</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span>() <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span>(<span class="no">area_km</span>))</pre></body></html></div>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/select.html">select</a></span>(-<span class="no">geometry</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/group_by.html">group_by</a></span>(<span class="no">MARINE</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/summarise.html">summarize</a></span>(<span class="kw">area_km</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">AREA_KM2</span>)) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/group_by.html">ungroup</a></span>() <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/arrange.html">arrange</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/desc.html">desc</a></span>(<span class="no">area_km</span>))</pre></body></html></div>
 <pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <div class="sourceCode"><html><body><pre class="r"><span class="co"># print statistic</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">statistic</span>)</pre></body></html></div>
@@ -210,12 +210,12 @@
 <span class="no">statistic</span> <span class="kw">&lt;-</span>
   <span class="no">mlt_pa_data</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>() <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(-<span class="no">geometry</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">IUCN_CAT</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span>(<span class="kw">area_km</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">AREA_KM2</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span>() <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>(<span class="kw">percentage</span> <span class="kw">=</span> (<span class="no">area_km</span> / <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">area_km</span>)) * <span class="fl">100</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span>(<span class="no">area_km</span>))</pre></body></html></div>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/select.html">select</a></span>(-<span class="no">geometry</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/group_by.html">group_by</a></span>(<span class="no">IUCN_CAT</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/summarise.html">summarize</a></span>(<span class="kw">area_km</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">AREA_KM2</span>)) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/group_by.html">ungroup</a></span>() <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/mutate.html">mutate</a></span>(<span class="kw">percentage</span> <span class="kw">=</span> (<span class="no">area_km</span> / <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="no">area_km</span>)) * <span class="fl">100</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/arrange.html">arrange</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/dplyr/man/desc.html">desc</a></span>(<span class="no">area_km</span>))</pre></body></html></div>
 <pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <div class="sourceCode"><html><body><pre class="r"><span class="co"># print statistic</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">statistic</span>)</pre></body></html></div>

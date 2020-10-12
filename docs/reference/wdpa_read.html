@@ -158,7 +158,7 @@ downloading and importing the data into the current session.</p>
 <span class='no'>path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"WDPA_"</span>, <span class='kw'>fileext</span> <span class='kw'>=</span> <span class='st'>".zip"</span>)
 
 <span class='co'># download zipfile</span>
-<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>httr</span><span class='kw ns'>::</span><span class='fu'><a href='https://httr.r-lib.org/reference/GET.html'>GET</a></span>(<span class='no'>download_url</span>, <span class='kw pkg'>httr</span><span class='kw ns'>::</span><span class='fu'><a href='https://httr.r-lib.org/reference/write_disk.html'>write_disk</a></span>(<span class='no'>path</span>))
+<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>httr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/httr/man/GET.html'>GET</a></span>(<span class='no'>download_url</span>, <span class='kw pkg'>httr</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/httr/man/write_disk.html'>write_disk</a></span>(<span class='no'>path</span>))
 
 <span class='co'># load data</span>
 <span class='no'>lie_raw_data</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_read</span>(<span class='no'>path</span>)

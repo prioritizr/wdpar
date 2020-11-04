@@ -21,3 +21,4 @@ examples.log
 README.Rmd
 inst/WORDLIST
 ^_pkgdown\.yml$
+^\.github$

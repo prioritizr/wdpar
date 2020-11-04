@@ -10,7 +10,7 @@ on:
       - main
       - master
 
-name: Mac%20OSX
+name: Mac OSX
 
 jobs:
   R-CMD-check:

@@ -110,8 +110,12 @@ wdpa_fetch <- function(x, wait = FALSE,
     ## note that file name conventions on protectedplanet.net have changed
     ## (detected on 8th Oct 2020) and so file names are manually changed
     ## to follow the previous convention
-    file_name <- paste0("WDPA_", current_month_year, "_", country_code(x),
-                        "-shapefile.zip")
+    if (!identical(x, "global")) {
+      file_name <- paste0("WDPA_", current_month_year, "_", country_code(x),
+                          "-shapefile.zip")
+    } else {
+      file_name <- paste0("WDPA_", current_month_year, "_Public.gdb.zip")
+    }
     file_path <- file.path(download_dir, file_name)
     ## download the data
     if (!file.exists(file_path) || force_download) {

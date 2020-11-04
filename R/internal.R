@@ -162,6 +162,7 @@ empty_wdpa_dataset <- function(crs) {
 wdpa_version <- function(x) {
   # verify argument is valid
   assertthat::assert_that(assertthat::is.string(x), assertthat::noNA(x))
+  x <- gsub("WDOECM_", "", x, fixed = TRUE)
   strsplit(basename(x), "_", fixed = TRUE)[[1]][[2]]
 }
 

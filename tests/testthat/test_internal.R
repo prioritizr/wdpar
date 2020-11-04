@@ -77,24 +77,23 @@ test_that("wdpa_url (country)", {
   # verify that wdpa_url yields a result
   x <- suppressWarnings(wdpa_url("NZL", wait = TRUE))
   expect_is(x, "character")
-  # # verify that downloading the url yields a zipped shapefile
-  # f1 <- tempfile(fileext = ".zip")
-  # f2 <- file.path(tempdir(), basename(tempfile()))
-  # curl::curl_download(x, f1)
-  # expect_true(file.exists(f1))
-  # unzip(f1, exdir = f2)
-  # zip_path <- dir(f2, "^.*\\.zip$", recursive = TRUE, full.names = TRUE)
-  # if (length(zip_path) > 0)
-  #   Map(utils::unzip, zip_path,
-  #       exdir = gsub(".zip", "", zip_path, fixed = TRUE))
-  # expect_gt(length(dir(f2, "^.*\\.shp$", recursive = TRUE)), 0)
-  # unlink(f1, recursive = TRUE, force = TRUE)
-  # unlink(f2, recursive = TRUE, force = TRUE)
+  # verify that downloading the url yields a zipped shapefile
+  f1 <- tempfile(fileext = ".zip")
+  f2 <- file.path(tempdir(), basename(tempfile()))
+  curl::curl_download(x, f1)
+  expect_true(file.exists(f1))
+  unzip(f1, exdir = f2)
+  zip_path <- dir(f2, "^.*\\.zip$", recursive = TRUE, full.names = TRUE)
+  if (length(zip_path) > 0)
+    Map(utils::unzip, zip_path,
+        exdir = gsub(".zip", "", zip_path, fixed = TRUE))
+  expect_gt(length(dir(f2, "^.*\\.shp$", recursive = TRUE)), 0)
+  unlink(f1, recursive = TRUE, force = TRUE)
+  unlink(f2, recursive = TRUE, force = TRUE)
 })
 
 # test_that("wdpa_url (global)", {
 #   skip_on_cran()
-#   skip_on_os("windows")
 #   skip_if_not(curl::has_internet())
 #   # verify that wdpa_url yields a result
 #   x <- suppressWarnings(wdpa_url("global", wait = TRUE))

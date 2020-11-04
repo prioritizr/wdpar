@@ -94,7 +94,7 @@ test_that("wdpa_url (country)", {
 
 test_that("wdpa_url (global)", {
   skip_on_cran()
-  skip_on_os("mac")
+  skip_on_os("windows")
   skip_if_not(curl::has_internet())
   # verify that wdpa_url yields a result
   x <- suppressWarnings(wdpa_url("global", wait = TRUE))
@@ -125,8 +125,4 @@ test_that("convert_wdpa_version_to_POSIXct", {
   expect_equal(convert_wdpa_version_to_POSIXct("Feb2018"),
                as.POSIXct(strptime(paste0("01/Feb/2018"), "%d/%b/%Y")))
   expect_error(convert_wdpa_version_to_POSIXct("asdf2018"))
-})
-
-test_that("deliberate error", {
-  expect_true(FALSE)
 })

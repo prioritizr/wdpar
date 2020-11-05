@@ -1,3 +1,13 @@
+# wdpar 1.0.5
+
+- CRAN release.
+
+# wdpar 1.0.4.1
+
+- Update package to be compatible with new file name conventions on Protected
+  Planet website.
+- Fix bug with downloading global dataset.
+
 # wdpar 1.0.4
 
 - CRAN release.

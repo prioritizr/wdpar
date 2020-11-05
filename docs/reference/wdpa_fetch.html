@@ -74,7 +74,7 @@ Note that data are downloaded assuming non-commercial use." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
       </span>
     </div>
 
@@ -245,10 +245,9 @@ To address this issue, you will need to restart your computer.</p>
 <span class='no'>country_codes</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"LIE"</span>, <span class='st'>"MHL"</span>)
 
 <span class='co'>## download data for each country</span>
-<span class='no'>mult_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>country_codes</span>, <span class='no'>wdpa_fetch</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-
+<span class='no'>mult_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>country_codes</span>, <span class='no'>wdpa_fetch</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: local data is out of date: Sep 2020</span></div><div class='input'>
 <span class='co'>## merge datasets together</span>
-<span class='no'>mult_dat</span> <span class='kw'>&lt;-</span> <span class='fu'>st_as_sf</span>(<span class='fu'><a href='https://rdrr.io/pkg/tibble/man/as_tibble.html'>as_tibble</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/dplyr/man/bind.html'>bind_rows</a></span>(<span class='no'>mult_data</span>)))
+<span class='no'>mult_dat</span> <span class='kw'>&lt;-</span> <span class='fu'>st_as_sf</span>(<span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(<span class='no'>mult_data</span>)))
 
 <span class='co'>## print data</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>mult_dat</span>)</div><div class='output co'>#&gt; Simple feature collection with 61 features and 30 fields

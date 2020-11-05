@@ -245,7 +245,8 @@ To address this issue, you will need to restart your computer.</p>
 <span class='no'>country_codes</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"LIE"</span>, <span class='st'>"MHL"</span>)
 
 <span class='co'>## download data for each country</span>
-<span class='no'>mult_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>country_codes</span>, <span class='no'>wdpa_fetch</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: local data is out of date: Sep 2020</span></div><div class='input'>
+<span class='no'>mult_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>country_codes</span>, <span class='no'>wdpa_fetch</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
 <span class='co'>## merge datasets together</span>
 <span class='no'>mult_dat</span> <span class='kw'>&lt;-</span> <span class='fu'>st_as_sf</span>(<span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(<span class='no'>mult_data</span>)))
 

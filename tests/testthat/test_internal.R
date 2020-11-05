@@ -73,6 +73,7 @@ test_that("wdpa_file (country - different year same month)", {
 
 test_that("error (country)", {
   skip_on_cran()
+  skip_on_github_workflow("Windows")
   expect_true(FALSE)
 })
 
@@ -97,7 +98,7 @@ test_that("error (country)", {
 #   unlink(f1, recursive = TRUE, force = TRUE)
 #   unlink(f2, recursive = TRUE, force = TRUE)
 # })
-# 
+#
 # test_that("wdpa_url (global)", {
 #   skip_on_cran()
 #   skip_if_not(curl::has_internet())

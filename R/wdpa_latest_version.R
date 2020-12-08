@@ -22,7 +22,7 @@ NULL
 #' @export
 wdpa_latest_version <- function() {
   assertthat::assert_that(curl::has_internet())
-  download_url <- wdpa_url("global")
+  download_url <- "http://wcmc.io/wdpa_current_release"
   file_name <- basename(httr::HEAD(download_url)$url)[[1]]
   wdpa_version(file_name)
 }

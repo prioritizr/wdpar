@@ -74,7 +74,7 @@ Note that data are downloaded assuming non-commercial use." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.5.1</span>
       </span>
     </div>
 
@@ -127,13 +127,13 @@ Note that data are downloaded assuming non-commercial use." />
 Note that data are downloaded assuming non-commercial use.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>wdpa_fetch</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>download_dir</span> <span class='kw'>=</span> <span class='kw pkg'>rappdirs</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rappdirs/man/user_data_dir.html'>user_data_dir</a></span>(<span class='st'>"wdpar"</span>),
-  <span class='kw'>force_download</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()
-)</pre>
+    <pre class="usage"><span class='fu'>wdpa_fetch</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  wait <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  download_dir <span class='op'>=</span> <span class='fu'>rappdirs</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rappdirs/man/user_data_dir.html'>user_data_dir</a></span><span class='op'>(</span><span class='st'>"wdpar"</span><span class='op'>)</span>,
+  force_download <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  verbose <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -175,7 +175,7 @@ reported? Defaults to <code>TRUE</code> in an interactive session, otherwise
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code><a href='https://rdrr.io/pkg/sf/man/sf.html'>sf::sf()</a></code> object.</p>
+    <p><code><a href='https://r-spatial.github.io/sf/reference/sf.html'>sf::sf()</a></code> object.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function will download the specified protected area
@@ -199,13 +199,14 @@ To address this issue, you will need to restart your computer.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \dontrun{</span>
 <span class='co'># fetch data for Liechtenstein</span>
-<span class='no'>lie_raw_data</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_fetch</span>(<span class='st'>"Liechtenstein"</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-
+<span class='va'>lie_raw_data</span> <span class='op'>&lt;-</span> <span class='fu'>wdpa_fetch</span><span class='op'>(</span><span class='st'>"Liechtenstein"</span>, wait <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: local data is out of date: Nov 2020</span></div><div class='input'>
 <span class='co'># fetch data for Liechtenstein using the ISO3 code</span>
-<span class='no'>lie_raw_data</span> <span class='kw'>&lt;-</span> <span class='fu'>wdpa_fetch</span>(<span class='st'>"LIE"</span>)
-
+<span class='va'>lie_raw_data</span> <span class='op'>&lt;-</span> <span class='fu'>wdpa_fetch</span><span class='op'>(</span><span class='st'>"LIE"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: local data is out of date: Nov 2020</span></div><div class='input'>
 <span class='co'># print data</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>lie_raw_data</span>)</div><div class='output co'>#&gt; Simple feature collection with 45 features and 30 fields
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>lie_raw_data</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Simple feature collection with 45 features and 30 fields
 #&gt; geometry type:  MULTIPOLYGON
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: 9.475186 ymin: 47.04974 xmax: 9.636976 ymax: 47.26538
@@ -230,28 +231,31 @@ To address this issue, you will need to restart your computer.</p>
 #&gt; </span><span style='color: #555555;'>#   VERIF </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, METADATAID </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, SUB_LOC </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, PARENT_ISO </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, ISO3 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   SUPP_INFO </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, CONS_OBJ </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, geometry </span><span style='color: #555555;font-style: italic;'>&lt;MULTIPOLYGON [°]&gt;</span><span></div><div class='input'>
 <span class='co'># plot data</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>lie_raw_data</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: plotting the first 10 out of 30 attributes; use max.plot = 30 to plot all</span></div><div class='img'><img src='wdpa_fetch-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>lie_raw_data</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: plotting the first 10 out of 30 attributes; use max.plot = 30 to plot all</span></div><div class='img'><img src='wdpa_fetch-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># data for multiple countries can be downloaded separately and combined,</span>
 <span class='co'># this is useful to avoid having to download the global dataset</span>
 <span class='co'>## load packages to easily merge datasets</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tibble</span>)
+#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tibble.tidyverse.org/'>tibble</a></span><span class='op'>)</span>
 
 <span class='co'>## define country names to download</span>
-<span class='no'>country_codes</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"LIE"</span>, <span class='st'>"MHL"</span>)
+<span class='va'>country_codes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"LIE"</span>, <span class='st'>"MHL"</span><span class='op'>)</span>
 
 <span class='co'>## download data for each country</span>
-<span class='no'>mult_data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>country_codes</span>, <span class='no'>wdpa_fetch</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-
+<span class='va'>mult_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>country_codes</span>, <span class='va'>wdpa_fetch</span>, wait <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: local data is out of date: Nov 2020</span></div><div class='output co'>#&gt; <span class='warning'>Warning: local data is out of date: Nov 2020</span></div><div class='input'>
 <span class='co'>## merge datasets together</span>
-<span class='no'>mult_dat</span> <span class='kw'>&lt;-</span> <span class='fu'>st_as_sf</span>(<span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span>(<span class='no'>mult_data</span>)))
+<span class='va'>mult_dat</span> <span class='op'>&lt;-</span> <span class='fu'>st_as_sf</span><span class='op'>(</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span><span class='op'>(</span><span class='va'>mult_data</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'>## print data</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>mult_dat</span>)</div><div class='output co'>#&gt; Simple feature collection with 61 features and 30 fields
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>mult_dat</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Simple feature collection with 61 features and 30 fields
 #&gt; geometry type:  GEOMETRY
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: 9.475186 ymin: 5.586051 xmax: 171.9985 ymax: 47.26538
@@ -274,7 +278,7 @@ To address this issue, you will need to restart your computer.</p>
 #&gt; </span><span style='color: #555555;'>#   NO_TAKE </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, NO_TK_AREA </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, STATUS </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, STATUS_YR </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   GOV_TYPE </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, OWN_TYPE </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, MANG_AUTH </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, MANG_PLAN </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   VERIF </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, METADATAID </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span style='color: #555555;'>, SUB_LOC </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, PARENT_ISO </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, ISO3 </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   SUPP_INFO </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, CONS_OBJ </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, geometry </span><span style='color: #555555;font-style: italic;'>&lt;MULTIPOLYGON [°]&gt;</span><span></div><div class='input'># }
+#&gt; </span><span style='color: #555555;'>#   SUPP_INFO </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, CONS_OBJ </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, geometry </span><span style='color: #555555;font-style: italic;'>&lt;MULTIPOLYGON [°]&gt;</span><span></div><div class='input'><span class='co'># }</span>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -291,7 +295,7 @@ To address this issue, you will need to restart your computer.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

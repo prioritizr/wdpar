@@ -84,7 +84,8 @@ wdpa_url <- function(x, wait = FALSE) {
   }
   # find url
   if (x == "global") {
-    out <- "http://wcmc.io/wdpa_current_release"
+    out <-
+      "http://d1gam3xoknrgr2.cloudfront.net/current/WDPA_WDOECM_wdpa_gdb.zip" 
   } else {
     ## convert x to country ISO3 code
     x <- country_code(x)

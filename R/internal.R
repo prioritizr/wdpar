@@ -224,7 +224,7 @@ read_sf_n <- function(dsn, layer = NULL, n = NULL) {
                            assertthat::noNA(n))
   }
   if (is.null(layer)) {
-    layer <- tools::file_path_sans_ext(basename(dsn))
+    layer <- sf::st_layers(dsn)$name[[1]]
   }
   assertthat::assert_that(assertthat::is.string(layer),
                           assertthat::noNA(layer))

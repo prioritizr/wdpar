@@ -52,7 +52,7 @@ test_that("global data", {
   # download data
   url <- suppressWarnings(wdpa_url("global", wait = TRUE))
   path <- file.path(tempdir(), "WDPA_WDOECM_Dec2020_Public.gdb.zip")
-  curl::curl_download(x, path)
+  curl::curl_download(url, path)
   # import data
   x <- suppressWarnings(wdpa_read(path, n = 5))
   # tests

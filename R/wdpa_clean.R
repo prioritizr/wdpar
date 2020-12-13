@@ -400,7 +400,7 @@ wdpa_clean <- function(x,
     message("removing slivers: ", cli::symbol$tick)
   }
   ## calculate area in square kilometers
-  if (verbose) message("calulating area: ", cli::symbol$continue, "\r",
+  if (verbose) message("calculating area: ", cli::symbol$continue, "\r",
                        appendLF = FALSE)
   areas <- as.numeric(sf::st_area(x)) * 1e-6
   x$AREA_KM2 <- as.numeric(areas)

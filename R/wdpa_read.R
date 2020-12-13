@@ -45,15 +45,35 @@ wdpa_read <- function(x) {
   tdir <- file.path(tempdir(), basename(tempfile()))
   dir.create(tdir, showWarnings = FALSE, recursive = TRUE)
   utils::unzip(x, exdir = tdir)
-  # load data
+  # determine version
   month_year <- strsplit(basename(x), "_", fixed = TRUE)[[1]][[2]]
+  # load data
   if (grepl("Public", basename(x))) {
-    ## find geodatabsae
-    gdb_path <- dir(tdir, "^.*\\.gdb$", recursive = TRUE,
-                    full.names = TRUE, include.dirs = TRUE)[[1]]
+    ## load global data
+    ### find geodatabase(s)
+    gdb_paths <-  dir(tdir, "^.*\\.gdb$", recursive = TRUE,
+                      full.names = TRUE, include.dirs = TRUE)
+    ## import data from geodatabase(s)
+    if (length(gdb_paths) == 1) {
+      ### WDPA < Dec2020
+      wdpa_point_data <-
+        sf::read_sf(gdb_paths, paste0("WDPA_point_", month_year))
+      wdpa_polygon_data <-
+        sf::read_sf(gdb_paths, paste0("WDPA_poly_", month_year))
+    } else if (length(gdb_paths) == 2) {
+      ### WDPA >= Dec2020
+      point_path <-
+        grep("point", gdb_paths, value = TRUE, ignore.case = TRUE)
+      polygon_path <-
+        grep("polygon", gdb_paths,  value = TRUE, ignore.case = TRUE)
+      wdpa_point_data <-
+        sf::read_sf(point_path, "WDPA_WDOECM_wdpa_gdb_points")
+      wdpa_polygon_data <-
+        sf::read_sf(polygon_path, "WDPA_WDOECM_wdpa_gdb_polygons")
+    } else {
+      stop("Global data format not recognized.")
+    }
     ## extract point and polygon data
-    wdpa_polygon_data <- sf::read_sf(gdb_path, paste0("WDPA_poly_", month_year))
-    wdpa_point_data <- sf::read_sf(gdb_path, paste0("WDPA_point_", month_year))
     ## merge data together
     polygon_matching_cols <- which(names(wdpa_polygon_data) %in%
                                    names(wdpa_point_data))

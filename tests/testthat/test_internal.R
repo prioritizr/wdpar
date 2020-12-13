@@ -127,3 +127,10 @@ test_that("convert_wdpa_version_to_POSIXct", {
                as.POSIXct(strptime(paste0("01/Feb/2018"), "%d/%b/%Y")))
   expect_error(convert_wdpa_version_to_POSIXct("asdf2018"))
 })
+
+test_that("read_sf_n", {
+  path <- system.file("shape/nc.shp", package = "sf")
+  x <- sf::read_sf(path, query = "SELECT * FROM \"nc\" WHERE FID <= 5")
+  y <- read_sf_n(path, n = 5)
+  expect_identical(x, y)
+})

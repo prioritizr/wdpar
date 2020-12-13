@@ -11,6 +11,9 @@ NULL
 #' @param x `character` file name for a zip archive file downloaded from
 #'   <https://www.protectedplanet.net/en>.
 #'
+#' @param n `integer` number of records to import per data source.
+#'   Defaults to `NULL` such that all data are imported.
+#'
 #' @return [sf::sf()] object.
 #'
 #' @seealso [wdpa_fetch()], [wdpa_clean()],
@@ -34,13 +37,19 @@ NULL
 #' plot(lie_raw_data)
 #' }
 #' @export
-wdpa_read <- function(x) {
+wdpa_read <- function(x, n = NULL) {
   # validate arguments
   assertthat::assert_that(assertthat::is.string(x),
                           assertthat::is.readable(x),
                           assertthat::has_extension(x, "zip"),
                           startsWith(basename(x), "WDPA_"),
-                          file.exists(x))
+                          file.exists(x),
+                          inherits(n, c("numeric", "NULL")))
+  if (!is.null(n)) {
+   assertthat::assert_that(assertthat::is.count(n),
+                           assertthat::noNA(n))
+  }
+
   # unzip the folder
   tdir <- file.path(tempdir(), basename(tempfile()))
   dir.create(tdir, showWarnings = FALSE, recursive = TRUE)
@@ -57,9 +66,9 @@ wdpa_read <- function(x) {
     if (length(gdb_paths) == 1) {
       ### WDPA < Dec2020
       wdpa_point_data <-
-        sf::read_sf(gdb_paths, paste0("WDPA_point_", month_year))
+        read_sf_n(gdb_paths, paste0("WDPA_point_", month_year), n)
       wdpa_polygon_data <-
-        sf::read_sf(gdb_paths, paste0("WDPA_poly_", month_year))
+        read_sf_n(gdb_paths, paste0("WDPA_poly_", month_year), n)
     } else if (length(gdb_paths) == 2) {
       ### WDPA >= Dec2020
       point_path <-
@@ -67,9 +76,9 @@ wdpa_read <- function(x) {
       polygon_path <-
         grep("polygon", gdb_paths,  value = TRUE, ignore.case = TRUE)
       wdpa_point_data <-
-        sf::read_sf(point_path, "WDPA_WDOECM_wdpa_gdb_points")
+        read_sf_n(point_path, "WDPA_WDOECM_wdpa_gdb_points", n)
       wdpa_polygon_data <-
-        sf::read_sf(polygon_path, "WDPA_WDOECM_wdpa_gdb_polygons")
+        read_sf_n(polygon_path, "WDPA_WDOECM_wdpa_gdb_polygons", n)
     } else {
       stop("Global data format not recognized.")
     }
@@ -91,7 +100,7 @@ wdpa_read <- function(x) {
     ## import shapefile data
     shapefile_path <- dir(tdir, "^.*\\.shp$", recursive = TRUE,
                           full.names = TRUE)
-    wdpa_data <- lapply(shapefile_path, sf::read_sf)
+    wdpa_data <- lapply(shapefile_path, sf::read_sf, n = n)
     ## merge shapefile data together
     if (length(wdpa_data) > 1) {
       col_names <- Reduce(base::intersect, lapply(wdpa_data, names))

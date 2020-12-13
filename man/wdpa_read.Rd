@@ -4,11 +4,14 @@
 \alias{wdpa_read}
 \title{Read data from the World Database on Protected Areas}
 \usage{
-wdpa_read(x)
+wdpa_read(x, n = NULL)
 }
 \arguments{
 \item{x}{\code{character} file name for a zip archive file downloaded from
 \url{https://www.protectedplanet.net/en}.}
+
+\item{n}{\code{integer} number of records to import per data source.
+Defaults to \code{NULL} such that all data are imported.}
 }
 \value{
 \code{\link[sf:sf]{sf::sf()}} object.

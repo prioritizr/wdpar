@@ -7,9 +7,9 @@ NULL
 #' This is a character identifier representing the month and year (e.g.
 #' `Sep2020`) the data were released.
 #'
-#' @details The version number can be determined based on the file name for
-#'  the global dataset (currently available at:
-#'  <https://wcmc.io/wdpa_current_release>)
+#' @details The version number is determined using a web address where the
+#'   global dataset is available. For specific details, please refer to
+#'   the source code for this function.
 #'
 #' @return `character` version of the dataset.
 #'

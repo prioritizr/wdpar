@@ -45,6 +45,7 @@ test_that("with point data", {
 test_that("global data", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
+  skip_if_not_installed("pingr")
   skip_on_github_workflow("Windows")
   skip_if(
     (mean(pingr::ping("www.google.com", count = 10)) > 10) &&

@@ -12,6 +12,7 @@ wdpa_clean(
   simplify_tolerance = 0,
   geometry_precision = 1500,
   erase_overlaps = TRUE,
+  exclude_unesco = TRUE,
   verbose = interactive()
 )
 }
@@ -42,6 +43,9 @@ On the other hand, this processing step may not be needed
 (e.g. if the protected area boundaries are going to be rasterized), and so
 processing time can be substantially by skipping this step and setting
 the argument to \code{FALSE}. Defaults to \code{TRUE}.}
+
+\item{exclude_unesco}{\code{logical} should UNESCO Biosphere Reserves be excluded?
+Defaults to \code{TRUE}.}
 
 \item{verbose}{\code{logical} should progress on data cleaning be reported?
 Defaults to \code{TRUE} in an interactive session, otherwise
@@ -76,6 +80,8 @@ dataset.
 
 \item Exclude United Nations Educational, Scientific and Cultural
 Organization (UNESCO) Biosphere Reserves (Coetzer \emph{et al.} 2014).
+This step is only performed if the argument to \code{exclude_unesco} is
+\code{TRUE}.
 
 \item Create a field (\code{"GEOMETRY_TYPE"}) indicating if areas are
 represented as point localities (\code{"POINT"}) or as polygons

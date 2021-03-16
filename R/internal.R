@@ -238,7 +238,7 @@ read_sf_n <- function(dsn, layer = NULL, n = NULL) {
   out <- sf::read_sf(dsn = dsn, layer = layer, query = query)
   if (!is.null(n)) {
     if (nrow(out) > n) {
-      out <- out[out, ]
+      out <- out[seq_len(n), ]
     }
   }
   out

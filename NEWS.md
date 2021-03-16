@@ -1,3 +1,9 @@
+# wdpar 1.1.0.0
+
+- Update `wdpa_clean` to include new `exclude_unesco` argument to specify if
+  UNESCO Biosphere Reserves should be included? Defaults to `TRUE` such that
+  default behavior remains unchanged.
+
 # wdpar 1.0.6
 
 - CRAN release.

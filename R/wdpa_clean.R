@@ -32,6 +32,9 @@ NULL
 #'   processing time can be substantially by skipping this step and setting
 #'   the argument to `FALSE`. Defaults to `TRUE`.
 #'
+#' @param exclude_unesco `logical` should UNESCO Biosphere Reserves be excluded?
+#'   Defaults to `TRUE`.
+#'
 #' @param verbose `logical` should progress on data cleaning be reported?
 #'   Defaults to `TRUE` in an interactive session, otherwise
 #'   `FALSE`.
@@ -58,6 +61,8 @@ NULL
 #'
 #'   \item Exclude United Nations Educational, Scientific and Cultural
 #'     Organization (UNESCO) Biosphere Reserves (Coetzer *et al.* 2014).
+#'     This step is only performed if the argument to `exclude_unesco` is
+#'     `TRUE`.
 #'
 #'   \item Create a field (`"GEOMETRY_TYPE"`) indicating if areas are
 #'     represented as point localities (`"POINT"`) or as polygons
@@ -169,6 +174,7 @@ wdpa_clean <- function(x,
                        simplify_tolerance = 0,
                        geometry_precision = 1500,
                        erase_overlaps = TRUE,
+                       exclude_unesco = TRUE,
                        verbose = interactive()) {
   # check arguments are valid
   assertthat::assert_that(inherits(x, "sf"),
@@ -184,6 +190,7 @@ wdpa_clean <- function(x,
                           isTRUE(simplify_tolerance >= 0),
                           assertthat::is.count(geometry_precision),
                           assertthat::is.flag(erase_overlaps),
+                          assertthat::is.flag(exclude_unesco),
                           assertthat::is.flag(verbose))
   # check that x is in wgs1984
   assertthat::assert_that(sf::st_crs(x) == sf::st_crs(4326),
@@ -197,13 +204,23 @@ wdpa_clean <- function(x,
     utils::flush.console()
     message("removing areas that are not implemented: ", cli::symbol$tick)
   }
-  ## remove UNESCO sites
-  if (verbose) message("removing UNESCO reserves: ", cli::symbol$continue, "\r",
-                       appendLF = FALSE)
-  x <- x[x$DESIG_ENG != "UNESCO-MAB Biosphere Reserve", ]
-  if (verbose) {
-    utils::flush.console()
-    message("removing UNESCO reserves: ", cli::symbol$tick)
+  ## remove UNESCO sites if needed
+  if (exclude_unesco) {
+    if (verbose)
+      message("removing UNESCO Biosphere Reserves: ", cli::symbol$continue,
+              "\r", appendLF = FALSE)
+    x <- x[x$DESIG_ENG != "UNESCO-MAB Biosphere Reserve", ]
+    if (verbose) {
+      utils::flush.console()
+      message("removing UNESCO Biosphere Reserves: ", cli::symbol$tick)
+    }
+  } else {
+    if (verbose) {
+      message("retaining UNESCO Biosphere Reserves: ", cli::symbol$continue,
+              "\r", appendLF = FALSE)
+      utils::flush.console()
+      message("retaining UNESCO Biosphere Reserves: ", cli::symbol$tick)
+    }
   }
   ## assign column indicating geometry type
   is_point <- vapply(sf::st_geometry(x), inherits, logical(1),

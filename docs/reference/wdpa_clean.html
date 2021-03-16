@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.0</span>
       </span>
     </div>
 
@@ -131,6 +131,7 @@
   simplify_tolerance <span class='op'>=</span> <span class='fl'>0</span>,
   geometry_precision <span class='op'>=</span> <span class='fl'>1500</span>,
   erase_overlaps <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  exclude_unesco <span class='op'>=</span> <span class='cn'>TRUE</span>,
   verbose <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
@@ -177,6 +178,11 @@ processing time can be substantially by skipping this step and setting
 the argument to <code>FALSE</code>. Defaults to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
+      <th>exclude_unesco</th>
+      <td><p><code>logical</code> should UNESCO Biosphere Reserves be excluded?
+Defaults to <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
       <th>verbose</th>
       <td><p><code>logical</code> should progress on data cleaning be reported?
 Defaults to <code>TRUE</code> in an interactive session, otherwise
@@ -206,7 +212,9 @@ dataset.</p>
 (i.e. exclude areas without the status <code>"Designated"</code>,
 <code>"Inscribed"</code>, <code>"Established"</code>).</p></li>
 <li><p>Exclude United Nations Educational, Scientific and Cultural
-Organization (UNESCO) Biosphere Reserves (Coetzer <em>et al.</em> 2014).</p></li>
+Organization (UNESCO) Biosphere Reserves (Coetzer <em>et al.</em> 2014).
+This step is only performed if the argument to <code>exclude_unesco</code> is
+<code>TRUE</code>.</p></li>
 <li><p>Create a field (<code>"GEOMETRY_TYPE"</code>) indicating if areas are
 represented as point localities (<code>"POINT"</code>) or as polygons
 (<code>"POLYGON"</code>).</p></li>

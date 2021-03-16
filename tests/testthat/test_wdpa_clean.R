@@ -10,6 +10,8 @@ wdpa_column_names <- c("WDPAID", "WDPA_PID", "PA_DEF", "NAME", "ORIG_NAME",
                        "SUPP_INFO", "CONS_OBJ", "GEOMETRY_TYPE", "AREA_KM2",
                        "geometry")
 
+#
+
 test_that("wdpa_clean (single country with eez)", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
@@ -150,4 +152,23 @@ test_that("wdpa_clean (single country with no valid non-empty geometries)", {
     (class_x == class_y) ||
     (startsWith(class_x, "sf") && startsWith(class_y, "sf"))
   })))
+})
+
+test_that("wdpa_clean (retain UNESCO Biosphere reserves)", {
+  skip_on_cran()
+  skip_if_not(curl::has_internet())
+  skip_on_github_workflow("Windows")
+  # fetch data
+  x <- wdpa_clean(
+    suppressWarnings(wdpa_fetch("MHL", wait = TRUE, force = TRUE)),
+    exclude_unesco = FALSE)
+  # run tests
+  expect_is(x, "sf")
+  expect_true(all(names(x) %in% wdpa_column_names))
+  expect_gt(nrow(x), 0)
+  expect_true(all(x$ISO3 == "MHL"))
+  expect_gt(sum(x$MARINE == "partial"), 0)
+  expect_gt(sum(x$MARINE == "marine"), 0)
+  expect_equal(sum(is.na(x$AREA_KM2)), 0)
+  expect_equal(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
 })

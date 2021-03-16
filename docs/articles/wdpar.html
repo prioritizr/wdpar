@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.0</span>
       </span>
     </div>
 
@@ -76,7 +76,7 @@
       <h1 data-toc-skip>wdpar: Interface to the World Database on Protected Areas</h1>
                         <h4 class="author">Jeffrey O. Hanson</h4>
             
-            <h4 class="date">2020-12-16</h4>
+            <h4 class="date">2021-03-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/wdpar/blob/master/vignettes/wdpar.Rmd"><code>vignettes/wdpar.Rmd</code></a></small>
       <div class="hidden name"><code>wdpar.Rmd</code></div>
@@ -130,9 +130,10 @@
   <span class="fu">st_set_precision</span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/valid.html">st_make_valid</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">st_transform</span><span class="op">(</span><span class="fu">st_crs</span><span class="op">(</span><span class="va">mlt_pa_data</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/valid.html">st_make_valid</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="co"># clip Malta's protected areas to the coastline</span>
+  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/valid.html">st_make_valid</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<pre><code>## although coordinates are longitude/latitude, st_union assumes that they are planar</code></pre>
+<div class="sourceCode"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># clip Malta's protected areas to the coastline</span>
 <span class="va">mlt_pa_data</span> <span class="op">&lt;-</span>
   <span class="va">mlt_pa_data</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">MARINE</span> <span class="op">==</span> <span class="st">"terrestrial"</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -280,11 +281,10 @@
 <pre><code>
 To cite the wdpar package in publications, use:
 
-  Hanson JO (2020) wdpar: Interface to the World Database on Protected
-  Areas. R package version 1.0.6.
-  https://CRAN.R-project.org/package=wdpar
+  Hanson JO (2021) wdpar: Interface to the World Database on Protected
+  Areas. R package version 1.1.0.0. https://github.com/prioritizr/wdpar
 
-  UNEP-WCMC and IUCN (2020) Protected Planet: The World Database on
+  UNEP-WCMC and IUCN (2021) Protected Planet: The World Database on
   Protected Areas (WDPA), [insert month/year of the version
   downloaded], Cambridge, UK: UNEP-WCMC and IUCN. Available at:
   www.protectedplanet.net.

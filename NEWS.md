@@ -1,8 +1,17 @@
+# wdpar 1.2.0.0
+
+- Update `wdpa_clean` with new `retain_status` parameter to specify which
+  protected areas should be retained during the cleaning process (#33).
+  Defaults to a `character` vector containing `"Designated"`, `"Inscribed"`,
+  `"Established"` to indicate that protected areas with these status
+  (i.e. per `"STATUS"` column) are retained. Thus the default behavior from
+  previous versions remains unchanged.
+
 # wdpar 1.1.0.0
 
-- Update `wdpa_clean` to include new `exclude_unesco` argument to specify if
-  UNESCO Biosphere Reserves should be included? Defaults to `TRUE` such that
-  default behavior remains unchanged.
+- Update `wdpa_clean` with new `exclude_unesco` parameter to specify if
+  UNESCO Biosphere Reserves should be included (#33). Defaults to `TRUE` such
+  that default behavior remains unchanged from previous versions.
 
 # wdpar 1.0.6
 

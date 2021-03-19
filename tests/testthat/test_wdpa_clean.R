@@ -10,7 +10,7 @@ wdpa_column_names <- c("WDPAID", "WDPA_PID", "PA_DEF", "NAME", "ORIG_NAME",
                        "SUPP_INFO", "CONS_OBJ", "GEOMETRY_TYPE", "AREA_KM2",
                        "geometry")
 
-#
+default_retain_status <- c("Designated", "Inscribed", "Established")
 
 test_that("wdpa_clean (single country with eez)", {
   skip_on_cran()
@@ -28,6 +28,7 @@ test_that("wdpa_clean (single country with eez)", {
   expect_gt(sum(x$MARINE == "marine"), 0)
   expect_equal(sum(is.na(x$AREA_KM2)), 0)
   expect_equal(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
+  expect_true(all(x$STATUS %in% default_retain_status))
 })
 
 test_that("wdpa_clean (single country without eez)", {
@@ -46,6 +47,7 @@ test_that("wdpa_clean (single country without eez)", {
   expect_gt(sum(x$MARINE == "terrestrial"), 0)
   expect_equal(sum(is.na(x$AREA_KM2)), 0)
   expect_equal(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
+  expect_true(all(x$STATUS %in% default_retain_status))
 })
 
 test_that("wdpa_clean (single country with simplification)", {
@@ -64,6 +66,7 @@ test_that("wdpa_clean (single country with simplification)", {
   expect_gt(sum(x$MARINE == "marine"), 0)
   expect_equal(sum(is.na(x$AREA_KM2)), 0)
   expect_equal(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
+  expect_true(all(x$STATUS %in% default_retain_status))
 })
 
 test_that("wdpa_clean (single country without overlap removal)", {
@@ -82,6 +85,7 @@ test_that("wdpa_clean (single country without overlap removal)", {
   expect_gt(sum(x$MARINE == "terrestrial"), 0)
   expect_equal(sum(is.na(x$AREA_KM2)), 0)
   expect_gt(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
+  expect_true(all(x$STATUS %in% default_retain_status))
 })
 
 test_that("wdpa_clean (country with MULTIPOINT protected areas)", {
@@ -95,6 +99,7 @@ test_that("wdpa_clean (country with MULTIPOINT protected areas)", {
   x <- x[c(which(x_points), 15), , drop = FALSE]
   y <- suppressWarnings(wdpa_clean(x, erase_overlaps = FALSE))
   expect_gt(nrow(x), 0)
+  expect_true(all(y$STATUS %in% default_retain_status))
 })
 
 test_that("wdpa_clean (country with MULTIPOLYGON protected area)", {
@@ -110,6 +115,7 @@ test_that("wdpa_clean (country with MULTIPOLYGON protected area)", {
   # test that polygons in multipolygon features are retained
   expect_gt(length(sf::st_cast(p1$geometry, "POLYGON")), 1)
   expect_gt(length(sf::st_cast(p2$geometry, "POLYGON")), 1)
+  expect_true(all(y$STATUS %in% default_retain_status))
 })
 
 test_that("wdpa_clean (country with super invalid MULTIPOLYGON data)", {
@@ -119,6 +125,7 @@ test_that("wdpa_clean (country with super invalid MULTIPOLYGON data)", {
   x <- wdpa_fetch("GAB", wait = TRUE, force = TRUE)
   y <- suppressWarnings(wdpa_clean(x, erase_overlaps = TRUE))
   expect_is(y, "sf")
+  expect_true(all(y$STATUS %in% default_retain_status))
 })
 
 test_that("wdpa_clean (geometries in non-geometry column)", {
@@ -132,6 +139,7 @@ test_that("wdpa_clean (geometries in non-geometry column)", {
   y <- suppressWarnings(wdpa_clean(x, erase_overlaps = TRUE))
   expect_is(y, "sf")
   expect_equal(attr(y, "sf_column"), "geometry")
+  expect_true(all(y$STATUS %in% default_retain_status))
 })
 
 test_that("wdpa_clean (single country with no valid non-empty geometries)", {
@@ -152,6 +160,7 @@ test_that("wdpa_clean (single country with no valid non-empty geometries)", {
     (class_x == class_y) ||
     (startsWith(class_x, "sf") && startsWith(class_y, "sf"))
   })))
+  expect_true(all(y$STATUS %in% default_retain_status))
 })
 
 test_that("wdpa_clean (retain UNESCO Biosphere reserves)", {
@@ -171,4 +180,44 @@ test_that("wdpa_clean (retain UNESCO Biosphere reserves)", {
   expect_gt(sum(x$MARINE == "marine"), 0)
   expect_equal(sum(is.na(x$AREA_KM2)), 0)
   expect_equal(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
+  expect_true(all(x$STATUS %in% default_retain_status))
+})
+
+test_that("wdpa_clean (custom retain_status)", {
+  skip_on_cran()
+  skip_if_not(curl::has_internet())
+  skip_on_github_workflow("Windows")
+  # fetch data
+  x <- wdpa_clean(
+    suppressWarnings(wdpa_fetch("MHL", wait = TRUE, force = TRUE)),
+    retain_status = c("Designated", "Proposed"))
+  # run tests
+  expect_is(x, "sf")
+  expect_true(all(names(x) %in% wdpa_column_names))
+  expect_gt(nrow(x), 0)
+  expect_true(all(x$ISO3 == "MHL"))
+  expect_gt(sum(x$MARINE == "partial"), 0)
+  expect_gt(sum(x$MARINE == "marine"), 0)
+  expect_equal(sum(is.na(x$AREA_KM2)), 0)
+  expect_equal(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
+  expect_identical(sort(unique(x$STATUS)), sort(c("Designated", "Proposed")))
+})
+
+test_that("wdpa_clean (NULL retain_status)", {
+  skip_on_cran()
+  skip_if_not(curl::has_internet())
+  skip_on_github_workflow("Windows")
+  # fetch data
+  x <- suppressWarnings(wdpa_fetch("MHL", wait = TRUE, force = TRUE))
+  y <- wdpa_clean(x, retain_status = NULL, erase_overlaps = TRUE)
+  # run tests
+  expect_is(y, "sf")
+  expect_true(all(names(y) %in% wdpa_column_names))
+  expect_gt(nrow(y), 0)
+  expect_true(all(y$ISO3 == "MHL"))
+  expect_gt(sum(y$MARINE == "partial"), 0)
+  expect_gt(sum(y$MARINE == "marine"), 0)
+  expect_equal(sum(is.na(y$AREA_KM2)), 0)
+  expect_equal(sum(sf::st_overlaps(y, sparse = FALSE)), 0)
+  expect_identical(sort(unique(x$STATUS)), sort(unique(y$STATUS)))
 })

@@ -137,7 +137,7 @@ test_that("read_sf_n (n = NULL)", {
 
 test_that("read_sf_n (n = 5)", {
   path <- system.file("shape/nc.shp", package = "sf")
-  x <- sf::read_sf(path, query = "SELECT * FROM \"nc\" WHERE FID <= 5")
+  x <- sf::read_sf(path)[seq_len(5), ]
   y <- read_sf_n(path, n = 5)
   expect_identical(x, y)
 })

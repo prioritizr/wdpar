@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0.0</span>
       </span>
     </div>
 
@@ -117,12 +117,20 @@
       <small>Source: <a href='https://github.com/prioritizr/wdpar/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="wdpar-1-2-0-0" class="section level1">
+<h1 class="page-header" data-toc-text="1.2.0.0">
+<a href="#wdpar-1-2-0-0" class="anchor"></a>wdpar 1.2.0.0<small> Unreleased </small>
+</h1>
+<ul>
+<li>Update <code>wdpa_clean</code> with new <code>retain_status</code> parameter to specify which protected areas should be retained during the cleaning process (<a href='https://github.com/prioritizr/wdpar/issues/33'>#33</a>). Defaults to a <code>character</code> vector containing <code>"Designated"</code>, <code>"Inscribed"</code>, <code>"Established"</code> to indicate that protected areas with these status (i.e. per <code>"STATUS"</code> column) are retained. Thus the default behavior from previous versions remains unchanged.</li>
+</ul>
+</div>
     <div id="wdpar-1-1-0-0" class="section level1">
 <h1 class="page-header" data-toc-text="1.1.0.0">
 <a href="#wdpar-1-1-0-0" class="anchor"></a>wdpar 1.1.0.0<small> Unreleased </small>
 </h1>
 <ul>
-<li>Update <code>wdpa_clean</code> to include new <code>exclude_unesco</code> argument to specify if UNESCO Biosphere Reserves should be included? Defaults to <code>TRUE</code> such that default behavior remains unchanged.</li>
+<li>Update <code>wdpa_clean</code> with new <code>exclude_unesco</code> parameter to specify if UNESCO Biosphere Reserves should be included (<a href='https://github.com/prioritizr/wdpar/issues/33'>#33</a>). Defaults to <code>TRUE</code> such that default behavior remains unchanged from previous versions.</li>
 </ul>
 </div>
     <div id="wdpar-1-0-6" class="section level1">

@@ -241,5 +241,12 @@ read_sf_n <- function(dsn, layer = NULL, n = NULL) {
       out <- out[seq_len(n), ]
     }
   }
+  # force sf_geometry column to be called "geometry"
+  if (!"geometry" %in% names(out)) {
+    old_name <- attr(out, "sf_column")
+    names(out)[names(out) == old_name] <- "geometry"
+    attr(out, "sf_column") <- "geometry"
+  }
+  # return result
   out
 }

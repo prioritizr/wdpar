@@ -8,11 +8,12 @@ wdpa_clean(
   x,
   crs = paste("+proj=cea +lon_0=0 +lat_ts=30 +x_0=0",
     "+y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs"),
+  exclude_unesco = TRUE,
+  retain_status = c("Designated", "Inscribed", "Established"),
   snap_tolerance = 1,
   simplify_tolerance = 0,
   geometry_precision = 1500,
   erase_overlaps = TRUE,
-  exclude_unesco = TRUE,
   verbose = interactive()
 )
 }
@@ -22,6 +23,21 @@ wdpa_clean(
 \item{crs}{\code{character} or code{integer} object representing a
 coordinate reference system. Defaults to World Behrmann
 (\emph{ESRI:54017}).}
+
+\item{exclude_unesco}{\code{logical} should UNESCO Biosphere Reserves be excluded?
+Defaults to \code{TRUE}.}
+
+\item{retain_status}{\code{character} vector containing the statuses for
+protected areas that should be retained during the cleaning process.
+Available statuses include:
+\code{"Proposed"}, \code{"Inscribed"}, \code{"Adopted"}, \code{"Designated"}, and
+\code{"Established"}.
+Additionally, a \code{NULL} argument can be specified to ensure that no
+protected areas are excluded according to their status.
+The default argument is a \code{character} vector containing \code{"Designated"},
+\code{"Inscribed"}, and \code{"Established"}.
+This default argument ensures that protected areas that are not currently
+implemented are excluded.}
 
 \item{snap_tolerance}{\code{numeric} tolerance for snapping geometry to a
 grid for resolving invalid geometries. Defaults to 1 meter.}
@@ -43,9 +59,6 @@ On the other hand, this processing step may not be needed
 (e.g. if the protected area boundaries are going to be rasterized), and so
 processing time can be substantially by skipping this step and setting
 the argument to \code{FALSE}. Defaults to \code{TRUE}.}
-
-\item{exclude_unesco}{\code{logical} should UNESCO Biosphere Reserves be excluded?
-Defaults to \code{TRUE}.}
 
 \item{verbose}{\code{logical} should progress on data cleaning be reported?
 Defaults to \code{TRUE} in an interactive session, otherwise
@@ -74,9 +87,13 @@ dataset.
 
 \item Repair invalid geometry (using \code{\link[sf:valid]{sf::st_make_valid()}}).
 
-\item Exclude protected areas that are not currently implemented
-(i.e. exclude areas without the status \code{"Designated"},
-\code{"Inscribed"}, \code{"Established"}).
+\item Exclude protected areas according to their status (i.e.
+\code{"STATUS"} field). Specifically, protected areas that have
+a status not specified in the argument to \code{retain_status} are excluded.
+By default, only protected areas that have a
+\code{"Designated"}, \code{"Inscribed"}, or \code{"Established"} status are retained.
+This means that the default behavior is to exclude protected that
+are not currently implemented.
 
 \item Exclude United Nations Educational, Scientific and Cultural
 Organization (UNESCO) Biosphere Reserves (Coetzer \emph{et al.} 2014).

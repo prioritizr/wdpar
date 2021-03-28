@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jeffrey O. Hanson" />
 
-<meta name="date" content="2021-03-19" />
+<meta name="date" content="2021-03-28" />
 
 <title>wdpar: Interface to the World Database on Protected Areas</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">wdpar: Interface to the World Database on Protected Areas</h1>
 <h4 class="author"><em>Jeffrey O. Hanson</em></h4>
-<h4 class="date"><em>2021-03-19</em></h4>
+<h4 class="date"><em>2021-03-28</em></h4>
 
 
 
@@ -137,19 +137,19 @@ mlt_pa_data &lt;-
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># print first six rows of the data</span>
 <span class="kw">head</span>(mlt_pa_data)</code></pre></div>
 <pre><code>## Simple feature collection with 6 features and 32 fields
-## geometry type:  GEOMETRY
-## dimension:      XY
-## bbox:           xmin: 1382520 ymin: 4291797 xmax: 1399694 ymax: 4299338
-## CRS:            +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
+## Geometry type: GEOMETRY
+## Dimension:     XY
+## Bounding box:  xmin: 1382520 ymin: 4291797 xmax: 1399694 ymax: 4299338
+## CRS:           +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
 ## # A tibble: 6 x 33
-##   WDPAID WDPA_PID PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
-##    &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;   
-## 1 5.56e8 5555886… 1      Il-M… Il-Majji… Park… National… National   II      
-## 2 1.75e5 174757   1      Il-Ġ… Il-Ġonna… List… List Of … National   III     
-## 3 1.75e5 174758   1      Bidn… Bidnija,… List… List Of … National   III     
-## 4 1.94e5 194415   1      Il-Ġ… Il-Ġonna… List… List Of … National   III     
-## 5 1.94e5 194417   1      Il-W… Il-Wied … List… List Of … National   III     
-## 6 1.94e5 194418   1      Il-B… Il-Ballu… List… List Of … National   III     
+##    WDPAID WDPA_PID  PA_DEF NAME  ORIG_NAME DESIG  DESIG_ENG  DESIG_TYPE IUCN_CAT
+##     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;   
+## 1  5.56e8 555588631 1      Il-M… Il-Majji… Park … National … National   II      
+## 2  1.75e5 174757    1      Il-Ġ… Il-Ġonna… List … List Of H… National   III     
+## 3  1.75e5 174758    1      Bidn… Bidnija,… List … List Of H… National   III     
+## 4  1.94e5 194415    1      Il-Ġ… Il-Ġonna… List … List Of H… National   III     
+## 5  1.94e5 194417    1      Il-W… Il-Wied … List … List Of H… National   III     
+## 6  1.94e5 194418    1      Il-B… Il-Ballu… List … List Of H… National   III     
 ## # … with 24 more variables: INT_CRIT &lt;chr&gt;, MARINE &lt;chr&gt;, REP_M_AREA &lt;dbl&gt;,
 ## #   GIS_M_AREA &lt;dbl&gt;, REP_AREA &lt;dbl&gt;, GIS_AREA &lt;dbl&gt;, NO_TAKE &lt;chr&gt;,
 ## #   NO_TK_AREA &lt;dbl&gt;, STATUS &lt;chr&gt;, STATUS_YR &lt;dbl&gt;, GOV_TYPE &lt;chr&gt;,
@@ -182,9 +182,9 @@ statistic &lt;-
 <span class="st">  </span><span class="kw">group_by</span>(MARINE) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">summarize</span>(<span class="dt">area_km =</span> <span class="kw">sum</span>(AREA_KM2)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(area_km))</code></pre></div>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># print statistic</span>
+<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(area_km))
+
+<span class="co"># print statistic</span>
 <span class="kw">print</span>(statistic)</code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   MARINE      area_km
@@ -202,9 +202,9 @@ statistic &lt;-
 <span class="st">  </span><span class="kw">summarize</span>(<span class="dt">area_km =</span> <span class="kw">sum</span>(AREA_KM2)) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">percentage =</span> (area_km <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(area_km)) <span class="op">*</span><span class="st"> </span><span class="dv">100</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(area_km))</code></pre></div>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># print statistic</span>
+<span class="st">  </span><span class="kw">arrange</span>(<span class="kw">desc</span>(area_km))
+
+<span class="co"># print statistic</span>
 <span class="kw">print</span>(statistic)</code></pre></div>
 <pre><code>## # A tibble: 8 x 3
 ##   IUCN_CAT       area_km percentage
@@ -249,7 +249,7 @@ statistic &lt;-
 To cite the wdpar package in publications, use:
 
   Hanson JO (2021) wdpar: Interface to the World Database on Protected
-  Areas. R package version 1.2.0.0. https://github.com/prioritizr/wdpar
+  Areas. R package version 1.3.0.0. https://github.com/prioritizr/wdpar
 
   UNEP-WCMC and IUCN (2021) Protected Planet: The World Database on
   Protected Areas (WDPA), [insert month/year of the version

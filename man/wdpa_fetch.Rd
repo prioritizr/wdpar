@@ -9,6 +9,7 @@ wdpa_fetch(
   wait = FALSE,
   download_dir = rappdirs::user_data_dir("wdpar"),
   force_download = FALSE,
+  n = NULL,
   verbose = interactive()
 )
 }
@@ -31,6 +32,9 @@ Defaults to a persistent data directory
 \item{force_download}{\code{logical} if the data has previously been
 downloaded and is available at argument to \code{download_dir}, should a
 fresh copy be downloaded? Defaults to \code{FALSE}.}
+
+\item{n}{\code{integer} number of records to import per data source.
+Defaults to \code{NULL} such that all data are imported.}
 
 \item{verbose}{\code{logical} should a progress on downloading data be
 reported? Defaults to \code{TRUE} in an interactive session, otherwise

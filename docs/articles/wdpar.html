@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0.0</span>
       </span>
     </div>
 
@@ -76,7 +76,7 @@
       <h1 data-toc-skip>wdpar: Interface to the World Database on Protected Areas</h1>
                         <h4 class="author">Jeffrey O. Hanson</h4>
             
-            <h4 class="date">2021-03-19</h4>
+            <h4 class="date">2021-03-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/wdpar/blob/master/vignettes/wdpar.Rmd"><code>vignettes/wdpar.Rmd</code></a></small>
       <div class="hidden name"><code>wdpar.Rmd</code></div>
@@ -157,19 +157,19 @@
 <code class="sourceCode R"><span class="co"># print first six rows of the data</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mlt_pa_data</span><span class="op">)</span></code></pre></div>
 <pre><code>## Simple feature collection with 6 features and 32 fields
-## geometry type:  GEOMETRY
-## dimension:      XY
-## bbox:           xmin: 1382520 ymin: 4291797 xmax: 1399694 ymax: 4299338
-## CRS:            +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
+## Geometry type: GEOMETRY
+## Dimension:     XY
+## Bounding box:  xmin: 1382520 ymin: 4291797 xmax: 1399694 ymax: 4299338
+## CRS:           +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
 ## # A tibble: 6 x 33
-##   WDPAID WDPA_PID PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
-##    &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;   
-## 1 5.56e8 5555886… 1      Il-M… Il-Majji… Park… National… National   II      
-## 2 1.75e5 174757   1      Il-Ġ… Il-Ġonna… List… List Of … National   III     
-## 3 1.75e5 174758   1      Bidn… Bidnija,… List… List Of … National   III     
-## 4 1.94e5 194415   1      Il-Ġ… Il-Ġonna… List… List Of … National   III     
-## 5 1.94e5 194417   1      Il-W… Il-Wied … List… List Of … National   III     
-## 6 1.94e5 194418   1      Il-B… Il-Ballu… List… List Of … National   III     
+##    WDPAID WDPA_PID  PA_DEF NAME  ORIG_NAME DESIG  DESIG_ENG  DESIG_TYPE IUCN_CAT
+##     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;   
+## 1  5.56e8 555588631 1      Il-M… Il-Majji… Park … National … National   II      
+## 2  1.75e5 174757    1      Il-Ġ… Il-Ġonna… List … List Of H… National   III     
+## 3  1.75e5 174758    1      Bidn… Bidnija,… List … List Of H… National   III     
+## 4  1.94e5 194415    1      Il-Ġ… Il-Ġonna… List … List Of H… National   III     
+## 5  1.94e5 194417    1      Il-W… Il-Wied … List … List Of H… National   III     
+## 6  1.94e5 194418    1      Il-B… Il-Ballu… List … List Of H… National   III     
 ## # … with 24 more variables: INT_CRIT &lt;chr&gt;, MARINE &lt;chr&gt;, REP_M_AREA &lt;dbl&gt;,
 ## #   GIS_M_AREA &lt;dbl&gt;, REP_AREA &lt;dbl&gt;, GIS_AREA &lt;dbl&gt;, NO_TAKE &lt;chr&gt;,
 ## #   NO_TK_AREA &lt;dbl&gt;, STATUS &lt;chr&gt;, STATUS_YR &lt;dbl&gt;, GOV_TYPE &lt;chr&gt;,
@@ -206,10 +206,9 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">MARINE</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>area_km <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">AREA_KM2</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">area_km</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<div class="sourceCode"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># print statistic</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">area_km</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co"># print statistic</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">statistic</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   MARINE      area_km
@@ -228,10 +227,9 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>area_km <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">AREA_KM2</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>percentage <span class="op">=</span> <span class="op">(</span><span class="va">area_km</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">area_km</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">area_km</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<div class="sourceCode"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># print statistic</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">area_km</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co"># print statistic</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">statistic</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 8 x 3
 ##   IUCN_CAT       area_km percentage
@@ -282,7 +280,7 @@
 To cite the wdpar package in publications, use:
 
   Hanson JO (2021) wdpar: Interface to the World Database on Protected
-  Areas. R package version 1.2.0.0. https://github.com/prioritizr/wdpar
+  Areas. R package version 1.3.0.0. https://github.com/prioritizr/wdpar
 
   UNEP-WCMC and IUCN (2021) Protected Planet: The World Database on
   Protected Areas (WDPA), [insert month/year of the version

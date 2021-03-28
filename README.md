@@ -3,7 +3,7 @@
 wdpar: Interface to the World Database on Protected Areas
 ---------------------------------------------------------
 
-[![lifecycle](https://img.shields.io/badge/Lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable) [![R-CMD-check-Ubuntu](https://img.shields.io/github/workflow/status/prioritizr/wdpar/Ubuntu/master.svg?label=Ubuntu)](https://github.com/prioritizr/wdpar/actions) [![R-CMD-check-Windows](https://img.shields.io/github/workflow/status/prioritizr/wdpar/Windows/master.svg?label=Windows)](https://github.com/prioritizr/wdpar/actions) [![R-CMD-check-Mac-OSX](https://img.shields.io/github/workflow/status/prioritizr/wdpar/Mac%20OSX/master.svg?label=Mac%20OSX)](https://github.com/prioritizr/wdpar/actions) [![Coverage Status](https://codecov.io/github/prioritizr/wdpar/coverage.svg?branch=master)](https://codecov.io/github/prioritizr/wdpar?branch=master) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/wdpar)](https://CRAN.R-project.org/package=wdpar)
+[![lifecycle](https://img.shields.io/badge/Lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html) [![R-CMD-check-Ubuntu](https://img.shields.io/github/workflow/status/prioritizr/wdpar/Ubuntu/master.svg?label=Ubuntu)](https://github.com/prioritizr/wdpar/actions) [![R-CMD-check-Windows](https://img.shields.io/github/workflow/status/prioritizr/wdpar/Windows/master.svg?label=Windows)](https://github.com/prioritizr/wdpar/actions) [![R-CMD-check-Mac-OSX](https://img.shields.io/github/workflow/status/prioritizr/wdpar/Mac%20OSX/master.svg?label=Mac%20OSX)](https://github.com/prioritizr/wdpar/actions) [![Coverage Status](https://codecov.io/github/prioritizr/wdpar/coverage.svg?branch=master)](https://codecov.io/github/prioritizr/wdpar?branch=master) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/wdpar)](https://CRAN.R-project.org/package=wdpar)
 
 ### Overview
 
@@ -58,20 +58,20 @@ head(mlt_pa_data)
 ```
 
     ## Simple feature collection with 6 features and 32 fields
-    ## geometry type:  MULTIPOLYGON
-    ## dimension:      XY
-    ## bbox:           xmin: 1369012 ymin: 4280784 xmax: 1399694 ymax: 4307909
-    ## CRS:            +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
-    ## precision:      1500 
+    ## Geometry type: MULTIPOLYGON
+    ## Dimension:     XY
+    ## Bounding box:  xmin: 1369012 ymin: 4280784 xmax: 1399694 ymax: 4307909
+    ## CRS:           +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
+    ## Precision:     1500 
     ## # A tibble: 6 x 33
-    ##   WDPAID WDPA_PID PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
-    ##    <dbl> <chr>    <chr>  <chr> <chr>     <chr> <chr>     <chr>      <chr>   
-    ## 1 1.94e5 194420   1      Filf… Filfla    Rise… Nature R… National   Ia      
-    ## 2 1.94e5 194423   1      Il-Ġ… Il-Ġebla… Rise… Nature R… National   Ia      
-    ## 3 1.94e5 194425   1      Il-G… Il-Gżejj… Rise… Nature R… National   Ia      
-    ## 4 5.56e8 5555886… 1      Il-M… Il-Majji… Park… National… National   II      
-    ## 5 1.75e5 174757   1      Il-Ġ… Il-Ġonna… List… List Of … National   III     
-    ## 6 1.75e5 174758   1      Bidn… Bidnija,… List… List Of … National   III     
+    ##    WDPAID WDPA_PID  PA_DEF NAME  ORIG_NAME DESIG  DESIG_ENG  DESIG_TYPE IUCN_CAT
+    ##     <dbl> <chr>     <chr>  <chr> <chr>     <chr>  <chr>      <chr>      <chr>   
+    ## 1  1.94e5 194420    1      Filf… Filfla    Riser… Nature Re… National   Ia      
+    ## 2  1.94e5 194423    1      Il-Ġ… Il-Ġebla… Riser… Nature Re… National   Ia      
+    ## 3  1.94e5 194425    1      Il-G… Il-Gżejj… Riser… Nature Re… National   Ia      
+    ## 4  5.56e8 555588631 1      Il-M… Il-Majji… Park … National … National   II      
+    ## 5  1.75e5 174757    1      Il-Ġ… Il-Ġonna… List … List Of H… National   III     
+    ## 6  1.75e5 174758    1      Bidn… Bidnija,… List … List Of H… National   III     
     ## # … with 24 more variables: INT_CRIT <chr>, MARINE <chr>, REP_M_AREA <dbl>,
     ## #   GIS_M_AREA <dbl>, REP_AREA <dbl>, GIS_AREA <dbl>, NO_TAKE <chr>,
     ## #   NO_TK_AREA <dbl>, STATUS <chr>, STATUS_YR <dbl>, GOV_TYPE <chr>,
@@ -108,7 +108,7 @@ Please cite the *wdpar R* package and the World Database on Protected Areas (WDP
     To cite the wdpar package in publications, use:
 
       Hanson JO (2021) wdpar: Interface to the World Database on Protected
-      Areas. R package version 1.2.0.0. https://github.com/prioritizr/wdpar
+      Areas. R package version 1.3.0.0. https://github.com/prioritizr/wdpar
 
       UNEP-WCMC and IUCN (2021) Protected Planet: The World Database on
       Protected Areas (WDPA), [insert month/year of the version

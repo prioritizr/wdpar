@@ -7,6 +7,8 @@ NULL
 #' (available at <https://www.protectedplanet.net/en>) and import it.
 #' Note that data are downloaded assuming non-commercial use.
 #'
+#' @inheritParams wdpa_read
+#'
 #' @param x `character` country for which to download data. This argument
 #'   can be the name of the country (e.g. `"Liechtenstein"`) or the
 #'   ISO-3 code for the country (e.g. `"LIE"`). This argument can also
@@ -85,7 +87,9 @@ NULL
 #' @export
 wdpa_fetch <- function(x, wait = FALSE,
                        download_dir = rappdirs::user_data_dir("wdpar"),
-                       force_download = FALSE, verbose = interactive()) {
+                       force_download = FALSE,
+                       n = NULL,
+                       verbose = interactive()) {
   # check that arguments are valid
   ## check that classes are correct
   dir.create(download_dir, showWarnings = FALSE, recursive = TRUE)
@@ -144,5 +148,5 @@ wdpa_fetch <- function(x, wait = FALSE,
     }
   }
   # import the data
-  wdpa_read(file_path)
+  wdpa_read(file_path, n)
 }

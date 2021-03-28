@@ -1,3 +1,8 @@
+# wdpar 1.3.0.0
+
+- Fix URLs for CRAN.
+- Increase test coverage.
+
 # wdpar 1.2.0.0
 
 - Update `wdpa_clean` with new `retain_status` parameter to specify which

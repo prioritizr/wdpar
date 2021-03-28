@@ -17,8 +17,8 @@ test_that("wdpa_clean (single country with eez)", {
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
   # fetch data
-  x <- wdpa_clean(suppressWarnings(wdpa_fetch("MHL", wait = TRUE,
-                                              force = TRUE)))
+  x <- wdpa_clean(suppressWarnings(wdpa_fetch(
+    "MHL", wait = TRUE, force = TRUE, verbose = TRUE)))
   # run tests
   expect_is(x, "sf")
   expect_true(all(names(x) %in% wdpa_column_names))

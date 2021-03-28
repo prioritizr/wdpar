@@ -19,7 +19,7 @@ test_that("st_erase_overlaps (sf)", {
                                  1.25, 1.25, 1.5, 1.25), ncol = 2))) * 100),
     crs = 3395)
   y1 <- sf::st_sf(order = c("A", "B", "C"), geometry = y1)
-  y2 <- st_erase_overlaps(x) %>%
+  y2 <- st_erase_overlaps(x, verbose = TRUE) %>%
         sf::st_cast("POLYGON")
   # run tests
   expect_is(y2, "sf")

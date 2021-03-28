@@ -1,4 +1,4 @@
-## Test environments
+# Test environments
 
 * [Ubuntu 20.04, R-release](https://github.com/prioritizr/wdpar/actions?query=workflow%3AUbuntu)
 * [Ubuntu 20.04, R-devel](https://github.com/prioritizr/wdpar/actions?query=workflow%3AUbuntu)
@@ -7,6 +7,6 @@
 * [Windows Server 2019, R-devel](https://github.com/prioritizr/wdpar/actions?query=workflow%3AWindows)
 * Windows Server 2008 (x64), R-devel (win-builder)
 
-## R CMD check results
+# R CMD check results
 
 0 errors | 0 warnings | 0 note

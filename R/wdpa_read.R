@@ -64,23 +64,35 @@ wdpa_read <- function(x, n = NULL) {
                       full.names = TRUE, include.dirs = TRUE)
     ## import data from geodatabase(s)
     if (length(gdb_paths) == 1) {
-      ### WDPA < Dec2020
-      wdpa_point_data <-
-        read_sf_n(gdb_paths, paste0("WDPA_point_", month_year), n)
-      wdpa_polygon_data <-
-        read_sf_n(gdb_paths, paste0("WDPA_poly_", month_year), n)
+      wdpa_lyrs <- st::st_layers(gdb_paths)
+      point_path <-
+        grep("point", wdpa_lyrs$name, value = TRUE, ignore.case = TRUE)
+      polygon_path <-
+        grep("poly", wdpa_lyrs$name, value = TRUE, ignore.case = TRUE)
+      assertthat::assert_that(
+        length(point_path) == 1,
+        length(polygon_path) == 1,
+        !identical(polygon_path, point_path),
+        msg = "global data format not recognized.")
+      wdpa_point_data <- read_sf_n(gdb_paths, point_path, n)
+      wdpa_polygon_data <- read_sf_n(gdb_paths, polygon_path, n)
     } else if (length(gdb_paths) == 2) {
       ### WDPA >= Dec2020
       point_path <-
         grep("point", gdb_paths, value = TRUE, ignore.case = TRUE)
       polygon_path <-
         grep("polygon", gdb_paths,  value = TRUE, ignore.case = TRUE)
+      assertthat::assert_that(
+        length(point_path) == 1,
+        length(polygon_path) == 1,
+        !identical(polygon_path, point_path),
+        msg = "global data format not recognized.")
       wdpa_point_data <-
         read_sf_n(point_path, "WDPA_WDOECM_wdpa_gdb_points", n)
       wdpa_polygon_data <-
         read_sf_n(polygon_path, "WDPA_WDOECM_wdpa_gdb_polygons", n)
     } else {
-      stop("Global data format not recognized.")
+      stop("global data format not recognized.")
     }
     ## extract point and polygon data
     ## merge data together

@@ -1,3 +1,8 @@
+# wdpar 1.3.0.1
+
+- Update `wdpa_url` function to be compatible with changes on
+  <https://www.protectedplanet.net>.
+
 # wdpar 1.3.0.0
 
 - Fix URLs for CRAN.
@@ -5,8 +10,8 @@
 
 # wdpar 1.2.0.0
 
-- Update `wdpa_clean` with new `retain_status` parameter to specify which
-  protected areas should be retained during the cleaning process (#33).
+- Update `wdpa_clean` function with new `retain_status` parameter to specify
+  which protected areas should be retained during the cleaning process (#33).
   Defaults to a `character` vector containing `"Designated"`, `"Inscribed"`,
   `"Established"` to indicate that protected areas with these status
   (i.e. per `"STATUS"` column) are retained. Thus the default behavior from

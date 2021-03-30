@@ -64,7 +64,7 @@ wdpa_read <- function(x, n = NULL) {
                       full.names = TRUE, include.dirs = TRUE)
     ## import data from geodatabase(s)
     if (length(gdb_paths) == 1) {
-      wdpa_lyrs <- st::st_layers(gdb_paths)
+      wdpa_lyrs <- sf::st_layers(gdb_paths)
       point_path <-
         grep("point", wdpa_lyrs$name, value = TRUE, ignore.case = TRUE)
       polygon_path <-

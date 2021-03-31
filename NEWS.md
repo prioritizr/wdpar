@@ -2,6 +2,9 @@
 
 - Update `wdpa_url` function to be compatible with changes on
   <https://www.protectedplanet.net>.
+- Update `wdpa_read` function to be compatible with new global dataset format.
+- Update `st_erase_overlaps` function to be more resilient against topology
+  errors (#33).
 
 # wdpar 1.3.0.0
 

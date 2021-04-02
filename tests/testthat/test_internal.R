@@ -81,7 +81,7 @@ test_that("wdpa_url (country)", {
   # verify that downloading the url yields a zipped shapefile
   f1 <- tempfile(fileext = ".zip")
   f2 <- file.path(tempdir(), basename(tempfile()))
-  curl::curl_download(x, f1)
+  download_file(x, f1)
   expect_true(file.exists(f1))
   unzip(f1, exdir = f2)
   zip_path <- dir(f2, "^.*\\.zip$", recursive = TRUE, full.names = TRUE)
@@ -105,7 +105,7 @@ test_that("wdpa_url (global)", {
          "slow internet connection detected")
   f1 <- tempfile(fileext = ".zip")
   f2 <- file.path(tempdir(), basename(tempfile()))
-  curl::curl_download(x, f1)
+  download_file(x, f1)
   expect_true(file.exists(f1))
   unzip(f1, exdir = f2)
   expect_gt(length(dir(f2, "^.*\\.gdb$", include.dirs = TRUE,

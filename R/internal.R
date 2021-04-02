@@ -250,3 +250,29 @@ read_sf_n <- function(dsn, layer = NULL, n = NULL) {
   # return result
   out
 }
+
+#' Download file
+#'
+#' @param url `character` URL for downloading file.
+#'
+#' @param path `character` path to save data.
+#'
+#' @param quiet `logical` should downloading information be suppressed?
+#'
+#' @details
+#' This function downloads a file using [utils::download.file()]
+#' on Mac OSX and [curl::curl_download()] on other systems.
+#' Ideally, [curl::curl_download()] would be used on all systems, but
+#' it doesn't always seem to work on Mac OSX.
+#'
+#' @return Invisible `logical` indicating success.
+#'
+#' @noRd
+download_file <- function(url, path, quiet = TRUE) {
+  if (identical(Sys.info()[["sysname"]], "Darwin")) {
+    res <- utils::download.file(url, path, quiet = quiet)
+  } else {
+    res <- curl::curl_download(url, path, quiet = quiet)
+  }
+  invisible(TRUE)
+}

@@ -69,11 +69,16 @@ wdpa_read <- function(x, n = NULL) {
         grep("point", wdpa_lyrs$name, value = TRUE, ignore.case = TRUE)
       polygon_path <-
         grep("poly", wdpa_lyrs$name, value = TRUE, ignore.case = TRUE)
+      # assertthat::assert_that(
+      #   length(point_path) == 1,
+      #   length(polygon_path) == 1,
+      #   !identical(polygon_path, point_path),
+      #   msg = "global data format not recognized.")
+      print(str(wdpa_lyrs))
       assertthat::assert_that(
         length(point_path) == 1,
         length(polygon_path) == 1,
-        !identical(polygon_path, point_path),
-        msg = "global data format not recognized.")
+        !identical(polygon_path, point_path))
       wdpa_point_data <- read_sf_n(gdb_paths, point_path, n)
       wdpa_polygon_data <- read_sf_n(gdb_paths, polygon_path, n)
     } else if (length(gdb_paths) == 2) {
@@ -81,7 +86,7 @@ wdpa_read <- function(x, n = NULL) {
       point_path <-
         grep("point", gdb_paths, value = TRUE, ignore.case = TRUE)
       polygon_path <-
-        grep("polygon", gdb_paths,  value = TRUE, ignore.case = TRUE)
+        grep("poly", gdb_paths,  value = TRUE, ignore.case = TRUE)
       assertthat::assert_that(
         length(point_path) == 1,
         length(polygon_path) == 1,

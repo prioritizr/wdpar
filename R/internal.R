@@ -272,8 +272,7 @@ download_file <- function(url, path, quiet = TRUE) {
   if (identical(Sys.info()[["sysname"]], "Darwin")) {
     withr::with_options(
       list(timeout = 1e+5), {
-      res <- utils::download.file(
-        url, path, quiet = quiet, method = "internal")
+      res <- utils::download.file(url, path, quiet = quiet)
     })
   } else {
     res <- curl::curl_download(url, path, quiet = quiet)

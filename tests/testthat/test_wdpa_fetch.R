@@ -24,6 +24,7 @@ test_that("global", {
   skip_if_not(curl::has_internet())
   skip_if_not_installed("pingr")
   skip_on_github_workflow("Windows")
+  skip_on_github_workflow("Mac OSX")
   skip_if(
     (mean(pingr::ping("www.google.com", count = 10)) > 10) &&
     !identical(Sys.getenv("CI"), "true"))

@@ -97,6 +97,7 @@ test_that("wdpa_url (global)", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
+  skip_on_github_workflow("Mac OSX")
   # verify that wdpa_url yields a result
   x <- suppressWarnings(wdpa_url("global", wait = TRUE))
   expect_is(x, "character")

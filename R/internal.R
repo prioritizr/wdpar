@@ -270,7 +270,11 @@ read_sf_n <- function(dsn, layer = NULL, n = NULL) {
 #' @noRd
 download_file <- function(url, path, quiet = TRUE) {
   if (identical(Sys.info()[["sysname"]], "Darwin")) {
-    res <- utils::download.file(url, path, quiet = quiet)
+    withr::with_options(
+      list(timeout = 1e+5), {
+      res <- utils::download.file(
+        url, path, quiet = quiet, method = "internal")
+    })
   } else {
     res <- curl::curl_download(url, path, quiet = quiet)
   }

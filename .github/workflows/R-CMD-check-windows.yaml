@@ -70,6 +70,7 @@ jobs:
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE, INSTALL_opts = c("--merge-multiarch"))
+          remotes::install_cran('xfun', INSTALL_opts = c("--merge-multiarch"))
           remotes::install_cran("rcmdcheck")
           remotes::install_cran("covr")
         shell: Rscript {0}

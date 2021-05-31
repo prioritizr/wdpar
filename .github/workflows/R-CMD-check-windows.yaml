@@ -32,6 +32,7 @@ jobs:
       _R_CHECK_FORCE_SUGGESTS_: false
       _R_CHECK_TIMINGS_: 10
       _R_CHECK_CRAN_INCOMING_REMOTE_: false
+      _R_CHECK_SKIP_ARCH_: i386
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       CI: true
 
@@ -69,7 +70,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          remotes::install_deps(dependencies = TRUE, type = "source", INSTALL_opts = "--merge-multiarch")
+          remotes::install_deps(dependencies = TRUE")
           remotes::install_cran("rcmdcheck")
           remotes::install_cran("covr")
         shell: Rscript {0}

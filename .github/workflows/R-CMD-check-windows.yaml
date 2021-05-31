@@ -21,10 +21,9 @@ jobs:
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         config:
-          - {os: windows-latest, r: 'devel', skip_arch: 'i386'}
           - {os: windows-latest, r: 'release'}
 
     env:
@@ -32,9 +31,6 @@ jobs:
       _R_CHECK_FORCE_SUGGESTS_: false
       _R_CHECK_TIMINGS_: 10
       _R_CHECK_CRAN_INCOMING_REMOTE_: false
-      _R_CHECK_SKIP_ARCH_: ${{ matrix.config.skip_arch }}
-      _R_CHECK_SKIP_TESTS_ARCH_: ${{ matrix.config.skip_arch }}
-      _R_CHECK_SKIP_EXAMPLES_ARCH_: ${{ matrix.config.skip_arch }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       CI: true
 
@@ -72,8 +68,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          opts <- ifelse(nchar(Sys.getenv("_R_CHECK_SKIP_ARCH_")) > 0, "--no-multiarch", "")
-          remotes::install_deps(dependencies = TRUE, INSTALL_opts = opts)
+          remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
           remotes::install_cran("covr")
         shell: Rscript {0}
@@ -87,8 +82,6 @@ jobs:
 
       - name: Check
         run: |
-          opts <- ifelse(nchar(Sys.getenv("_R_CHECK_SKIP_ARCH_")) > 0, "--no-multiarch", "")
-          options(devtools.install.args = opts)
           rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran", "--no-build-vignettes"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
 

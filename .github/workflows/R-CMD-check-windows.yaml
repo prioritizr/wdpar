@@ -33,6 +33,8 @@ jobs:
       _R_CHECK_TIMINGS_: 10
       _R_CHECK_CRAN_INCOMING_REMOTE_: false
       _R_CHECK_SKIP_ARCH_: ${{ matrix.config.skip_arch }}
+      _R_CHECK_SKIP_TESTS_ARCH_: ${{ matrix.config.skip_arch }}
+      _R_CHECK_SKIP_EXAMPLES_ARCH_: ${{ matrix.config.skip_arch }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       CI: true
 

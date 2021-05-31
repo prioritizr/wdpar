@@ -69,7 +69,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          remotes::install_deps(dependencies = TRUE, INSTALL_opts = "--force-biarch")
+          remotes::install_deps(dependencies = TRUE, INSTALL_opts = c("--force-biarch", "--compile-both"))
           remotes::install_cran("rcmdcheck")
           remotes::install_cran("covr")
         shell: Rscript {0}

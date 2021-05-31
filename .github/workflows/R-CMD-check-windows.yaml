@@ -70,7 +70,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          remotes::install_deps(dependencies = TRUE)
+          remotes::install_deps(dependencies = TRUE, INSTALL_opts = ifelse(nchar(Sys.getenv("_R_CHECK_SKIP_ARCH_")) > 0, "--no-multiarch", ""))
           remotes::install_cran("rcmdcheck")
           remotes::install_cran("covr")
         shell: Rscript {0}

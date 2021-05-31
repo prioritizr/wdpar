@@ -24,15 +24,15 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: windows-latest, r: 'devel'}
-          #- {os: windows-latest, r: 'release'}
+          - {os: windows-latest, r: 'devel', skip_arch: 'i386'}
+          - {os: windows-latest, r: 'release'}
 
     env:
       _R_REMOTES_NO_ERRORS_FROM_WARNINGS_: true
       _R_CHECK_FORCE_SUGGESTS_: false
       _R_CHECK_TIMINGS_: 10
       _R_CHECK_CRAN_INCOMING_REMOTE_: false
-      _R_CHECK_SKIP_ARCH_: i386
+      _R_CHECK_SKIP_ARCH_: ${{ matrix.config.skip_arch }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       CI: true
 
@@ -70,7 +70,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          remotes::install_deps(dependencies = TRUE")
+          remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
           remotes::install_cran("covr")
         shell: Rscript {0}

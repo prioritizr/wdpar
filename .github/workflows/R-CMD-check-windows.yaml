@@ -21,7 +21,7 @@ jobs:
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         config:
           - {os: windows-latest, r: 'devel', skip_arch: 'i386'}
@@ -72,7 +72,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          remotes::install_deps(dependencies = TRUE, INSTALL_opts = ifelse(nchar(Sys.getenv("_R_CHECK_SKIP_ARCH_")) > 0, "--no-multiarch", ""))
+          opts <- ifelse(nchar(Sys.getenv("_R_CHECK_SKIP_ARCH_")) > 0, "--no-multiarch", "")
+          remotes::install_deps(dependencies = TRUE, INSTALL_opts = opts)
           remotes::install_cran("rcmdcheck")
           remotes::install_cran("covr")
         shell: Rscript {0}
@@ -86,6 +87,8 @@ jobs:
 
       - name: Check
         run: |
+          opts <- ifelse(nchar(Sys.getenv("_R_CHECK_SKIP_ARCH_")) > 0, "--no-multiarch", "")
+          options(devtools.install.args = opts)
           rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran", "--no-build-vignettes"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
 

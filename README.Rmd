@@ -39,9 +39,9 @@ install.packages("wdpar", repos = "https://cran.rstudio.com/")
 Alternatively, the latest developmental version can be installed using the following _R_ code. Please note that while developmental versions may contain additional features not present in the official version, they may also contain coding errors.
 
 ```{r, eval = FALSE}
-if (!require(devtools))
-  install.packages("devtools")
-devtools::install_github("prioritizr/wdpar")
+if (!require(remotes))
+  install.packages("remotes")
+remotes::install_github("prioritizr/wdpar")
 ```
 
 ### Usage
@@ -55,7 +55,7 @@ library(dplyr)
 library(ggmap)
 ```
 
-Now we will download protected area data for Malta from [Protected Planet](https://www.protectedplanet.net/en). We can achieve this by specifying Malta's country name (i.e. `"Malta"`) or Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (i.e. `"MLT"`).
+Now we will download protected area data for Malta from [Protected Planet](https://www.protectedplanet.net/en). We can achieve this by specifying Malta's country name (i.e. `"Malta"`) or Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (i.e. `"MLT"`). Since data are downloaded to a temporary directory by default, we will specify that the data should be downloaded to a persistent directory. This means that R won't have to re-download the same dataset every time we restart our R session, and R can simply re-load previously downloaded datasets as needed.
 
 ```{r, include = FALSE}
 # download protected area data for Malta
@@ -64,7 +64,8 @@ mlt_raw_pa_data <- wdpa_fetch("Malta", wait = TRUE, force = TRUE)
 
 ```{r, eval = FALSE}
 # download protected area data for Malta
-mlt_raw_pa_data <- wdpa_fetch("Malta", wait = TRUE)
+mlt_raw_pa_data <- wdpa_fetch("Malta", wait = TRUE,
+                              download_dir = rappdirs::user_data_dir("wdpar"))
 ```
 
 Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. `"0"`) with missing data values (i.e. `NA`), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see `?wdpa_clean`.

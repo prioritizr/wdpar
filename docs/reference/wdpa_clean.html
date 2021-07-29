@@ -45,6 +45,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -56,9 +58,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -72,19 +80,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../articles/wdpar.html">Get started</a>
 </li>
 <li>
@@ -97,7 +99,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/prioritizr/wdpar/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -123,7 +125,7 @@
     <p>Clean data obtained from the World Database on Protected Areas (WDPA).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>wdpa_clean</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>wdpa_clean</span><span class='op'>(</span>
   <span class='va'>x</span>,
   crs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"+proj=cea +lon_0=0 +lat_ts=30 +x_0=0"</span>,
     <span class='st'>"+y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs"</span><span class='op'>)</span>,
@@ -134,7 +136,7 @@
   geometry_precision <span class='op'>=</span> <span class='fl'>1500</span>,
   erase_overlaps <span class='op'>=</span> <span class='cn'>TRUE</span>,
   verbose <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -305,17 +307,19 @@ sets on assessment of conservation progress. <em>Conservation Biology</em>,
 <a href='https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage'>https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage</a>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \dontrun{</span>
-<span class='co'># fetch data for the Liechtenstein</span>
-<span class='va'>lie_raw_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='wdpa_fetch.html'>wdpa_fetch</a></span><span class='op'>(</span><span class='st'>"LIE"</span>, wait <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='co'># clean data</span>
-<span class='va'>lie_data</span> <span class='op'>&lt;-</span> <span class='fu'>wdpa_clean</span><span class='op'>(</span><span class='va'>lie_raw_data</span><span class='op'>)</span>
-
-<span class='co'># plot cleaned dataset</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>lie_data</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: plotting the first 9 out of 32 attributes; use max.plot = 32 to plot all</span></div><div class='img'><img src='wdpa_clean-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># \dontrun{</span></span>
+<span class='r-in'><span class='co'># fetch data for the Liechtenstein</span></span>
+<span class='r-in'><span class='va'>lie_raw_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='wdpa_fetch.html'>wdpa_fetch</a></span><span class='op'>(</span><span class='st'>"LIE"</span>, wait <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># clean data</span></span>
+<span class='r-in'><span class='va'>lie_data</span> <span class='op'>&lt;-</span> <span class='fu'>wdpa_clean</span><span class='op'>(</span><span class='va'>lie_raw_data</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># plot cleaned dataset</span></span>
+<span class='r-in'><span class='fu'><a href='https://r-spatial.github.io/sf/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>lie_data</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>plotting the first 9 out of 32 attributes; use max.plot = 32 to plot all</span>
+<span class='r-plt'><img src='wdpa_clean-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='co'># }</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -327,11 +331,11 @@ sets on assessment of conservation progress. <em>Conservation Biology</em>,
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://jeffrey-hanson.com'>Jeffrey O Hanson</a>.</p>
+  <p><p>Developed by <a href="http://jeffrey-hanson.com" class="external-link">Jeffrey O Hanson</a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -339,6 +343,8 @@ sets on assessment of conservation progress. <em>Conservation Biology</em>,
 
   
 
+
+  
 
   </body>
 </html>

@@ -29,3 +29,5 @@ examples.log
 doc/*
 Meta/*
 .build.timestamp
+/doc/
+/Meta/

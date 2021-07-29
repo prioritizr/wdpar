@@ -7,7 +7,7 @@
 wdpa_fetch(
   x,
   wait = FALSE,
-  download_dir = rappdirs::user_data_dir("wdpar"),
+  download_dir = tempdir(),
   force_download = FALSE,
   n = NULL,
   verbose = interactive()
@@ -26,8 +26,9 @@ to \code{wait} is \code{FALSE} and the data is not ready then \code{NA}
 will be returned. Defaults to \code{FALSE}.}
 
 \item{download_dir}{\code{character} folder path to download the data.
-Defaults to a persistent data directory
-(\code{rappdirs::user_data_dir("wdpar")}).}
+Defaults to a temporary directory. To avoid downloading the
+same dataset multiple times, it is recommended to use a persistent
+directory (e.g. \code{rappdirs::user_data_dir("wdpar")}; see Examples below).}
 
 \item{force_download}{\code{logical} if the data has previously been
 downloaded and is available at argument to \code{download_dir}, should a
@@ -67,14 +68,20 @@ To address this issue, you will need to restart your computer.
 # fetch data for Liechtenstein
 lie_raw_data <- wdpa_fetch("Liechtenstein", wait = TRUE)
 
-# fetch data for Liechtenstein using the ISO3 code
-lie_raw_data <- wdpa_fetch("LIE")
-
 # print data
 print(lie_raw_data)
 
 # plot data
 plot(lie_raw_data)
+
+# fetch data for Liechtenstein using the ISO3 code
+lie_raw_data <- wdpa_fetch("LIE", wait = TRUE)
+
+# since data are saved in a temporary directory by default,
+# a persistent directory can be specified to avoid having to download the
+# same dataset every time the R session is restarted
+lie_raw_data <- wdpa_fetch("LIE", wait = TRUE,
+                           download_dir = rappdirs::user_data_dir("wdpar"))
 
 # data for multiple countries can be downloaded separately and combined,
 # this is useful to avoid having to download the global dataset

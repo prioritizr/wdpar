@@ -1,3 +1,11 @@
+# wdpar 1.3.0.2
+
+- Update `wdpa_fetch` function to conform with CRAN policies. Specifically,
+  data are now always saved in a temporary directory by default.
+- Update code in README for downloading developmental version from GitHub.
+- Update internal functions to be more compatible with recent version of the sf
+  R package.
+
 # wdpar 1.3.0.1
 
 - Update `wdpa_url` function to be compatible with changes on

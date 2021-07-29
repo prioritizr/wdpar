@@ -10,7 +10,7 @@ output:
 fontsize: 11pt
 documentclass: article
 vignette: >
-  %\VignetteIndexEntry{wdpar}
+  %\VignetteIndexEntry{wdpar: Interface to the World Database on Protected Areas}
   %\VignetteEngine{knitr::rmarkdown_notangle}
 ---
 
@@ -43,12 +43,13 @@ library(dplyr)
 library(ggmap)
 ```
 
-Now we will download protected area data for Malta from [Protected Planet](https://www.protectedplanet.net/en). We can achieve this by specifying Malta's country name (i.e. `"Malta"`) or Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (i.e. `"MLT"`).
+Now we will download protected area data for Malta from [Protected Planet](https://www.protectedplanet.net/en). We can achieve this by specifying Malta's country name (i.e. `"Malta"`) or Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (i.e. `"MLT"`). Since data are downloaded to a temporary directory by default, we will specify that the data should be downloaded to a persistent directory. This means that R won't have to re-download the same dataset every time we restart our R session, and R can simply re-load previously downloaded datasets as needed.
 
 ```{r}
 # download protected area data for Malta
 # (excluding areas represented as point localities)
-mlt_raw_pa_data <- wdpa_fetch("Malta")
+mlt_raw_pa_data <- wdpa_fetch("Malta", wait = TRUE,
+                              download_dir = rappdirs::user_data_dir("wdpar"))
 ```
 
 Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. `"0"`) with missing data values (i.e. `NA`), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see `?wdpa_clean`.

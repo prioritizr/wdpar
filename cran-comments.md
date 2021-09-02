@@ -1,3 +1,11 @@
+Dear CRAN volunteers,
+
+Thank you for reviewing this submission. This version contains the following updates: (i) data downloaded from the Protected Planet website are saved to a temporary directory by default, (ii) improved compatibility with package dependencies (e.g. sf R package), and (iii) fixed compatibility issues with updates made to the Protected Planet website.
+
+Cheers,
+
+Jeff
+
 # Test environments
 
 * [Ubuntu 20.04, R-release](https://github.com/prioritizr/wdpar/actions?query=workflow%3AUbuntu)

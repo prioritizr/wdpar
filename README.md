@@ -28,7 +28,8 @@ the dataset. The *wdpar R* package provides an interface to the [World
 Database on Protected Areas (WDPA)](https://www.protectedplanet.net/en)
 and functions for cleaning the data following best practices (outlined
 in [Butchart *et al.* 2015](https://doi.org/10.1111/conl.12158); [Runge
-*et al.* 2015](https://science.sciencemag.org/content/350/6265/1255);
+*et al.*
+2015](https://www.sciencemag.org/doi/abs/10.1126/science.aac9180);
 [Protected
 Planet](https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage)).
 
@@ -115,14 +116,14 @@ head(mlt_pa_data)
     ## CRS:           +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
     ## Precision:     1500 
     ## # A tibble: 6 × 33
-    ##    WDPAID WDPA_PID  PA_DEF NAME  ORIG_NAME DESIG  DESIG_ENG  DESIG_TYPE IUCN_CAT
-    ##     <dbl> <chr>     <chr>  <chr> <chr>     <chr>  <chr>      <chr>      <chr>   
-    ## 1  1.94e5 194420    1      Filf… Filfla    Riser… Nature Re… National   Ia      
-    ## 2  1.94e5 194425    1      Il-G… Il-Gżejj… Riser… Nature Re… National   Ia      
-    ## 3  5.56e8 555588631 1      Il-M… Il-Majji… Park … National … National   II      
-    ## 4  1.75e5 174757    1      Il-Ġ… Il-Ġonna… List … List Of H… National   III     
-    ## 5  1.75e5 174758    1      Bidn… Bidnija,… List … List Of H… National   III     
-    ## 6  1.94e5 194415    1      Il-Ġ… Il-Ġonna… List … List Of H… National   III     
+    ##      WDPAID WDPA_PID  PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
+    ##       <dbl> <chr>     <chr>  <chr> <chr>     <chr> <chr>     <chr>      <chr>   
+    ## 1    194420 194420    1      Filf… Filfla    Rise… Nature R… National   Ia      
+    ## 2    194425 194425    1      Il-G… Il-Gżejj… Rise… Nature R… National   Ia      
+    ## 3 555588631 555588631 1      Il-M… Il-Majji… Park… National… National   II      
+    ## 4    174757 174757    1      Il-Ġ… Il-Ġonna… List… List Of … National   III     
+    ## 5    174758 174758    1      Bidn… Bidnija,… List… List Of … National   III     
+    ## 6    194415 194415    1      Il-Ġ… Il-Ġonna… List… List Of … National   III     
     ## # … with 24 more variables: INT_CRIT <chr>, MARINE <chr>, REP_M_AREA <dbl>,
     ## #   GIS_M_AREA <dbl>, REP_AREA <dbl>, GIS_AREA <dbl>, NO_TAKE <chr>,
     ## #   NO_TK_AREA <dbl>, STATUS <chr>, STATUS_YR <dbl>, GOV_TYPE <chr>,
@@ -150,7 +151,7 @@ geom_sf(aes(fill = IUCN_CAT), data = mlt_pa_data, inherit.aes = FALSE) +
 theme(axis.title = element_blank(), legend.position = "bottom")
 ```
 
-<img src="man/figures/README-readme-map-1.png" width="60%" style="display: block; margin: auto;" />
+<img src="man/figures/README-readme-map-1.png" width="50%" style="display: block; margin: auto;" />
 
 If you need to calculate protected area coverage statistics for a
 country, please note that you will need to manually clip the cleaned
@@ -175,7 +176,8 @@ Areas (WDPA) in publications.
     To cite the wdpar package in publications, use:
 
       Hanson JO (2021) wdpar: Interface to the World Database on Protected
-      Areas. R package version 1.3.0.2. https://github.com/prioritizr/wdpar
+      Areas. R package version 1.3.1.
+      https://CRAN.R-project.org/package=wdpar
 
       UNEP-WCMC and IUCN (2021) Protected Planet: The World Database on
       Protected Areas (WDPA), [insert month/year of the version

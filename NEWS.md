@@ -1,3 +1,7 @@
+# wdpar 1.3.1
+
+- CRAN release.
+
 # wdpar 1.3.0.2
 
 - Update `wdpa_fetch` function to conform with CRAN policies. Specifically,
@@ -9,7 +13,7 @@
 # wdpar 1.3.0.1
 
 - Update `wdpa_url` function to be compatible with changes on
-  <https://www.protectedplanet.net>.
+  <https://www.protectedplanet.net/en>.
 - Update `wdpa_read` function to be compatible with new global dataset format.
 - Update `st_erase_overlaps` function to be more resilient against topology
   errors (#33).

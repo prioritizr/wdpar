@@ -61,6 +61,9 @@ spellcheck:
 	echo "\n===== SPELL CHECK =====\n" > spell.log 2>&1
 	R --slave -e "devtools::spell_check()" >> spell.log 2>&1
 
+urlcheck:
+	R --slave -e "urlchecker::url_check()"
+
 examples:
 	R --slave -e "devtools::run_examples(test = TRUE, run = TRUE);warnings()"  >> examples.log
 	rm -f Rplots.pdf

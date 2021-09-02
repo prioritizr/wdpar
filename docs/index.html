@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1</span>
       </span>
     </div>
 
@@ -77,7 +77,7 @@
 <div id="overview" class="section level3">
 <h3 class="hasAnchor">
 <a href="#overview" class="anchor" aria-hidden="true"></a>Overview</h3>
-<p>The <a href="https://www.protectedplanet.net/en" class="external-link">World Database on Protected Areas (WDPA)</a> is the most comprehensive global dataset of protected areas. It is used to monitor the performance of existing protected areas and pinpoint priority areas for establishing new protected areas. Additionally, this database receives monthly updates from government agencies and non-governmental organizations. However, this dataset is associated with <a href="https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage" class="external-link">many issues that need to be addressed prior to analysis</a> and the dynamic nature of this dataset means that the entire data cleaning process needs to be repeated after obtaining a new version of the dataset. The <em>wdpar R</em> package provides an interface to the <a href="https://www.protectedplanet.net/en" class="external-link">World Database on Protected Areas (WDPA)</a> and functions for cleaning the data following best practices (outlined in <a href="https://doi.org/10.1111/conl.12158" class="external-link">Butchart <em>et al.</em> 2015</a>; <a href="https://science.sciencemag.org/content/350/6265/1255" class="external-link">Runge <em>et al.</em> 2015</a>; <a href="https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage" class="external-link">Protected Planet</a>).</p>
+<p>The <a href="https://www.protectedplanet.net/en" class="external-link">World Database on Protected Areas (WDPA)</a> is the most comprehensive global dataset of protected areas. It is used to monitor the performance of existing protected areas and pinpoint priority areas for establishing new protected areas. Additionally, this database receives monthly updates from government agencies and non-governmental organizations. However, this dataset is associated with <a href="https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage" class="external-link">many issues that need to be addressed prior to analysis</a> and the dynamic nature of this dataset means that the entire data cleaning process needs to be repeated after obtaining a new version of the dataset. The <em>wdpar R</em> package provides an interface to the <a href="https://www.protectedplanet.net/en" class="external-link">World Database on Protected Areas (WDPA)</a> and functions for cleaning the data following best practices (outlined in <a href="https://doi.org/10.1111/conl.12158" class="external-link">Butchart <em>et al.</em> 2015</a>; <a href="https://www.sciencemag.org/doi/abs/10.1126/science.aac9180" class="external-link">Runge <em>et al.</em> 2015</a>; <a href="https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage" class="external-link">Protected Planet</a>).</p>
 </div>
 <div id="installation" class="section level3">
 <h3 class="hasAnchor">
@@ -120,14 +120,14 @@
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="do">## CRS:           +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs</span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Precision:     1500 </span></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 6 × 33</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="do">##    WDPAID WDPA_PID  PA_DEF NAME  ORIG_NAME DESIG  DESIG_ENG  DESIG_TYPE IUCN_CAT</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="do">##     &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;   </span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="do">## 1  1.94e5 194420    1      Filf… Filfla    Riser… Nature Re… National   Ia      </span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="do">## 2  1.94e5 194425    1      Il-G… Il-Gżejj… Riser… Nature Re… National   Ia      </span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 3  5.56e8 555588631 1      Il-M… Il-Majji… Park … National … National   II      </span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 4  1.75e5 174757    1      Il-Ġ… Il-Ġonna… List … List Of H… National   III     </span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="do">## 5  1.75e5 174758    1      Bidn… Bidnija,… List … List Of H… National   III     </span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="do">## 6  1.94e5 194415    1      Il-Ġ… Il-Ġonna… List … List Of H… National   III     </span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="do">##      WDPAID WDPA_PID  PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="do">##       &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;   </span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="do">## 1    194420 194420    1      Filf… Filfla    Rise… Nature R… National   Ia      </span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="do">## 2    194425 194425    1      Il-G… Il-Gżejj… Rise… Nature R… National   Ia      </span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 555588631 555588631 1      Il-M… Il-Majji… Park… National… National   II      </span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 4    174757 174757    1      Il-Ġ… Il-Ġonna… List… List Of … National   III     </span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="do">## 5    174758 174758    1      Bidn… Bidnija,… List… List Of … National   III     </span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="do">## 6    194415 194415    1      Il-Ġ… Il-Ġonna… List… List Of … National   III     </span></span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="do">## # … with 24 more variables: INT_CRIT &lt;chr&gt;, MARINE &lt;chr&gt;, REP_M_AREA &lt;dbl&gt;,</span></span>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="do">## #   GIS_M_AREA &lt;dbl&gt;, REP_AREA &lt;dbl&gt;, GIS_AREA &lt;dbl&gt;, NO_TAKE &lt;chr&gt;,</span></span>
 <span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="do">## #   NO_TK_AREA &lt;dbl&gt;, STATUS &lt;chr&gt;, STATUS_YR &lt;dbl&gt;, GOV_TYPE &lt;chr&gt;,</span></span>
@@ -148,7 +148,7 @@
 <span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggmap.html" class="external-link">ggmap</a></span><span class="op">(</span><span class="va">bg</span><span class="op">)</span> <span class="op">+</span>
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">IUCN_CAT</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">mlt_pa_data</span>, inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>, legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/README-readme-map-1.png" width="60%" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/README-readme-map-1.png" width="50%" style="display: block; margin: auto;"></p>
 <p>If you need to calculate protected area coverage statistics for a country, please note that you will need to manually clip the cleaned protected area data to the countries’ coastline and its Exclusive Economic Zone (EEZ) to obtain accurate results (see <a href="https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage" class="external-link">official data cleaning guidelines</a>). This step is not performed by the <em>wdpar R</em> package because there is no single “best” coastline and Exclusive Economic Zone (EEZ) dataset, since the “best” dataset for any given project depends on the level of required precision and available computational resources. For more examples—including an example of clipping the cleaned data to a coastline—please refer to the <a href="https://prioritizr.github.io/wdpar/articles/wdpar.html" class="external-link">package vignette</a>.</p>
 </div>
 <div id="citation" class="section level3">
@@ -158,18 +158,19 @@
 <div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>To cite the wdpar package <span class="cf">in</span> publications, use<span class="sc">:</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  Hanson <span class="fu">JO</span> (<span class="dv">2021</span>) wdpar<span class="sc">:</span> Interface to the World Database on Protected</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  Areas. R package version <span class="dv">1</span>.<span class="dv">3</span>.<span class="dv">0</span>.<span class="fl">2.</span> https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>prioritizr<span class="sc">/</span>wdpar</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  UNEP<span class="sc">-</span>WCMC and <span class="fu">IUCN</span> (<span class="dv">2021</span>) Protected Planet<span class="sc">:</span> The World Database on</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  Protected <span class="fu">Areas</span> (WDPA), [insert month<span class="sc">/</span>year of the version</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  downloaded], Cambridge, UK<span class="sc">:</span> UNEP<span class="sc">-</span>WCMC and IUCN. Available at<span class="sc">:</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  www.protectedplanet.net.</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>Please cite both the World Database on Protected Areas data set and</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>this package.</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>To see these entries <span class="cf">in</span> BibTeX format, use <span class="st">'print(&lt;citation&gt;,</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="st">bibtex=TRUE)'</span>, <span class="st">'toBibtex(.)'</span>, or set</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="st">'options(citation.bibtex.max=999)'</span>.</span></code></pre></div>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  Areas. R package version <span class="dv">1</span>.<span class="dv">3</span>.<span class="fl">1.</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  https<span class="sc">:</span><span class="er">//</span>CRAN.R<span class="sc">-</span>project.org<span class="sc">/</span>package<span class="ot">=</span>wdpar</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  UNEP<span class="sc">-</span>WCMC and <span class="fu">IUCN</span> (<span class="dv">2021</span>) Protected Planet<span class="sc">:</span> The World Database on</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  Protected <span class="fu">Areas</span> (WDPA), [insert month<span class="sc">/</span>year of the version</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  downloaded], Cambridge, UK<span class="sc">:</span> UNEP<span class="sc">-</span>WCMC and IUCN. Available at<span class="sc">:</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  www.protectedplanet.net.</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>Please cite both the World Database on Protected Areas data set and</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>this package.</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>To see these entries <span class="cf">in</span> BibTeX format, use <span class="st">'print(&lt;citation&gt;,</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="st">bibtex=TRUE)'</span>, <span class="st">'toBibtex(.)'</span>, or set</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="st">'options(citation.bibtex.max=999)'</span>.</span></code></pre></div>
 </div>
 </div>
   </div>

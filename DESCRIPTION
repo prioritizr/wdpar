@@ -37,7 +37,6 @@ Depends:
     sf (>= 1.0-2)
 License: GPL-3
 Encoding: UTF-8
-LazyData: true
 Language: en-US
 URL: https://prioritizr.github.io/wdpar/, https://github.com/prioritizr/wdpar
 BugReports: https://github.com/prioritizr/wdpar/issues

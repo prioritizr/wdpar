@@ -9,7 +9,6 @@ Authors@R: c(person(c('Jeffrey', 'O'), 'Hanson',
     email='jeffrey.hanson@uqconnect.edu.au', role = c('aut', 'cre')))
 Imports:
     utils,
-    tools,
     sp,
     assertthat (>= 0.2.0),
     progress (>= 1.2.0),

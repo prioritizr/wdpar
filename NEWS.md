@@ -1,6 +1,8 @@
 # wdpar 1.3.1
 
 - CRAN release.
+- Remove LazyData from DESCRIPTION since it is not used.
+- Remove tools R package from DESCRIPTION since it is not used.
 
 # wdpar 1.3.0.2
 

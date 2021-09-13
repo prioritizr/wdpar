@@ -1,3 +1,8 @@
+# wdpar 1.3.1.1
+
+- Update `wdpa_url` function to be compatible with changes on
+  <https://www.protectedplanet.net/en> for downloading country-level datasets.
+
 # wdpar 1.3.1
 
 - CRAN release.

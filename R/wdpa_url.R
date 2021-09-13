@@ -58,8 +58,7 @@ wdpa_url <- function(x, wait = FALSE) {
       elem <- rd$findElement(using = "css", "li:nth-child(2) .popup__link")
       elem$clickElement()
       Sys.sleep(2) # wait 2 seconds for dialog to open
-      elem <- rd$findElement(
-        using = "css", ".modal__link-non-commercial .modal__link-title")
+      elem <- rd$findElement(using = "css", ".modal__link-button")
       elem$clickElement()
       Sys.sleep(2) # wait 2 seconds for dialog to open
       ## extract html for modal

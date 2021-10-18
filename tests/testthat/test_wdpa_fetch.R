@@ -22,12 +22,9 @@ test_that("ISO3", {
 test_that("global", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
-  skip_if_not_installed("pingr")
+  skip_if_local_and_slow_internet()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("Mac OSX")
-  skip_if(
-    (mean(pingr::ping("www.google.com", count = 10)) > 10) &&
-    !identical(Sys.getenv("CI"), "true"))
   x <- suppressWarnings(wdpa_fetch(
     "global", force = TRUE, wait = TRUE, n = 5, verbose = TRUE))
   expect_is(x, "sf")

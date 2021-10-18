@@ -45,12 +45,9 @@ test_that("with point data", {
 test_that("global data", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
-  skip_if_not_installed("pingr")
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("Mac OSX")
-  skip_if(
-    (mean(pingr::ping("www.google.com", count = 10)) > 10) &&
-    !identical(Sys.getenv("CI"), "true"))
+  skip_if_local_and_slow_internet()
   # download data
   url <- suppressWarnings(wdpa_url("global", wait = TRUE))
   path <- file.path(tempdir(), "WDPA_WDOECM_Dec2020_Public.gdb.zip")

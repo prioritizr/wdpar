@@ -172,19 +172,21 @@ vignette](https://prioritizr.github.io/wdpar/articles/wdpar.html).
 Please cite the *wdpar R* package and the World Database on Protected
 Areas (WDPA) in publications.
 
+To cite the latest official version, please use:
 
-    To cite the wdpar package in publications, use:
+> Hanson JO (2021). wdpar: Interface to the World Database on Protected
+> Areas. R package version 1.3.1. Available at
+> <https://CRAN.R-project.org/package=wdpar>.
 
-      Hanson JO (2021) wdpar: Interface to the World Database on Protected
-      Areas. R package version 1.3.1.1. https://github.com/prioritizr/wdpar
+To cite the latest development version, please use:
 
-      UNEP-WCMC and IUCN (2021) Protected Planet: The World Database on
-      Protected Areas (WDPA), [insert month/year of the version
-      downloaded], Cambridge, UK: UNEP-WCMC and IUCN. Available at:
-      www.protectedplanet.net.
+> Hanson JO (2021). wdpar: Interface to the World Database on Protected
+> Areas. R package version 1.3.1.2. Available at
+> <https://github.com/prioritizr/wdpar>.
 
-    Please cite both the World Database on Protected Areas data set and
-    this package.
-    To see these entries in BibTeX format, use 'print(<citation>,
-    bibtex=TRUE)', 'toBibtex(.)', or set
-    'options(citation.bibtex.max=999)'.
+To cite the World Database on Protected Areas (WDPA), please use:
+
+> UNEP-WCMC and IUCN (\[insert year of the version downloaded\])
+> Protected Planet: The World Database on Protected Areas (WDPA),
+> \[insert month/year of the version downloaded\], Cambridge, UK:
+> UNEP-WCMC and IUCN. Available at: www.protectedplanet.net.

@@ -101,9 +101,9 @@ test_that("wdpa_url (global)", {
   # verify that wdpa_url yields a result
   x <- suppressWarnings(wdpa_url("global", wait = TRUE))
   expect_is(x, "character")
+  # skip if on local computer with slow internet
+  skip_if_local_and_slow_internet()
   # verify that downloading the url yields a zipped shapefile
-  skip_if(mean(pingr::ping("www.google.com", count = 10)) > 10,
-         "slow internet connection detected")
   f1 <- tempfile(fileext = ".zip")
   f2 <- file.path(tempdir(), basename(tempfile()))
   download_file(x, f1)

@@ -1,3 +1,8 @@
+# wdpar 1.3.1.2
+
+- Fix tests that fail package checks given only strict dependencies.
+- Update citation information in README and vignette.
+
 # wdpar 1.3.1.1
 
 - Update `wdpa_url` function to be compatible with changes on

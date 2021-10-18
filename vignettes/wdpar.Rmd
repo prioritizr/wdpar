@@ -192,8 +192,8 @@ Although the [World Database on Protected Areas (WDPA)](https://www.protectedpla
 
 ### Citation
 
-Please cite the _wdpar R_ package and the World Database on Protected Areas (WDPA) in publications.
+Please cite the _wdpar R_ package and the World Database on Protected Areas (WDPA) in publications. To see citation details, use the code:
 
-```{r, echo  = FALSE, result = "asis", comment = ""}
+```{r, eval = FALSE}
 citation("wdpar")
 ```

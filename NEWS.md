@@ -1,3 +1,9 @@
+# wdpar 1.3.1.3
+
+- Update `wdpa_clean` to provide better information when cleaning data.
+- Update documentation to provide guidelines for processing global dataset.
+- New `wdpa_dissolve` function to dissolve geometries together (#22).
+
 # wdpar 1.3.1.2
 
 - Fix tests that fail package checks given only strict dependencies.

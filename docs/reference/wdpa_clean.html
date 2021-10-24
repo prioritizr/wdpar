@@ -40,7 +40,9 @@
 
 
 <meta property="og:title" content="Clean data from the World Database on Protected Areas — wdpa_clean" />
-<meta property="og:description" content="Clean data obtained from the World Database on Protected Areas (WDPA)." />
+<meta property="og:description" content="Clean data obtained from the World Database on Protected Areas (WDPA).
+For recommended practices on cleaning large protected area datasets,
+please see below." />
 
 
 
@@ -80,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1.3</span>
       </span>
     </div>
 
@@ -122,7 +124,9 @@
     </div>
 
     <div class="ref-description">
-    <p>Clean data obtained from the World Database on Protected Areas (WDPA).</p>
+    <p>Clean data obtained from the World Database on Protected Areas (WDPA).
+For recommended practices on cleaning large protected area datasets,
+please see below.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>wdpa_clean</span><span class='op'>(</span>
@@ -282,6 +286,35 @@ meters).</p></li>
 the field <code>"AREA_KM2"</code>.</p></li>
 </ol>
 
+    <h2 class="hasAnchor" id="recommended-practices-for-large-datasets"><a class="anchor" href="#recommended-practices-for-large-datasets"></a>Recommended practices for large datasets</h2>
+
+    
+
+<p>This function can be used to clean large datasets --
+such as those spanning large countries, multiple
+countries, and even the full global datatset -- assuming that
+sufficient computational resources and time are available.
+For example, when processing the global dataset, it is recommended to use a
+computer system with at least 32 GB RAM available and to allow for at least
+one full day for the data cleaning procedures to complete.
+It is also recommended to avoid using the computer system for any other
+tasks while the data cleaning procedures are being completed,
+because they are very computationally intensive.
+Additionally, when processing data for many countries -- and especially
+for the global dataset -- it is strongly recommended to disable the
+procedure for erasing overlapping areas.
+This is because the built-in procedure for erasing overlaps is
+very time consuming when processing many protected areas, so that
+information on each protected area can be output
+(e.g. IUCN category, year established).
+Instead, when cleaning large datasets, it is recommended to run
+the data cleaning procedures with the procedure for erasing
+overlapping areas disabled (i.e. with <code>erase_overlaps = FALSE</code>).
+After the data cleaning procedures have completed,
+the protected area data can be manually dissolved
+to remove overlapping areas (e.g. using <code><a href='wdpa_dissolve.html'>wdpa_dissolve()</a></code>).
+For an example of processing a large protected area dataset,
+please see the vignette.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Butchart SH, Clarke M, Smith RJ, Sykes RE, Scharlemann JP,
@@ -318,6 +351,7 @@ sets on assessment of conservation progress. <em>Conservation Biology</em>,
 <span class='r-in'><span class='fu'><a href='https://r-spatial.github.io/sf/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>lie_data</span><span class='op'>)</span></span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>plotting the first 9 out of 32 attributes; use max.plot = 32 to plot all</span>
 <span class='r-plt'><img src='wdpa_clean-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
 <span class='r-in'><span class='co'># }</span></span>
 </code></pre></div>
   </div>

@@ -77,7 +77,8 @@ wdpa_read <- function(x, n = NULL) {
       wdpa_point_data <- read_sf_n(gdb_paths, point_path, n)
       wdpa_polygon_data <- read_sf_n(gdb_paths, polygon_path, n)
     } else if (length(gdb_paths) == 2) {
-      ### WDPA >= Dec2020
+      ### WDPA <= Dec2020
+      #nocov start
       point_path <-
         grep("point", gdb_paths, value = TRUE, ignore.case = TRUE)
       polygon_path <-
@@ -91,8 +92,9 @@ wdpa_read <- function(x, n = NULL) {
         read_sf_n(point_path, "WDPA_WDOECM_wdpa_gdb_points", n)
       wdpa_polygon_data <-
         read_sf_n(polygon_path, "WDPA_WDOECM_wdpa_gdb_polygons", n)
+      #nocov end
     } else {
-      stop("global data format not recognized.")
+      stop("global data format not recognized.") #nocov
     }
     ## extract point and polygon data
     ## merge data together

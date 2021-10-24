@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1.3</span>
       </span>
     </div>
 
@@ -72,7 +72,7 @@
       <h1 data-toc-skip>wdpar: Interface to the World Database on Protected Areas</h1>
                         <h4 data-toc-skip class="author">Jeffrey O. Hanson</h4>
             
-            <h4 data-toc-skip class="date">2021-10-18</h4>
+            <h4 data-toc-skip class="date">2021-10-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/wdpar/blob/master/vignettes/wdpar.Rmd" class="external-link"><code>vignettes/wdpar.Rmd</code></a></small>
       <div class="hidden name"><code>wdpar.Rmd</code></div>
@@ -249,6 +249,46 @@
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>, legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></code></pre></div>
 <p><img src="wdpar_files/figure-html/unnamed-chunk-13-1.png" width="432" style="display: block; margin: auto;"></p>
 </div>
+<div id="recommended-practices-for-large-datasets" class="section level3">
+<h3 class="hasAnchor">
+<a href="#recommended-practices-for-large-datasets" class="anchor" aria-hidden="true"></a>Recommended practices for large datasets</h3>
+<p>The <em>wdpar R</em> package can be used to clean large datasets – such as those spanning large countries, multiple countries, and even the full global datatset – assuming that sufficient computational resources and time are available. For example, when processing the global dataset, it is recommended to use a computer system with at least 32 GB RAM available and to allow for at least one full day for the data cleaning procedures to complete. It is also recommended to avoid using the computer system for any other tasks while the data cleaning procedures are being completed, because they are very computationally intensive. Additionally, when processing large datasets – and especially for the global dataset – it is strongly recommended to disable the procedure for erasing overlapping areas. This is because the built-in procedure for erasing overlaps is very time consuming when processing many protected areas, so that information on each protected area can be output (e.g. IUCN category, year established). Instead, it is recommended to run the data cleaning procedures with the procedure for erasing overlapping areas disabled (i.e. with <code>erase_overlaps = FALSE</code>). After the data cleaning procedures have completed, the resulting protected area data can be subject to additional criteria for refining the dataset if needed (e.g. if you only want protected areas that are highly suitable for conserving biodiversity, you may wish to exclude protected areas that are not categorized by the IUCN as Ia or Ib). Finally, to obtain a set of protected area boundaries with no overlapping areas, the protected area data can be dissolved together (using <code><a href="../reference/wdpa_dissolve.html">wdpa_dissolve()</a></code>). For an example of these procedures, please see below.</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># download protected area data for multiple of countries</span>
+<span class="co">## (i.e. Portugal, Spain, France)</span>
+<span class="va">raw_pa_data</span> <span class="op">&lt;-</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PRT"</span>, <span class="st">"ESP"</span>, <span class="st">"FRA"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">wdpa_fetch</span>, wait <span class="op">=</span> <span class="cn">TRUE</span>,
+         download_dir <span class="op">=</span> <span class="fu">rappdirs</span><span class="fu">::</span><span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"wdpar"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="co"># clean protected area data (with procedure for erasing overlaps disabled)</span>
+<span class="va">full_pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wdpa_clean.html">wdpa_clean</a></span><span class="op">(</span><span class="va">raw_pa_data</span>, erase_overlaps <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+
+<span class="co"># subset protected area data based on additional criteria</span>
+<span class="co">## (e.g. retain only protected areas that are IUCN category Ia and Ib)</span>
+<span class="va">sub_pa_data</span> <span class="op">&lt;-</span>
+  <span class="va">full_pa_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">IUCN_CAT</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ia"</span>, <span class="st">"Ib"</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co"># dissolve all geometries together (removing spatial overlaps)</span>
+<span class="va">pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wdpa_dissolve.html">wdpa_dissolve</a></span><span class="op">(</span><span class="va">sub_pa_data</span><span class="op">)</span>
+
+<span class="co"># preview data</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">pa_data</span><span class="op">)</span></code></pre></div>
+<pre><code>## Simple feature collection with 1 feature and 1 field
+## Geometry type: MULTIPOLYGON
+## Dimension:     XY
+## Bounding box:  xmin: -3274101 ymin: 3403947 xmax: 879505 ymax: 5609364
+## CRS:           +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
+## Precision:     1500 
+##   id                       geometry
+## 1  1 MULTIPOLYGON (((-3267669 43...</code></pre>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># calculate total area</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_measures.html" class="external-link">st_area</a></span><span class="op">(</span><span class="va">pa_data</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## 6689480696 [m^2]</code></pre>
+</div>
 <div id="additional-datasets" class="section level3">
 <h3 class="hasAnchor">
 <a href="#additional-datasets" class="anchor" aria-hidden="true"></a>Additional datasets</h3>
@@ -276,7 +316,7 @@
 <h3 class="hasAnchor">
 <a href="#citation" class="anchor" aria-hidden="true"></a>Citation</h3>
 <p>Please cite the <em>wdpar R</em> package and the World Database on Protected Areas (WDPA) in publications. To see citation details, use the code:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"wdpar"</span><span class="op">)</span></code></pre></div>
 </div>
   </div>

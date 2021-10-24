@@ -12,7 +12,7 @@ wdpa_column_names <- c("WDPAID", "WDPA_PID", "PA_DEF", "NAME", "ORIG_NAME",
 
 default_retain_status <- c("Designated", "Inscribed", "Established")
 
-test_that("wdpa_clean (single country with eez)", {
+test_that("single country with eez", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
@@ -31,14 +31,14 @@ test_that("wdpa_clean (single country with eez)", {
   expect_true(all(x$STATUS %in% default_retain_status))
 })
 
-test_that("wdpa_clean (single country without eez)", {
+test_that("single country without eez", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
   # fetch data
-  x <- wdpa_clean(suppressWarnings(wdpa_fetch("LIE", wait = TRUE,
-                                              force = TRUE)),
-                  geometry_precision = 1000)
+  x <- wdpa_clean(
+    suppressWarnings(wdpa_fetch("LIE", wait = TRUE, force = TRUE)),
+    verbose = TRUE, geometry_precision = 1000)
   # run tests
   expect_gt(nrow(x), 0)
   expect_true(all(wdpa_column_names %in% names(x)))
@@ -50,7 +50,7 @@ test_that("wdpa_clean (single country without eez)", {
   expect_true(all(x$STATUS %in% default_retain_status))
 })
 
-test_that("wdpa_clean (single country with simplification)", {
+test_that("single country with simplification", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
@@ -69,7 +69,7 @@ test_that("wdpa_clean (single country with simplification)", {
   expect_true(all(x$STATUS %in% default_retain_status))
 })
 
-test_that("wdpa_clean (single country without overlap removal)", {
+test_that("single country without overlap removal", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
@@ -88,7 +88,7 @@ test_that("wdpa_clean (single country without overlap removal)", {
   expect_true(all(x$STATUS %in% default_retain_status))
 })
 
-test_that("wdpa_clean (country with MULTIPOINT protected areas)", {
+test_that("country with MULTIPOINT protected areas", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
@@ -102,7 +102,7 @@ test_that("wdpa_clean (country with MULTIPOINT protected areas)", {
   expect_true(all(y$STATUS %in% default_retain_status))
 })
 
-test_that("wdpa_clean (country with MULTIPOLYGON protected area)", {
+test_that("country with MULTIPOLYGON protected area", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
@@ -118,7 +118,7 @@ test_that("wdpa_clean (country with MULTIPOLYGON protected area)", {
   expect_true(all(y$STATUS %in% default_retain_status))
 })
 
-test_that("wdpa_clean (country with super invalid MULTIPOLYGON data)", {
+test_that("country with super invalid MULTIPOLYGON data", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
@@ -128,7 +128,7 @@ test_that("wdpa_clean (country with super invalid MULTIPOLYGON data)", {
   expect_true(all(y$STATUS %in% default_retain_status))
 })
 
-test_that("wdpa_clean (geometries in non-geometry column)", {
+test_that("geometries in non-geometry column", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
@@ -142,7 +142,7 @@ test_that("wdpa_clean (geometries in non-geometry column)", {
   expect_true(all(y$STATUS %in% default_retain_status))
 })
 
-test_that("wdpa_clean (single country with no valid non-empty geometries)", {
+test_that("single country with no valid non-empty geometries", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
@@ -163,7 +163,7 @@ test_that("wdpa_clean (single country with no valid non-empty geometries)", {
   expect_true(all(y$STATUS %in% default_retain_status))
 })
 
-test_that("wdpa_clean (retain UNESCO Biosphere reserves)", {
+test_that("retain UNESCO Biosphere reserves", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
@@ -183,7 +183,7 @@ test_that("wdpa_clean (retain UNESCO Biosphere reserves)", {
   expect_true(all(x$STATUS %in% default_retain_status))
 })
 
-test_that("wdpa_clean (custom retain_status)", {
+test_that("custom retain_status", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
@@ -203,7 +203,7 @@ test_that("wdpa_clean (custom retain_status)", {
   expect_identical(sort(unique(x$STATUS)), sort(c("Designated", "Proposed")))
 })
 
-test_that("wdpa_clean (NULL retain_status)", {
+test_that("NULL retain_status", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")

@@ -29,3 +29,15 @@ test_that("global", {
     "global", force = TRUE, wait = TRUE, n = 5, verbose = TRUE))
   expect_is(x, "sf")
 })
+
+test_that("cache", {
+  skip_on_cran()
+  skip_if_not(curl::has_internet())
+  skip_on_github_workflow("Windows")
+  # fetch data
+  x <- wdpa_fetch("MHL", wait = TRUE, force = TRUE)
+  y <- wdpa_fetch("MHL", wait = TRUE, force = FALSE)
+  # run tests
+  expect_is(x, "sf")
+  expect_equal(x, y)
+})

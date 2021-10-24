@@ -63,6 +63,7 @@ jobs:
       - name: Install system dependencies
         if: runner.os == 'Linux'
         run: |
+          sudo apt-get -y install libcurl4-openssl-dev
           while read -r cmd
           do
             eval sudo $cmd
@@ -73,6 +74,7 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
           remotes::install_cran("covr")
+          remotes::install_cran("urlchecker")
         shell: Rscript {0}
 
       - name: Session information

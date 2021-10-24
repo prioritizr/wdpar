@@ -17,6 +17,7 @@ reference:
       - wdpa_fetch
       - wdpa_clean
       - wdpa_read
+      - wdpa_dissolve
       - wdpa_url
       - wdpa_latest_version
   - title: Miscellaneous functions

@@ -44,5 +44,5 @@ plot(sf::st_geometry(y), , xlim = c(0, 200), ylim = c(0, 250),
      main = "no overlaps", col = "transparent")
 }
 \seealso{
-\code{\link[sf:geos_binary_ops]{sf::st_difference()}}.
+\code{\link[sf:geos_binary_ops]{sf::st_difference()}}, \code{\link[=wdpa_dissolve]{wdpa_dissolve()}}.
 }

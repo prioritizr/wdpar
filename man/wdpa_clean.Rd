@@ -69,6 +69,8 @@ Defaults to \code{TRUE} in an interactive session, otherwise
 }
 \description{
 Clean data obtained from the World Database on Protected Areas (WDPA).
+For recommended practices on cleaning large protected area datasets,
+please see below.
 }
 \details{
 This function cleans data from World Database on Protected Areas
@@ -162,6 +164,35 @@ the field \code{"AREA_KM2"}.
 
 }
 }
+\section{Recommended practices for large datasets}{
+
+This function can be used to clean large datasets --
+such as those spanning large countries, multiple
+countries, and even the full global datatset -- assuming that
+sufficient computational resources and time are available.
+For example, when processing the global dataset, it is recommended to use a
+computer system with at least 32 GB RAM available and to allow for at least
+one full day for the data cleaning procedures to complete.
+It is also recommended to avoid using the computer system for any other
+tasks while the data cleaning procedures are being completed,
+because they are very computationally intensive.
+Additionally, when processing data for many countries -- and especially
+for the global dataset -- it is strongly recommended to disable the
+procedure for erasing overlapping areas.
+This is because the built-in procedure for erasing overlaps is
+very time consuming when processing many protected areas, so that
+information on each protected area can be output
+(e.g. IUCN category, year established).
+Instead, when cleaning large datasets, it is recommended to run
+the data cleaning procedures with the procedure for erasing
+overlapping areas disabled (i.e. with \code{erase_overlaps = FALSE}).
+After the data cleaning procedures have completed,
+the protected area data can be manually dissolved
+to remove overlapping areas (e.g. using \code{\link[=wdpa_dissolve]{wdpa_dissolve()}}).
+For an example of processing a large protected area dataset,
+please see the vignette.
+}
+
 \examples{
 \dontrun{
 # fetch data for the Liechtenstein
@@ -172,6 +203,7 @@ lie_data <- wdpa_clean(lie_raw_data)
 
 # plot cleaned dataset
 plot(lie_data)
+
 }
 }
 \references{

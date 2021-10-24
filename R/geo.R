@@ -15,7 +15,7 @@ NULL
 #'
 #' @return [sf::sf()] object.
 #'
-#' @seealso [sf::st_difference()].
+#' @seealso [sf::st_difference()], [wdpa_dissolve()].
 #'
 #' @examples
 #' # create data
@@ -66,10 +66,13 @@ st_erase_overlaps <- function(x, verbose = FALSE) {
       ### buffer the union to fix any geometry issues
       u <- sf::st_buffer(u, dist = 0)
       ### repair the geometry if there are any issues
-      if (!all(sf::st_is_valid(u)))
+      if (!all(sf::st_is_valid(u))) {
+        #nocov start
         u <- suppressWarnings(sf::st_collection_extract(
           sf::st_make_valid(sf::st_set_precision(u, precision)),
           "POLYGON"))
+        #nocov end
+      }
       ## calculate difference
       ### run difference
       d <- sf::st_difference(
@@ -80,13 +83,16 @@ st_erase_overlaps <- function(x, verbose = FALSE) {
           sf::st_make_valid(sf::st_set_precision(u, precision)),
           "POLYGON")))
       if (length(d) == 0L)
-        d[[1]] <- sf::st_polygon()
+        d[[1]] <- sf::st_polygon() #nocov
       d <- suppressWarnings(sf::st_collection_extract(d, "POLYGON"))
       ### repair the geometry if there are any issues
-      if (!all(sf::st_is_valid(d)))
+      if (!all(sf::st_is_valid(d))) {
+        #nocov start
         d <- suppressWarnings(sf::st_collection_extract(
           sf::st_make_valid(sf::st_set_precision(d, precision)),
           "POLYGON"))
+        #nocov end
+      }
     } else {
       d <- g[i]
     }
@@ -99,9 +105,10 @@ st_erase_overlaps <- function(x, verbose = FALSE) {
       d <- sf::st_cast(d, "POLYGON")
       d <- d[as.numeric(sf::st_area(d)) > 1]
       d <- sf::st_cast(d, "MULTIPOLYGON")
-      if (length(d) == 0)
-        d[[1]] <- sf::st_polygon()
-       d <- suppressWarnings(sf::st_collection_extract(d, "POLYGON"))
+      if (length(d) == 0) {
+        d[[1]] <- sf::st_polygon() #nocov
+      }
+      d <- suppressWarnings(sf::st_collection_extract(d, "POLYGON"))
     }
     ## if d contains multiple geometries, then union them
     if (length(d) > 1) {
@@ -112,7 +119,7 @@ st_erase_overlaps <- function(x, verbose = FALSE) {
     }
     ## create empty geometry if empty
     if (length(d) == 0) {
-      d <- sf::st_sfc(sf::st_polygon())
+      d <- sf::st_sfc(sf::st_polygon()) #nocov
     }
     ## store geometry
     o[i] <- d[[1]]

@@ -111,9 +111,12 @@ wdpa_fetch <- function(x, wait = FALSE,
   # fetch data
   if (force_download || inherits(file_path, "try-error")) {
     ## check for internet connection
-   if (!curl::has_internet())
+   if (!curl::has_internet()) {
+      #nocov start
       stop(paste0("data not found in download_dir, and no internet connection",
                   "to download it."))
+      #nocov end
+    }
     ## find latest version of the dataset
     current_month_year <- wdpa_latest_version()
     ## find the download link and set file path to save the data
@@ -136,7 +139,7 @@ wdpa_fetch <- function(x, wait = FALSE,
     }
     ## verify that the file exists
     if (!file.exists(file_path))
-      stop("downloading data failed")
+      stop("downloading data failed") #nocov
   } else {
     # if internet is available, then check version of available version
     if (curl::has_internet()) {
@@ -147,11 +150,14 @@ wdpa_fetch <- function(x, wait = FALSE,
       current_version <- wdpa_latest_version()
       current_file_date <- convert_wdpa_version_to_POSIXct(current_version)
       ## throw warning if out of date
-      if (input_file_date < current_file_date)
+      if (input_file_date < current_file_date) {
+        #nocov start
         warning(paste0("local data is out of date: ",
                        format(input_file_date, "%b %Y")))
+        #nocov end
+      }
     } else {
-      warning("cannot verify if version on disk is up to date.")
+      warning("cannot verify if version on disk is up to date.") #nocov
     }
   }
   # import the data

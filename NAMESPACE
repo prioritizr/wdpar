@@ -2,6 +2,7 @@
 
 export(st_erase_overlaps)
 export(wdpa_clean)
+export(wdpa_dissolve)
 export(wdpa_fetch)
 export(wdpa_latest_version)
 export(wdpa_read)

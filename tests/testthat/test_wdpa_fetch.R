@@ -36,6 +36,7 @@ test_that("cache", {
   skip_on_github_workflow("Windows")
   # fetch data
   x <- wdpa_fetch("MHL", wait = TRUE, force = TRUE)
+  Sys.sleep(2)
   y <- wdpa_fetch("MHL", wait = TRUE, force = FALSE)
   # run tests
   expect_is(x, "sf")

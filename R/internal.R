@@ -184,7 +184,7 @@ convert_wdpa_version_to_POSIXct <- function(x) {
              silent = TRUE)
   # verify valid date
   if (inherits(out, "try-error"))
-    stop("version not recognized")
+    stop("version not recognized") #nocov
   assertthat::assert_that(
     all(!is.na(out)), all(nchar(year) == 4), all(nchar(month) == 3),
     msg = "version not recognized")

@@ -83,7 +83,7 @@ st_erase_overlaps <- function(x, verbose = FALSE) {
           sf::st_make_valid(sf::st_set_precision(u, precision)),
           "POLYGON")))
       if (length(d) == 0L)
-        d[[1]] <- sf::st_polygon()
+        d[[1]] <- sf::st_polygon() #nocov
       d <- suppressWarnings(sf::st_collection_extract(d, "POLYGON"))
       ### repair the geometry if there are any issues
       if (!all(sf::st_is_valid(d))) {

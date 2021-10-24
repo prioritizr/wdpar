@@ -139,7 +139,7 @@ wdpa_fetch <- function(x, wait = FALSE,
     }
     ## verify that the file exists
     if (!file.exists(file_path))
-      stop("downloading data failed")
+      stop("downloading data failed") #nocov
   } else {
     # if internet is available, then check version of available version
     if (curl::has_internet()) {
@@ -150,9 +150,12 @@ wdpa_fetch <- function(x, wait = FALSE,
       current_version <- wdpa_latest_version()
       current_file_date <- convert_wdpa_version_to_POSIXct(current_version)
       ## throw warning if out of date
-      if (input_file_date < current_file_date)
+      if (input_file_date < current_file_date) {
+        #nocov start
         warning(paste0("local data is out of date: ",
                        format(input_file_date, "%b %Y")))
+        #nocov end
+      }
     } else {
       warning("cannot verify if version on disk is up to date.") #nocov
     }

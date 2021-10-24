@@ -78,7 +78,7 @@ wdpa_url <- function(x, wait = FALSE) {
     }))
     ## prepare output
     if (length(url) == 0)
-      return(NA_character_)
+      return(NA_character_) #nocov
     return(url)
   }
   # find url
@@ -92,6 +92,7 @@ wdpa_url <- function(x, wait = FALSE) {
     ## check if data is ready for download
     attempted_url <- try_and_find_url(x)
     ## return NA if not ready and not wait
+    #nocov start
     if (is.na(attempted_url) && !wait) {
       stop(paste("data is not yet available for download; try again later",
                  "or use wait=TRUE"))
@@ -104,6 +105,7 @@ wdpa_url <- function(x, wait = FALSE) {
       ## now that data is available, store the url
       out <- attempted_url
     }
+    #nocov end
   }
   # return url
   return(out)

@@ -1,3 +1,6 @@
+# System command to execute:
+# R CMD BATCH --no-restore --no-save global-example-script.R
+
 # Initialization
 ## define countries for processing data
 country_names <- "global"
@@ -33,4 +36,4 @@ result_data <- wdpa_clean(raw_data, erase_overlaps = FALSE, verbose = TRUE)
 
 # Exports
 ## save result
-sf::write_sf(result_data, path)
+sf::write_sf(result_data, path, overwrite = TRUE)

@@ -9,6 +9,8 @@ doc
 *.Rproj.user
 *.Rhistory
 .Rproj.user
+inst/scripts/global-example-script.Rout
+
 # log files
 gurobi.log
 test.log
@@ -16,6 +18,7 @@ check.log
 spell.log
 gp.log
 examples.log
+
 
 # system files
 .directory

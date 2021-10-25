@@ -29,7 +29,7 @@ if (!file.exists(data_dir)) {
 raw_data <- wdpa_fetch(country_names, wait = TRUE, download_dir = data_dir)
 
 ## clean data
-result_data <- wdpa_clean(raw_data, erase_overlaps = FALSE)
+result_data <- wdpa_clean(raw_data, erase_overlaps = FALSE, verbose = TRUE)
 
 # Exports
 ## save result

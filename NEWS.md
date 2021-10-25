@@ -1,3 +1,12 @@
+# wdpar 1.3.1.4
+
+- Fix bug in `wdpa_read` to ensure that all data from global database.
+  This is a bug previously meant that protected areas denoted with polygon
+  geometry data were not imported. It is strongly recommended that users
+  double check processed versions of the global database to verify correctness.
+- Add example script for downloading and cleaning data
+  (see `inst/scripts/global-example-script.R`)
+
 # wdpar 1.3.1.3
 
 - Update `wdpa_clean` to provide better information when cleaning data.

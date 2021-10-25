@@ -1,6 +1,6 @@
-context("geo")
+context("st_erase_overlaps")
 
-test_that("st_erase_overlaps (sf)", {
+test_that("expected result", {
   # create input testing data
   pl1 <- sf::st_polygon(list(matrix(c(0, 0, 2, 0, 1, 1, 0, 0), byrow = TRUE,
                                     ncol = 2))) * 100

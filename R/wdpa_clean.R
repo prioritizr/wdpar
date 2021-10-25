@@ -1,4 +1,4 @@
-#' @include internal.R geo.R
+#' @include internal.R st_erase_overlaps.R
 NULL
 
 #' Clean data from the World Database on Protected Areas

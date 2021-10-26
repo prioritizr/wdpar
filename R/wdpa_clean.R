@@ -353,7 +353,7 @@ wdpa_clean <- function(x,
   x_polygons_pos <- which(x$GEOMETRY_TYPE == "POLYGON")
   if (length(x_polygons_pos) > 0) {
     if (verbose) {
-      cli::cli_progress_step("further geometry fixes (i.e. buffering by zero")
+      cli::cli_progress_step("further geometry fixes (i.e. buffering by zero)")
     }
     if (verbose) message("buffering by zero: ", cli::symbol$continue, "\r",
                          appendLF = FALSE)

@@ -55,7 +55,7 @@ build:
 	cp -R doc inst/
 
 install:
-	R --slave -e "devtools::install_local('../wdpar')"
+	R --slave -e "devtools::install_local('../wdpar', force = TRUE)"
 
 spellcheck:
 	echo "\n===== SPELL CHECK =====\n" > spell.log 2>&1

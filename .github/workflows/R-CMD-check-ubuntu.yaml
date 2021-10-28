@@ -63,7 +63,7 @@ jobs:
       - name: Install system dependencies
         if: runner.os == 'Linux'
         run: |
-          sudo apt-get -y install libcurl4-openssl-dev libmpfr-dev libgmp3-dev
+          sudo apt-get -y install libcurl4-openssl-dev libmpfr-dev libgmp3-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev
           while read -r cmd
           do
             eval sudo $cmd

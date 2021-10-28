@@ -24,3 +24,4 @@ reference:
     desc: Additional functions distributed with the package
     contents:
       - st_erase_overlaps
+      - st_repair_geometry

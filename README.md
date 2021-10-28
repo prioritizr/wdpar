@@ -111,7 +111,7 @@ head(mlt_pa_data)
     ## Simple feature collection with 6 features and 32 fields
     ## Geometry type: MULTIPOLYGON
     ## Dimension:     XY
-    ## Bounding box:  xmin: 1382584 ymin: 4280784 xmax: 1399759 ymax: 4299615
+    ## Bounding box:  xmin: 1382584 ymin: 4280853 xmax: 1399759 ymax: 4299615
     ## CRS:           +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
     ## Precision:     1500 
     ## # A tibble: 6 × 33

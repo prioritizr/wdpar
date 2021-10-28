@@ -116,8 +116,8 @@ have a reported spatial extent (i.e. missing data for the field
 \item Reproject data to coordinate system specified in argument to
 \code{crs} (using \code{\link[sf:st_transform]{sf::st_transform()}}).
 
-\item Fix any invalid geometries that have manifested
-(using \code{\link[sf:valid]{sf::st_make_valid()}}).
+\item Repair any invalid geometries that have manifested
+(using \code{\link[=st_repair_geometry]{st_repair_geometry()}}).
 
 \item Buffer areas represented as point localities to circular areas
 using their reported spatial extent (using data in the field
@@ -128,15 +128,15 @@ using their reported spatial extent (using data in the field
 geometry issues (using argument to \code{snap_tolerance} and
 \code{\link[lwgeom:st_snap_to_grid]{lwgeom::st_snap_to_grid()}}).
 
-\item Fix any invalid geometries that have manifested
-(using \code{\link[sf:valid]{sf::st_make_valid()}}).
+\item Repair any invalid geometries that have manifested
+(using \code{\link[=st_repair_geometry]{st_repair_geometry()}}).
 
 \item Simplify the protected area geometries to reduce computational burden
 (using argument to \code{simplify_tolerance} and
 \code{\link[sf:geos_unary]{sf::st_simplify()}}).
 
-\item Fix any invalid geometries that have manifested
-(using \code{\link[sf:valid]{sf::st_make_valid()}}).
+\item Repair any invalid geometries that have manifested
+(using \code{\link[=st_repair_geometry]{st_repair_geometry()}}).
 
 \item The \code{"MARINE"} field is converted from integer codes
 to descriptive names (i.e. \code{0} = \code{"terrestrial"},

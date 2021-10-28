@@ -6,6 +6,9 @@
   double check processed versions of the global database to verify correctness.
 - Add example script for downloading and cleaning data
   (see `inst/scripts/global-example-script.R`)
+- New `st_repair_geometry` function to repair geometry using a combination
+  of `sf::st_make_valid` and `prepr::st_prepair`. This function is now
+  used by the `wdpa_clean` function to augment data cleaning procedures.
 
 # wdpar 1.3.1.3
 

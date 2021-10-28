@@ -2,7 +2,6 @@ context("st_repair_geometry")
 
 test_that("valid geometry (defined crs)", {
   skip_on_cran()
-  skip_if_not_installed("prepr")
   # define data
   p1 <- sf::read_sf(system.file("shape/nc.shp", package = "sf"))
   # repair geometry
@@ -17,7 +16,6 @@ test_that("valid geometry (defined crs)", {
 
 test_that("valid geometry (NA crs)", {
   skip_on_cran()
-  skip_if_not_installed("prepr")
   # define data
   p1 <- sf::read_sf(system.file("shape/nc.shp", package = "sf"))
   sf::st_crs(p1) <- sf::st_crs(NA)
@@ -33,7 +31,6 @@ test_that("valid geometry (NA crs)", {
 
 test_that("invalid geometry (prepair not needed)", {
   skip_on_cran()
-  skip_if_not_installed("prepr")
   # define data
   p1 <- st_sf(
     id = 1,
@@ -54,6 +51,7 @@ test_that("invalid geometry (prepair not needed)", {
 
 test_that("invalid geometry (prepair needed)", {
   skip_on_cran()
+  skip_if_not_installed("prepr")
   # define data
   p1 <- st_sf(
     id = 1,

@@ -184,6 +184,7 @@ test_that("retain UNESCO Biosphere reserves", {
 test_that("single country with dateline wrapping issues",{
   skip_on_cran()
   skip_if_not(curl::has_internet())
+  skip_if_not_installed("prepr")
   skip_on_github_workflow("Windows")
   # fetch data
   x <- suppressWarnings(wdpa_fetch("USA", wait = TRUE))

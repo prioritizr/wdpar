@@ -261,27 +261,11 @@ wdpa_clean <- function(x,
   ## exclude areas based on status
   if (is.null(retain_status)) {
     if (verbose) {
-      cli::cli_progress_step(
-        "retaining all areas (i.e. not removing areas based on status)")
+      cli::cli_progress_step("retaining areas regardless of status)")
     }
   } else {
-    ### determine if defaults are used
-    default_status <- c("Designated", "Inscribed", "Established")
-    exclude_not_implemented <-
-      identical(sort(default_status), sort(retain_status))
-    ### prepare message
-    if (exclude_not_implemented) {
-      msg <- paste0(
-        "retaining only areas with specified statuses ",
-        " (i.e. removing areas that are not implemented): ")
-    } else {
-      msg <- paste0(
-        "retaining only areas with specified statuses ",
-        " (i.e. retaining ",
-        paste(paste0("\"", retain_status, "\""), collapse = ","), "): ")
-    }
     if (verbose) {
-      cli::cli_progress_step(msg)
+      cli::cli_progress_step("retaining only areas with specified statuses")
     }
     x <- x[which(x$STATUS %in% retain_status), ]
   }

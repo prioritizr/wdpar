@@ -34,6 +34,8 @@ Planet](https://www.protectedplanet.net/en/resources/calculating-protected-area-
 
 ### Installation
 
+#### Package
+
 The [latest official version of the *wdpar R*
 package](https://CRAN.R-project.org/package=wdpar) can be installed
 using the following R code. Please note that this package requires the
@@ -57,6 +59,61 @@ if (!require(remotes))
   install.packages("remotes")
 remotes::install_github("prioritizr/wdpar")
 ```
+
+#### Additional dependencies
+
+The *wdpar R* package can leverage the *prepr R* package to augment data
+cleaning procedures. Since the *prepr R* package is not available on the
+Comprehensive R Archive Network, it is listed as an optional dependency.
+In some cases, the *prepr R* package is required to complete the data
+cleaning procedures (e.g. to fix especially extreme geometry issues) and
+the *wdpar R* package will throw an error if the package is not
+available. To install the *prepr R* package, please use the following R
+code.
+
+``` r
+if (!require(remotes))
+  install.packages("remotes")
+remotes::install_github("dickoa/prepr")
+```
+
+Note that the *prepr R* package has system dependencies that need to be
+installed before the package itself can be installed (see below for
+platform-specific instructions).
+
+##### *Windows*
+
+The [Rtools](https://cran.r-project.org/bin/windows/Rtools/) software
+needs to be installed to install the *prepr R* package package from
+source. This software provides system requirements from
+[rwinlib](https://github.com/rwinlib/).
+
+##### *Ubuntu*
+
+The `gmp`, `mpfr`, and several spatial libraries need to be installed.
+For recent versions of Ubuntu (18.04 and later), these libraries are
+available through official repositories. They can be installed using the
+following system commands:
+
+    apt-get -y update
+    apt-get install -y libgmp3-dev libmpfr-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev
+
+##### *Linux*
+
+For Unix-alikes, `gmp` (&gt;= 4.2.3), `mpfr` (&gt;= 3.0.0), and `gdal`
+(&gt;= 3.2.2) are required.
+
+##### *MacOS*
+
+The `gmp`, `mpfr`, and `gdal` libraries are required. The easiest way to
+install these libraries is using [HomeBrew](https://brew.sh/). After
+installing HomeBrew, these libraries can be installed using the
+following commands in the system terminal:
+
+    brew install pkg-config
+    brew install gmp
+    brew install mpfr
+    brew install gdal
 
 ### Usage
 

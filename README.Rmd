@@ -71,6 +71,8 @@ The [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/e
 
 ### Installation
 
+#### Package
+
 The [latest official version of the _wdpar R_ package](https://CRAN.R-project.org/package=wdpar) can be installed using the following R code. Please note that this package requires the [_curl_](https://github.com/jeroen/curl) and [_sf R_](https://github.com/r-spatial/sf) packages which may require additional software to be installed. If you encounter problems installing the _wdpar R_ package, please consult the installation instructions for these packages.
 
 ```{r, eval = FALSE}
@@ -83,6 +85,46 @@ Alternatively, the latest developmental version can be installed using the follo
 if (!require(remotes))
   install.packages("remotes")
 remotes::install_github("prioritizr/wdpar")
+```
+
+#### Additional dependencies
+
+The _wdpar R_ package can leverage the _prepr R_ package to augment data cleaning procedures. Since the _prepr R_ package is not available on the Comprehensive R Archive Network, it is listed as an optional dependency. In some cases, the _prepr R_ package is required to complete the data cleaning procedures (e.g. to fix especially extreme geometry issues) and the _wdpar R_ package will throw an error if the package is not available. To install the _prepr R_ package, please use the following R code.
+
+```{r, eval = FALSE}
+if (!require(remotes))
+  install.packages("remotes")
+remotes::install_github("dickoa/prepr")
+```
+
+Note that the _prepr R_ package has system dependencies that need to be installed before the package itself can be installed (see below for platform-specific instructions).
+
+##### _Windows_
+
+The [Rtools](https://cran.r-project.org/bin/windows/Rtools/) software needs to be installed to install the _prepr R_ package package from source. This software provides system requirements from [rwinlib](https://github.com/rwinlib/).
+
+##### _Ubuntu_
+
+The `gmp`, `mpfr`, and several spatial libraries need to be installed. For recent versions of Ubuntu (18.04 and later), these libraries are available through official repositories. They can be installed using the following system commands:
+
+```
+apt-get -y update
+apt-get install -y libgmp3-dev libmpfr-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev
+```
+
+##### _Linux_
+
+For Unix-alikes, `gmp` (>= 4.2.3), `mpfr` (>= 3.0.0), and `gdal` (>= 3.2.2) are required.
+
+##### _MacOS_
+
+The `gmp`, `mpfr`, and `gdal` libraries are required. The easiest way to install these libraries is using [HomeBrew](https://brew.sh/). After installing HomeBrew, these libraries can be installed using the following commands in the system terminal:
+
+```
+brew install pkg-config
+brew install gmp
+brew install mpfr
+brew install gdal
 ```
 
 ### Usage

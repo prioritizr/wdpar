@@ -127,7 +127,7 @@ Areas (WDPA)." />
 Areas (WDPA).</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>wdpa_url</span><span class='op'>(</span><span class='va'>x</span>, wait <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>wdpa_url</span><span class='op'>(</span><span class='va'>x</span>, wait <span class='op'>=</span> <span class='cn'>FALSE</span>, page_wait_time <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,6 +145,21 @@ be set to <code>"global"</code> to obtain the URL for the global dataset.</p></t
 should the session be paused until it is ready for download? If argument
 to <code>wait</code> is <code>FALSE</code> and the data is not ready then an error
 will be thrown. Defaults to <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>page_wait_time</th>
+      <td><p><code>numeric</code> number of seconds to wait for web pages
+to load when finding the download URL on
+<a href='https://www.protectedplanet.net/en'>Protected Planet</a>.
+Defaults to 2.
+Since the process of finding a download URL requires
+navigating through multiple web pages,
+the default argument means that the function will take at least 8
+seconds to complete.
+Users on slow internet connections may experience issues
+with the default argument (e.g. resulting in an error
+containing the message <code>Error: Summary: NoSuchElement</code>).
+To avoid this, users can try specifying a greater value (e.g. 5 seconds).</p></td>
     </tr>
     </table>
 

@@ -10,6 +10,7 @@ wdpa_fetch(
   download_dir = tempdir(),
   force_download = FALSE,
   n = NULL,
+  page_wait_time = 2,
   verbose = interactive()
 )
 }
@@ -36,6 +37,19 @@ fresh copy be downloaded? Defaults to \code{FALSE}.}
 
 \item{n}{\code{integer} number of records to import per data source.
 Defaults to \code{NULL} such that all data are imported.}
+
+\item{page_wait_time}{\code{numeric} number of seconds to wait for web pages
+to load when finding the download URL on
+\href{https://www.protectedplanet.net/en}{Protected Planet}.
+Defaults to 2.
+Since the process of finding a download URL requires
+navigating through multiple web pages,
+the default argument means that the function will take at least 8
+seconds to complete.
+Users on slow internet connections may experience issues
+with the default argument (e.g. resulting in an error
+containing the message \code{Error: Summary: NoSuchElement}).
+To avoid this, users can try specifying a greater value (e.g. 5 seconds).}
 
 \item{verbose}{\code{logical} should a progress on downloading data be
 reported? Defaults to \code{TRUE} in an interactive session, otherwise

@@ -6,10 +6,6 @@ clean:
 	rm -rf docs/*
 	rm -rf inst/doc/*
 
-initc:
-	R --slave -e "Rcpp::compileAttributes()"
-	R --slave -e "tools::package_native_routine_registration_skeleton('.', 'src/init.c', character_only = FALSE)"
-
 docs: man readme vigns site
 
 man:

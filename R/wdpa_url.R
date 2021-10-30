@@ -16,7 +16,7 @@ NULL
 #'   to `wait` is `FALSE` and the data is not ready then an error
 #'   will be thrown. Defaults to `FALSE`.
 #'
-#' @param page_wait_time `numeric` number of seconds to wait for web pages
+#' @param page_wait `numeric` number of seconds to wait for web pages
 #'   to load when finding the download URL on
 #'   [Protected Planet](https://www.protectedplanet.net/en).
 #'   Defaults to 2.
@@ -48,13 +48,13 @@ NULL
 #' print(global_url)
 #' }
 #' @export
-wdpa_url <- function(x, wait = FALSE, page_wait_time = 2) {
+wdpa_url <- function(x, wait = FALSE, page_wait = 2) {
   # validate arguments
   assertthat::assert_that(
     assertthat::is.string(x),
     assertthat::is.flag(wait),
-    assertthat::is.count(page_wait_time),
-    assertthat::noNA(page_wait_time),
+    assertthat::is.count(page_wait),
+    assertthat::noNA(page_wait),
     curl::has_internet())
   # declare hidden function
   try_and_find_url <- function(x) {
@@ -68,16 +68,16 @@ wdpa_url <- function(x, wait = FALSE, page_wait_time = 2) {
       rd$open(silent = TRUE)
       rd$maxWindowSize()
       rd$navigate(paste0("https://protectedplanet.net/country/", x))
-      Sys.sleep(page_wait_time) # wait for page to load
+      Sys.sleep(page_wait) # wait for page to load
       elem <- rd$findElement(using = "css", ".download__trigger")
       elem$clickElement()
-      Sys.sleep(page_wait_time) # wait for page to load
+      Sys.sleep(page_wait) # wait for page to load
       elem <- rd$findElement(using = "css", "li:nth-child(2) .popup__link")
       elem$clickElement()
-      Sys.sleep(page_wait_time) # wait for dialog to open
+      Sys.sleep(page_wait) # wait for dialog to open
       elem <- rd$findElement(using = "css", ".modal__link-button")
       elem$clickElement()
-      Sys.sleep(page_wait_time) # wait for for dialog to open
+      Sys.sleep(page_wait) # wait for for dialog to open
       ## extract html for modal
       src <- xml2::read_html(rd$getPageSource()[[1]][[1]], encoding = "UTF-8")
       divs <- xml2::xml_find_all(src, ".//div")

@@ -97,7 +97,7 @@ wdpa_fetch <- function(x, wait = FALSE,
                        download_dir = tempdir(),
                        force_download = FALSE,
                        n = NULL,
-                       page_wait_time = 2,
+                       page_wait = 2,
                        verbose = interactive()) {
   # check that arguments are valid
   ## check that classes are correct
@@ -122,7 +122,7 @@ wdpa_fetch <- function(x, wait = FALSE,
     ## find latest version of the dataset
     current_month_year <- wdpa_latest_version()
     ## find the download link and set file path to save the data
-    download_url <- wdpa_url(x, wait = wait, page_wait_time = page_wait_time)
+    download_url <- wdpa_url(x, wait = wait, page_wait = page_wait)
     ## note that file name conventions on protectedplanet.net have changed
     ## (detected on 8th Oct 2020) and so file names are manually changed
     ## to follow the previous convention

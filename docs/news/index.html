@@ -125,7 +125,7 @@
 <ul><li>Fix bug in <code>wdpa_read</code> to ensure that all data from global database. This is a bug previously meant that protected areas denoted with polygon geometry data were not imported. It is strongly recommended that users double check processed versions of the global database to verify correctness.</li>
 <li>Add example script for downloading and cleaning data (see <code>inst/scripts/global-example-script.R</code>)</li>
 <li>New <code>st_repair_geometry</code> function to repair geometry using a combination of <code><a href="https://r-spatial.github.io/sf/reference/valid.html" class="external-link">sf::st_make_valid</a></code> and <code><a href="https://rdrr.io/pkg/prepr/man/st_prepair.html" class="external-link">prepr::st_prepair</a></code>. This function is now used by the <code>wdpa_clean</code> function to augment data cleaning procedures.</li>
-<li>Update <code>wdpa_url</code> and <code>wdpa_fetch</code> to have a <code>page_wait_time</code> parameter to specify the wait time for loading web pages when finding the download URLs for datasets (<a href='https://github.com/prioritizr/wdpar/issues/39'>#39</a>).</li>
+<li>Update <code>wdpa_url</code> and <code>wdpa_fetch</code> to have a <code>page_wait</code> parameter to specify the wait time for loading web pages when finding the download URLs for datasets (<a href='https://github.com/prioritizr/wdpar/issues/39'>#39</a>).</li>
 <li>Add <em>dplyr</em> package to Suggests because it is used in an example.</li>
 </ul></div>
     <div id="wdpar-1313" class="section level1">

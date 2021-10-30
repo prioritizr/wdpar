@@ -4,7 +4,7 @@
 \alias{wdpa_url}
 \title{Download URL for the World Database on Protected Areas}
 \usage{
-wdpa_url(x, wait = FALSE, page_wait_time = 2)
+wdpa_url(x, wait = FALSE, page_wait = 2)
 }
 \arguments{
 \item{x}{\code{character} country for desired data. This argument
@@ -17,7 +17,7 @@ should the session be paused until it is ready for download? If argument
 to \code{wait} is \code{FALSE} and the data is not ready then an error
 will be thrown. Defaults to \code{FALSE}.}
 
-\item{page_wait_time}{\code{numeric} number of seconds to wait for web pages
+\item{page_wait}{\code{numeric} number of seconds to wait for web pages
 to load when finding the download URL on
 \href{https://www.protectedplanet.net/en}{Protected Planet}.
 Defaults to 2.

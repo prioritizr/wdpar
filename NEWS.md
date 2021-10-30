@@ -9,7 +9,7 @@
 - New `st_repair_geometry` function to repair geometry using a combination
   of `sf::st_make_valid` and `prepr::st_prepair`. This function is now
   used by the `wdpa_clean` function to augment data cleaning procedures.
-- Update `wdpa_url` and `wdpa_fetch` to have a `page_wait_time` parameter
+- Update `wdpa_url` and `wdpa_fetch` to have a `page_wait` parameter
   to specify the wait time for loading web pages when finding the download
   URLs for datasets (#39).
 - Add _dplyr_ package to Suggests because it is used in an example.

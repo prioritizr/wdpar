@@ -135,7 +135,7 @@ Note that data are downloaded assuming non-commercial use.</p>
   download_dir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>,
   force_download <span class='op'>=</span> <span class='cn'>FALSE</span>,
   n <span class='op'>=</span> <span class='cn'>NULL</span>,
-  page_wait_time <span class='op'>=</span> <span class='fl'>2</span>,
+  page_wait <span class='op'>=</span> <span class='fl'>2</span>,
   verbose <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span></code></pre></div>
 
@@ -176,7 +176,7 @@ fresh copy be downloaded? Defaults to <code>FALSE</code>.</p></td>
 Defaults to <code>NULL</code> such that all data are imported.</p></td>
     </tr>
     <tr>
-      <th>page_wait_time</th>
+      <th>page_wait</th>
       <td><p><code>numeric</code> number of seconds to wait for web pages
 to load when finding the download URL on
 <a href='https://www.protectedplanet.net/en'>Protected Planet</a>.

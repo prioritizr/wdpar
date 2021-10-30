@@ -10,7 +10,7 @@ wdpa_fetch(
   download_dir = tempdir(),
   force_download = FALSE,
   n = NULL,
-  page_wait_time = 2,
+  page_wait = 2,
   verbose = interactive()
 )
 }
@@ -38,7 +38,7 @@ fresh copy be downloaded? Defaults to \code{FALSE}.}
 \item{n}{\code{integer} number of records to import per data source.
 Defaults to \code{NULL} such that all data are imported.}
 
-\item{page_wait_time}{\code{numeric} number of seconds to wait for web pages
+\item{page_wait}{\code{numeric} number of seconds to wait for web pages
 to load when finding the download URL on
 \href{https://www.protectedplanet.net/en}{Protected Planet}.
 Defaults to 2.

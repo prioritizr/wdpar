@@ -59,4 +59,18 @@ test_that("global data", {
   expect_true(nrow(x) > 0)
   expect_true(all(c("ISO3", "STATUS", "DESIG_ENG", "REP_AREA", "MARINE") %in%
                   names(x)))
+  expect_true(
+    any(
+      vapply(
+        sf::st_geometry(x), inherits, logical(1), c("MULTIPOINT", "POINT")
+      )
+    )
+  )
+  expect_true(
+    any(
+      vapply(
+        sf::st_geometry(x), inherits,  logical(1), c("POLYGON", "MULTIPOLYGON")
+      )
+    )
+  )
 })

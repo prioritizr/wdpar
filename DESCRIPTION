@@ -1,10 +1,12 @@
 Package: wdpar
 Type: Package
-Version: 1.3.1.3
+Version: 1.3.1.4
 Title: Interface to the World Database on Protected Areas
 Description: Fetch and clean data from the World Database on Protected
     Areas (WDPA). Data is obtained from Protected Planet
-    <https://www.protectedplanet.net/en>.
+    <https://www.protectedplanet.net/en>. To augment data cleaning procedures,
+    users can install the 'prepr' R package (available at
+    <https://github.com/dickoa/prepr>).
 Authors@R: c(person(c('Jeffrey', 'O'), 'Hanson',
     email='jeffrey.hanson@uqconnect.edu.au', role = c('aut', 'cre')))
 Imports:
@@ -30,7 +32,9 @@ Suggests:
     rmarkdown (>= 1.10),
     ggmap (>= 2.6.1),
     ggplot2 (>= 3.1.0),
-    pingr (>= 1.1.2)
+    pingr (>= 1.1.2),
+    prepr (>= 0.1.9000),
+    dplyr (>= 1.0.7)
 Depends:
     R (>= 3.5.0),
     sf (>= 1.0-2)
@@ -43,8 +47,10 @@ VignetteBuilder: knitr
 RoxygenNote: 7.1.2
 Collate:
     'internal.R'
-    'geo.R'
     'package.R'
+    'read_sf_n.R'
+    'st_erase_overlaps.R'
+    'st_repair_geometry.R'
     'wdpa_clean.R'
     'wdpa_dissolve.R'
     'wdpa_url.R'
@@ -53,3 +59,5 @@ Collate:
     'wdpa_read.R'
     'zzz.R'
 Roxygen: list(markdown = TRUE)
+Remotes:
+  dickoa/prepr

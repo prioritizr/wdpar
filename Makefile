@@ -6,10 +6,6 @@ clean:
 	rm -rf docs/*
 	rm -rf inst/doc/*
 
-initc:
-	R --slave -e "Rcpp::compileAttributes()"
-	R --slave -e "tools::package_native_routine_registration_skeleton('.', 'src/init.c', character_only = FALSE)"
-
 docs: man readme vigns site
 
 man:
@@ -55,7 +51,7 @@ build:
 	cp -R doc inst/
 
 install:
-	R --slave -e "devtools::install_local('../wdpar')"
+	R --slave -e "devtools::install_local('../wdpar', force = TRUE)"
 
 spellcheck:
 	echo "\n===== SPELL CHECK =====\n" > spell.log 2>&1

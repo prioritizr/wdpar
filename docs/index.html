@@ -14,7 +14,9 @@
 <script src="pkgdown.js"></script><meta property="og:title" content="Interface to the World Database on Protected Areas">
 <meta property="og:description" content="Fetch and clean data from the World Database on Protected
     Areas (WDPA). Data is obtained from Protected Planet
-    &lt;https://www.protectedplanet.net/en&gt;.">
+    &lt;https://www.protectedplanet.net/en&gt;. To augment data cleaning procedures,
+    users can install the prepr R package (available at
+    &lt;https://github.com/dickoa/prepr&gt;).">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -35,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1.4</span>
       </span>
     </div>
 
@@ -82,6 +84,9 @@
 <div id="installation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#installation" class="anchor" aria-hidden="true"></a>Installation</h3>
+<div id="package" class="section level4">
+<h4 class="hasAnchor">
+<a href="#package" class="anchor" aria-hidden="true"></a>Package</h4>
 <p>The <a href="https://CRAN.R-project.org/package=wdpar" class="external-link">latest official version of the <em>wdpar R</em> package</a> can be installed using the following R code. Please note that this package requires the <a href="https://github.com/jeroen/curl" class="external-link"><em>curl</em></a> and <a href="https://github.com/r-spatial/sf" class="external-link"><em>sf R</em></a> packages which may require additional software to be installed. If you encounter problems installing the <em>wdpar R</em> package, please consult the installation instructions for these packages.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"wdpar"</span>, repos <span class="op">=</span> <span class="st">"https://cran.rstudio.com/"</span><span class="op">)</span></code></pre></div>
@@ -91,52 +96,93 @@
   <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"prioritizr/wdpar"</span><span class="op">)</span></code></pre></div>
 </div>
+<div id="additional-dependencies" class="section level4">
+<h4 class="hasAnchor">
+<a href="#additional-dependencies" class="anchor" aria-hidden="true"></a>Additional dependencies</h4>
+<p>The <em>wdpar R</em> package can leverage the <em>prepr R</em> package to augment data cleaning procedures. Since the <em>prepr R</em> package is not available on the Comprehensive R Archive Network, it is listed as an optional dependency. In some cases, the <em>prepr R</em> package is required to complete the data cleaning procedures (e.g. to fix especially extreme geometry issues) and the <em>wdpar R</em> package will throw an error if the package is not available. To install the <em>prepr R</em> package, please use the following R code.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org" class="external-link">remotes</a></span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"dickoa/prepr"</span><span class="op">)</span></code></pre></div>
+<p>Note that the <em>prepr R</em> package has system dependencies that need to be installed before the package itself can be installed (see below for platform-specific instructions).</p>
+<div id="windows" class="section level5">
+<h5 class="hasAnchor">
+<a href="#windows" class="anchor" aria-hidden="true"></a><em>Windows</em>
+</h5>
+<p>The <a href="https://cran.r-project.org/bin/windows/Rtools/" class="external-link">Rtools</a> software needs to be installed to install the <em>prepr R</em> package package from source. This software provides system requirements from <a href="https://github.com/rwinlib/" class="external-link">rwinlib</a>.</p>
+</div>
+<div id="ubuntu" class="section level5">
+<h5 class="hasAnchor">
+<a href="#ubuntu" class="anchor" aria-hidden="true"></a><em>Ubuntu</em>
+</h5>
+<p>The <code>gmp</code>, <code>mpfr</code>, and several spatial libraries need to be installed. For recent versions of Ubuntu (18.04 and later), these libraries are available through official repositories. They can be installed using the following system commands:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>apt<span class="sc">-</span>get <span class="sc">-</span>y update</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>apt<span class="sc">-</span>get install <span class="sc">-</span>y libgmp3<span class="sc">-</span>dev libmpfr<span class="sc">-</span>dev libudunits2<span class="sc">-</span>dev libgdal<span class="sc">-</span>dev libgeos<span class="sc">-</span>dev libproj<span class="sc">-</span>dev</span></code></pre></div>
+</div>
+<div id="linux" class="section level5">
+<h5 class="hasAnchor">
+<a href="#linux" class="anchor" aria-hidden="true"></a><em>Linux</em>
+</h5>
+<p>For Unix-alikes, <code>gmp</code> (&gt;= 4.2.3), <code>mpfr</code> (&gt;= 3.0.0), and <code>gdal</code> (&gt;= 3.2.2) are required.</p>
+</div>
+<div id="macos" class="section level5">
+<h5 class="hasAnchor">
+<a href="#macos" class="anchor" aria-hidden="true"></a><em>MacOS</em>
+</h5>
+<p>The <code>gmp</code>, <code>mpfr</code>, and <code>gdal</code> libraries are required. The easiest way to install these libraries is using <a href="https://brew.sh/" class="external-link">HomeBrew</a>. After installing HomeBrew, these libraries can be installed using the following commands in the system terminal:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>brew install pkg<span class="sc">-</span>config</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>brew install gmp</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>brew install mpfr</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>brew install gdal</span></code></pre></div>
+</div>
+</div>
+</div>
 <div id="usage" class="section level3">
 <h3 class="hasAnchor">
 <a href="#usage" class="anchor" aria-hidden="true"></a>Usage</h3>
 <p>Here we will provide a short introduction to the <em>wdpar R</em> package. First, we will load the <em>wdpar R</em> package. We will also load the <em>dplyr</em> and <em>ggmap R</em> packages to help explore the data.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># load packages</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://prioritizr.github.io/wdpar/" class="external-link">wdpar</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dkahle/ggmap" class="external-link">ggmap</a></span><span class="op">)</span></code></pre></div>
 <p>Now we will download protected area data for Malta from <a href="https://www.protectedplanet.net/en" class="external-link">Protected Planet</a>. We can achieve this by specifying Malta’s country name (i.e. <code>"Malta"</code>) or Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3" class="external-link">ISO3 code</a> (i.e. <code>"MLT"</code>). Since data are downloaded to a temporary directory by default, we will specify that the data should be downloaded to a persistent directory. This means that R won’t have to re-download the same dataset every time we restart our R session, and R can simply re-load previously downloaded datasets as needed.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># download protected area data for Malta</span>
 <span class="va">mlt_raw_pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/wdpa_fetch.html">wdpa_fetch</a></span><span class="op">(</span><span class="st">"Malta"</span>, wait <span class="op">=</span> <span class="cn">TRUE</span>,
                               download_dir <span class="op">=</span> <span class="fu">rappdirs</span><span class="fu">::</span><span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"wdpar"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. <code>"0"</code>) with missing data values (i.e. <code>NA</code>), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see <code><a href="reference/wdpa_clean.html">?wdpa_clean</a></code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># clean Malta data</span>
 <span class="va">mlt_pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/wdpa_clean.html">wdpa_clean</a></span><span class="op">(</span><span class="va">mlt_raw_pa_data</span><span class="op">)</span></code></pre></div>
 <p>Print preview of the data associated with each protected area.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># print preview</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mlt_pa_data</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Simple feature collection with 6 features and 32 fields</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Geometry type: MULTIPOLYGON</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Dimension:     XY</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Bounding box:  xmin: 1382584 ymin: 4280784 xmax: 1399759 ymax: 4299615</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="do">## CRS:           +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Precision:     1500 </span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 6 × 33</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="do">##      WDPAID WDPA_PID  PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="do">##       &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;   </span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="do">## 1    194420 194420    1      Filf… Filfla    Rise… Nature R… National   Ia      </span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="do">## 2    194425 194425    1      Il-G… Il-Gżejj… Rise… Nature R… National   Ia      </span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 555588631 555588631 1      Il-M… Il-Majji… Park… National… National   II      </span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 4    174757 174757    1      Il-Ġ… Il-Ġonna… List… List Of … National   III     </span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="do">## 5    174758 174758    1      Bidn… Bidnija,… List… List Of … National   III     </span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="do">## 6    194415 194415    1      Il-Ġ… Il-Ġonna… List… List Of … National   III     </span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="do">## # … with 24 more variables: INT_CRIT &lt;chr&gt;, MARINE &lt;chr&gt;, REP_M_AREA &lt;dbl&gt;,</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="do">## #   GIS_M_AREA &lt;dbl&gt;, REP_AREA &lt;dbl&gt;, GIS_AREA &lt;dbl&gt;, NO_TAKE &lt;chr&gt;,</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="do">## #   NO_TK_AREA &lt;dbl&gt;, STATUS &lt;chr&gt;, STATUS_YR &lt;dbl&gt;, GOV_TYPE &lt;chr&gt;,</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="do">## #   OWN_TYPE &lt;chr&gt;, MANG_AUTH &lt;chr&gt;, MANG_PLAN &lt;chr&gt;, VERIF &lt;chr&gt;,</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="do">## #   METADATAID &lt;int&gt;, SUB_LOC &lt;chr&gt;, PARENT_ISO &lt;chr&gt;, ISO3 &lt;chr&gt;,</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="do">## #   SUPP_INFO &lt;chr&gt;, CONS_OBJ &lt;chr&gt;, GEOMETRY_TYPE &lt;chr&gt;, AREA_KM2 &lt;dbl&gt;,</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="do">## #   geometry &lt;MULTIPOLYGON [m]&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Simple feature collection with 6 features and 32 fields</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Geometry type: MULTIPOLYGON</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Dimension:     XY</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Bounding box:  xmin: 1382584 ymin: 4280853 xmax: 1399759 ymax: 4299615</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="do">## CRS:           +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Precision:     1500 </span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="do">## # A tibble: 6 × 33</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="do">##      WDPAID WDPA_PID  PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="do">##       &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;   </span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="do">## 1    194420 194420    1      Filf… Filfla    Rise… Nature R… National   Ia      </span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="do">## 2    194425 194425    1      Il-G… Il-Gżejj… Rise… Nature R… National   Ia      </span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 555588631 555588631 1      Il-M… Il-Majji… Park… National… National   II      </span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 4    174757 174757    1      Il-Ġ… Il-Ġonna… List… List Of … National   III     </span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="do">## 5    174758 174758    1      Bidn… Bidnija,… List… List Of … National   III     </span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="do">## 6    194415 194415    1      Il-Ġ… Il-Ġonna… List… List Of … National   III     </span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="do">## # … with 24 more variables: INT_CRIT &lt;chr&gt;, MARINE &lt;chr&gt;, REP_M_AREA &lt;dbl&gt;,</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="do">## #   GIS_M_AREA &lt;dbl&gt;, REP_AREA &lt;dbl&gt;, GIS_AREA &lt;dbl&gt;, NO_TAKE &lt;chr&gt;,</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="do">## #   NO_TK_AREA &lt;dbl&gt;, STATUS &lt;chr&gt;, STATUS_YR &lt;dbl&gt;, GOV_TYPE &lt;chr&gt;,</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="do">## #   OWN_TYPE &lt;chr&gt;, MANG_AUTH &lt;chr&gt;, MANG_PLAN &lt;chr&gt;, VERIF &lt;chr&gt;,</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="do">## #   METADATAID &lt;int&gt;, SUB_LOC &lt;chr&gt;, PARENT_ISO &lt;chr&gt;, ISO3 &lt;chr&gt;,</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="do">## #   SUPP_INFO &lt;chr&gt;, CONS_OBJ &lt;chr&gt;, GEOMETRY_TYPE &lt;chr&gt;, AREA_KM2 &lt;dbl&gt;,</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="do">## #   geometry &lt;MULTIPOLYGON [m]&gt;</span></span></code></pre></div>
 <p>Finally, after cleaning the data, let’s plot a map showing Malta’s protected areas and color each area according to its management category (<a href="https://www.iucn.org/theme/protected-areas/about/protected-area-categories" class="external-link">as defined by the The International Union for Conservation of Nature</a>).</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># reproject data to longitude/latitude for plotting</span>
 <span class="va">mlt_pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="va">mlt_pa_data</span>, <span class="fl">4326</span><span class="op">)</span>
 
@@ -161,7 +207,7 @@
 </blockquote>
 <p>To cite the latest development version, please use:</p>
 <blockquote>
-<p>Hanson JO (2021). wdpar: Interface to the World Database on Protected Areas. R package version 1.3.1.3. Available at <a href="https://github.com/prioritizr/wdpar" class="external-link uri">https://github.com/prioritizr/wdpar</a>.</p>
+<p>Hanson JO (2021). wdpar: Interface to the World Database on Protected Areas. R package version 1.3.1.4. Available at <a href="https://github.com/prioritizr/wdpar" class="external-link uri">https://github.com/prioritizr/wdpar</a>.</p>
 </blockquote>
 <p>To cite the World Database on Protected Areas (WDPA), please use:</p>
 <blockquote>

@@ -1,3 +1,19 @@
+# wdpar 1.3.1.4
+
+- Fix bug in `wdpa_read` to ensure that all data from global database.
+  This is a bug previously meant that protected areas denoted with polygon
+  geometry data were not imported. It is strongly recommended that users
+  double check processed versions of the global database to verify correctness.
+- Add example script for downloading and cleaning data
+  (see `inst/scripts/global-example-script.R`)
+- New `st_repair_geometry` function to repair geometry using a combination
+  of `sf::st_make_valid` and `prepr::st_prepair`. This function is now
+  used by the `wdpa_clean` function to augment data cleaning procedures.
+- Update `wdpa_url` and `wdpa_fetch` to have a `page_wait` parameter
+  to specify the wait time for loading web pages when finding the download
+  URLs for datasets (#39).
+- Add _dplyr_ package to Suggests because it is used in an example.
+
 # wdpar 1.3.1.3
 
 - Update `wdpa_clean` to provide better information when cleaning data.

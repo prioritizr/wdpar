@@ -1,4 +1,4 @@
-#' @include internal.R geo.R
+#' @include internal.R st_erase_overlaps.R
 NULL
 
 #' Clean data from the World Database on Protected Areas
@@ -97,8 +97,8 @@ NULL
 #'   \item Reproject data to coordinate system specified in argument to
 #'     `crs` (using [sf::st_transform()]).
 #'
-#'   \item Fix any invalid geometries that have manifested
-#'     (using [sf::st_make_valid()]).
+#'   \item Repair any invalid geometries that have manifested
+#'     (using [st_repair_geometry()]).
 #'
 #'   \item Buffer areas represented as point localities to circular areas
 #'     using their reported spatial extent (using data in the field
@@ -109,15 +109,15 @@ NULL
 #'     geometry issues (using argument to `snap_tolerance` and
 #'     [lwgeom::st_snap_to_grid()]).
 #'
-#'   \item Fix any invalid geometries that have manifested
-#'     (using [sf::st_make_valid()]).
+#'   \item Repair any invalid geometries that have manifested
+#'     (using [st_repair_geometry()]).
 #'
 #'   \item Simplify the protected area geometries to reduce computational burden
 #'     (using argument to `simplify_tolerance` and
 #'     [sf::st_simplify()]).
 #'
-#'   \item Fix any invalid geometries that have manifested
-#'     (using [sf::st_make_valid()]).
+#'   \item Repair any invalid geometries that have manifested
+#'     (using [st_repair_geometry()]).
 #'
 #'   \item The `"MARINE"` field is converted from integer codes
 #'     to descriptive names (i.e. `0` = `"terrestrial"`,
@@ -261,27 +261,11 @@ wdpa_clean <- function(x,
   ## exclude areas based on status
   if (is.null(retain_status)) {
     if (verbose) {
-      cli::cli_progress_step(
-        "retaining all areas (i.e. not removing areas based on status)")
+      cli::cli_progress_step("retaining areas regardless of status)")
     }
   } else {
-    ### determine if defaults are used
-    default_status <- c("Designated", "Inscribed", "Established")
-    exclude_not_implemented <-
-      identical(sort(default_status), sort(retain_status))
-    ### prepare message
-    if (exclude_not_implemented) {
-      msg <- paste0(
-        "retaining only areas with specified statuses ",
-        " (i.e. removing areas that are not implemented): ")
-    } else {
-      msg <- paste0(
-        "retaining only areas with specified statuses ",
-        " (i.e. retaining ",
-        paste(paste0("\"", retain_status, "\""), collapse = ","), "): ")
-    }
     if (verbose) {
-      cli::cli_progress_step(msg)
+      cli::cli_progress_step("retaining only areas with specified statuses")
     }
     x <- x[which(x$STATUS %in% retain_status), ]
   }
@@ -307,14 +291,6 @@ wdpa_clean <- function(x,
     cli::cli_progress_step("removing points with no reported area")
   }
   x <- x[!(x$GEOMETRY_TYPE == "POINT" & !is.finite(x$REP_AREA)), ]
-  ## repair geometry
-  if (verbose) {
-    cli::cli_progress_step("repairing geometry")
-  }
-  x <- sf::st_set_precision(x, geometry_precision)
-  x <- sf::st_make_valid(x)
-  x <- x[!sf::st_is_empty(x), ]
-  x <- extract_polygons_and_points(x)
   ## wrap dateline issues
   if (verbose) {
     cli::cli_progress_step("wrapping dateline")
@@ -329,11 +305,7 @@ wdpa_clean <- function(x,
   if (verbose) {
     cli::cli_progress_step("repairing geometry")
   }
-  x <- sf::st_set_precision(x, geometry_precision)
-  x <- sf::st_make_valid(x)
-  x <- x[!sf::st_is_empty(x), ]
-  x <- extract_polygons_and_points(x)
-  x <- sf::st_set_precision(x, geometry_precision)
+  x <- st_repair_geometry(x, geometry_precision)
   ## reproject data
   if (verbose) {
     cli::cli_progress_step("reprojecting data")
@@ -345,15 +317,12 @@ wdpa_clean <- function(x,
   if (verbose) {
     cli::cli_progress_step("repairing geometry")
   }
-  x <- sf::st_make_valid(x)
-  x <- x[!sf::st_is_empty(x), ]
-  x <- extract_polygons_and_points(x)
-  x <- sf::st_set_precision(x, geometry_precision)
+  x <- st_repair_geometry(x, geometry_precision)
   ## buffer polygons by zero to fix any remaining issues
   x_polygons_pos <- which(x$GEOMETRY_TYPE == "POLYGON")
   if (length(x_polygons_pos) > 0) {
     if (verbose) {
-      cli::cli_progress_step("further geometry fixes (i.e. buffering by zero")
+      cli::cli_progress_step("further geometry fixes (i.e. buffering by zero)")
     }
     if (verbose) message("buffering by zero: ", cli::symbol$continue, "\r",
                          appendLF = FALSE)
@@ -399,11 +368,7 @@ wdpa_clean <- function(x,
   if (verbose) {
     cli::cli_progress_step("repairing geometry")
   }
-  x <- sf::st_set_precision(x, geometry_precision)
-  x <- sf::st_make_valid(x)
-  x <- x[!sf::st_is_empty(x), ]
-  x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
-  x <- sf::st_set_precision(x, geometry_precision)
+  x <- st_repair_geometry(x, geometry_precision)
   ## snap geometry to grid
   if (snap_tolerance > 0) {
     if (verbose) {
@@ -417,11 +382,7 @@ wdpa_clean <- function(x,
   if (verbose) {
     cli::cli_progress_step("repairing geometry")
   }
-  x <- sf::st_set_precision(x, geometry_precision)
-  x <- sf::st_make_valid(x)
-  x <- x[!sf::st_is_empty(x), ]
-  x <- suppressWarnings(sf::st_collection_extract(x, "POLYGON"))
-  x <- sf::st_set_precision(x, geometry_precision)
+  x <- st_repair_geometry(x, geometry_precision)
   ## format columns
   if (verbose) {
     cli::cli_progress_step("formatting attribute data")
@@ -466,5 +427,5 @@ wdpa_clean <- function(x,
   }
   x <- x[, c(setdiff(names(x), "geometry"), "geometry")]
   # return cleaned data
-  return(x)
+  x
 }

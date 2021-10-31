@@ -26,6 +26,10 @@
 #' remotes::install_github("dickoa/prepr")
 #' ```
 #'
+#' Note that the \pkg{prepr} package has system dependencies that need to be
+#' installed before the package itself can be installed
+#' (see package README file for platform-specific instructions).
+#'
 #' @examples
 #' # create sf object
 #' p1 <- st_sf(
@@ -48,22 +52,6 @@ st_repair_geometry <- function(x, geometry_precision = 1500) {
     assertthat::noNA(geometry_precision)
   )
 
-  # preliminary calculations
-  if (sf::st_crs(x) != st_crs(NA)) {
-    ## compute global extent in coordinate system of x (if crs defined)
-    global_bbox <- sf::st_as_sfc(
-      "POLYGON((-180 -90, 180 -90, 180 90, -180 90, -180 -90))",
-      crs = 4326
-    )
-    if (sf::st_crs(x) != sf::st_crs(4326)) {
-      global_bbox <- sf::st_transform(global_bbox, sf::st_crs(x))
-    }
-    global_bbox <- sf::st_bbox(global_bbox)
-
-    ## compute distance threshold for invalid outputs from st_make_valid()
-    dist_threshold <- unname(global_bbox$xmax - global_bbox$xmin) * 0.7
-  }
-
   # add in identifier column to keep track of geometries
   x[["_repair_id"]] <- seq_len(nrow(x))
 
@@ -79,36 +67,62 @@ st_repair_geometry <- function(x, geometry_precision = 1500) {
   # extract polygons and points (if needed)
   x2 <- extract_polygons_and_points(x2)
 
-  # additional processing to detect if invalid geometries
+  # detect if any invalid geometries persist
+  ## subset repaired polygons
+  x_sub <- x[match(x2[["_repair_id"]], x[["_repair_id"]]), , drop = FALSE]
+  ## detect if invalid polygons based on changes in area
+  area_threshold <- ifelse(sf::st_is_longlat(x), 1, 1e+4)
+  invalid_idx <- which(
+    abs(
+      as.numeric(sf::st_area(sf::st_set_crs(x_sub, NA))) -
+      as.numeric(sf::st_area(sf::st_set_crs(x2, NA)))
+    ) >= area_threshold
+  )
+  ## refine detections to only include polygons that span width of planet
   ## note this only works if x has a defined CRS
   if (sf::st_crs(x) != st_crs(NA)) {
-    ## detect if any polygons are invalid
-    invalid_idx <- which(
+    ## compute global extent in coordinate system of x (if crs defined)
+    global_bbox <- sf::st_as_sfc(
+      "POLYGON((-180 -90, 180 -90, 180 90, -180 90, -180 -90))",
+      crs = 4326
+    )
+    if (sf::st_crs(x) != sf::st_crs(4326)) {
+      global_bbox <- sf::st_transform(global_bbox, sf::st_crs(x))
+    }
+    global_bbox <- sf::st_bbox(global_bbox)
+    ## compute distance threshold for invalid outputs from st_make_valid()
+    dist_threshold <- unname(global_bbox$xmax - global_bbox$xmin) * 0.7
+    ##  detect if invalid polygons based on total width across planet
+    invalid_bbox_idx <- which(
       vapply(sf::st_geometry(x2), FUN.VALUE = logical(1), function(y) {
         b <- sf::st_bbox(y)
         (b$xmax - b$xmin) > dist_threshold
       })
     )
+    ## subset geometries
+    invalid_idx <- intersect(invalid_idx, invalid_bbox_idx)
+  }
 
-    ## manually fix geometries if needed
-    if (length(invalid_idx) > 0) {
-      ### verify that prepr package is installed
-      assertthat::assert_that(
-        requireNamespace("prepr"),
-        msg = paste(
-          "the \"prepr\" package needs to be installed, use: \n",
-          "remotes::install_github(\"dickoa/prepr\")"
-        )
+  # manually fix geometries if needed
+  if (length(invalid_idx) > 0) {
+    ### verify that prepr package is installed
+    assertthat::assert_that(
+      requireNamespace("prepr"),
+      msg = paste(
+        "the \"prepr\" package needs to be installed, use: \n",
+        "remotes::install_github(\"dickoa/prepr\")"
       )
-      ### fix geometries
-      invalid_ids <- x2[["_repair_id"]][invalid_idx]
-      x2 <- rbind(
-        x2[!x2[["_repair_id"]] %in% invalid_ids, , drop = FALSE],
-        prepr::st_prepair(
-          x[x[["_repair_id"]] %in% invalid_ids, , drop = FALSE]
-        )
+    )
+    ### find geometries to repair
+    invalid_ids <- x_sub[["_repair_id"]][invalid_idx]
+    rm(x_sub)
+    ### fix geometries
+    x2 <- rbind(
+      x2[!x2[["_repair_id"]] %in% invalid_ids, , drop = FALSE],
+      prepr::st_prepair(
+        x[x[["_repair_id"]] %in% invalid_ids, , drop = FALSE]
       )
-    }
+    )
   }
 
   # remove custom id column

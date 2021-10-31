@@ -181,7 +181,7 @@ test_that("retain UNESCO Biosphere reserves", {
   expect_true(all(x$STATUS %in% default_retain_status))
 })
 
-test_that("single country with dateline wrapping issues",{
+test_that("protected areas that need prepr", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_if_not_installed("prepr")

@@ -37,6 +37,10 @@ its online code repository. To achieve this, please
 use the following code:\preformatted{if (!require(remotes)) install.packages("remotes")
 remotes::install_github("dickoa/prepr")
 }
+
+Note that the \pkg{prepr} package has system dependencies that need to be
+installed before the package itself can be installed
+(see package README file for platform-specific instructions).
 }
 
 \examples{

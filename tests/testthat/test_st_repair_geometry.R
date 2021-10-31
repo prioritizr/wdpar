@@ -48,24 +48,3 @@ test_that("invalid geometry (prepair not needed)", {
   expect_true(all(sf::st_is_valid(p2)))
   expect_equal(p2, p3)
 })
-
-test_that("invalid geometry (prepair needed)", {
-  skip_on_cran()
-  skip_if_not_installed("prepr")
-  # define data
-  p1 <- st_sf(
-    id = 1,
-    geometry = sf::st_as_sfc(
-      "POLYGON((-170 -80, 170 -80, 170 80, -170 80, -170 -80))",
-      crs = sf::st_crs(4326)
-    )
-  )
-  # repair geometry
-  p2 <- st_repair_geometry(p1)
-  p3 <- prepr::st_prepair(p1)
-  # tests
-  expect_is(p2, "sf")
-  expect_named(p2, names(p1))
-  expect_true(all(sf::st_is_valid(p2)))
-  expect_equal(p2, p3)
-})

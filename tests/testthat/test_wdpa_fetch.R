@@ -25,7 +25,7 @@ test_that("global", {
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("Mac OSX")
   x <- suppressWarnings(wdpa_fetch(
-    "global",  wait = TRUE, n = 5, verbose = TRUE))
+    "global", wait = TRUE, n = 5, verbose = TRUE))
   expect_is(x, "sf")
 })
 

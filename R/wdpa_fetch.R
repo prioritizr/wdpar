@@ -30,6 +30,11 @@ NULL
 #'   downloaded and is available at argument to `download_dir`, should a
 #'   fresh copy be downloaded? Defaults to `FALSE`.
 #'
+#' @param check_version `logical` if the data are being imported from
+#'  from the argument to `download_dir`, should the data be checked to see
+#'  if the version number matches the latest version available online?
+#'  Defaults to `TRUE`.
+#'
 #' @param verbose `logical` should a progress on downloading data be
 #'   reported? Defaults to `TRUE` in an interactive session, otherwise
 #'   `FALSE`.
@@ -96,6 +101,7 @@ NULL
 wdpa_fetch <- function(x, wait = FALSE,
                        download_dir = tempdir(),
                        force_download = FALSE,
+                       check_version = TRUE,
                        n = NULL,
                        page_wait = 2,
                        verbose = interactive()) {
@@ -107,6 +113,7 @@ wdpa_fetch <- function(x, wait = FALSE,
     assertthat::is.dir(download_dir),
     assertthat::is.flag(force_download),
     assertthat::is.flag(verbose),
+    assertthat::is.flag(check_version),
     identical(x, "global") || assertthat::is.string(country_code(x)))
   # try to find locally on system
   file_path <- try(wdpa_file(x, download_dir = download_dir), silent = TRUE)
@@ -143,23 +150,27 @@ wdpa_fetch <- function(x, wait = FALSE,
     if (!file.exists(file_path))
       stop("downloading data failed") #nocov
   } else {
-    # if internet is available, then check version of available version
-    if (curl::has_internet()) {
-      ## parse month-year from input file
-      input_version <- wdpa_version(file_path)
-      input_file_date <- convert_wdpa_version_to_POSIXct(input_version)
-      ## parse month-year from latest release
-      current_version <- wdpa_latest_version()
-      current_file_date <- convert_wdpa_version_to_POSIXct(current_version)
-      ## throw warning if out of date
-      if (input_file_date < current_file_date) {
-        #nocov start
-        warning(paste0("local data is out of date: ",
-                       format(input_file_date, "%b %Y")))
-        #nocov end
+    # check version of available data
+    if (isTRUE(check_version)) {
+      ## if internet available...
+      if (curl::has_internet()) {
+        ### parse month-year from input file
+        input_version <- wdpa_version(file_path)
+        input_file_date <- convert_wdpa_version_to_POSIXct(input_version)
+        ### parse month-year from latest release
+        current_version <- wdpa_latest_version()
+        current_file_date <- convert_wdpa_version_to_POSIXct(current_version)
+        ### throw warning if out of date
+        if (input_file_date < current_file_date) {
+          #nocov start
+          warning(paste0("local data is out of date: ",
+                         format(input_file_date, "%b %Y")))
+          #nocov end
+        }
+      } else {
+        ## if internet not available
+        warning("cannot verify if version on disk is up to date.") #nocov
       }
-    } else {
-      warning("cannot verify if version on disk is up to date.") #nocov
     }
   }
   # import the data

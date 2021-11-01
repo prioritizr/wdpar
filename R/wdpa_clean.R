@@ -341,7 +341,11 @@ wdpa_clean <- function(x,
     x_points_data <- x[x_points_pos, ]
     x_points_data <- sf::st_buffer(x_points_data,
                        sqrt((x_points_data$REP_AREA * 1e6) / pi))
-    x <- rbind(x[which(x$GEOMETRY_TYPE == "POLYGON"), ], x_points_data)
+    if (any(x$GEOMETRY_TYPE == "POLYGON")) {
+      x <- rbind(x[which(x$GEOMETRY_TYPE == "POLYGON"), ], x_points_data)
+    } else {
+      x <- x_points_data
+    }
     x <- sf::st_set_precision(x, geometry_precision)
   }
   ## return empty dataset if no valid non-empty geometries remain

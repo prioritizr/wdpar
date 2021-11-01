@@ -1,3 +1,12 @@
+# wdpar 1.3.1.5
+
+- Update `wdpa_fetch` with new `check_version` argument to specify if
+  the version of cached data should be checked against the latest version
+  available online.
+- Update `wdpa_clean` to not throw an unnecessary and confusing warning message
+  when attempting to clean data that do not contain any valid polygon
+  geometries.
+
 # wdpar 1.3.1.4
 
 - Fix bug in `wdpa_read` to ensure that all data from global database.

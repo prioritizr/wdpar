@@ -9,6 +9,7 @@ wdpa_fetch(
   wait = FALSE,
   download_dir = tempdir(),
   force_download = FALSE,
+  check_version = TRUE,
   n = NULL,
   page_wait = 2,
   verbose = interactive()
@@ -34,6 +35,11 @@ directory (e.g. \code{rappdirs::user_data_dir("wdpar")}; see Examples below).}
 \item{force_download}{\code{logical} if the data has previously been
 downloaded and is available at argument to \code{download_dir}, should a
 fresh copy be downloaded? Defaults to \code{FALSE}.}
+
+\item{check_version}{\code{logical} if the data are being imported from
+from the argument to \code{download_dir}, should the data be checked to see
+if the version number matches the latest version available online?
+Defaults to \code{TRUE}.}
 
 \item{n}{\code{integer} number of records to import per data source.
 Defaults to \code{NULL} such that all data are imported.}

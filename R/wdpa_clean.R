@@ -1,10 +1,16 @@
 #' @include internal.R st_erase_overlaps.R
 NULL
 
-#' Clean data from the World Database on Protected Areas
+#' Clean data
 #'
-#' Clean data obtained from the World Database on Protected Areas (WDPA).
-#' For recommended practices on cleaning large protected area datasets,
+#' Clean data obtained from
+#' [Protected Planet](https://www.protectedplanet.net/en).
+#' Specifically, this function is designed to clean data obtained from
+#' the World Database on Protected Areas
+#' (WDPA) and the World Database on Other Effective Area-Based Conservation
+#' Measures (WDOECM).
+#' For recommended practices on cleaning large datasets
+#' (e.g. datasets that span multiple countries or a large geographic area),
 #' please see below.
 #'
 #' @param x [sf::sf()] object containing protected area data.
@@ -53,17 +59,11 @@ NULL
 #'   Defaults to `TRUE` in an interactive session, otherwise
 #'   `FALSE`.
 #'
-#' @details This function cleans data from World Database on Protected Areas
-#'   following best practices (Butchart *et al.* 2015, Runge *et al.*
-#'   2015,
-#'   <https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage>).
+#' @details This function cleans data following best practices
+#'   (Butchart *et al.* 2015; Protected Planet 2021; Runge *et al.* 2015).
 #'   To obtain accurate protected area coverage statistics for a country,
 #'   please note that you will need to manually clip the cleaned data to
 #'   the countries' coastline and its Exclusive Economic Zone (EEZ).
-#'   Although this function can *in theory* be used to clean the global
-#'   dataset, this process can take several weeks to complete. Therefore, it is
-#'   strongly recommended to use alternative methods for cleaning the global
-#'   dataset.
 #'
 #'   \enumerate{
 #'
@@ -123,6 +123,9 @@ NULL
 #'     to descriptive names (i.e. `0` = `"terrestrial"`,
 #'     `1` = `"partial"`, `2` = `"marine"`).
 #'
+#'   \item The `"PA_DEF"` field is converted from integer codes
+#'   to descriptive names (i.e. `0` = `"OECM"`, and `1` = `"PA"`).
+#'
 #'   \item Zeros in the `"STATUS_YR"` field are replaced with
 #'     missing values (i.e. `NA_real_` values).
 #'
@@ -146,17 +149,17 @@ NULL
 #'  }
 #'
 #' @section Recommended practices for large datasets:
-#' This function can be used to clean large datasets --
-#' such as those spanning large countries, multiple
-#' countries, and even the full global datatset -- assuming that
+#' This function can be used to clean large datasets assuming that
 #' sufficient computational resources and time are available.
-#' For example, when processing the global dataset, it is recommended to use a
+#' Indeed, it can clean data spanning large countries, multiple
+#' countries, and even the full global datatset.
+#' When processing the full global dataset, it is recommended to use a
 #' computer system with at least 32 GB RAM available and to allow for at least
 #' one full day for the data cleaning procedures to complete.
 #' It is also recommended to avoid using the computer system for any other
 #' tasks while the data cleaning procedures are being completed,
 #' because they are very computationally intensive.
-#' Additionally, when processing data for many countries -- and especially
+#' Additionally, when processing large datasets -- and especially
 #' for the global dataset -- it is strongly recommended to disable the
 #' procedure for erasing overlapping areas.
 #' This is because the built-in procedure for erasing overlaps is
@@ -174,8 +177,7 @@ NULL
 #'
 #' @return [sf::sf()] object.
 #'
-#' @seealso [wdpa_fetch()],
-#'   <https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage>.
+#' @seealso [wdpa_fetch()], [wdpa_dissolve()].
 #'
 #' @references
 #' Butchart SH, Clarke M, Smith RJ, Sykes RE, Scharlemann JP,
@@ -194,6 +196,10 @@ NULL
 #' Runge CA, Watson JEM, Butchart HM, Hanson JO, Possingham HP & Fuller RA
 #' (2015) Protected areas and global conservation of migratory birds.
 #' *Science*, **350**: 1255--1258.
+#'
+#' Protected Planet (2021) Calculating protected and OECM area coverage.
+#' Available at:
+#' <https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage>.
 #'
 #' Visconti P, Di Marco M, Alvarez-Romero JG, Januchowski-Hartley SR, Pressey,
 #' RL, Weeks R & Rondinini C (2013) Effects of errors and gaps in spatial data
@@ -234,7 +240,7 @@ wdpa_clean <- function(x,
                           nrow(x) > 0,
                           all(assertthat::has_name(x, c("ISO3", "STATUS",
                                                         "DESIG_ENG", "REP_AREA",
-                                                        "MARINE"))),
+                                                        "MARINE", "PA_DEF"))),
                           assertthat::is.string(crs) ||
                           assertthat::is.count(crs),
                           assertthat::is.number(snap_tolerance),
@@ -391,11 +397,18 @@ wdpa_clean <- function(x,
   if (verbose) {
     cli::cli_progress_step("formatting attribute data")
   }
+  ### MARINE field
   x$MARINE[x$MARINE == "0"] <- "terrestrial"
   x$MARINE[x$MARINE == "1"] <- "partial"
   x$MARINE[x$MARINE == "2"] <- "marine"
+  ### STATUS_YR field
   x$STATUS_YR[x$STATUS_YR == 0] <- NA_real_
+  ### NO_TK_AREA field
   x$NO_TK_AREA[x$NO_TAKE %in% c("Not Reported", "Not Applicable")] <- NA_real_
+  ### PA_DEF field
+  x$PA_DEF <- as.character(x$PA_DEF)
+  x$PA_DEF[x$PA_DEF == "0"] <- "OECM"
+  x$PA_DEF[x$PA_DEF == "1"] <- "PA"
   if (verbose) {
     cli::cli_progress_done()
   }

@@ -10,7 +10,7 @@ NULL
 #' @param verbose `logical` should progress be reported? Defaults to
 #'   `FALSE`.
 #'
-#' @details This is a more robust---albeit slower---implementation for
+#' @details This is a more robust -- albeit slower -- implementation for
 #'   [sf::st_difference()] when `y` is missing.
 #'
 #' @return [sf::sf()] object.

@@ -28,9 +28,11 @@ knitr::opts_chunk$set(fig.align = "center", eval = !is_check, purl = !is_check,
 devtools::load_all()
 ```
 
-### Overview
+### Introduction
 
-The [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/en) is the most comprehensive global dataset of protected areas. It is used to monitor the performance of existing protected areas and pinpoint priority areas for establishing new protected areas. Additionally, this database receives monthly updates from government agencies and non-governmental organizations. However, this dataset is associated with [many issues that need to be addressed prior to analysis](https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage) and the dynamic nature of this dataset means that the entire data cleaning process needs to be repeated after obtaining a new version of the dataset. The _wdpar R_ package provides an interface to the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/en) and functions for cleaning the data following best practices (outlined in [Butchart _et al._ 2015](https://dx.doi.org/10.1111/conl.12158); [Runge _et al._ 2015](https://www.science.org/doi/abs/10.1126/science.aac9180); [Protected Planet](https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage)).
+[Protected Planet](https://www.protectedplanet.net/en) provides the most comprehensive data for conservation areas worldwide. Specifically, it provides the World Database on Protected Areas (WDPA) and the World Database on Other Effective Area-Based Conservation Measures (WDOECM). These databases are used to monitor the performance of existing protected areas, and identify priority areas for future conservation efforts. Additionally, these databases receive monthly updates from government agencies and non-governmental organizations. However, they are associated with [several issues that need to be addressed prior to analysis](https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage) and the dynamic nature of these databases means that the entire data cleaning process needs to be repeated after obtaining a new version.
+
+The _wdpar R_ package provides an interface to data available on [Protected Planet](https://www.protectedplanet.net/en). Specifically, it can be used to automatically data from the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/en/thematic-areas/wdpa?tab=WDPA) and the [World Database on Other Effective Area-Based Conservation Measures (WDOECM)](https://www.protectedplanet.net/en/thematic-areas/oecms). It also provides methods for cleaning data from these databases following best practices (outlined in Butchart *et al.* 2015; [Protected Planet 2021](https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage); Runge *et al.* 2015). In this vignette, we provide a tutorial and recommendations for using the package.
 
 ### Tutorial
 
@@ -48,11 +50,12 @@ Now we will download protected area data for Malta from [Protected Planet](https
 ```{r}
 # download protected area data for Malta
 # (excluding areas represented as point localities)
-mlt_raw_pa_data <- wdpa_fetch("Malta", wait = TRUE,
-                              download_dir = rappdirs::user_data_dir("wdpar"))
+mlt_raw_pa_data <- wdpa_fetch(
+  "Malta", wait = TRUE, download_dir = rappdirs::user_data_dir("wdpar")
+)
 ```
 
-Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. `"0"`) with missing data values (i.e. `NA`), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see `?wdpa_clean`.
+Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. `"0"`) with missing data values (i.e. `NA`), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see `wdpa_clean()`.
 
 ```{r}
 # clean Malta data
@@ -66,8 +69,10 @@ also clip the marine protected areas to Malta's Exclusive Economic Zone (EEZ) bu
 ```{r}
 # download Malta boundary from Global Administrative Areas dataset
 file_path <- tempfile(fileext = "rds")
-download.file("https://biogeo.ucdavis.edu/data/gadm3.6/Rsf/gadm36_MLT_0_sf.rds",
-              file_path)
+download.file(
+  "https://biogeo.ucdavis.edu/data/gadm3.6/Rsf/gadm36_MLT_0_sf.rds",
+  file_path
+)
 
 # import Malta's boundary
 mlt_boundary_data <- readRDS(file_path)
@@ -120,8 +125,10 @@ Next, we can plot a map showing the boundaries of Malta's protected area system.
 
 ```{r,  message = FALSE, warning = FALSE}
 # download basemap for making the map
-bg <- get_stamenmap(unname(st_bbox(mlt_pa_data)), zoom = 8,
-                    maptype = "watercolor", force = TRUE)
+bg <- get_stamenmap(
+  unname(st_bbox(mlt_pa_data)), zoom = 8,
+  maptype = "watercolor", force = TRUE
+)
 
 # print map
 ggmap(bg) +
@@ -132,7 +139,11 @@ theme(axis.title = element_blank())
 We can also create a histogram showing the year when each protected area was established.
 
 ```{r}
-hist(mlt_pa_data$STATUS_YR, main = "Malta's protected areas", xlab = "Year established")
+hist(
+  mlt_pa_data$STATUS_YR,
+  main = "Malta's protected areas",
+  xlab = "Year established"
+)
 ```
 
 Now let's calculate some statistics. We can calculate the total amount of land and ocean inside Malta's protected area system (km^2^).
@@ -180,9 +191,9 @@ theme(axis.title = element_blank(), legend.position = "bottom")
 
 ### Recommended practices for large datasets
 
-The _wdpar R_ package can be used to clean large datasets -- such as those spanning large countries, multiple countries, and even the full global datatset -- assuming that sufficient computational resources and time are available. For example, when processing the global dataset, it is recommended to use a computer system with at least 32 GB RAM available and to allow for at least one full day for the data cleaning procedures to complete. It is also recommended to avoid using the computer system for any other tasks while the data cleaning procedures are being completed, because they are very computationally intensive. Additionally, when processing large datasets -- and especially for the global dataset -- it is strongly recommended to disable the procedure for erasing overlapping areas. This is because the built-in procedure for erasing overlaps is very time consuming when processing many protected areas, so that information on each protected area can be output (e.g. IUCN category, year established). Instead, it is recommended to run the data cleaning procedures with the procedure for erasing overlapping areas disabled (i.e. with `erase_overlaps = FALSE`). After the data cleaning procedures have completed, the resulting protected area data can be subject to additional criteria for refining the dataset if needed (e.g. if you only want protected areas that are highly suitable for conserving biodiversity, you may wish to exclude protected areas that are not categorized by the IUCN as Ia or Ib). Finally, to obtain a set of protected area boundaries with no overlapping areas, the protected area data can be dissolved together (using `wdpa_dissolve()`). For an example of these procedures, please see below.
+The _wdpar R_ package can be used to clean large datasets assuming that sufficient computational resources and time are available. Indeed, it can clean data spanning large countries, multiple countries, and even the full global datatset. When processing the full global dataset, it is recommended to use a computer system with at least 32 GB RAM available and to allow for at least one full day for the data cleaning procedures to complete. It is also recommended to avoid using the computer system for any other tasks while the data cleaning procedures are being completed, because they are very computationally intensive. Additionally, when processing large datasets -- and especially for the global dataset -- it is strongly recommended to disable the procedure for erasing overlapping areas. This is because the built-in procedure for erasing overlaps is very time consuming when processing many protected areas, so that information on each protected area can be output (e.g. IUCN category, year established). Instead, when cleaning large datasets, it is recommended to run the data cleaning procedures with the procedure for erasing overlapping areas disabled (i.e. with `erase_overlaps = FALSE`). After the data cleaning procedures have completed, the protected area data can be manually dissolved to remove overlapping areas (e.g. using `wdpa_dissolve()`). For an example of these procedures, please see below.
 
-```{r}
+```{r, warning = FALSE}
 # download protected area data for multiple of countries
 ## (i.e. Portugal, Spain, France)
 raw_pa_data <-
@@ -194,8 +205,9 @@ raw_pa_data <-
 # clean protected area data (with procedure for erasing overlaps disabled)
 full_pa_data <- wdpa_clean(raw_pa_data, erase_overlaps = FALSE)
 
-# subset protected area data based on additional criteria
-## (e.g. retain only protected areas that are IUCN category Ia and Ib)
+# at this stage, the data could be filtered based on extra criteria (if needed)
+## for example, we could subset the data to only include protected areas
+## classified as IUCN category Ia or Ib
 sub_pa_data <-
   full_pa_data %>%
   filter(IUCN_CAT %in% c("Ia", "Ib"))
@@ -215,7 +227,7 @@ print(st_area(pa_data))
 Although the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/en) is the most comprehensive global dataset, many datasets are available for specific countries or regions that do not require such extensive data cleaning procedures. As a consequence, it is often worth looking for alternative data sets when working at smaller geographic scales before considering the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/en). The list below outlines several alternative protected area datasets and information on where they can be obtained. If you know of any such datasets that are missing, [please create an issue on the GitHub repository](https://github.com/prioritizr/wdpar/issues) and we can add them to the list.
 
 * Arctic
-    + [Arctic Protected Areas - 2017](http://geo.abds.is/geonetwork/srv/eng/catalog.search#/metadata/2e56ee1f-50a9-4983-88f4-edaa8588950d)
+    + [Arctic Protected Areas - 2017](https://geo.abds.is)
 * Australia
     + [Collaborative Australian Protected Area Database (CAPAD)](https://www.awe.gov.au/agriculture-land/land/nrs/science/capad)
     + [Conservation Areas Reporting and Tracking System (CARTS)](https://ccea-ccae.org)
@@ -224,7 +236,7 @@ Although the [World Database on Protected Areas (WDPA)](https://www.protectedpla
 
 ### Citation
 
-Please cite the _wdpar R_ package and the World Database on Protected Areas (WDPA) in publications. To see citation details, use the code:
+Please cite the _wdpar R_ package and the relevant databases in publications. To see citation details, use the code:
 
 ```{r, eval = FALSE}
 citation("wdpar")

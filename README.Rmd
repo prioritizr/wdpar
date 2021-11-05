@@ -67,11 +67,13 @@ archive_package_version_year <- function(x) {
 
 ### Overview
 
-The [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/en) is the most comprehensive global dataset of protected areas. It is used to monitor the performance of existing protected areas and pinpoint priority areas for establishing new protected areas. Additionally, this database receives monthly updates from government agencies and non-governmental organizations. However, this dataset is associated with [many issues that need to be addressed prior to analysis](https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage) and the dynamic nature of this dataset means that the entire data cleaning process needs to be repeated after obtaining a new version of the dataset. The _wdpar R_ package provides an interface to the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/en) and functions for cleaning the data following best practices (outlined in [Butchart _et al._ 2015](https://doi.org/10.1111/conl.12158); [Runge _et al._ 2015](https://www.science.org/doi/abs/10.1126/science.aac9180); [Protected Planet](https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage)).
+[Protected Planet](https://www.protectedplanet.net/en) provides the most comprehensive data for conservation areas worldwide. Specifically, it provides the World Database on Protected Areas (WDPA) and the World Database on Other Effective Area-Based Conservation Measures (WDOECM). These databases are used to monitor the performance of existing protected areas, and identify priority areas for future conservation efforts. Additionally, these databases receive monthly updates from government agencies and non-governmental organizations. However, they are associated with [several issues that need to be addressed prior to analysis](https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage) and the dynamic nature of these databases means that the entire data cleaning process needs to be repeated after obtaining a new version.
+
+The _wdpar R_ package provides an interface to data provided by [Protected Planet](https://www.protectedplanet.net/en). Specifically, the package can automatically data from the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/en/thematic-areas/wdpa?tab=WDPA) and the [World Database on Other Effective Area-Based Conservation Measures (WDOECM)](https://www.protectedplanet.net/en/thematic-areas/oecms). It also provides methods for cleaning data from these databases following best practices (outlined in Butchart *et al.* 2015; [Protected Planet 2021](https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage); Runge *et al.* 2015). The main functions are `wdpa_fetch()` for downloading data and `wdpa_clean()` for cleaning data. For more information, please see the package vignette.
 
 ### Installation
 
-#### Package
+#### Package installation
 
 The [latest official version of the _wdpar R_ package](https://CRAN.R-project.org/package=wdpar) can be installed using the following R code. Please note that this package requires the [_curl_](https://github.com/jeroen/curl) and [_sf R_](https://github.com/r-spatial/sf) packages which may require additional software to be installed. If you encounter problems installing the _wdpar R_ package, please consult the installation instructions for these packages.
 
@@ -197,7 +199,7 @@ if (is_rel_version(dev_version_year[[1]])) {
 }
 ```
 
-Please cite the _wdpar R_ package and the World Database on Protected Areas (WDPA) in publications.
+Please cite the _wdpar R_ package and the relevant databases used in publications.
 
 To cite the latest official version, please use:
 
@@ -215,4 +217,10 @@ To cite the World Database on Protected Areas (WDPA), please use:
 
 ```{r, echo = FALSE, results = "asis", comment = ""}
 cat(paste0("> UNEP-WCMC and IUCN ([insert year of the version downloaded]) Protected Planet: The World Database on Protected Areas (WDPA), [insert month/year of the version downloaded], Cambridge, UK: UNEP-WCMC and IUCN. Available at: www.protectedplanet.net."))
+```
+
+To cite the World Database on Other Effective Area-Based Conservation Measures (WDOECM), please use:
+
+```{r, echo = FALSE, results = "asis", comment = ""}
+cat(paste0("> UNEP-WCMC and IUCN ([insert year of the version downloaded]) Protected Planet: The world database on other effective area-based conservation measures, [insert month/year of the version downloaded], Cambridge, UK: UNEP-WCMC and IUCN. Available at: www.protectedplanet.net."))
 ```

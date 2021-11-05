@@ -13,28 +13,37 @@ Status](https://codecov.io/github/prioritizr/wdpar/coverage.svg?branch=master)](
 
 ### Overview
 
-The [World Database on Protected Areas
-(WDPA)](https://www.protectedplanet.net/en) is the most comprehensive
-global dataset of protected areas. It is used to monitor the performance
-of existing protected areas and pinpoint priority areas for establishing
-new protected areas. Additionally, this database receives monthly
-updates from government agencies and non-governmental organizations.
-However, this dataset is associated with [many issues that need to be
-addressed prior to
+[Protected Planet](https://www.protectedplanet.net/en) provides the most
+comprehensive data for conservation areas worldwide. Specifically, it
+provides the World Database on Protected Areas (WDPA) and the World
+Database on Other Effective Area-Based Conservation Measures (WDOECM).
+These databases are used to monitor the performance of existing
+protected areas, and identify priority areas for future conservation
+efforts. Additionally, these databases receive monthly updates from
+government agencies and non-governmental organizations. However, they
+are associated with [several issues that need to be addressed prior to
 analysis](https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage)
-and the dynamic nature of this dataset means that the entire data
-cleaning process needs to be repeated after obtaining a new version of
-the dataset. The *wdpar R* package provides an interface to the [World
-Database on Protected Areas (WDPA)](https://www.protectedplanet.net/en)
-and functions for cleaning the data following best practices (outlined
-in [Butchart *et al.* 2015](https://doi.org/10.1111/conl.12158); [Runge
-*et al.* 2015](https://www.science.org/doi/abs/10.1126/science.aac9180);
-[Protected
-Planet](https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage)).
+and the dynamic nature of these databases means that the entire data
+cleaning process needs to be repeated after obtaining a new version.
+
+The *wdpar R* package provides an interface to data provided by
+[Protected Planet](https://www.protectedplanet.net/en). Specifically,
+the package can automatically data from the [World Database on Protected
+Areas
+(WDPA)](https://www.protectedplanet.net/en/thematic-areas/wdpa?tab=WDPA)
+and the [World Database on Other Effective Area-Based Conservation
+Measures
+(WDOECM)](https://www.protectedplanet.net/en/thematic-areas/oecms). It
+also provides methods for cleaning data from these databases following
+best practices (outlined in Butchart *et al.* 2015; [Protected Planet
+2021](https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage);
+Runge *et al.* 2015). The main functions are `wdpa_fetch()` for
+downloading data and `wdpa_clean()` for cleaning data. For more
+information, please see the package vignette.
 
 ### Installation
 
-#### Package
+#### Package installation
 
 The [latest official version of the *wdpar R*
 package](https://CRAN.R-project.org/package=wdpar) can be installed
@@ -174,12 +183,12 @@ head(mlt_pa_data)
     ## # A tibble: 6 × 33
     ##      WDPAID WDPA_PID  PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
     ##       <dbl> <chr>     <chr>  <chr> <chr>     <chr> <chr>     <chr>      <chr>   
-    ## 1    194420 194420    1      Filf… Filfla    Rise… Nature R… National   Ia      
-    ## 2    194425 194425    1      Il-G… Il-Gżejj… Rise… Nature R… National   Ia      
-    ## 3 555588631 555588631 1      Il-M… Il-Majji… Park… National… National   II      
-    ## 4    174757 174757    1      Il-Ġ… Il-Ġonna… List… List Of … National   III     
-    ## 5    174758 174758    1      Bidn… Bidnija,… List… List Of … National   III     
-    ## 6    194415 194415    1      Il-Ġ… Il-Ġonna… List… List Of … National   III     
+    ## 1    194420 194420    PA     Filf… Filfla    Rise… Nature R… National   Ia      
+    ## 2    194425 194425    PA     Il-G… Il-Gżejj… Rise… Nature R… National   Ia      
+    ## 3 555588631 555588631 PA     Il-M… Il-Majji… Park… National… National   II      
+    ## 4    174757 174757    PA     Il-Ġ… Il-Ġonna… List… List Of … National   III     
+    ## 5    174758 174758    PA     Bidn… Bidnija,… List… List Of … National   III     
+    ## 6    194415 194415    PA     Il-Ġ… Il-Ġonna… List… List Of … National   III     
     ## # … with 24 more variables: INT_CRIT <chr>, MARINE <chr>, REP_M_AREA <dbl>,
     ## #   GIS_M_AREA <dbl>, REP_AREA <dbl>, GIS_AREA <dbl>, NO_TAKE <chr>,
     ## #   NO_TK_AREA <dbl>, STATUS <chr>, STATUS_YR <dbl>, GOV_TYPE <chr>,
@@ -225,8 +234,8 @@ vignette](https://prioritizr.github.io/wdpar/articles/wdpar.html).
 
 ### Citation
 
-Please cite the *wdpar R* package and the World Database on Protected
-Areas (WDPA) in publications.
+Please cite the *wdpar R* package and the relevant databases used in
+publications.
 
 To cite the latest official version, please use:
 
@@ -237,7 +246,7 @@ To cite the latest official version, please use:
 To cite the latest development version, please use:
 
 > Hanson JO (2021). wdpar: Interface to the World Database on Protected
-> Areas. R package version 1.3.1.5. Available at
+> Areas. R package version 1.3.1.6. Available at
 > <https://github.com/prioritizr/wdpar>.
 
 To cite the World Database on Protected Areas (WDPA), please use:
@@ -246,3 +255,12 @@ To cite the World Database on Protected Areas (WDPA), please use:
 > Protected Planet: The World Database on Protected Areas (WDPA),
 > \[insert month/year of the version downloaded\], Cambridge, UK:
 > UNEP-WCMC and IUCN. Available at: www.protectedplanet.net.
+
+To cite the World Database on Other Effective Area-Based Conservation
+Measures (WDOECM), please use:
+
+> UNEP-WCMC and IUCN (\[insert year of the version downloaded\])
+> Protected Planet: The world database on other effective area-based
+> conservation measures, \[insert month/year of the version
+> downloaded\], Cambridge, UK: UNEP-WCMC and IUCN. Available at:
+> www.protectedplanet.net.

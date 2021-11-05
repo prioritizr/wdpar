@@ -32,6 +32,7 @@ test_that("single country with eez", {
   expect_equal(sum(is.na(x$AREA_KM2)), 0)
   expect_equal(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
   expect_true(all(x$STATUS %in% default_retain_status))
+  expect_true(all(x$PA_DEF %in% c("PA", "OECM")))
 })
 
 test_that("single country without eez", {
@@ -191,7 +192,7 @@ test_that("retain UNESCO Biosphere reserves", {
   expect_true(all(x$STATUS %in% default_retain_status))
 })
 
-test_that("protected areas that need prepr", {
+test_that("protected areas that turn into long rectangles without prepr", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_if_not_installed("prepr")
@@ -203,6 +204,26 @@ test_that("protected areas that need prepr", {
   # run tests
   expect_is(y, "sf")
   expect_lte(as.numeric(max(sf::st_area(y))), 1e+13)
+})
+
+test_that("protected areas that massively increase in size without prepr", {
+  skip_on_cran()
+  skip_if_not(curl::has_internet())
+  skip_if_not_installed("prepr")
+  skip_if_not_installed("dplyr")
+  skip_on_github_workflow("Windows")
+  # fetch data
+  ids <- c(23177, 12352, 555705343, 555705341, 555721495)
+  countries <- c("MAR", "DZA")
+  x <- suppressWarnings(
+    lapply(countries, wdpa_fetch, wait = TRUE, check_version = FALSE)
+  )
+  x <- dplyr::bind_rows(x)
+  x <- x[x$WDPAID %in% ids, , drop = FALSE]
+  # clean data
+  y <- wdpa_clean(x, erase_overlaps = FALSE)
+  # run tests
+  expect_is(y, "sf")
 })
 
 test_that("custom retain_status", {

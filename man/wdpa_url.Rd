@@ -2,7 +2,7 @@
 % Please edit documentation in R/wdpa_url.R
 \name{wdpa_url}
 \alias{wdpa_url}
-\title{Download URL for the World Database on Protected Areas}
+\title{Download URL}
 \usage{
 wdpa_url(x, wait = FALSE, page_wait = 2)
 }
@@ -34,8 +34,13 @@ To avoid this, users can try specifying a greater value (e.g. 5 seconds).}
 \code{character} URL to download the data.
 }
 \description{
-Obtain the URL for downloading data from the World Database on Protected
-Areas (WDPA).
+Obtain a URL to download data from
+\href{https://www.protectedplanet.net/en}{Protected Planet}.
+Specifically, the URL provides access to data available through
+the World Database on Protected Areas
+(WDPA) and the World Database on Other Effective Area-Based Conservation
+Measures (WDOECM).
+\strong{Note that data are accessed assuming non-commercial use.}
 }
 \examples{
 \dontrun{

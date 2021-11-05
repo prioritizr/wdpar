@@ -1,7 +1,7 @@
 #' @include internal.R
 NULL
 
-#' Dissolve data from the World Database on Protected Areas
+#' Dissolve data
 #'
 #' Create a dataset of spatial boundaries that contains no
 #' overlapping geometries.

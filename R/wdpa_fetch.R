@@ -1,11 +1,14 @@
 #' @include internal.R wdpa_url.R wdpa_latest_version.R
 NULL
 
-#' Fetch data from the World Database on Protected Areas
+#' Fetch data
 #'
-#' Download data from the World Database on Protected Areas (WDPA)
-#' (available at <https://www.protectedplanet.net/en>) and import it.
-#' Note that data are downloaded assuming non-commercial use.
+#' Fetch data from [Protected Planet](https://www.protectedplanet.net/en).
+#' Specifically, data are downloaded from the
+#' World Database on Protected Areas
+#' (WDPA) and the World Database on Other Effective Area-Based Conservation
+#' Measures (WDOECM).
+#' **Note that data are downloaded assuming non-commercial use.**
 #'
 #' @inheritParams wdpa_read
 #' @inheritParams wdpa_url
@@ -39,25 +42,42 @@ NULL
 #'   reported? Defaults to `TRUE` in an interactive session, otherwise
 #'   `FALSE`.
 #'
-#' @details This function will download the specified protected area
-#'   data and return it. **It is strongly recommended that the data be
-#'   cleaned prior to analysis**. Check out the
-#'   [wdpa_clean()] function to clean the data according to standard
-#'   practices. For information on this database,
-#'   prefer refer to the official manual
-#'   (<https://www.protectedplanet.net/en/resources/wdpa-manual>).
+#' @details
+#' This function will check to see if the specified data
+#' have previously been downloaded, download the data if needed,
+#' and import the data.
+#' After importing the data, it is strongly recommended to clean the data
+#' prior to analysis (see [wdpa_clean()]).
 #'
-#'   Please note that this function will sometimes return the error
-#'   `PhantomJS signals port = 4567 is already in use`. This can occur
-#'   when you have previously run the function and terminated it early.
-#'   To address this issue, you will need to restart your computer.
+#' @section Data source:
+#' The `PA_DEF` column indicates the data source for individual
+#' areas and sites that comprise the imported dataset.
+#' Specifically, data obtained through the World Database on Protected Areas
+#' (WDPA) are indicated with a value of `1` in the `PA_DEF` column.
+#' Additionally, data obtained through the World Database on Other Effective
+#' Area-Based Conservation Measures (WDOECM) are indicated with a value of `0`
+#' in the `PA_DEF` column.
+#' For more details on data conventions, please consult the official manual
+#' (UNEP-WCMC 2019).
+#'
+#' @section Troubleshooting:
+#' This function will sometimes return the error message
+#' `PhantomJS signals port = 4567 is already in use`.
+#' This error message can occur when you have previously run the function and
+#' it threw an error, or it terminated early.
+#' It can also occur when attempting to run the the function in multiple
+#' sessions on the same computer.
+#' To address this issue, you will need to restart your computer.
 #'
 #' @return [sf::sf()] object.
 #'
 #' @seealso [wdpa_clean()], [wdpa_read()],
-#'   [wdpa_url()], [countrycode::countrycode()],
-#'   <https://www.protectedplanet.net/en>,
-#'   <https://www.protectedplanet.net/en/resources/wdpa-manual>.
+#'   [wdpa_url()], [countrycode::countrycode()].
+#'
+#' @references
+#' UNEP-WCMC (2019). User Manual for the World Database on Protected Areas and
+#' world database on other effective area-based conservation measures: 1.6.
+#' UNEP-WCMC: Cambridge, UK. Available at: <https://wcmc.io/WDPA_Manual>.
 #'
 #' @examples
 #' \dontrun{

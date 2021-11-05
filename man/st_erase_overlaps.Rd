@@ -19,7 +19,7 @@ st_erase_overlaps(x, verbose = FALSE)
 Erase overlapping geometries in a \code{\link[sf:sf]{sf::sf()}} object.
 }
 \details{
-This is a more robust---albeit slower---implementation for
+This is a more robust -- albeit slower -- implementation for
 \code{\link[sf:geos_binary_ops]{sf::st_difference()}} when \code{y} is missing.
 }
 \examples{

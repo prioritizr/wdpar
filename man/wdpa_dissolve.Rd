@@ -2,7 +2,7 @@
 % Please edit documentation in R/wdpa_dissolve.R
 \name{wdpa_dissolve}
 \alias{wdpa_dissolve}
-\title{Dissolve data from the World Database on Protected Areas}
+\title{Dissolve data}
 \usage{
 wdpa_dissolve(x, geometry_precision = 1500)
 }

@@ -1,10 +1,15 @@
 #' @include internal.R
 NULL
 
-#' Download URL for the World Database on Protected Areas
+#' Download URL
 #'
-#' Obtain the URL for downloading data from the World Database on Protected
-#' Areas (WDPA).
+#' Obtain a URL to download data from
+#' [Protected Planet](https://www.protectedplanet.net/en).
+#' Specifically, the URL provides access to data available through
+#' the World Database on Protected Areas
+#' (WDPA) and the World Database on Other Effective Area-Based Conservation
+#' Measures (WDOECM).
+#' **Note that data are accessed assuming non-commercial use.**
 #'
 #' @param x `character` country for desired data. This argument
 #'   can be the name of the country (e.g. `"Liechtenstein"`) or the

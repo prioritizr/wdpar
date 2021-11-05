@@ -2,7 +2,7 @@
 % Please edit documentation in R/wdpa_read.R
 \name{wdpa_read}
 \alias{wdpa_read}
-\title{Read data from the World Database on Protected Areas}
+\title{Read data}
 \usage{
 wdpa_read(x, n = NULL)
 }
@@ -17,11 +17,32 @@ Defaults to \code{NULL} such that all data are imported.}
 \code{\link[sf:sf]{sf::sf()}} object.
 }
 \description{
-Read data from the World Database on Protected Areas from a local file.
-This function assumes that the data has already been downloaded to
-your computer, see the \code{\link[=wdpa_fetch]{wdpa_fetch()}} function for automatically
-downloading and importing the data into the current session.
+Read data obtained from
+\href{https://www.protectedplanet.net/en}{Protected Planet}.
+Specifically, this function is designed to import data obtained from
+the World Database on Protected Areas
+(WDPA) and the World Database on Other Effective Area-Based Conservation
+Measures (WDOECM).
 }
+\details{
+This function assumes that data have previously been downloaded to
+your computer, and need to import the data.
+After importing the data, it is strongly recommended to clean the data
+prior to analysis (see \code{\link[=wdpa_clean]{wdpa_clean()}}).
+}
+\section{Data source}{
+
+The \code{PA_DEF} column indicates the data source for individual
+areas and sites that comprise the imported dataset.
+Specifically, data obtained through the World Database on Protected Areas
+(WDPA) are indicated with a value of \code{1} in the \code{PA_DEF} column.
+Additionally, data obtained through the World Database on Other Effective
+Area-Based Conservation Measures (WDOECM) are indicated with a value of \code{0}
+in the \code{PA_DEF} column.
+For more details on data conventions, please consult the official manual
+(UNEP-WCMC 2019).
+}
+
 \examples{
 \dontrun{
 # find url for Liechtenstein dataset
@@ -40,7 +61,11 @@ lie_raw_data <- wdpa_read(path)
 plot(lie_raw_data)
 }
 }
+\references{
+UNEP-WCMC (2019). User Manual for the World Database on Protected Areas and
+world database on other effective area-based conservation measures: 1.6.
+UNEP-WCMC: Cambridge, UK. Available at: \url{https://wcmc.io/WDPA_Manual}.
+}
 \seealso{
-\code{\link[=wdpa_fetch]{wdpa_fetch()}}, \code{\link[=wdpa_clean]{wdpa_clean()}},
-\url{https://www.protectedplanet.net/en}.
+\code{\link[=wdpa_fetch]{wdpa_fetch()}}, \code{\link[=wdpa_clean]{wdpa_clean()}}.
 }

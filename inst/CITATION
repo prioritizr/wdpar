@@ -40,4 +40,18 @@ citEntry(
   )
 )
 
-citFooter("Please cite both the World Database on Protected Areas data set and this package.\n\n")
+citEntry(
+  entry = "Manual",
+  author = "UNEP-WCMC and IUCN",
+  title = "Protected Planet: The world database on other effective area-based conservation measures",
+  year = year,
+  publisher = "UNEP-WCMC and IUCN",
+  publisheraddress = "Cambridge, UK",
+  url = "https://www.protectedplanet.net/en",
+  textVersion = paste0(
+    "UNEP-WCMC and IUCN (", year, ") Protected Planet: The world database on other effective area-based conservation measures, [insert month/year of the version downloaded], ",
+    "Cambridge, UK: UNEP-WCMC and IUCN. Available at: www.protectedplanet.net."
+  )
+)
+
+citFooter("Please cite this package and the relevant databases used in publications.\n\n")

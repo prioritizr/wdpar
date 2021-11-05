@@ -2,7 +2,7 @@
 % Please edit documentation in R/wdpa_clean.R
 \name{wdpa_clean}
 \alias{wdpa_clean}
-\title{Clean data from the World Database on Protected Areas}
+\title{Clean data}
 \usage{
 wdpa_clean(
   x,
@@ -68,22 +68,22 @@ Defaults to \code{TRUE} in an interactive session, otherwise
 \code{\link[sf:sf]{sf::sf()}} object.
 }
 \description{
-Clean data obtained from the World Database on Protected Areas (WDPA).
-For recommended practices on cleaning large protected area datasets,
+Clean data obtained from
+\href{https://www.protectedplanet.net/en}{Protected Planet}.
+Specifically, this function is designed to clean data obtained from
+the World Database on Protected Areas
+(WDPA) and the World Database on Other Effective Area-Based Conservation
+Measures (WDOECM).
+For recommended practices on cleaning large datasets
+(e.g. datasets that span multiple countries or a large geographic area),
 please see below.
 }
 \details{
-This function cleans data from World Database on Protected Areas
-following best practices (Butchart \emph{et al.} 2015, Runge \emph{et al.}
-2015,
-\url{https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage}).
+This function cleans data following best practices
+(Butchart \emph{et al.} 2015; Protected Planet 2021; Runge \emph{et al.} 2015).
 To obtain accurate protected area coverage statistics for a country,
 please note that you will need to manually clip the cleaned data to
 the countries' coastline and its Exclusive Economic Zone (EEZ).
-Although this function can \emph{in theory} be used to clean the global
-dataset, this process can take several weeks to complete. Therefore, it is
-strongly recommended to use alternative methods for cleaning the global
-dataset.
 
 \enumerate{
 
@@ -142,6 +142,9 @@ geometry issues (using argument to \code{snap_tolerance} and
 to descriptive names (i.e. \code{0} = \code{"terrestrial"},
 \code{1} = \code{"partial"}, \code{2} = \code{"marine"}).
 
+\item The \code{"PA_DEF"} field is converted from integer codes
+to descriptive names (i.e. \code{0} = \code{"OECM"}, and \code{1} = \code{"PA"}).
+
 \item Zeros in the \code{"STATUS_YR"} field are replaced with
 missing values (i.e. \code{NA_real_} values).
 
@@ -166,17 +169,17 @@ the field \code{"AREA_KM2"}.
 }
 \section{Recommended practices for large datasets}{
 
-This function can be used to clean large datasets --
-such as those spanning large countries, multiple
-countries, and even the full global datatset -- assuming that
+This function can be used to clean large datasets assuming that
 sufficient computational resources and time are available.
-For example, when processing the global dataset, it is recommended to use a
+Indeed, it can clean data spanning large countries, multiple
+countries, and even the full global datatset.
+When processing the full global dataset, it is recommended to use a
 computer system with at least 32 GB RAM available and to allow for at least
 one full day for the data cleaning procedures to complete.
 It is also recommended to avoid using the computer system for any other
 tasks while the data cleaning procedures are being completed,
 because they are very computationally intensive.
-Additionally, when processing data for many countries -- and especially
+Additionally, when processing large datasets -- and especially
 for the global dataset -- it is strongly recommended to disable the
 procedure for erasing overlapping areas.
 This is because the built-in procedure for erasing overlaps is
@@ -224,12 +227,15 @@ Runge CA, Watson JEM, Butchart HM, Hanson JO, Possingham HP & Fuller RA
 (2015) Protected areas and global conservation of migratory birds.
 \emph{Science}, \strong{350}: 1255--1258.
 
+Protected Planet (2021) Calculating protected and OECM area coverage.
+Available at:
+\url{https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage}.
+
 Visconti P, Di Marco M, Alvarez-Romero JG, Januchowski-Hartley SR, Pressey,
 RL, Weeks R & Rondinini C (2013) Effects of errors and gaps in spatial data
 sets on assessment of conservation progress. \emph{Conservation Biology},
 \strong{27}: 1000--1010.
 }
 \seealso{
-\code{\link[=wdpa_fetch]{wdpa_fetch()}},
-\url{https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage}.
+\code{\link[=wdpa_fetch]{wdpa_fetch()}}, \code{\link[=wdpa_dissolve]{wdpa_dissolve()}}.
 }

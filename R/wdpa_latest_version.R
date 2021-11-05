@@ -1,9 +1,12 @@
 #' @include internal.R wdpa_url.R
 NULL
 
-#' Query latest version of the World Database on Protected Areas
+#' Query latest version
 #'
-#' Find the latest version of the World Database on Protected Areas dataset.
+#' Find the latest version of the combined
+#' World Database on Protected Areas
+#' (WDPA) and World Database on Other Effective Area-Based Conservation Measures
+#' (WDOECM) dataset.
 #' This is a character identifier representing the month and year (e.g.
 #' `Sep2020`) the data were released.
 #'

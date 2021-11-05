@@ -1,3 +1,16 @@
+# wdpar 1.3.1.6
+
+- Update `wdpa_clean` to format the `PA_DEF` column to indicate
+  if each area is a protected area (per IUCN and CBD protected area definitions)
+  or an other effective area-based conservation measure (OECM).
+- Update documentation to make it clear that data obtained from Protected Planet
+  include both the World Database on Protected Areas (WDPA) and the World
+  Database on Other Effective Area-Based Conservation Measures (WDOECM).
+- Update citation information to follow recommended citations for the World
+  Database on Protected Areas (WDPA) and the World Database on Other Effective
+  Area-Based Conservation Measures (WDOECM).
+- Update URLs to pass CRAN checks.
+
 # wdpar 1.3.1.5
 
 - Update `wdpa_fetch` with new `check_version` argument to specify if

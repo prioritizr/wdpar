@@ -2,7 +2,7 @@
 % Please edit documentation in R/wdpa_latest_version.R
 \name{wdpa_latest_version}
 \alias{wdpa_latest_version}
-\title{Query latest version of the World Database on Protected Areas}
+\title{Query latest version}
 \usage{
 wdpa_latest_version()
 }
@@ -10,7 +10,10 @@ wdpa_latest_version()
 \code{character} version of the dataset.
 }
 \description{
-Find the latest version of the World Database on Protected Areas dataset.
+Find the latest version of the combined
+World Database on Protected Areas
+(WDPA) and World Database on Other Effective Area-Based Conservation Measures
+(WDOECM) dataset.
 This is a character identifier representing the month and year (e.g.
 \code{Sep2020}) the data were released.
 }

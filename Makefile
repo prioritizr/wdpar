@@ -64,7 +64,7 @@ examples:
 	R --slave -e "devtools::run_examples(test = TRUE, run = TRUE);warnings()"  >> examples.log
 	rm -f Rplots.pdf
 
-wdpa_global:
+wdpa_global: install
 	R CMD BATCH --no-restore --no-save inst/scripts/global-example-script.R
 
 .PHONY: initc vigns clean data docs readme site test check checkwb build  install man spellcheck examples wdpa_global

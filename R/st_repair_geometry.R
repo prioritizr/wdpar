@@ -107,7 +107,7 @@ st_repair_geometry <- function(x, geometry_precision = 1500) {
   if (length(invalid_idx) > 0) {
     ### verify that prepr package is installed
     assertthat::assert_that(
-      requireNamespace("prepr"),
+      requireNamespace("prepr", quietly = TRUE),
       msg = paste(
         "the \"prepr\" package needs to be installed, use: \n",
         "remotes::install_github(\"dickoa/prepr\")"

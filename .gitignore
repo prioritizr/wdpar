@@ -18,7 +18,7 @@ check.log
 spell.log
 gp.log
 examples.log
-
+global-example-script.Rout
 
 # system files
 .directory

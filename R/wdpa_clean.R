@@ -152,7 +152,7 @@ NULL
 #' This function can be used to clean large datasets assuming that
 #' sufficient computational resources and time are available.
 #' Indeed, it can clean data spanning large countries, multiple
-#' countries, and even the full global datatset.
+#' countries, and even the full global dataset.
 #' When processing the full global dataset, it is recommended to use a
 #' computer system with at least 32 GB RAM available and to allow for at least
 #' one full day for the data cleaning procedures to complete.

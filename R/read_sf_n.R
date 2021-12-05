@@ -29,7 +29,7 @@ read_sf_n <- function(dsn, layer = NULL, n = NULL) {
                           assertthat::noNA(layer))
   # construct query
   if (!is.null(n)) {
-    query <- paste0("SELECT * FROM \"", layer,"\" WHERE FID <= ", n)
+    query <- paste0("SELECT * FROM \"", layer, "\" LIMIT ", n)
   } else {
     query <- paste0("SELECT * FROM \"", layer, "\"")
   }

@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.2</span>
       </span>
     </div>
 
@@ -56,7 +56,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/prioritizr/wdpar/">
+  <a href="https://github.com/prioritizr/wdpar/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -73,22 +73,22 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="wdpar-interface-to-the-world-database-on-protected-areas" class="section level2">
-<h2 class="hasAnchor">
-<a href="#wdpar-interface-to-the-world-database-on-protected-areas" class="anchor" aria-hidden="true"></a>wdpar: Interface to the World Database on Protected Areas</h2>
+<div class="section level2">
+<h2 id="wdpar-interface-to-the-world-database-on-protected-areas">wdpar: Interface to the World Database on Protected Areas<a class="anchor" aria-label="anchor" href="#wdpar-interface-to-the-world-database-on-protected-areas"></a>
+</h2>
 
-<div id="overview" class="section level3">
-<h3 class="hasAnchor">
-<a href="#overview" class="anchor" aria-hidden="true"></a>Overview</h3>
+<div class="section level3">
+<h3 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h3>
 <p><a href="https://www.protectedplanet.net/en" class="external-link">Protected Planet</a> provides the most comprehensive data for conservation areas worldwide. Specifically, it provides the World Database on Protected Areas (WDPA) and the World Database on Other Effective Area-Based Conservation Measures (WDOECM). These databases are used to monitor the performance of existing protected areas, and identify priority areas for future conservation efforts. Additionally, these databases receive monthly updates from government agencies and non-governmental organizations. However, they are associated with <a href="https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage" class="external-link">several issues that need to be addressed prior to analysis</a> and the dynamic nature of these databases means that the entire data cleaning process needs to be repeated after obtaining a new version.</p>
 <p>The <em>wdpar R</em> package provides an interface to data provided by <a href="https://www.protectedplanet.net/en" class="external-link">Protected Planet</a>. Specifically, the package can automatically data from the <a href="https://www.protectedplanet.net/en/thematic-areas/wdpa?tab=WDPA" class="external-link">World Database on Protected Areas (WDPA)</a> and the <a href="https://www.protectedplanet.net/en/thematic-areas/oecms" class="external-link">World Database on Other Effective Area-Based Conservation Measures (WDOECM)</a>. It also provides methods for cleaning data from these databases following best practices (outlined in Butchart <em>et al.</em> 2015; <a href="https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage" class="external-link">Protected Planet 2021</a>; Runge <em>et al.</em> 2015). The main functions are <code><a href="reference/wdpa_fetch.html">wdpa_fetch()</a></code> for downloading data and <code><a href="reference/wdpa_clean.html">wdpa_clean()</a></code> for cleaning data. For more information, please see the package vignette.</p>
 </div>
-<div id="installation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#installation" class="anchor" aria-hidden="true"></a>Installation</h3>
-<div id="package-installation" class="section level4">
-<h4 class="hasAnchor">
-<a href="#package-installation" class="anchor" aria-hidden="true"></a>Package installation</h4>
+<div class="section level3">
+<h3 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h3>
+<div class="section level4">
+<h4 id="package-installation">Package installation<a class="anchor" aria-label="anchor" href="#package-installation"></a>
+</h4>
 <p>The <a href="https://CRAN.R-project.org/package=wdpar" class="external-link">latest official version of the <em>wdpar R</em> package</a> can be installed using the following R code. Please note that this package requires the <a href="https://github.com/jeroen/curl" class="external-link"><em>curl</em></a> and <a href="https://github.com/r-spatial/sf" class="external-link"><em>sf R</em></a> packages which may require additional software to be installed. If you encounter problems installing the <em>wdpar R</em> package, please consult the installation instructions for these packages.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"wdpar"</span>, repos <span class="op">=</span> <span class="st">"https://cran.rstudio.com/"</span><span class="op">)</span></code></pre></div>
@@ -98,38 +98,38 @@
   <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"prioritizr/wdpar"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="additional-dependencies" class="section level4">
-<h4 class="hasAnchor">
-<a href="#additional-dependencies" class="anchor" aria-hidden="true"></a>Additional dependencies</h4>
+<div class="section level4">
+<h4 id="additional-dependencies">Additional dependencies<a class="anchor" aria-label="anchor" href="#additional-dependencies"></a>
+</h4>
 <p>The <em>wdpar R</em> package can leverage the <em>prepr R</em> package to augment data cleaning procedures. Since the <em>prepr R</em> package is not available on the Comprehensive R Archive Network, it is listed as an optional dependency. In some cases, the <em>prepr R</em> package is required to complete the data cleaning procedures (e.g. to fix especially extreme geometry issues) and the <em>wdpar R</em> package will throw an error if the package is not available. To install the <em>prepr R</em> package, please use the following R code.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org" class="external-link">remotes</a></span><span class="op">)</span><span class="op">)</span>
   <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"dickoa/prepr"</span><span class="op">)</span></code></pre></div>
 <p>Note that the <em>prepr R</em> package has system dependencies that need to be installed before the package itself can be installed (see below for platform-specific instructions).</p>
-<div id="windows" class="section level5">
-<h5 class="hasAnchor">
-<a href="#windows" class="anchor" aria-hidden="true"></a><em>Windows</em>
+<div class="section level5">
+<h5 id="windows">
+<em>Windows</em><a class="anchor" aria-label="anchor" href="#windows"></a>
 </h5>
 <p>The <a href="https://cran.r-project.org/bin/windows/Rtools/" class="external-link">Rtools</a> software needs to be installed to install the <em>prepr R</em> package package from source. This software provides system requirements from <a href="https://github.com/rwinlib/" class="external-link">rwinlib</a>.</p>
 </div>
-<div id="ubuntu" class="section level5">
-<h5 class="hasAnchor">
-<a href="#ubuntu" class="anchor" aria-hidden="true"></a><em>Ubuntu</em>
+<div class="section level5">
+<h5 id="ubuntu">
+<em>Ubuntu</em><a class="anchor" aria-label="anchor" href="#ubuntu"></a>
 </h5>
 <p>The <code>gmp</code>, <code>mpfr</code>, and several spatial libraries need to be installed. For recent versions of Ubuntu (18.04 and later), these libraries are available through official repositories. They can be installed using the following system commands:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>apt<span class="sc">-</span>get <span class="sc">-</span>y update</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>apt<span class="sc">-</span>get install <span class="sc">-</span>y libgmp3<span class="sc">-</span>dev libmpfr<span class="sc">-</span>dev libudunits2<span class="sc">-</span>dev libgdal<span class="sc">-</span>dev libgeos<span class="sc">-</span>dev libproj<span class="sc">-</span>dev</span></code></pre></div>
 </div>
-<div id="linux" class="section level5">
-<h5 class="hasAnchor">
-<a href="#linux" class="anchor" aria-hidden="true"></a><em>Linux</em>
+<div class="section level5">
+<h5 id="linux">
+<em>Linux</em><a class="anchor" aria-label="anchor" href="#linux"></a>
 </h5>
 <p>For Unix-alikes, <code>gmp</code> (&gt;= 4.2.3), <code>mpfr</code> (&gt;= 3.0.0), and <code>gdal</code> (&gt;= 3.2.2) are required.</p>
 </div>
-<div id="macos" class="section level5">
-<h5 class="hasAnchor">
-<a href="#macos" class="anchor" aria-hidden="true"></a><em>MacOS</em>
+<div class="section level5">
+<h5 id="macos">
+<em>MacOS</em><a class="anchor" aria-label="anchor" href="#macos"></a>
 </h5>
 <p>The <code>gmp</code>, <code>mpfr</code>, and <code>gdal</code> libraries are required. The easiest way to install these libraries is using <a href="https://brew.sh/" class="external-link">HomeBrew</a>. After installing HomeBrew, these libraries can be installed using the following commands in the system terminal:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>brew install pkg<span class="sc">-</span>config</span>
@@ -139,9 +139,9 @@
 </div>
 </div>
 </div>
-<div id="usage" class="section level3">
-<h3 class="hasAnchor">
-<a href="#usage" class="anchor" aria-hidden="true"></a>Usage</h3>
+<div class="section level3">
+<h3 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h3>
 <p>Here we will provide a short introduction to the <em>wdpar R</em> package. First, we will load the <em>wdpar R</em> package. We will also load the <em>dplyr</em> and <em>ggmap R</em> packages to help explore the data.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># load packages</span>
@@ -173,9 +173,9 @@
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="do">## 1    194420 194420    PA     Filf… Filfla    Rise… Nature R… National   Ia      </span></span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="do">## 2    194425 194425    PA     Il-G… Il-Gżejj… Rise… Nature R… National   Ia      </span></span>
 <span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 555588631 555588631 PA     Il-M… Il-Majji… Park… National… National   II      </span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 4    174757 174757    PA     Il-Ġ… Il-Ġonna… List… List Of … National   III     </span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="do">## 5    174758 174758    PA     Bidn… Bidnija,… List… List Of … National   III     </span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="do">## 6    194415 194415    PA     Il-Ġ… Il-Ġonna… List… List Of … National   III     </span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 4    174757 174757    PA     Il-Ġ… Il-Ġonna… List… List of … National   III     </span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="do">## 5    174758 174758    PA     Bidn… Bidnija,… List… List of … National   III     </span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="do">## 6    194415 194415    PA     Il-Ġ… Il-Ġonna… List… List of … National   III     </span></span>
 <span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="do">## # … with 24 more variables: INT_CRIT &lt;chr&gt;, MARINE &lt;chr&gt;, REP_M_AREA &lt;dbl&gt;,</span></span>
 <span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="do">## #   GIS_M_AREA &lt;dbl&gt;, REP_AREA &lt;dbl&gt;, GIS_AREA &lt;dbl&gt;, NO_TAKE &lt;chr&gt;,</span></span>
 <span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="do">## #   NO_TK_AREA &lt;dbl&gt;, STATUS &lt;chr&gt;, STATUS_YR &lt;dbl&gt;, GOV_TYPE &lt;chr&gt;,</span></span>
@@ -199,17 +199,17 @@
 <p><img src="reference/figures/README-readme-map-1.png" width="50%" style="display: block; margin: auto;"></p>
 <p>If you need to calculate protected area coverage statistics for a country, please note that you will need to manually clip the cleaned protected area data to the countries’ coastline and its Exclusive Economic Zone (EEZ) to obtain accurate results (see <a href="https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage" class="external-link">official data cleaning guidelines</a>). This step is not performed by the <em>wdpar R</em> package because there is no single “best” coastline and Exclusive Economic Zone (EEZ) dataset, since the “best” dataset for any given project depends on the level of required precision and available computational resources. For more examples—including an example of clipping the cleaned data to a coastline—please refer to the <a href="https://prioritizr.github.io/wdpar/articles/wdpar.html" class="external-link">package vignette</a>.</p>
 </div>
-<div id="citation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#citation" class="anchor" aria-hidden="true"></a>Citation</h3>
+<div class="section level3">
+<h3 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h3>
 <p>Please cite the <em>wdpar R</em> package and the relevant databases used in publications.</p>
 <p>To cite the latest official version, please use:</p>
 <blockquote>
-<p>Hanson JO (2021). wdpar: Interface to the World Database on Protected Areas. R package version 1.3.1. Available at <a href="https://CRAN.R-project.org/package=wdpar" class="external-link uri">https://CRAN.R-project.org/package=wdpar</a>.</p>
+<p>Hanson JO (2021). wdpar: Interface to the World Database on Protected Areas. R package version 1.3.2. Available at <a href="https://CRAN.R-project.org/package=wdpar" class="external-link uri">https://CRAN.R-project.org/package=wdpar</a>.</p>
 </blockquote>
 <p>To cite the latest development version, please use:</p>
 <blockquote>
-<p>Hanson JO (2021). wdpar: Interface to the World Database on Protected Areas. R package version 1.3.1.6. Available at <a href="https://github.com/prioritizr/wdpar" class="external-link uri">https://github.com/prioritizr/wdpar</a>.</p>
+<p>Hanson JO (2021). wdpar: Interface to the World Database on Protected Areas. R package version 1.3.2. Available at <a href="https://github.com/prioritizr/wdpar" class="external-link uri">https://github.com/prioritizr/wdpar</a>.</p>
 </blockquote>
 <p>To cite the World Database on Protected Areas (WDPA), please use:</p>
 <blockquote>
@@ -227,19 +227,16 @@
     <div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=wdpar">https://​cloud.r-project.org/​package=wdpar</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/prioritizr/wdpar/">https://​github.com/​prioritizr/​wdpar/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/prioritizr/wdpar/issues">https://​github.com/​prioritizr/​wdpar/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=wdpar" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/prioritizr/wdpar/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/prioritizr/wdpar/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
 <div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
+<li><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></li>
 </ul>
 </div>
 
@@ -247,7 +244,7 @@
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html">Citing wdpar</a></li>
+<li><a href="authors.html#citation">Citing wdpar</a></li>
 </ul>
 </div>
 
@@ -255,7 +252,7 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="http://jeffrey-hanson.com">Jeffrey O Hanson</a> <br><small class="roles"> Author, maintainer </small>  </li>
+<a href="http://jeffrey-hanson.com" class="external-link">Jeffrey O Hanson</a> <br><small class="roles"> Author, maintainer </small>  </li>
 </ul>
 </div>
 
@@ -282,7 +279,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>

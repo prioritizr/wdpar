@@ -186,9 +186,9 @@ head(mlt_pa_data)
     ## 1    194420 194420    PA     Filf… Filfla    Rise… Nature R… National   Ia      
     ## 2    194425 194425    PA     Il-G… Il-Gżejj… Rise… Nature R… National   Ia      
     ## 3 555588631 555588631 PA     Il-M… Il-Majji… Park… National… National   II      
-    ## 4    174757 174757    PA     Il-Ġ… Il-Ġonna… List… List Of … National   III     
-    ## 5    174758 174758    PA     Bidn… Bidnija,… List… List Of … National   III     
-    ## 6    194415 194415    PA     Il-Ġ… Il-Ġonna… List… List Of … National   III     
+    ## 4    174757 174757    PA     Il-Ġ… Il-Ġonna… List… List of … National   III     
+    ## 5    174758 174758    PA     Bidn… Bidnija,… List… List of … National   III     
+    ## 6    194415 194415    PA     Il-Ġ… Il-Ġonna… List… List of … National   III     
     ## # … with 24 more variables: INT_CRIT <chr>, MARINE <chr>, REP_M_AREA <dbl>,
     ## #   GIS_M_AREA <dbl>, REP_AREA <dbl>, GIS_AREA <dbl>, NO_TAKE <chr>,
     ## #   NO_TK_AREA <dbl>, STATUS <chr>, STATUS_YR <dbl>, GOV_TYPE <chr>,
@@ -240,13 +240,13 @@ publications.
 To cite the latest official version, please use:
 
 > Hanson JO (2021). wdpar: Interface to the World Database on Protected
-> Areas. R package version 1.3.1. Available at
+> Areas. R package version 1.3.2. Available at
 > <https://CRAN.R-project.org/package=wdpar>.
 
 To cite the latest development version, please use:
 
 > Hanson JO (2021). wdpar: Interface to the World Database on Protected
-> Areas. R package version 1.3.1.6. Available at
+> Areas. R package version 1.3.2. Available at
 > <https://github.com/prioritizr/wdpar>.
 
 To cite the World Database on Protected Areas (WDPA), please use:

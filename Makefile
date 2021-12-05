@@ -61,7 +61,7 @@ urlcheck:
 	R --slave -e "devtools::document();urlchecker::url_check()"
 
 examples:
-	R --slave -e "devtools::run_examples(test = TRUE, run = TRUE);warnings()"  >> examples.log
+	R --slave -e "devtools::run_examples(run_donttest = TRUE, run_dontrun = TRUE);warnings()"  >> examples.log
 	rm -f Rplots.pdf
 
 wdpa_global: install

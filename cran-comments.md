@@ -1,6 +1,6 @@
 Dear CRAN volunteers,
 
-Thank you for reviewing this submission. This version contains the following updates: (i) data downloaded from the Protected Planet website are saved to a temporary directory by default, (ii) improved compatibility with package dependencies (e.g. sf R package), and (iii) fixed compatibility issues with updates made to the Protected Planet website.
+Thank you for reviewing this submission. The main updates in this version include (i) fixing compatibility issues with the Protected Planet website to enable users to download data, (ii) improving data cleaning procedures, (iii) updating code and documentation to reflect the recent addition of the World Database on Other Effective Area-Based Conservation Measures (WDOECM) to the Protected Planet website, and (iv) removing unused package dependencies.
 
 Cheers,
 
@@ -16,4 +16,20 @@ Jeff
 
 # R CMD check results
 
-0 errors | 0 warnings | 0 note
+0 errors | 0 warnings | 2 note
+
+# CRAN check notes
+
+* Possibly misspelled words in DESCRIPTION:
+  WDOECM (7:28)
+
+  **This term is an acronym for the World Database on Other Effective Area-Based Conservation Measures (as noted in the package Description).**
+
+* Suggests or Enhances not in mainstream repositories:
+  prepr
+
+  **The prepr R package is an optional dependency that is available on GitHub (<https://github.com/dickoa/prepr>). Instructions for installing the prepr R package are provided in the DESCRIPTION file and the package README file.**
+
+# Downstream dependencies
+
+There are no existing packages that depend on this package.

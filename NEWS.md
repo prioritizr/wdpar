@@ -1,3 +1,9 @@
+# wdpar 1.3.2
+
+- CRAN release.
+- Update `read_sf_n` to import data faster.
+- Remove withr R package from DESCRIPTION because it is not used. 
+
 # wdpar 1.3.1.6
 
 - Update `wdpa_clean` to format the `PA_DEF` column to indicate

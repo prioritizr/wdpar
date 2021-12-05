@@ -1,6 +1,6 @@
 Dear CRAN volunteers,
 
-Thank you for reviewing this submission. The main updates in this version include (i) fixing compatibility issues with the Protected Planet website to enable users to download data, (ii) improving data cleaning procedures, (iii) updating code and documentation to reflect the recent addition of the World Database on Other Effective Area-Based Conservation Measures (WDOECM) to the Protected Planet website, and (iv) removing unused package dependencies.
+Thank you for reviewing this submission. The main updates in this version include (i) fixing compatibility issues with the Protected Planet website to enable users to download data, (ii) improving data cleaning procedures, (iii) updating code and documentation to reflect the recent addition of the World Database on Other Effective Area-Based Conservation Measures (WDOECM) to the Protected Planet website, and (iv) removing unused package dependencies. The package now also includes the prepr R package as an optional dependency to augment data processing (https://github.com/dickoa/prepr).
 
 Cheers,
 

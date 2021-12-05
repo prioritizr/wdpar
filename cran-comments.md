@@ -19,7 +19,7 @@ Jeff
 
 0 errors | 0 warnings | 2 note
 
-# CRAN check notes
+# CRAN check notes for new submission
 
 * Possibly misspelled words in DESCRIPTION:
   WDOECM (7:28)
@@ -30,6 +30,16 @@ Jeff
   prepr
 
   **The prepr R package is an optional dependency that is available on GitHub (<https://github.com/dickoa/prepr>). Instructions for installing the prepr R package are provided in the DESCRIPTION file and the package README file.**
+
+* Namespace in Imports field not imported from: ‘withr’
+  All declared Imports should be used.
+
+# CRAN check notes for current version on CRAN
+
+* Namespace in Imports field not imported from: ‘withr’
+  All declared Imports should be used.
+
+  **This note has been addressed by removing the withr R package from the Imports field.**
 
 # Downstream dependencies
 

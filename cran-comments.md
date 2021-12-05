@@ -11,8 +11,9 @@ Jeff
 * [Ubuntu 20.04, R-release](https://github.com/prioritizr/wdpar/actions?query=workflow%3AUbuntu)
 * [Ubuntu 20.04, R-devel](https://github.com/prioritizr/wdpar/actions?query=workflow%3AUbuntu)
 * [Mac OSX 10.15, R-release](https://github.com/prioritizr/wdpar/actions?query=workflow%3A%22Mac+OSX%22)
+* [macOS 11.5.2 (arm64), R-release (macOS builder)](https://mac.r-project.org/macbuilder/submit.html)
 * [Windows Server 2019, R-release](https://github.com/prioritizr/wdpar/actions?query=workflow%3AWindows)
-* Windows Server 2008 (x64), R-devel (win-builder)
+* [Windows Server 2008 (x64), R-devel (win-builder)](https://win-builder.r-project.org/)
 
 # R CMD check results
 

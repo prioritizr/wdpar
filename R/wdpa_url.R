@@ -67,9 +67,11 @@ wdpa_url <- function(x, wait = FALSE, page_wait = 2) {
     result <- suppressMessages(tryCatch({
       ## initialize URL
       url <- character(0)
+      ## specify port
+      port <- as.integer(ceiling(sample(14415:14935, 1)))
       ## navigate to download web page
-      pjs <- wdman::phantomjs(verbose = FALSE)
-      rd <- RSelenium::remoteDriver(port = 4567L, browserName = "phantomjs")
+      pjs <- wdman::phantomjs(port = port, verbose = FALSE)
+      rd <- RSelenium::remoteDriver(port = port, browserName = "phantomjs")
       rd$open(silent = TRUE)
       rd$maxWindowSize()
       rd$navigate(paste0("https://protectedplanet.net/country/", x))
@@ -93,10 +95,13 @@ wdpa_url <- function(x, wait = FALSE, page_wait = 2) {
     },
     finally = {
       ## clean up web driver
+      try(ph <- pjs$process)
       try(rd$close(), silent = TRUE)
       try(rd$close(), silent = TRUE)
       try(pjs$stop(), silent = TRUE)
       try(pjs$stop(), silent = TRUE)
+      try(ph$kill_tree(), silent = TRUE)
+      try(ph$kill_tree(), silent = TRUE)
     }))
     ## prepare output
     if (length(url) == 0)

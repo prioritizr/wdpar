@@ -31,9 +31,6 @@ Jeff
 
   **The prepr R package is an optional dependency that is available on GitHub (<https://github.com/dickoa/prepr>). Instructions for installing the prepr R package are provided in the DESCRIPTION file and the package README file.**
 
-* Namespace in Imports field not imported from: ‘withr’
-  All declared Imports should be used.
-
 # CRAN check notes for current version on CRAN
 
 * Namespace in Imports field not imported from: ‘withr’

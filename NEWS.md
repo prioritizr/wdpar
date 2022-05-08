@@ -1,3 +1,8 @@
+# wdpar 1.3.2.2
+
+- Reduce false-negative rate when checking for available internet
+  connection (#10).
+
 # wdpar 1.3.2.1
 
 - Select a random port for the web driver (#41).

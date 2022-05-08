@@ -207,3 +207,28 @@ download_file <- function(url, path, quiet = TRUE) {
   res <- curl::curl_download(url, path, quiet = quiet)
   invisible(TRUE)
 }
+
+#' Is online?
+#'
+#' Check if an online internet connection is active.
+#'
+#' @details
+#' This function uses [pingr::is_online()] and [curl::has_internet()]
+#' to check for an internet connection. There are some issues where
+#' one of these functions returns a false-negative.
+#'
+#' @return `logical` value indicating success.
+#'
+#' @examples
+#' # check if online
+#' print(is_online())
+#'
+#' @noRd
+is_online <- function() {
+  isTRUE(try(curl::has_internet(), silent = TRUE)) ||
+  isTRUE(try(pingr::is_online(), silent = TRUE))
+}
+
+assertthat::on_failure(is_online) <- function(call, env) {
+  "could not establish an active internet connection"
+}

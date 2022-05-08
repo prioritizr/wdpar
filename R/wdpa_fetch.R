@@ -140,7 +140,7 @@ wdpa_fetch <- function(x, wait = FALSE,
   # fetch data
   if (force_download || inherits(file_path, "try-error")) {
     ## check for internet connection
-   if (!curl::has_internet()) {
+   if (!is_online()) {
       #nocov start
       stop(paste0("data not found in download_dir, and no internet connection",
                   "to download it."))
@@ -173,7 +173,7 @@ wdpa_fetch <- function(x, wait = FALSE,
     # check version of available data
     if (isTRUE(check_version)) {
       ## if internet available...
-      if (curl::has_internet()) {
+      if (is_online()) {
         ### parse month-year from input file
         input_version <- wdpa_version(file_path)
         input_file_date <- convert_wdpa_version_to_POSIXct(input_version)

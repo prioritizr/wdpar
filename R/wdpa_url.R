@@ -60,7 +60,7 @@ wdpa_url <- function(x, wait = FALSE, page_wait = 2) {
     assertthat::is.flag(wait),
     assertthat::is.count(page_wait),
     assertthat::noNA(page_wait),
-    curl::has_internet())
+    is_online())
   # declare hidden function
   try_and_find_url <- function(x) {
     ## initialize web driver

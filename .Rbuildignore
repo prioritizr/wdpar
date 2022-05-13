@@ -7,6 +7,7 @@
 ^gurobi\.log$
 ^revdep$
 ^docs$
+^paper$
 ^appveyor\.yml$
 .gitkeep
 ^Makefile$

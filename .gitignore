@@ -19,6 +19,7 @@ spell.log
 gp.log
 examples.log
 global-example-script.Rout
+paper/paper.docx
 
 # system files
 .directory

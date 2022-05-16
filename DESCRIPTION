@@ -1,6 +1,6 @@
 Package: wdpar
 Type: Package
-Version: 1.3.2.1
+Version: 1.3.2.2
 Title: Interface to the World Database on Protected Areas
 Description: Fetch and clean data from the World Database on Protected
     Areas (WDPA) and the World Database on Other Effective Area-Based
@@ -24,6 +24,7 @@ Imports:
     cli (>= 1.0.1),
     lwgeom (>= 0.2-1),
     tibble (>= 2.1.3),
+    pingr (>= 1.1.2),
     rappdirs (>= 0.3.1)
 Suggests:
     testthat (>= 2.0.1),
@@ -32,7 +33,6 @@ Suggests:
     rmarkdown (>= 1.10),
     ggmap (>= 2.6.1),
     ggplot2 (>= 3.1.0),
-    pingr (>= 1.1.2),
     prepr (>= 0.1.9000),
     dplyr (>= 1.0.7),
     ps (>= 1.5.0)

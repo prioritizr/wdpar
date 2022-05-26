@@ -29,8 +29,8 @@ cleaning process needs to be repeated after obtaining a new version.
 
 The *wdpar R* package provides an interface to data provided by
 [Protected Planet](https://www.protectedplanet.net/en). Specifically,
-the package can automatically data from the [World Database on Protected
-Areas
+the package can automatically obtain data from the [World Database on
+Protected Areas
 (WDPA)](https://www.protectedplanet.net/en/thematic-areas/wdpa?tab=WDPA)
 and the [World Database on Other Effective Area-Based Conservation
 Measures
@@ -247,7 +247,7 @@ To cite the latest official version, please use:
 To cite the latest development version, please use:
 
 > Hanson JO (2022). wdpar: Interface to the World Database on Protected
-> Areas. R package version 1.3.2.2. Available at
+> Areas. R package version 1.3.2.3. Available at
 > <https://github.com/prioritizr/wdpar>.
 
 To cite the World Database on Protected Areas (WDPA), please use:

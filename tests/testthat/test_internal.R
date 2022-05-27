@@ -76,7 +76,7 @@ test_that("wdpa_url (country)", {
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
   # verify that wdpa_url yields a result
-  x <- suppressWarnings(wdpa_url("NZL", wait = TRUE, page_wait = 10))
+  x <- suppressWarnings(wdpa_url("NZL", wait = TRUE))
   expect_is(x, "character")
   # verify that downloading the url yields a zipped shapefile
   f1 <- tempfile(fileext = ".zip")

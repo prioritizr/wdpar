@@ -1,3 +1,7 @@
+# wdpar 1.3.2.3
+
+- Fix typos in documentation, add JOSS paper, and add contributing guide.
+
 # wdpar 1.3.2.2
 
 - Reduce false-negative rate when checking for available internet

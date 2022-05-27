@@ -2,7 +2,7 @@
 #'
 #' The \pkg{wdpar} R package provides an interface to data provided by
 #' [Protected Planet](https://www.protectedplanet.net/en).
-#' Specifically, it can be used to automatically download data from
+#' Specifically, it can be used to automatically obtain data from
 #' the World Database on Protected Areas
 #' (WDPA) and the World Database on Other Effective Area-Based Conservation
 #' Measures (WDOECM).

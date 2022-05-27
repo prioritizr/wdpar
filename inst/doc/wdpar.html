@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jeffrey O. Hanson" />
 
-<meta name="date" content="2022-05-08" />
+<meta name="date" content="2022-05-27" />
 
 <title>wdpar: Interface to the World Database on Protected Areas</title>
 
@@ -142,14 +142,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">wdpar: Interface to the World Database on Protected Areas</h1>
 <h4 class="author">Jeffrey O. Hanson</h4>
-<h4 class="date">2022-05-08</h4>
+<h4 class="date">2022-05-27</h4>
 
 
 
 <div id="introduction" class="section level3">
 <h3>Introduction</h3>
 <p><a href="https://www.protectedplanet.net/en">Protected Planet</a> provides the most comprehensive data for conservation areas worldwide. Specifically, it provides the World Database on Protected Areas (WDPA) and the World Database on Other Effective Area-Based Conservation Measures (WDOECM). These databases are used to monitor the performance of existing protected areas, and identify priority areas for future conservation efforts. Additionally, these databases receive monthly updates from government agencies and non-governmental organizations. However, they are associated with <a href="https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage">several issues that need to be addressed prior to analysis</a> and the dynamic nature of these databases means that the entire data cleaning process needs to be repeated after obtaining a new version.</p>
-<p>The <em>wdpar R</em> package provides an interface to data available on <a href="https://www.protectedplanet.net/en">Protected Planet</a>. Specifically, it can be used to automatically data from the <a href="https://www.protectedplanet.net/en/thematic-areas/wdpa?tab=WDPA">World Database on Protected Areas (WDPA)</a> and the <a href="https://www.protectedplanet.net/en/thematic-areas/oecms">World Database on Other Effective Area-Based Conservation Measures (WDOECM)</a>. It also provides methods for cleaning data from these databases following best practices (outlined in Butchart <em>et al.</em> 2015; <a href="https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage">Protected Planet 2021</a>; Runge <em>et al.</em> 2015). In this vignette, we provide a tutorial and recommendations for using the package.</p>
+<p>The <em>wdpar R</em> package provides an interface to data available on <a href="https://www.protectedplanet.net/en">Protected Planet</a>. Specifically, it can be used to automatically obtain data from the <a href="https://www.protectedplanet.net/en/thematic-areas/wdpa?tab=WDPA">World Database on Protected Areas (WDPA)</a> and the <a href="https://www.protectedplanet.net/en/thematic-areas/oecms">World Database on Other Effective Area-Based Conservation Measures (WDOECM)</a>. It also provides methods for cleaning data from these databases following best practices (outlined in Butchart <em>et al.</em> 2015; <a href="https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage">Protected Planet 2021</a>; Runge <em>et al.</em> 2015). In this vignette, we provide a tutorial and recommendations for using the package.</p>
 </div>
 <div id="tutorial" class="section level3">
 <h3>Tutorial</h3>

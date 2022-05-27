@@ -24,3 +24,5 @@ inst/WORDLIST
 ^\.github$
 .covrignore
 global-example-script.Rout
+^paper$
+CONTRIBUTING.md

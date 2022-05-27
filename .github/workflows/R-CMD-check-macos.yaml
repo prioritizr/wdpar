@@ -63,6 +63,7 @@ jobs:
           brew install gmp
           brew install mpfr
           brew install gdal
+          brew upgrade --cask chromedriver
 
       - name: Install dependencies
         run: |

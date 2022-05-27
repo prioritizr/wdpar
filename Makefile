@@ -64,7 +64,25 @@ examples:
 	R --slave -e "devtools::run_examples(run_donttest = TRUE, run_dontrun = TRUE);warnings()"  >> examples.log
 	rm -f Rplots.pdf
 
+paper: paper/paper.pdf
+
+paper/paper.pdf: paper/paper.Rmd paper/paper.bib
+	rm -f paper/paper.pdf
+	rm -f paper/paper.md
+	R --slave -e "rmarkdown::render('paper/paper.Rmd', output_file = 'paper.pdf')"
+	rm -f paper/paper.knit.md
+	rm -f paper/paper.log
+	rm -f paper/paper.tex
+	rm -f paper/paper.pdf
+	docker run --rm \
+    --volume $(PWD)/paper:/data \
+    --user $(id -u):$(id -g) \
+    --env JOURNAL=joss \
+    openjournals/inara
+	rm -f paper/paper.jats
+	R --slave -e "rmarkdown::render('paper/paper.Rmd', output_file = 'paper.docx', output_format = 'word_document')"
+
 wdpa_global: install
 	R CMD BATCH --no-restore --no-save inst/scripts/global-example-script.R
 
-.PHONY: initc vigns clean data docs readme site test check checkwb build  install man spellcheck examples wdpa_global
+.PHONY: initc vigns clean data docs readme site test check checkwb build  install man spellcheck examples wdpa_global paper

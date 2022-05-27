@@ -25,3 +25,4 @@ inst/WORDLIST
 .covrignore
 global-example-script.Rout
 ^paper$
+CONTRIBUTING.md

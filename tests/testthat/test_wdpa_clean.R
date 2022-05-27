@@ -16,6 +16,7 @@ test_that("single country with eez", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
+  skip_on_github_workflow("macOS")
   # fetch data
   x <- wdpa_clean(
     suppressWarnings(
@@ -39,6 +40,7 @@ test_that("single country without eez", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
+  skip_on_github_workflow("macOS")
   # fetch data
   x <- wdpa_clean(
     suppressWarnings(wdpa_fetch("LIE", wait = TRUE, check_version = FALSE)),
@@ -59,6 +61,7 @@ test_that("single country with simplification", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
+  skip_on_github_workflow("macOS")
   # fetch data
   x <- wdpa_clean(
     suppressWarnings(wdpa_fetch("MHL", wait = TRUE, check_version = FALSE)),
@@ -79,6 +82,7 @@ test_that("single country without overlap removal", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
+  skip_on_github_workflow("macOS")
   # fetch data
   x <- wdpa_clean(
     suppressWarnings(wdpa_fetch("BDI", wait = TRUE, check_version = FALSE)),
@@ -99,6 +103,7 @@ test_that("country with MULTIPOINT protected areas", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
+  skip_on_github_workflow("macOS")
   # fetch data
   x <- wdpa_fetch("BOL", wait = TRUE, check_version = FALSE)
   x_points <- vapply(x$geometry, inherits, logical(1),
@@ -113,6 +118,7 @@ test_that("country with MULTIPOLYGON protected area", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
+  skip_on_github_workflow("macOS")
   # fetch data
   x <- wdpa_fetch("BOL", wait = TRUE, check_version = FALSE)
   y <- suppressWarnings(wdpa_clean(x, erase_overlaps = FALSE,
@@ -129,6 +135,7 @@ test_that("country with super invalid MULTIPOLYGON data", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
+  skip_on_github_workflow("macOS")
   x <- wdpa_fetch("GAB", wait = TRUE, check_version = FALSE)
   y <- suppressWarnings(wdpa_clean(x, erase_overlaps = TRUE))
   expect_is(y, "sf")
@@ -139,6 +146,7 @@ test_that("geometries in non-geometry column", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
+  skip_on_github_workflow("macOS")
   x <- wdpa_fetch("GAB", wait = TRUE, check_version = FALSE)
   geom_col <- attr(x, "sf_column")
   attr(x, "sf_column") <- "shape"
@@ -153,6 +161,7 @@ test_that("single country with no valid non-empty geometries", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
+  skip_on_github_workflow("macOS")
   x <- wdpa_clean(
     suppressWarnings(wdpa_fetch("SOM", wait = TRUE, check_version = FALSE))
   )
@@ -175,6 +184,7 @@ test_that("retain UNESCO Biosphere reserves", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
+  skip_on_github_workflow("macOS")
   # fetch data
   x <- wdpa_clean(
     suppressWarnings(wdpa_fetch("MHL", wait = TRUE, check_version = FALSE)),
@@ -197,6 +207,7 @@ test_that("protected areas that turn into long rectangles without prepr", {
   skip_if_not(curl::has_internet())
   skip_if_not_installed("prepr")
   skip_on_github_workflow("Windows")
+  skip_on_github_workflow("macOS")
   # fetch data
   x <- suppressWarnings(wdpa_fetch("USA", wait = TRUE, check_version = FALSE))
   x <- x[x$MARINE == "2", , drop = FALSE]
@@ -212,6 +223,7 @@ test_that("protected areas that massively increase in size without prepr", {
   skip_if_not_installed("prepr")
   skip_if_not_installed("dplyr")
   skip_on_github_workflow("Windows")
+  skip_on_github_workflow("macOS")
   # fetch data
   ids <- c(23177, 12352, 555705343, 555705341, 555721495)
   countries <- c("MAR", "DZA")
@@ -230,6 +242,7 @@ test_that("custom retain_status", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
+  skip_on_github_workflow("macOS")
   # fetch data
   x <- wdpa_clean(
     suppressWarnings(wdpa_fetch("MHL", wait = TRUE, check_version = FALSE)),
@@ -251,6 +264,7 @@ test_that("NULL retain_status", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_on_github_workflow("Windows")
+  skip_on_github_workflow("macOS")
   # fetch data
   x <- suppressWarnings(wdpa_fetch("MHL", wait = TRUE, check_version = FALSE))
   y <- wdpa_clean(x, retain_status = NULL, erase_overlaps = TRUE)

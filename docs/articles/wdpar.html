@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.2.4</span>
       </span>
     </div>
 
@@ -72,7 +72,7 @@
       <h1 data-toc-skip>wdpar: Interface to the World Database on Protected Areas</h1>
                         <h4 data-toc-skip class="author">Jeffrey O. Hanson</h4>
             
-            <h4 data-toc-skip class="date">2022-05-17</h4>
+            <h4 data-toc-skip class="date">2022-07-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/wdpar/blob/HEAD/vignettes/wdpar.Rmd" class="external-link"><code>vignettes/wdpar.Rmd</code></a></small>
       <div class="hidden name"><code>wdpar.Rmd</code></div>
@@ -92,171 +92,171 @@
 </h3>
 <p>Here we will provide a short introduction to the <em>wdpar R</em> package. First, we will load the <em>wdpar R</em> package. We will also load the <em>dplyr</em> and <em>ggmap R</em> packages to help explore the data.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># load packages</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://prioritizr.github.io/wdpar/" class="external-link">wdpar</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dkahle/ggmap" class="external-link">ggmap</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># load packages</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://prioritizr.github.io/wdpar/" class="external-link">wdpar</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dkahle/ggmap" class="external-link">ggmap</a></span><span class="op">)</span></span></code></pre></div>
 <p>Now we will download protected area data for Malta from <a href="https://www.protectedplanet.net/en" class="external-link">Protected Planet</a>. We can achieve this by specifying Malta’s country name (i.e. <code>"Malta"</code>) or Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3" class="external-link">ISO3 code</a> (i.e. <code>"MLT"</code>). Since data are downloaded to a temporary directory by default, we will specify that the data should be downloaded to a persistent directory. This means that R won’t have to re-download the same dataset every time we restart our R session, and R can simply re-load previously downloaded datasets as needed.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># download protected area data for Malta</span>
-<span class="co"># (excluding areas represented as point localities)</span>
-<span class="va">mlt_raw_pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wdpa_fetch.html">wdpa_fetch</a></span><span class="op">(</span>
-  <span class="st">"Malta"</span>, wait <span class="op">=</span> <span class="cn">TRUE</span>, download_dir <span class="op">=</span> <span class="fu">rappdirs</span><span class="fu">::</span><span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"wdpar"</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Warning in wdpa_fetch("Malta", wait = TRUE, download_dir =</span>
-<span class="co">## rappdirs::user_data_dir("wdpar")): local data is out of date: Dec 2021</span></code></pre>
+<code class="sourceCode R"><span><span class="co"># download protected area data for Malta</span></span>
+<span><span class="co"># (excluding areas represented as point localities)</span></span>
+<span><span class="va">mlt_raw_pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wdpa_fetch.html">wdpa_fetch</a></span><span class="op">(</span></span>
+<span>  <span class="st">"Malta"</span>, wait <span class="op">=</span> <span class="cn">TRUE</span>, download_dir <span class="op">=</span> <span class="fu">rappdirs</span><span class="fu">::</span><span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"wdpar"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in wdpa_fetch("Malta", wait = TRUE, download_dir =</span></span>
+<span><span class="co">## rappdirs::user_data_dir("wdpar")): local data is out of date: Jun 2022</span></span></code></pre>
 <p>Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. <code>"0"</code>) with missing data values (i.e. <code>NA</code>), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see <code><a href="../reference/wdpa_clean.html">wdpa_clean()</a></code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># clean Malta data</span>
-<span class="va">mlt_pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wdpa_clean.html">wdpa_clean</a></span><span class="op">(</span><span class="va">mlt_raw_pa_data</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># clean Malta data</span></span>
+<span><span class="va">mlt_pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wdpa_clean.html">wdpa_clean</a></span><span class="op">(</span><span class="va">mlt_raw_pa_data</span><span class="op">)</span></span></code></pre></div>
 <p>After cleaning the data set, we will perform an additional step that involves clipping the terrestrial protected areas to Malta’s coastline. Ideally, we would also clip the marine protected areas to Malta’s Exclusive Economic Zone (EEZ) but such data are not as easy to obtain on a per country basis (but see <a href="https://www.marineregions.org/eez.php" class="external-link uri">https://www.marineregions.org/eez.php</a>)).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># download Malta boundary from Global Administrative Areas dataset</span>
-<span class="va">file_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span>
-  <span class="st">"https://biogeo.ucdavis.edu/data/gadm3.6/Rsf/gadm36_MLT_0_sf.rds"</span>,
-  <span class="va">file_path</span>
-<span class="op">)</span>
-
-<span class="co"># import Malta's boundary</span>
-<span class="va">mlt_boundary_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="va">file_path</span><span class="op">)</span>
-
-<span class="co"># repair any geometry issues, dissolve the border, reproject to same</span>
-<span class="co"># coordinate system as the protected area data, and repair the geometry again</span>
-<span class="va">mlt_boundary_data</span> <span class="op">&lt;-</span>
-  <span class="va">mlt_boundary_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_precision.html" class="external-link">st_set_precision</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/valid.html" class="external-link">st_make_valid</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_precision.html" class="external-link">st_set_precision</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_combine.html" class="external-link">st_combine</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_combine.html" class="external-link">st_union</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_precision.html" class="external-link">st_set_precision</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/valid.html" class="external-link">st_make_valid</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">mlt_pa_data</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/valid.html" class="external-link">st_make_valid</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
-<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
-<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span></code></pre>
+<code class="sourceCode R"><span><span class="co"># download Malta boundary from Global Administrative Areas dataset</span></span>
+<span><span class="va">file_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">"rds"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span></span>
+<span>  <span class="st">"https://biogeo.ucdavis.edu/data/gadm3.6/Rsf/gadm36_MLT_0_sf.rds"</span>,</span>
+<span>  <span class="va">file_path</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># import Malta's boundary</span></span>
+<span><span class="va">mlt_boundary_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="va">file_path</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># repair any geometry issues, dissolve the border, reproject to same</span></span>
+<span><span class="co"># coordinate system as the protected area data, and repair the geometry again</span></span>
+<span><span class="va">mlt_boundary_data</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">mlt_boundary_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_precision.html" class="external-link">st_set_precision</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/valid.html" class="external-link">st_make_valid</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_precision.html" class="external-link">st_set_precision</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_combine.html" class="external-link">st_combine</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_combine.html" class="external-link">st_union</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_precision.html" class="external-link">st_set_precision</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/valid.html" class="external-link">st_make_valid</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">mlt_pa_data</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/valid.html" class="external-link">st_make_valid</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span></span>
+<span><span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span></span>
+<span><span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span></span></code></pre>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># clip Malta's protected areas to the coastline</span>
-<span class="va">mlt_pa_data</span> <span class="op">&lt;-</span>
-  <span class="va">mlt_pa_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">MARINE</span> <span class="op">==</span> <span class="st">"terrestrial"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_binary_ops.html" class="external-link">st_intersection</a></span><span class="op">(</span><span class="va">mlt_boundary_data</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">mlt_pa_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">MARINE</span> <span class="op">==</span> <span class="st">"marine"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-        <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_binary_ops.html" class="external-link">st_difference</a></span><span class="op">(</span><span class="va">mlt_boundary_data</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">mlt_pa_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">MARINE</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"terrestrial"</span>, <span class="st">"marine"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Warning: attribute variables are assumed to be spatially constant throughout all</span>
-<span class="co">## geometries</span>
-
-<span class="co">## Warning: attribute variables are assumed to be spatially constant throughout all</span>
-<span class="co">## geometries</span></code></pre>
+<code class="sourceCode R"><span><span class="co"># clip Malta's protected areas to the coastline</span></span>
+<span><span class="va">mlt_pa_data</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">mlt_pa_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">MARINE</span> <span class="op">==</span> <span class="st">"terrestrial"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_binary_ops.html" class="external-link">st_intersection</a></span><span class="op">(</span><span class="va">mlt_boundary_data</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">mlt_pa_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">MARINE</span> <span class="op">==</span> <span class="st">"marine"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>        <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_binary_ops.html" class="external-link">st_difference</a></span><span class="op">(</span><span class="va">mlt_boundary_data</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">mlt_pa_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">MARINE</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"terrestrial"</span>, <span class="st">"marine"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning: attribute variables are assumed to be spatially constant throughout all</span></span>
+<span><span class="co">## geometries</span></span>
+<span></span>
+<span><span class="co">## Warning: attribute variables are assumed to be spatially constant throughout all</span></span>
+<span><span class="co">## geometries</span></span></code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># recalculate the area of each protected area</span>
-<span class="va">mlt_pa_data</span> <span class="op">&lt;-</span>
-  <span class="va">mlt_pa_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>AREA_KM2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_measures.html" class="external-link">st_area</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1e-6</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># recalculate the area of each protected area</span></span>
+<span><span class="va">mlt_pa_data</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">mlt_pa_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>AREA_KM2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_measures.html" class="external-link">st_area</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1e-6</span><span class="op">)</span></span></code></pre></div>
 <p>Now that we have finished cleaning the data, let’s preview the data. For more information on what these columns mean, please refer to the <a href="https://www.protectedplanet.net/en/resources/wdpa-manual" class="external-link">official manual</a> (available in English, French, Spanish, and Russian).</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># print first six rows of the data</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mlt_pa_data</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Simple feature collection with 6 features and 32 fields</span>
-<span class="co">## Geometry type: GEOMETRY</span>
-<span class="co">## Dimension:     XY</span>
-<span class="co">## Bounding box:  xmin: 1382584 ymin: 4291797 xmax: 1399759 ymax: 4299407</span>
-<span class="co">## CRS:           +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs</span>
-<span class="co">## <span style="color: #949494;"># A tibble: 6 × 33</span></span>
-<span class="co">##      WDPAID WDPA_PID  PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT</span>
-<span class="co">##       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
-<span class="co">## <span style="color: #BCBCBC;">1</span> 555<span style="text-decoration: underline;">588</span>631 555588631 PA     Il-M… Il-Majji… Park… National… National   II      </span>
-<span class="co">## <span style="color: #BCBCBC;">2</span>    <span style="text-decoration: underline;">174</span>757 174757    PA     Il-Ġ… Il-Ġonna… List… List of … National   III     </span>
-<span class="co">## <span style="color: #BCBCBC;">3</span>    <span style="text-decoration: underline;">174</span>758 174758    PA     Bidn… Bidnija,… List… List of … National   III     </span>
-<span class="co">## <span style="color: #BCBCBC;">4</span>    <span style="text-decoration: underline;">194</span>415 194415    PA     Il-Ġ… Il-Ġonna… List… List of … National   III     </span>
-<span class="co">## <span style="color: #BCBCBC;">5</span>    <span style="text-decoration: underline;">194</span>417 194417    PA     Il-W… Il-Wied … List… List of … National   III     </span>
-<span class="co">## <span style="color: #BCBCBC;">6</span>    <span style="text-decoration: underline;">194</span>418 194418    PA     Il-B… Il-Ballu… List… List of … National   III     </span>
-<span class="co">## <span style="color: #949494;"># … with 24 more variables: INT_CRIT &lt;chr&gt;, MARINE &lt;chr&gt;, REP_M_AREA &lt;dbl&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   GIS_M_AREA &lt;dbl&gt;, REP_AREA &lt;dbl&gt;, GIS_AREA &lt;dbl&gt;, NO_TAKE &lt;chr&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   NO_TK_AREA &lt;dbl&gt;, STATUS &lt;chr&gt;, STATUS_YR &lt;dbl&gt;, GOV_TYPE &lt;chr&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   OWN_TYPE &lt;chr&gt;, MANG_AUTH &lt;chr&gt;, MANG_PLAN &lt;chr&gt;, VERIF &lt;chr&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   METADATAID &lt;int&gt;, SUB_LOC &lt;chr&gt;, PARENT_ISO &lt;chr&gt;, ISO3 &lt;chr&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   SUPP_INFO &lt;chr&gt;, CONS_OBJ &lt;chr&gt;, GEOMETRY_TYPE &lt;chr&gt;, AREA_KM2 &lt;dbl&gt;,</span></span>
-<span class="co">## <span style="color: #949494;">#   geometry &lt;GEOMETRY [m]&gt;</span></span></code></pre>
+<code class="sourceCode R"><span><span class="co"># print first six rows of the data</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mlt_pa_data</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Simple feature collection with 6 features and 32 fields</span></span>
+<span><span class="co">## Geometry type: GEOMETRY</span></span>
+<span><span class="co">## Dimension:     XY</span></span>
+<span><span class="co">## Bounding box:  xmin: 1382584 ymin: 4291797 xmax: 1399759 ymax: 4299407</span></span>
+<span><span class="co">## CRS:           +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs</span></span>
+<span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 33</span></span></span>
+<span><span class="co">##      WDPAID WDPA_PID  PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT</span></span>
+<span><span class="co">##       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> 555<span style="text-decoration: underline;">588</span>631 555588631 PA     Il-M… Il-Majji… Park… National… National   II      </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span>    <span style="text-decoration: underline;">174</span>757 174757    PA     Il-Ġ… Il-Ġonna… List… List of … National   III     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span>    <span style="text-decoration: underline;">174</span>758 174758    PA     Bidn… Bidnija,… List… List of … National   III     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span>    <span style="text-decoration: underline;">194</span>415 194415    PA     Il-Ġ… Il-Ġonna… List… List of … National   III     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span>    <span style="text-decoration: underline;">194</span>417 194417    PA     Il-W… Il-Wied … List… List of … National   III     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span>    <span style="text-decoration: underline;">194</span>418 194418    PA     Il-B… Il-Ballu… List… List of … National   III     </span></span>
+<span><span class="co">## <span style="color: #949494;"># … with 24 more variables: INT_CRIT &lt;chr&gt;, MARINE &lt;chr&gt;, REP_M_AREA &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   GIS_M_AREA &lt;dbl&gt;, REP_AREA &lt;dbl&gt;, GIS_AREA &lt;dbl&gt;, NO_TAKE &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   NO_TK_AREA &lt;dbl&gt;, STATUS &lt;chr&gt;, STATUS_YR &lt;dbl&gt;, GOV_TYPE &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   OWN_TYPE &lt;chr&gt;, MANG_AUTH &lt;chr&gt;, MANG_PLAN &lt;chr&gt;, VERIF &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   METADATAID &lt;int&gt;, SUB_LOC &lt;chr&gt;, PARENT_ISO &lt;chr&gt;, ISO3 &lt;chr&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   SUPP_INFO &lt;chr&gt;, CONS_OBJ &lt;chr&gt;, GEOMETRY_TYPE &lt;chr&gt;, AREA_KM2 &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   geometry &lt;GEOMETRY [m]&gt;</span></span></span></code></pre>
 <p>We will now reproject the data to longitude/latitude coordinates (<a href="https://spatialreference.org/ref/epsg/wgs-84/" class="external-link">EPSG:4326</a>) for visualization purposes.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># reproject data</span>
-<span class="va">mlt_pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="va">mlt_pa_data</span>, <span class="fl">4326</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># reproject data</span></span>
+<span><span class="va">mlt_pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="va">mlt_pa_data</span>, <span class="fl">4326</span><span class="op">)</span></span></code></pre></div>
 <p>Next, we can plot a map showing the boundaries of Malta’s protected area system.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># download basemap for making the map</span>
-<span class="va">bg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/get_stamenmap.html" class="external-link">get_stamenmap</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="va">mlt_pa_data</span><span class="op">)</span><span class="op">)</span>, zoom <span class="op">=</span> <span class="fl">8</span>,
-  maptype <span class="op">=</span> <span class="st">"watercolor"</span>, force <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span>
-
-<span class="co"># print map</span>
-<span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggmap.html" class="external-link">ggmap</a></span><span class="op">(</span><span class="va">bg</span><span class="op">)</span> <span class="op">+</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">mlt_pa_data</span>, fill <span class="op">=</span> <span class="st">"#31A35480"</span>, inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># download basemap for making the map</span></span>
+<span><span class="va">bg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/get_stamenmap.html" class="external-link">get_stamenmap</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="va">mlt_pa_data</span><span class="op">)</span><span class="op">)</span>, zoom <span class="op">=</span> <span class="fl">8</span>,</span>
+<span>  maptype <span class="op">=</span> <span class="st">"watercolor"</span>, force <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># print map</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggmap.html" class="external-link">ggmap</a></span><span class="op">(</span><span class="va">bg</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">mlt_pa_data</span>, fill <span class="op">=</span> <span class="st">"#31A35480"</span>, inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="wdpar_files/figure-html/unnamed-chunk-9-1.png" width="432" style="display: block; margin: auto;"></p>
 <p>We can also create a histogram showing the year when each protected area was established.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span>
-  <span class="va">mlt_pa_data</span><span class="op">$</span><span class="va">STATUS_YR</span>,
-  main <span class="op">=</span> <span class="st">"Malta's protected areas"</span>,
-  xlab <span class="op">=</span> <span class="st">"Year established"</span>
-<span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span></span>
+<span>  <span class="va">mlt_pa_data</span><span class="op">$</span><span class="va">STATUS_YR</span>,</span>
+<span>  main <span class="op">=</span> <span class="st">"Malta's protected areas"</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="st">"Year established"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="wdpar_files/figure-html/unnamed-chunk-10-1.png" width="432" style="display: block; margin: auto;"></p>
 <p>Now let’s calculate some statistics. We can calculate the total amount of land and ocean inside Malta’s protected area system (km<sup>2</sup>).</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># calculate total amount of area inside protected areas (km^2)</span>
-<span class="va">statistic</span> <span class="op">&lt;-</span>
-  <span class="va">mlt_pa_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">geometry</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">MARINE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>area_km <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">AREA_KM2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">area_km</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># print statistic</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">statistic</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 3 × 2</span></span>
-<span class="co">##   MARINE      area_km</span>
-<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;">1</span> marine       <span style="text-decoration: underline;">4</span>790. </span>
-<span class="co">## <span style="color: #BCBCBC;">2</span> terrestrial   130. </span>
-<span class="co">## <span style="color: #BCBCBC;">3</span> partial        18.4</span></code></pre>
-<p>We can also calculate the percentage of land inside its protected area system that are managed under different categories (i.e. <a href="https://www.iucn.org/theme/protected-areas/about/protected-area-categories" class="external-link">using the protected area management categories defined by The International Union for Conservation of Nature</a>).</p>
+<code class="sourceCode R"><span><span class="co"># calculate total amount of area inside protected areas (km^2)</span></span>
+<span><span class="va">statistic</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">mlt_pa_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">geometry</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">MARINE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>area_km <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">AREA_KM2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">area_km</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># print statistic</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">statistic</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
+<span><span class="co">##   MARINE      area_km</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> marine       <span style="text-decoration: underline;">4</span>790. </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> terrestrial   130. </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> partial        18.4</span></span></code></pre>
+<p>We can also calculate the percentage of land inside its protected area system that are managed under different categories (i.e. <a href="https://www.iucn.org/" class="external-link">using the protected area management categories defined by The International Union for Conservation of Nature</a>).</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># calculate percentage of land inside protected areas (km^2)</span>
-<span class="va">statistic</span> <span class="op">&lt;-</span>
-  <span class="va">mlt_pa_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">geometry</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">IUCN_CAT</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>area_km <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">AREA_KM2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>percentage <span class="op">=</span> <span class="op">(</span><span class="va">area_km</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">area_km</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">area_km</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># print statistic</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">statistic</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 7 × 3</span></span>
-<span class="co">##   IUCN_CAT       area_km percentage</span>
-<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">## <span style="color: #BCBCBC;">1</span> IV           <span style="text-decoration: underline;">4</span>244.       85.9    </span>
-<span class="co">## <span style="color: #BCBCBC;">2</span> Not Reported  659.       13.3    </span>
-<span class="co">## <span style="color: #BCBCBC;">3</span> V              33.2       0.672  </span>
-<span class="co">## <span style="color: #BCBCBC;">4</span> II              2.43      0.049<span style="text-decoration: underline;">1</span> </span>
-<span class="co">## <span style="color: #BCBCBC;">5</span> III             0.191     0.003<span style="text-decoration: underline;">87</span></span>
-<span class="co">## <span style="color: #BCBCBC;">6</span> Ia              0.145     0.002<span style="text-decoration: underline;">94</span></span>
-<span class="co">## <span style="color: #BCBCBC;">7</span> VI              0.064<span style="text-decoration: underline;">5</span>    0.001<span style="text-decoration: underline;">31</span></span></code></pre>
+<code class="sourceCode R"><span><span class="co"># calculate percentage of land inside protected areas (km^2)</span></span>
+<span><span class="va">statistic</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">mlt_pa_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">geometry</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">IUCN_CAT</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>area_km <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">AREA_KM2</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>percentage <span class="op">=</span> <span class="op">(</span><span class="va">area_km</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">area_km</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">area_km</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># print statistic</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">statistic</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 7 × 3</span></span></span>
+<span><span class="co">##   IUCN_CAT       area_km percentage</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> IV           <span style="text-decoration: underline;">4</span>244.       85.9    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> Not Reported  659.       13.3    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> V              33.2       0.672  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> II              2.43      0.049<span style="text-decoration: underline;">1</span> </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span> III             0.191     0.003<span style="text-decoration: underline;">87</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span> Ia              0.145     0.002<span style="text-decoration: underline;">94</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">7</span> VI              0.064<span style="text-decoration: underline;">5</span>    0.001<span style="text-decoration: underline;">31</span></span></span></code></pre>
 <p>We can also plot a map showing Malta’s protected areas and color each area according to it’s management category.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggmap.html" class="external-link">ggmap</a></span><span class="op">(</span><span class="va">bg</span><span class="op">)</span> <span class="op">+</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">IUCN_CAT</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">mlt_pa_data</span>, inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>, legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggmap.html" class="external-link">ggmap</a></span><span class="op">(</span><span class="va">bg</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">IUCN_CAT</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">mlt_pa_data</span>, inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>, legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="wdpar_files/figure-html/unnamed-chunk-13-1.png" width="432" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
@@ -264,41 +264,41 @@
 </h3>
 <p>The <em>wdpar R</em> package can be used to clean large datasets assuming that sufficient computational resources and time are available. Indeed, it can clean data spanning large countries, multiple countries, and even the full global datatset. When processing the full global dataset, it is recommended to use a computer system with at least 32 GB RAM available and to allow for at least one full day for the data cleaning procedures to complete. It is also recommended to avoid using the computer system for any other tasks while the data cleaning procedures are being completed, because they are very computationally intensive. Additionally, when processing large datasets – and especially for the global dataset – it is strongly recommended to disable the procedure for erasing overlapping areas. This is because the built-in procedure for erasing overlaps is very time consuming when processing many protected areas, so that information on each protected area can be output (e.g. IUCN category, year established). Instead, when cleaning large datasets, it is recommended to run the data cleaning procedures with the procedure for erasing overlapping areas disabled (i.e. with <code>erase_overlaps = FALSE</code>). After the data cleaning procedures have completed, the protected area data can be manually dissolved to remove overlapping areas (e.g. using <code><a href="../reference/wdpa_dissolve.html">wdpa_dissolve()</a></code>). For an example of these procedures, please see below.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># download protected area data for multiple of countries</span>
-<span class="co">## (i.e. Portugal, Spain, France)</span>
-<span class="va">raw_pa_data</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PRT"</span>, <span class="st">"ESP"</span>, <span class="st">"FRA"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">wdpa_fetch</span>, wait <span class="op">=</span> <span class="cn">TRUE</span>,
-         download_dir <span class="op">=</span> <span class="fu">rappdirs</span><span class="fu">::</span><span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"wdpar"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="co"># clean protected area data (with procedure for erasing overlaps disabled)</span>
-<span class="va">full_pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wdpa_clean.html">wdpa_clean</a></span><span class="op">(</span><span class="va">raw_pa_data</span>, erase_overlaps <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="co"># at this stage, the data could be filtered based on extra criteria (if needed)</span>
-<span class="co">## for example, we could subset the data to only include protected areas</span>
-<span class="co">## classified as IUCN category Ia or Ib</span>
-<span class="va">sub_pa_data</span> <span class="op">&lt;-</span>
-  <span class="va">full_pa_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">IUCN_CAT</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ia"</span>, <span class="st">"Ib"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># dissolve all geometries together (removing spatial overlaps)</span>
-<span class="va">pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wdpa_dissolve.html">wdpa_dissolve</a></span><span class="op">(</span><span class="va">sub_pa_data</span><span class="op">)</span>
-
-<span class="co"># preview data</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">pa_data</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Simple feature collection with 1 feature and 1 field</span>
-<span class="co">## Geometry type: MULTIPOLYGON</span>
-<span class="co">## Dimension:     XY</span>
-<span class="co">## Bounding box:  xmin: -3274101 ymin: 3403947 xmax: 879505 ymax: 5609364</span>
-<span class="co">## CRS:           +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs</span>
-<span class="co">## Precision:     1500 </span>
-<span class="co">##   id                       geometry</span>
-<span class="co">## 1  1 MULTIPOLYGON (((-3267669 43...</span></code></pre>
+<code class="sourceCode R"><span><span class="co"># download protected area data for multiple of countries</span></span>
+<span><span class="co">## (i.e. Portugal, Spain, France)</span></span>
+<span><span class="va">raw_pa_data</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PRT"</span>, <span class="st">"ESP"</span>, <span class="st">"FRA"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">wdpa_fetch</span>, wait <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>         download_dir <span class="op">=</span> <span class="fu">rappdirs</span><span class="fu">::</span><span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"wdpar"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># clean protected area data (with procedure for erasing overlaps disabled)</span></span>
+<span><span class="va">full_pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wdpa_clean.html">wdpa_clean</a></span><span class="op">(</span><span class="va">raw_pa_data</span>, erase_overlaps <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># at this stage, the data could be filtered based on extra criteria (if needed)</span></span>
+<span><span class="co">## for example, we could subset the data to only include protected areas</span></span>
+<span><span class="co">## classified as IUCN category Ia or Ib</span></span>
+<span><span class="va">sub_pa_data</span> <span class="op">&lt;-</span></span>
+<span>  <span class="va">full_pa_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">IUCN_CAT</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ia"</span>, <span class="st">"Ib"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># dissolve all geometries together (removing spatial overlaps)</span></span>
+<span><span class="va">pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wdpa_dissolve.html">wdpa_dissolve</a></span><span class="op">(</span><span class="va">sub_pa_data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># preview data</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">pa_data</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Simple feature collection with 1 feature and 1 field</span></span>
+<span><span class="co">## Geometry type: MULTIPOLYGON</span></span>
+<span><span class="co">## Dimension:     XY</span></span>
+<span><span class="co">## Bounding box:  xmin: -3274101 ymin: 3403947 xmax: 879505 ymax: 5609364</span></span>
+<span><span class="co">## CRS:           +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs</span></span>
+<span><span class="co">## Precision:     1500 </span></span>
+<span><span class="co">##   id                       geometry</span></span>
+<span><span class="co">## 1  1 MULTIPOLYGON (((-3267669 43...</span></span></code></pre>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># calculate total area</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_measures.html" class="external-link">st_area</a></span><span class="op">(</span><span class="va">pa_data</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## 7859506269 [m^2]</span></code></pre>
+<code class="sourceCode R"><span><span class="co"># calculate total area</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_measures.html" class="external-link">st_area</a></span><span class="op">(</span><span class="va">pa_data</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## 7859506269 [m^2]</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="additional-datasets">Additional datasets<a class="anchor" aria-label="anchor" href="#additional-datasets"></a>
@@ -312,7 +312,7 @@
 </li>
 <li>Australia
 <ul>
-<li><a href="https://www.awe.gov.au/agriculture-land/land/nrs/science/capad" class="external-link">Collaborative Australian Protected Area Database (CAPAD)</a></li>
+<li><a href="https://www.dcceew.gov.au/environment/land/nrs/science/capad" class="external-link">Collaborative Australian Protected Area Database (CAPAD)</a></li>
 <li><a href="https://ccea-ccae.org" class="external-link">Conservation Areas Reporting and Tracking System (CARTS)</a></li>
 </ul>
 </li>
@@ -328,7 +328,7 @@
 </h3>
 <p>Please cite the <em>wdpar R</em> package and the relevant databases in publications. To see citation details, use the code:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"wdpar"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"wdpar"</span><span class="op">)</span></span></code></pre></div>
 </div>
   </div>
 
@@ -347,7 +347,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer>

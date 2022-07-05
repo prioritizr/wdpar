@@ -23,7 +23,7 @@ Note that data are accessed assuming non-commercial use."><!-- mathjax --><scrip
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.2.4</span>
       </span>
     </div>
 
@@ -68,7 +68,7 @@ Measures (WDOECM).
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">wdpa_url</span><span class="op">(</span><span class="va">x</span>, wait <span class="op">=</span> <span class="cn">FALSE</span>, page_wait <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">wdpa_url</span><span class="op">(</span><span class="va">x</span>, wait <span class="op">=</span> <span class="cn">FALSE</span>, page_wait <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -78,11 +78,15 @@ Measures (WDOECM).
 can be the name of the country (e.g. <code>"Liechtenstein"</code>) or the
 ISO-3 code for the country (e.g. <code>"LIE"</code>). This argument can also
 be set to <code>"global"</code> to obtain the URL for the global dataset.</p></dd>
+
+
 <dt>wait</dt>
 <dd><p><code>logical</code> if data is not immediately available for download
 should the session be paused until it is ready for download? If argument
 to <code>wait</code> is <code>FALSE</code> and the data is not ready then an error
 will be thrown. Defaults to <code>FALSE</code>.</p></dd>
+
+
 <dt>page_wait</dt>
 <dd><p><code>numeric</code> number of seconds to wait for web pages
 to load when finding the download URL on
@@ -96,10 +100,13 @@ Users on slow internet connections may experience issues
 with the default argument (e.g. resulting in an error
 containing the message <code>Error: Summary: NoSuchElement</code>).
 To avoid this, users can try specifying a greater value (e.g. 5 seconds).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>character</code> URL to download the data.</p>
+    
+
+<p><code>character</code> URL to download the data.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -108,22 +115,22 @@ To avoid this, users can try specifying a greater value (e.g. 5 seconds).</p></d
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \dontrun{</span></span>
-<span class="r-in"><span class="co"># obtain url for New Zealand data</span></span>
-<span class="r-in"><span class="va">nzl_url</span> <span class="op">&lt;-</span> <span class="fu">wdpa_url</span><span class="op">(</span><span class="st">"New Zealand"</span>, wait <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">nzl_url</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://d1gam3xoknrgr2.cloudfront.net/current/WDPA_WDOECM_May2022_Public_NZL_shp.zip"</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># obtain url for New Zealand data using its ISO3 code</span></span>
-<span class="r-in"><span class="va">nzl_url</span> <span class="op">&lt;-</span> <span class="fu">wdpa_url</span><span class="op">(</span><span class="st">"NZL"</span>, wait <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">nzl_url</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://d1gam3xoknrgr2.cloudfront.net/current/WDPA_WDOECM_May2022_Public_NZL_shp.zip"</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># obtain url for global data</span></span>
-<span class="r-in"><span class="va">global_url</span> <span class="op">&lt;-</span> <span class="fu">wdpa_url</span><span class="op">(</span><span class="st">"global"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">global_url</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># obtain url for New Zealand data</span></span></span>
+<span class="r-in"><span><span class="va">nzl_url</span> <span class="op">&lt;-</span> <span class="fu">wdpa_url</span><span class="op">(</span><span class="st">"New Zealand"</span>, wait <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">nzl_url</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://d1gam3xoknrgr2.cloudfront.net/current/WDPA_WDOECM_Jul2022_Public_NZL_shp.zip"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># obtain url for New Zealand data using its ISO3 code</span></span></span>
+<span class="r-in"><span><span class="va">nzl_url</span> <span class="op">&lt;-</span> <span class="fu">wdpa_url</span><span class="op">(</span><span class="st">"NZL"</span>, wait <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">nzl_url</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://d1gam3xoknrgr2.cloudfront.net/current/WDPA_WDOECM_Jul2022_Public_NZL_shp.zip"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># obtain url for global data</span></span></span>
+<span class="r-in"><span><span class="va">global_url</span> <span class="op">&lt;-</span> <span class="fu">wdpa_url</span><span class="op">(</span><span class="st">"global"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">global_url</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "http://wcmc.io/wdpa_current_release"</span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -138,7 +145,7 @@ To avoid this, users can try specifying a greater value (e.g. 5 seconds).</p></d
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

@@ -25,7 +25,7 @@ please see below."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/aja
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.2.4</span>
       </span>
     </div>
 
@@ -72,31 +72,37 @@ please see below.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">wdpa_clean</span><span class="op">(</span>
-  <span class="va">x</span>,
-  crs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"+proj=cea +lon_0=0 +lat_ts=30 +x_0=0"</span>,
-    <span class="st">"+y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs"</span><span class="op">)</span>,
-  exclude_unesco <span class="op">=</span> <span class="cn">TRUE</span>,
-  retain_status <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Designated"</span>, <span class="st">"Inscribed"</span>, <span class="st">"Established"</span><span class="op">)</span>,
-  snap_tolerance <span class="op">=</span> <span class="fl">1</span>,
-  simplify_tolerance <span class="op">=</span> <span class="fl">0</span>,
-  geometry_precision <span class="op">=</span> <span class="fl">1500</span>,
-  erase_overlaps <span class="op">=</span> <span class="cn">TRUE</span>,
-  verbose <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">wdpa_clean</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  crs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"+proj=cea +lon_0=0 +lat_ts=30 +x_0=0"</span>,</span>
+<span>    <span class="st">"+y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs"</span><span class="op">)</span>,</span>
+<span>  exclude_unesco <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  retain_status <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Designated"</span>, <span class="st">"Inscribed"</span>, <span class="st">"Established"</span><span class="op">)</span>,</span>
+<span>  snap_tolerance <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  simplify_tolerance <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  geometry_precision <span class="op">=</span> <span class="fl">1500</span>,</span>
+<span>  erase_overlaps <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p><code><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">sf::sf()</a></code> object containing protected area data.</p></dd>
+
+
 <dt>crs</dt>
 <dd><p><code>character</code> or codeinteger object representing a
 coordinate reference system. Defaults to World Behrmann
 (<em>ESRI:54017</em>).</p></dd>
+
+
 <dt>exclude_unesco</dt>
 <dd><p><code>logical</code> should UNESCO Biosphere Reserves be excluded?
 Defaults to <code>TRUE</code>.</p></dd>
+
+
 <dt>retain_status</dt>
 <dd><p><code>character</code> vector containing the statuses for
 protected areas that should be retained during the cleaning process.
@@ -109,12 +115,18 @@ The default argument is a <code>character</code> vector containing <code>"Design
 <code>"Inscribed"</code>, and <code>"Established"</code>.
 This default argument ensures that protected areas that are not currently
 implemented are excluded.</p></dd>
+
+
 <dt>snap_tolerance</dt>
 <dd><p><code>numeric</code> tolerance for snapping geometry to a
 grid for resolving invalid geometries. Defaults to 1 meter.</p></dd>
+
+
 <dt>simplify_tolerance</dt>
 <dd><p><code>numeric</code> simplification tolerance.
 Defaults to 0 meters.</p></dd>
+
+
 <dt>geometry_precision</dt>
 <dd><p><code>numeric</code> level of precision for processing
 the spatial data (used with <code><a href="https://r-spatial.github.io/sf/reference/st_precision.html" class="external-link">sf::st_set_precision()</a></code>). The
@@ -122,6 +134,8 @@ default argument is 1500 (higher values indicate higher precision).
 This level of precision is generally suitable for analyses at the
 national-scale. For analyses at finer-scale resolutions, please
 consider using a greater value (e.g. 10000).</p></dd>
+
+
 <dt>erase_overlaps</dt>
 <dd><p><code>logical</code> should overlapping boundaries be
 erased? This is useful for making comparisons between individual
@@ -130,14 +144,19 @@ On the other hand, this processing step may not be needed
 (e.g. if the protected area boundaries are going to be rasterized), and so
 processing time can be substantially by skipping this step and setting
 the argument to <code>FALSE</code>. Defaults to <code>TRUE</code>.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p><code>logical</code> should progress on data cleaning be reported?
 Defaults to <code>TRUE</code> in an interactive session, otherwise
 <code>FALSE</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">sf::sf()</a></code> object.</p>
+    
+
+<p><code><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">sf::sf()</a></code> object.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -265,19 +284,19 @@ sets on assessment of conservation progress. <em>Conservation Biology</em>,
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \dontrun{</span></span>
-<span class="r-in"><span class="co"># fetch data for the Liechtenstein</span></span>
-<span class="r-in"><span class="va">lie_raw_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="wdpa_fetch.html">wdpa_fetch</a></span><span class="op">(</span><span class="st">"LIE"</span>, wait <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># clean data</span></span>
-<span class="r-in"><span class="va">lie_data</span> <span class="op">&lt;-</span> <span class="fu">wdpa_clean</span><span class="op">(</span><span class="va">lie_raw_data</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># plot cleaned dataset</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">lie_data</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="co"># fetch data for the Liechtenstein</span></span></span>
+<span class="r-in"><span><span class="va">lie_raw_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="wdpa_fetch.html">wdpa_fetch</a></span><span class="op">(</span><span class="st">"LIE"</span>, wait <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># clean data</span></span></span>
+<span class="r-in"><span><span class="va">lie_data</span> <span class="op">&lt;-</span> <span class="fu">wdpa_clean</span><span class="op">(</span><span class="va">lie_raw_data</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># plot cleaned dataset</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">lie_data</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>plotting the first 9 out of 32 attributes; use max.plot = 32 to plot all</span>
 <span class="r-plt img"><img src="wdpa_clean-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -292,7 +311,7 @@ sets on assessment of conservation progress. <em>Conservation Biology</em>,
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

@@ -13,10 +13,18 @@ test_that("works", {
   # create result
   y <- wdpa_dissolve(x)
   y2 <- sf::st_set_precision(
-    sf::st_sf(id = 1, geometry = sf::st_union(x)), 1500
+    sf::st_sf(id = 1, geometry = sf::st_union(x)),
+    1500
   )
   # tests
   expect_is(y, "sf")
-  expect_equal(y, y2)
+  expect_equal(
+    sf::st_equals(
+      sf::st_geometry(y),
+      sf::st_geometry(y2),
+      sparse = FALSE
+    )[[1]],
+    TRUE
+  )
   expect_equal(nrow(sf::st_cast(y, "POLYGON")), 1)
 })

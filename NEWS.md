@@ -1,3 +1,8 @@
+# wdpar 1.3.3
+
+- CRAN release.
+- Reduce test timings.
+
 # wdpar 1.3.2.4
 
 - Fix compatibility with GEOS (version 3.11.0) (#50, #51).

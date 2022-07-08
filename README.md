@@ -240,14 +240,14 @@ publications.
 
 To cite the latest official version, please use:
 
-> Hanson JO (2021). wdpar: Interface to the World Database on Protected
-> Areas. R package version 1.3.2. Available at
+> Hanson JO (2022). wdpar: Interface to the World Database on Protected
+> Areas. R package version 1.3.3. Available at
 > <https://CRAN.R-project.org/package=wdpar>.
 
 To cite the latest development version, please use:
 
 > Hanson JO (2022). wdpar: Interface to the World Database on Protected
-> Areas. R package version 1.3.2.4. Available at
+> Areas. R package version 1.3.3. Available at
 > <https://github.com/prioritizr/wdpar>.
 
 To cite the World Database on Protected Areas (WDPA), please use:

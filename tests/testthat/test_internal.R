@@ -77,7 +77,7 @@ test_that("wdpa_url (country)", {
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # verify that wdpa_url yields a result
-  x <- suppressWarnings(wdpa_url("NZL", wait = TRUE))
+  x <- suppressWarnings(wdpa_url("MLT", wait = TRUE))
   expect_is(x, "character")
   # verify that downloading the url yields a zipped shapefile
   f1 <- tempfile(fileext = ".zip")

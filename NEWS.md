@@ -1,6 +1,6 @@
 # wdpar 1.3.2.4
 
-- Fix compatibility with GEOS (version 3.11.0).
+- Fix compatibility with GEOS (version 3.11.0) (#50, #51).
 - Fix broken URLs in documentation.
 
 # wdpar 1.3.2.3

@@ -163,7 +163,7 @@ statistic <-
 print(statistic)
 ```
 
-We can also calculate the percentage of land inside its protected area system that are managed under different categories (i.e. [using the protected area management categories defined by The International Union for Conservation of Nature](https://www.iucn.org/theme/protected-areas/about/protected-area-categories)).
+We can also calculate the percentage of land inside its protected area system that are managed under different categories (i.e. [using the protected area management categories defined by The International Union for Conservation of Nature](https://www.iucn.org/)).
 
 ```{r}
 # calculate percentage of land inside protected areas (km^2)
@@ -229,7 +229,7 @@ Although the [World Database on Protected Areas (WDPA)](https://www.protectedpla
 * Arctic
     + [Arctic Protected Areas - 2017](https://geo.abds.is)
 * Australia
-    + [Collaborative Australian Protected Area Database (CAPAD)](https://www.awe.gov.au/agriculture-land/land/nrs/science/capad)
+    + [Collaborative Australian Protected Area Database (CAPAD)](https://www.dcceew.gov.au/environment/land/nrs/science/capad)
     + [Conservation Areas Reporting and Tracking System (CARTS)](https://ccea-ccae.org)
 * The United States of America
     + [Protected Areas Database of the US, PAD-US (CBI Edition)](https://consbio.org/products/projects/pad-us-cbi-edition)

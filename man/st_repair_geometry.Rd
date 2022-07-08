@@ -34,9 +34,11 @@ This function uses the \pkg{prepr} package to help repair geometries
 in certain cases. Because the \pkg{prepr} package is not available on
 the Comprehensive R Archive Network (CRAN), it must be installed from
 its online code repository. To achieve this, please
-use the following code:\preformatted{if (!require(remotes)) install.packages("remotes")
+use the following code:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{if (!require(remotes)) install.packages("remotes")
 remotes::install_github("dickoa/prepr")
-}
+}\if{html}{\out{</div>}}
 
 Note that the \pkg{prepr} package has system dependencies that need to be
 installed before the package itself can be installed

@@ -201,7 +201,7 @@ head(mlt_pa_data)
 Finally, after cleaning the data, let’s plot a map showing Malta’s
 protected areas and color each area according to its management category
 ([as defined by the The International Union for Conservation of
-Nature](https://www.iucn.org/theme/protected-areas/about/protected-area-categories)).
+Nature](https://www.iucn.org/)).
 
 ``` r
 # reproject data to longitude/latitude for plotting
@@ -247,7 +247,7 @@ To cite the latest official version, please use:
 To cite the latest development version, please use:
 
 > Hanson JO (2022). wdpar: Interface to the World Database on Protected
-> Areas. R package version 1.3.2.3. Available at
+> Areas. R package version 1.3.2.4. Available at
 > <https://github.com/prioritizr/wdpar>.
 
 To cite the World Database on Protected Areas (WDPA), please use:

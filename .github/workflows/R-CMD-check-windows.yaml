@@ -63,12 +63,7 @@ jobs:
 
       - name: Install spatial R packages
         run: |
-          options(repos = "https://cloud.r-project.org/")
-          install.packages("sf")
-          install.packages("lwgeom")
-          install.packages("rgdal")
-          install.packages("remotes")
-          remotes::install_github("dickoa/prepr")
+          pak::pkg_install("dickoa/prepr")
         shell: Rscript {0}
 
       - name: Session information

@@ -57,7 +57,6 @@ jobs:
           extra-packages: |
             any::rcmdcheck
             any::XML
-            any::remotes
             prepr=?ignore
           needs: |
             check
@@ -69,7 +68,7 @@ jobs:
           install.packages("terra")
           install.packages("lwgeom")
           install.packages("rgdal")
-          remotes::install_github("dickoa/prepr")
+          pak::pkg_install("dickoa/prepr")
         shell: Rscript {0}
 
       - name: Session information

@@ -57,6 +57,7 @@ jobs:
           extra-packages: |
             any::rcmdcheck
             any::XML
+            any::remotes
             prepr=?ignore
           needs: |
             check

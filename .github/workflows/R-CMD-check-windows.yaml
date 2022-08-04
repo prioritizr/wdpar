@@ -68,7 +68,8 @@ jobs:
           install.packages("terra")
           install.packages("lwgeom")
           install.packages("rgdal")
-          pak::pkg_install("dickoa/prepr")
+          install.packages("remotes")
+          remotes::install_github("dickoa/prepr")
         shell: Rscript {0}
 
       - name: Session information

@@ -55,7 +55,7 @@ mlt_raw_pa_data <- wdpa_fetch(
 )
 ```
 
-Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. `"0"`) with missing data values (i.e. `NA`), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see `wdpa_clean()`.
+Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. `"0"`) with missing data values (i.e. `NA`), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. Please note that, by default, spatial data processing is performed at a scale suitable for national scale analyses. If you require data suitable for fine scale analysis, please a higher level of precision when cleaning the data (e.g., using the augment: `geometry_precision = 10000`). For more information, see `wdpa_clean()`.
 
 ```{r}
 # clean Malta data

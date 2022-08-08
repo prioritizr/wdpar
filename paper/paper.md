@@ -15,7 +15,7 @@ authors:
 affiliations:
  - name: Department of Biology, Carleton University, Ottawa, Canada
    index: 1
-date: "27 May 2022"
+date: "08 August 2022"
 bibliography: paper.bib
 output: rticles::joss_article
 journal: JOSS
@@ -32,9 +32,11 @@ Area-based conservation measures are crucial for safeguarding biodiversity [@r5;
 
 The WDPA and WDOECM require data cleaning procedures to prepare them for analysis [@r4; @r10]. These procedures include repairing invalid geometries in spatial boundaries, excluding areas that have yet to be fully implemented, excluding areas that are no longer designated, excluding UNESCO Biosphere Reserves [@r1], buffering areas represented by point localities [@r3], and removing spatial overlaps [@r2]. These procedures are critical to ensure that assessments of area-based conservation measures do not overestimate the spatial extent of such measures and their ability to conserve biodiversity [@r1; @r2]. Although these procedures are critical, they can be technically challenging to implement. The \texttt{wdpar} \texttt{R} package provides automated methods to complete these procedures following best practices [@r4; @r10]. Using the package, data cleaning procedures can applied without specialized knowledge, customized to particular use cases, and across the entire WDPA and WDOECM. As such, the \texttt{wdpar} \texttt{R} package helps increase accessibility to the databases.
 
-# Research applications
+# Applications
 
-The \texttt{wdpar} \texttt{R} package has several applications for conservation research. For example, it has been used to assess the performance of existing protected areas in Colombia, Greece, and South Asia [@r11; @r16; @r13; @r17]. It has also been used to examine the potential implications of climate change on conservation efforts [@r12; @r14]. Additionally, it has been used to account for existing protected areas when identifying priority areas for biodiversity conservation [@r15]. Furthermore, it has been used to help understand how protected area management by Indigenous Peoples can reduce deforestation [@r18].
+The \texttt{wdpar} \texttt{R} package is designed to provide a reproducible tool for downloading and cleaning the WDPA and WDOECM. Indeed, the default settings for the data cleaning procedures follow Protected Planet guidelines [@r10]. Although these default settings will be useful for many applications -- such as reporting national protected area coverage -- they can be customized for other applications. For example, the data cleaning procedures can be customized to retain UNESCO Biosphere Reserves, retain protected areas with particular statuses, and increase the precision of spatial data processing procedures. These customized settings could be useful for reporting local-scale protected area coverage and monitoring protected area effectiveness.
+
+The package has several applications for conservation research. For example, it has been used to assess the performance of existing protected areas in Colombia, Greece, and South Asia [@r11; @r16; @r13; @r17]. It has also been used to examine the potential implications of climate change on conservation efforts [@r12; @r14]. Additionally, it has been used to account for existing protected areas when identifying priority areas for biodiversity conservation [@r15]. Furthermore, it has been used to help understand how protected area management by Indigenous Peoples can reduce deforestation [@r18].
 
 # Availability
 

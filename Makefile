@@ -60,6 +60,10 @@ spellcheck:
 urlcheck:
 	R --slave -e "devtools::document();urlchecker::url_check()"
 
+purl_vigns:
+	R --slave -e "lapply(dir('vignettes', '^.*\\\\.Rmd$$'), function(x) knitr::purl(file.path('vignettes', x), gsub('.Rmd', '.R', x, fixed = TRUE)))"
+	rm -f Rplots.pdf
+
 examples:
 	R --slave -e "devtools::run_examples(run_donttest = TRUE, run_dontrun = TRUE);warnings()"  >> examples.log
 	rm -f Rplots.pdf
@@ -85,4 +89,4 @@ paper/paper.pdf: paper/paper.Rmd paper/paper.bib
 wdpa_global: install
 	R CMD BATCH --no-restore --no-save inst/scripts/global-example-script.R
 
-.PHONY: initc vigns clean data docs readme site test check checkwb build  install man spellcheck examples wdpa_global paper
+.PHONY: initc vigns clean data docs readme site test check checkwb build  install man spellcheck examples wdpa_global paper purl_vigns

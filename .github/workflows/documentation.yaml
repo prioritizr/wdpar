@@ -56,8 +56,6 @@ jobs:
         with:
           cache-version: 4
           extra-packages: |
-            any::rcmdcheck
-            any::XML
             any::urlchecker
             prepr=?ignore
           needs: |

@@ -58,12 +58,12 @@ jobs:
           extra-packages: |
             any::urlchecker
             prepr=?ignore
-          needs: |
-            check
 
       - name: Install spatial R packages
         run: |
+          options(repos = "https://cloud.r-project.org/")
           install.packages("remotes")
+          remotes::install_cran("sf")
           remotes::install_github("dickoa/prepr")
         shell: Rscript {0}
 

@@ -50,17 +50,16 @@ jobs:
         with:
           cache-version: 4
           extra-packages: |
-            any::covr
             any::rcmdcheck
-            any::XML
+            any::covr
             prepr=?ignore
-          needs: |
-            check
-            coverage
 
       - name: Install spatial R packages
         run: |
-          pak::pkg_install("dickoa/prepr")
+          options(repos = "https://cloud.r-project.org/")
+          install.packages("remotes")
+          remotes::install_cran("sf")
+          remotes::install_github("dickoa/prepr")
         shell: Rscript {0}
 
       - name: Session information

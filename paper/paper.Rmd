@@ -40,6 +40,10 @@ The \texttt{wdpar} \texttt{R} package is designed to provide a reproducible tool
 
 The \texttt{wdpar} \texttt{R} package has several applications for conservation research. For example, it has been used to assess the performance of existing protected areas in Colombia, Greece, and South Asia [@r11; @r16; @r13; @r17]. It has also been used to examine the potential implications of climate change on conservation efforts [@r12; @r14]. Additionally, it has been used to account for existing protected areas when identifying priority areas for biodiversity conservation [@r15]. Furthermore, it has been used to help understand how protected area management by Indigenous Peoples can reduce deforestation [@r18].
 
+# Comparison with other software packages
+
+The \texttt{wdpar} \texttt{R} package provides superior functionality for processing Protected Planet data compared with other software packages. Although the \texttt{rwdpa} \texttt{R} package, \texttt{worldpa} \texttt{R} package, and the \texttt{pywdpa} \texttt{Python} package provide interfaces for downloading data from Protected Planet [@r23; @r24; @r25], none of these software packages provide functionality for data cleaning. Additionally, the \texttt{rwdpa} \texttt{R} package has been archived. A command line tool was also developed to download and clean Protected Planet data [@r26]. However, because the command line tool was implemented as a collection of \texttt{Python} scripts and configuration files, it is difficult to install and customize.
+
 # Availability
 
 The \texttt{wdpar} \texttt{R} package is implemented as a software package for \texttt{R} statistical computing environment [@r19]. It is available on the Comprehensive R Archive Network (CRAN) [@r20]. Developmental versions are available on an online code repository (<https://github.com/prioritizr/wdpar>). Documentation for the package is also available online (<https://prioritizr.github.io/wdpar>).

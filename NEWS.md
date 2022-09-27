@@ -2,10 +2,11 @@
 
 - Update paper for JOSS submission (#53, #62).
 - Update vignette with new section on local scale analyses (#53).
-- Update `wdpa_fetch()` to use the webdriver package for obtaining data
+- Update `wdpa_fetch()` function to use the webdriver package for obtaining data
   (replacing Rselenium package as a dependency) (#63).
 - Update `st_repair_geometry()` to be more robust.
-- Fix failing tests for `st_repair_geometry()`.
+- Fix failing tests for `st_repair_geometry()` function.
+- Update documentation for `wdpa_clean()` function.
 
 # wdpar 1.3.3
 

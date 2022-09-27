@@ -67,8 +67,6 @@ NULL
 #'
 #'   \enumerate{
 #'
-#'   \item Repair invalid geometry (using [sf::st_make_valid()]).
-#'
 #'   \item Exclude protected areas according to their status (i.e.
 #'     `"STATUS"` field). Specifically, protected areas that have
 #'     a status not specified in the argument to `retain_status` are excluded.

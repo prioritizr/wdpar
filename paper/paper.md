@@ -15,12 +15,14 @@ authors:
 affiliations:
  - name: Department of Biology, Carleton University, Ottawa, Canada
    index: 1
-date: "21 September 2022"
+date: "27 September 2022"
 bibliography: paper.bib
 output: rticles::joss_article
 journal: JOSS
 link-citations: yes
 ---
+
+
 
 # Summary
 
@@ -28,7 +30,7 @@ The \texttt{wdpar} \texttt{R} package provides an interface to data available on
 
 # Statement of need
 
-Area-based conservation measures are crucial for safeguarding biodiversity [@r5; @r6]. Examples of such measures include protected areas, marine reserves, and other effective area-based conservation measures (OECMs). Protected Planet is a key resource for area-based conservation measures, providing the World Database on Protected Areas (WDPA) and the World Database on Other Effective Area-Based Conservation Measures (WDOECM) [@r9]. These publicly available databases contain standardized data for over 270,000 protected areas and over 700 OECMs worldwide [@r9]. By detailing the designation, establishment, management, and spatial boundaries of area-based conservation measures [@r21], these databases play a vital role in monitoring and prioritizing conservation efforts [@r4; @r8].
+Area-based conservation measures are crucial for safeguarding biodiversity [@r5; @r6]. Examples of such measures include protected areas, marine reserves, and other effective area-based conservation measures (OECMs). Protected Planet is a key resource for area-based conservation measures, providing the World Database on Protected Areas (WDPA) and the World Database on Other Effective Area-Based Conservation Measures (WDOECM) [@r9]. These publicly available databases contain standardized data for over 270,000 protected areas and over 800 OECMs worldwide [@r9]. By detailing the designation, establishment, management, and spatial boundaries of area-based conservation measures [@r21], these databases play a vital role in monitoring and prioritizing conservation efforts [@r4; @r8].
 
 The WDPA and WDOECM require data cleaning procedures to prepare them for analysis [@r4; @r10]. These procedures include excluding areas that have yet to be fully implemented, areas that are no longer designated, and UNESCO Biosphere Reserves [@r1]. They also include geoprocessing procedures, such as repairing invalid geometries in spatial boundaries, buffering areas represented by point localities [@r3], and removing spatial overlaps [@r2]. Specifically, overlapping geometries are erased such that areas associated with more effective management categories are retained [@r22] and -- in cases where geometries with the same management category overlap -- areas associated with historical precedence are retained. These procedures are critical to ensure accuracy in assessments of area-based conservation measures [@r1; @r2]. Yet, despite their importance, these procedures can be challenging to implement.
 
@@ -43,6 +45,28 @@ The \texttt{wdpar} \texttt{R} package has several applications for conservation 
 # Comparison with other software packages
 
 The \texttt{wdpar} \texttt{R} package provides superior functionality for processing Protected Planet data compared with other software packages. Although the \texttt{rwdpa} \texttt{R} package, \texttt{worldpa} \texttt{R} package, and the \texttt{pywdpa} \texttt{Python} package provide interfaces for downloading data from Protected Planet [@r23; @r24; @r25], none of these software packages provide functionality for data cleaning. Additionally, the \texttt{rwdpa} \texttt{R} package has been archived. A command line tool was also developed to download and clean Protected Planet data [@r26]. However, because the command line tool was implemented as a collection of \texttt{Python} scripts and configuration files, it is difficult to install and customize.
+
+# Case study
+
+Here I provide a short case study to showcase usage of the \texttt{wdpar} \texttt{R} package. This case study examines the protected area system of Malta. It involves (i) loading the package, (ii) downloading data from Protected Planet [@r9], (iii) cleaning the protected area data following best practices [@r4; @r10], and (iv) calculating the number of protected areas associated with each IUCN management category, and (v) producing a map of the protected area system (Figures 1 and 2). Analyses were performed using the \texttt{R} statistical computing environment (version 4.2.1) and the \texttt{sf} and \texttt{wdpar} \texttt{R} packages [@r19; @r28].
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.8\linewidth]{carbon} 
+
+}
+
+\caption{Case study for the \texttt{wdpar} \texttt{R} package. Text denotes \texttt{R} programming code. Lines beginning with a \textit{\#} symbol denote comments, and lines beginning with \textit{\#>} symbols denote outputs from executing the code.}\label{fig:code}
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.7\linewidth]{paper_files/figure-latex/map-1} 
+
+}
+
+\caption{Map of protected areas in Malta. Colors denote IUCN management categories.}\label{fig:map}
+\end{figure}
 
 # Availability
 

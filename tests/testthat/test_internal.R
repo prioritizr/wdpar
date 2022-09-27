@@ -74,6 +74,7 @@ test_that("wdpa_file (country - different year same month)", {
 test_that("wdpa_url (country)", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
+  skip_if_phantomjs_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # verify that wdpa_url yields a result
@@ -97,6 +98,7 @@ test_that("wdpa_url (country)", {
 test_that("wdpa_url (global)", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
+  skip_if_phantomjs_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # verify that wdpa_url yields a result

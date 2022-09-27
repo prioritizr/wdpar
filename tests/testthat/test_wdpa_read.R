@@ -3,6 +3,7 @@ context("wdpa_read")
 test_that("without point data", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
+  skip_if_phantomjs_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # try to find download url
@@ -23,6 +24,7 @@ test_that("without point data", {
 test_that("with point data", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
+  skip_if_phantomjs_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # try to find download url
@@ -47,6 +49,7 @@ test_that("with point data", {
 test_that("global data", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
+  skip_if_phantomjs_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   skip_if_local_and_slow_internet()

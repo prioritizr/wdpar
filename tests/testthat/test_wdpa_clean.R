@@ -15,6 +15,7 @@ default_retain_status <- c("Designated", "Inscribed", "Established")
 test_that("single country with eez", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
+  skip_if_phantomjs_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # fetch data
@@ -39,6 +40,7 @@ test_that("single country with eez", {
 test_that("single country without eez", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
+  skip_if_phantomjs_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # fetch data
@@ -60,6 +62,7 @@ test_that("single country without eez", {
 test_that("single country with simplification", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
+  skip_if_phantomjs_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # fetch data
@@ -81,6 +84,7 @@ test_that("single country with simplification", {
 test_that("single country without overlap removal", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
+  skip_if_phantomjs_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # fetch data
@@ -102,6 +106,7 @@ test_that("single country without overlap removal", {
 test_that("country with MULTIPOINT protected areas", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
+  skip_if_phantomjs_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # fetch data
@@ -117,6 +122,7 @@ test_that("country with MULTIPOINT protected areas", {
 test_that("country with MULTIPOLYGON protected area", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
+  skip_if_phantomjs_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # fetch data
@@ -134,6 +140,7 @@ test_that("country with MULTIPOLYGON protected area", {
 test_that("country with super invalid MULTIPOLYGON data", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
+  skip_if_phantomjs_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   x <- wdpa_fetch("GAB", wait = TRUE, check_version = FALSE)
@@ -145,6 +152,7 @@ test_that("country with super invalid MULTIPOLYGON data", {
 test_that("geometries in non-geometry column", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
+  skip_if_phantomjs_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   x <- wdpa_fetch("GAB", wait = TRUE, check_version = FALSE)
@@ -160,6 +168,7 @@ test_that("geometries in non-geometry column", {
 test_that("single country with no valid non-empty geometries", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
+  skip_if_phantomjs_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   x <- wdpa_clean(
@@ -183,6 +192,7 @@ test_that("single country with no valid non-empty geometries", {
 test_that("retain UNESCO Biosphere reserves", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
+  skip_if_phantomjs_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # fetch data
@@ -205,6 +215,7 @@ test_that("retain UNESCO Biosphere reserves", {
 test_that("protected areas that turn into long rectangles without prepr", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
+  skip_if_phantomjs_not_available()
   skip_if_not_installed("prepr")
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
@@ -220,6 +231,7 @@ test_that("protected areas that turn into long rectangles without prepr", {
 test_that("protected areas that massively increase in size without prepr", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
+  skip_if_phantomjs_not_available()
   skip_if_not_installed("prepr")
   skip_if_not_installed("dplyr")
   skip_on_github_workflow("Windows")
@@ -241,6 +253,7 @@ test_that("protected areas that massively increase in size without prepr", {
 test_that("custom retain_status", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
+  skip_if_phantomjs_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # fetch data
@@ -263,6 +276,7 @@ test_that("custom retain_status", {
 test_that("NULL retain_status", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
+  skip_if_phantomjs_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # fetch data

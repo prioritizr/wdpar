@@ -60,33 +60,31 @@ wdpa_url <- function(x, wait = FALSE, page_wait = 2) {
     assertthat::is.flag(wait),
     assertthat::is.count(page_wait),
     assertthat::noNA(page_wait),
-    is_online())
+    is_online(),
+    has_phantomjs(silent = FALSE))
   # declare hidden function
   try_and_find_url <- function(x) {
     ## initialize web driver
     result <- suppressMessages(tryCatch({
       ## initialize URL
       url <- character(0)
-      ## specify port
-      port <- as.integer(ceiling(sample(14415:14935, 1)))
+      ## initialize driver
+      pjs <- start_phantomjs()
+      rd <- webdriver::Session$new(port = pjs$port)
       ## navigate to download web page
-      pjs <- wdman::phantomjs(port = port, verbose = FALSE)
-      rd <- RSelenium::remoteDriver(port = port, browserName = "phantomjs")
-      rd$open(silent = TRUE)
-      rd$maxWindowSize()
-      rd$navigate(paste0("https://protectedplanet.net/country/", x))
+      rd$go(paste0("https://protectedplanet.net/country/", x))
       Sys.sleep(page_wait) # wait for page to load
-      elem <- rd$findElement(using = "css", ".download__trigger")
-      elem$clickElement()
+      elem <- rd$findElement(css = ".download__trigger")
+      elem$click()
       Sys.sleep(page_wait) # wait for page to load
-      elem <- rd$findElement(using = "css", "li:nth-child(2) .popup__link")
-      elem$clickElement()
+      elem <- rd$findElement(css = "li:nth-child(2) .popup__link")
+      elem$click()
       Sys.sleep(page_wait) # wait for dialog to open
-      elem <- rd$findElement(using = "css", ".modal__link-button")
-      elem$clickElement()
+      elem <- rd$findElement(css = ".modal__link-button")
+      elem$click()
       Sys.sleep(page_wait) # wait for for dialog to open
       ## extract html for modal
-      src <- xml2::read_html(rd$getPageSource()[[1]][[1]], encoding = "UTF-8")
+      src <- xml2::read_html(rd$getSource()[[1]][[1]], encoding = "UTF-8")
       divs <- xml2::xml_find_all(src, ".//div")
       divs <- divs[which(xml2::xml_attr(divs, "class") == "modal__content")]
       ## parse download link
@@ -95,13 +93,10 @@ wdpa_url <- function(x, wait = FALSE, page_wait = 2) {
     },
     finally = {
       ## clean up web driver
-      try(ph <- pjs$process)
-      try(rd$close(), silent = TRUE)
-      try(rd$close(), silent = TRUE)
-      try(pjs$stop(), silent = TRUE)
-      try(pjs$stop(), silent = TRUE)
-      try(ph$kill_tree(), silent = TRUE)
-      try(ph$kill_tree(), silent = TRUE)
+      try(rd$delete(), silent = TRUE)
+      try(rd$delete(), silent = TRUE)
+      try(stop_phantomjs(pjs), silent = TRUE)
+      try(stop_phantomjs(pjs), silent = TRUE)
     }))
     ## prepare output
     if (length(url) == 0)
@@ -136,4 +131,39 @@ wdpa_url <- function(x, wait = FALSE, page_wait = 2) {
   }
   # return url
   return(out)
+}
+
+start_phantomjs <- function() {
+  # initialize phantomjs
+  if (
+    identical(.Platform$OS.type, "unix") &&
+    identical(Sys.getenv("OPENSSL_CONF"), "")
+  ) {
+    withr::with_envvar(
+      list("OPENSSL_CONF"= "/etc/ssl"),
+      pjs <- webdriver::run_phantomjs()
+    )
+  } else {
+    pjs <- webdriver::run_phantomjs()
+  }
+  # return object
+  pjs
+}
+
+stop_phantomjs <- function(pjs) {
+  try(pjs$process$kill(), silent = TRUE)
+  try(pjs$process$kill(), silent = TRUE)
+}
+
+has_phantomjs <- function(silent = TRUE) {
+  assertthat::assert_that(
+    assertthat::is.flag(silent),
+    assertthat::noNA(silent)
+  )
+  pjs <- try(start_phantomjs, silent = TRUE)
+  on.exit(stop_phantomjs(pjs))
+  if (inherits(pjs, "try-error") && !isTRUE(silent)) {
+    stop(pjs)
+  }
+  !inherits(pjs, "try-error")
 }

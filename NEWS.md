@@ -1,3 +1,12 @@
+# wdpar 1.3.3.1
+
+- Update paper for JOSS submission (#53, #62).
+- Update vignette with new section on local scale analyses (#53).
+- Update `wdpa_fetch()` to use the webdriver package for obtaining data
+  (replacing Rselenium package as a dependency) (#63).
+- Update `st_repair_geometry()` to be more robust.
+- Fix failing tests for `st_repair_geometry()`.
+
 # wdpar 1.3.3
 
 - CRAN release.

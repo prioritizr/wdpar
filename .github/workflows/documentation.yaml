@@ -59,7 +59,7 @@ jobs:
           extra-packages: |
             any::rcmdcheck
             any::urlchecker
-            cran::XML
+            cran/XML
             prepr=?ignore
           needs: |
             check

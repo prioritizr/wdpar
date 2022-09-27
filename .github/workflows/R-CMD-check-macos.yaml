@@ -56,7 +56,7 @@ jobs:
           cache-version: 4
           extra-packages: |
             any::rcmdcheck
-            any::XML
+            cran::XML
           needs: |
             check
 

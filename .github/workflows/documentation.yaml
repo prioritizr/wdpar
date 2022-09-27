@@ -57,8 +57,8 @@ jobs:
           cache-version: 4
           extra-packages: |
             any::rcmdcheck
-            any::XML
             any::urlchecker
+            cran::XML
             prepr=?ignore
           needs: |
             check

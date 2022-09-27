@@ -50,9 +50,9 @@ jobs:
         with:
           cache-version: 4
           extra-packages: |
-            any::covr
             any::rcmdcheck
-            any::XML
+            any::covr
+            cran::XML
             prepr=?ignore
           needs: |
             check

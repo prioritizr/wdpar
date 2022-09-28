@@ -182,21 +182,21 @@ head(mlt_pa_data)
     ## CRS:           +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
     ## Precision:     1500 
     ## # A tibble: 6 × 33
-    ##      WDPAID WDPA_PID  PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
-    ##       <dbl> <chr>     <chr>  <chr> <chr>     <chr> <chr>     <chr>      <chr>   
-    ## 1    194420 194420    PA     Filf… Filfla    Rise… Nature R… National   Ia      
-    ## 2    194425 194425    PA     Il-G… Il-Gżejj… Rise… Nature R… National   Ia      
-    ## 3 555588631 555588631 PA     Il-M… Il-Majji… Park… National… National   II      
-    ## 4    174757 174757    PA     Il-Ġ… Il-Ġonna… List… List of … National   III     
-    ## 5    174758 174758    PA     Bidn… Bidnija,… List… List of … National   III     
-    ## 6    194415 194415    PA     Il-Ġ… Il-Ġonna… List… List of … National   III     
-    ## # … with 24 more variables: INT_CRIT <chr>, MARINE <chr>, REP_M_AREA <dbl>,
-    ## #   GIS_M_AREA <dbl>, REP_AREA <dbl>, GIS_AREA <dbl>, NO_TAKE <chr>,
-    ## #   NO_TK_AREA <dbl>, STATUS <chr>, STATUS_YR <dbl>, GOV_TYPE <chr>,
-    ## #   OWN_TYPE <chr>, MANG_AUTH <chr>, MANG_PLAN <chr>, VERIF <chr>,
-    ## #   METADATAID <int>, SUB_LOC <chr>, PARENT_ISO <chr>, ISO3 <chr>,
-    ## #   SUPP_INFO <chr>, CONS_OBJ <chr>, GEOMETRY_TYPE <chr>, AREA_KM2 <dbl>,
-    ## #   geometry <MULTIPOLYGON [m]>
+    ##      WDPAID WDPA_PID  PA_DEF NAME  ORIG_…¹ DESIG DESIG…² DESIG…³ IUCN_…⁴ INT_C…⁵
+    ##       <dbl> <chr>     <chr>  <chr> <chr>   <chr> <chr>   <chr>   <chr>   <chr>  
+    ## 1    194420 194420    PA     Filf… Filfla  Rise… Nature… Nation… Ia      Not Ap…
+    ## 2    194425 194425    PA     Il-G… Il-Gże… Rise… Nature… Nation… Ia      Not Ap…
+    ## 3 555588631 555588631 PA     Il-M… Il-Maj… Park… Nation… Nation… II      Not Ap…
+    ## 4    174757 174757    PA     Il-Ġ… Il-Ġon… List… List o… Nation… III     Not Ap…
+    ## 5    174758 174758    PA     Bidn… Bidnij… List… List o… Nation… III     Not Ap…
+    ## 6    194415 194415    PA     Il-Ġ… Il-Ġon… List… List o… Nation… III     Not Ap…
+    ## # … with 23 more variables: MARINE <chr>, REP_M_AREA <dbl>, GIS_M_AREA <dbl>,
+    ## #   REP_AREA <dbl>, GIS_AREA <dbl>, NO_TAKE <chr>, NO_TK_AREA <dbl>,
+    ## #   STATUS <chr>, STATUS_YR <dbl>, GOV_TYPE <chr>, OWN_TYPE <chr>,
+    ## #   MANG_AUTH <chr>, MANG_PLAN <chr>, VERIF <chr>, METADATAID <int>,
+    ## #   SUB_LOC <chr>, PARENT_ISO <chr>, ISO3 <chr>, SUPP_INFO <chr>,
+    ## #   CONS_OBJ <chr>, GEOMETRY_TYPE <chr>, AREA_KM2 <dbl>,
+    ## #   geometry <MULTIPOLYGON [m]>, and abbreviated variable names ¹​ORIG_NAME, …
 
 Finally, after cleaning the data, let’s plot a map showing Malta’s
 protected areas and color each area according to its management category
@@ -247,7 +247,7 @@ To cite the latest official version, please use:
 To cite the latest development version, please use:
 
 > Hanson JO (2022). wdpar: Interface to the World Database on Protected
-> Areas. R package version 1.3.3. Available at
+> Areas. R package version 1.3.3.1. Available at
 > <https://github.com/prioritizr/wdpar>.
 
 To cite the World Database on Protected Areas (WDPA), please use:

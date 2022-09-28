@@ -286,7 +286,7 @@ Here, we specified that the spatial data processing should be performed at a muc
 Although the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/en) is the most comprehensive global dataset, many datasets are available for specific countries or regions that do not require such extensive data cleaning procedures. As a consequence, it is often worth looking for alternative data sets when working at smaller geographic scales before considering the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/en). The list below outlines several alternative protected area datasets and information on where they can be obtained. If you know of any such datasets that are missing, [please create an issue on the GitHub repository](https://github.com/prioritizr/wdpar/issues) and we can add them to the list.
 
 * Arctic
-    + [Arctic Protected Areas - 2017](https://geo.abds.is)
+    + [Arctic Protected Areas - 2017](http://geo.abds.is/geonetwork/srv/eng/catalog.search#/metadata/2e56ee1f-50a9-4983-88f4-edaa8588950d)
 * Australia
     + [Collaborative Australian Protected Area Database (CAPAD)](https://www.dcceew.gov.au/environment/land/nrs/science/capad)
     + [Conservation Areas Reporting and Tracking System (CARTS)](https://ccea-ccae.org)

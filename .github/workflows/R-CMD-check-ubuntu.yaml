@@ -59,7 +59,7 @@ jobs:
           cache-version: 4
           extra-packages: |
             any::rcmdcheck
-            any::urlchecker
+            any::covr
             any::remotes
             prepr=?ignore
             cran/XML

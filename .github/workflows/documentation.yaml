@@ -44,6 +44,14 @@ jobs:
           r-version: ${{ matrix.config.r }}
           use-public-rspm: true
 
+      - name: Install system dependencies
+        run: |
+          sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable
+          sudo apt update
+          sudo apt-get install \
+            libgdal-dev libgeos-dev libproj-dev \
+            libgmp3-dev libmpfr-dev libudunits2-dev
+
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: 4
@@ -51,10 +59,18 @@ jobs:
             any::rcmdcheck
             any::urlchecker
             any::remotes
+            prepr=?ignore
             cran/XML
-            dickoa/prepr
           needs: |
             check
+
+      - name: Install spatial R packages
+        run: |
+          options(repos = "https://cloud.r-project.org/")
+          install.packages("sf")
+          install.packages("lwgeom")
+          remotes::install_github("dickoa/prepr")
+        shell: Rscript {0}
 
       - name: Session information
         run: |

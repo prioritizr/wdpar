@@ -1,3 +1,11 @@
+# wdpar 1.3.3.2
+
+- Add URLs to README for citations (#58).
+- Update `wdpa_fetch()` documentation to provide information on out of date
+  warnings (#59).
+- Update `wdpa_fetch()` warnings to be more descriptive and use the _cli_
+  package for consistent alert messages.
+
 # wdpar 1.3.3.1
 
 - Update paper for JOSS submission (#53, #54, #62).

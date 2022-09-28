@@ -7,6 +7,9 @@ test_that("valid geometry (defined crs)", {
   # repair geometry
   p2 <- st_repair_geometry(p1)
   p3 <- sf::st_make_valid(p1)
+  # standardize polygons
+  p2 <- standardize_geometry(p2)
+  p3 <- standardize_geometry(p3)
   # tests
   expect_is(p2, "sf")
   expect_named(p2, names(p1))
@@ -22,6 +25,9 @@ test_that("valid geometry (NA crs)", {
   # repair geometry
   p2 <- st_repair_geometry(p1)
   p3 <- sf::st_make_valid(p1)
+  # standardize polygons
+  p2 <- standardize_geometry(p2)
+  p3 <- standardize_geometry(p3)
   # tests
   expect_is(p2, "sf")
   expect_named(p2, names(p1))
@@ -42,6 +48,9 @@ test_that("invalid geometry (prepair not needed)", {
   # repair geometry
   p2 <- st_repair_geometry(p1)
   p3 <- sf::st_make_valid(p1)
+  # standardize polygons
+  p2 <- standardize_geometry(p2)
+  p3 <- standardize_geometry(p3)
   # tests
   expect_is(p2, "sf")
   expect_named(p2, names(p1))

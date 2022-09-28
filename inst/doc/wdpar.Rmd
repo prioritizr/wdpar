@@ -55,7 +55,7 @@ mlt_raw_pa_data <- wdpa_fetch(
 )
 ```
 
-Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. `"0"`) with missing data values (i.e. `NA`), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. For more information, see `wdpa_clean()`.
+Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. `"0"`) with missing data values (i.e. `NA`), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. Please note that, by default, spatial data processing is performed at a scale suitable for national scale analyses (see below for recommendations for local scale analyses). For more information on the data cleaning procedures, see `wdpa_clean()`.
 
 ```{r}
 # clean Malta data
@@ -222,12 +222,71 @@ print(pa_data)
 print(st_area(pa_data))
 ```
 
+### Recommended practices for local scale analyses
+
+The default parameters for the data cleaning procedures are well suited for national-scale analyses. Although these parameters reduce memory requirements and the time needed to complete the data cleaning procedures, they can produce protected area boundaries that appear overly "blocky" -- lacking smooth edges -- when viewed at finer scales. As such, it is strongly recommended to increase the level of spatial precision when cleaning data for local scale analyses (via the `geometry_precision` parameter of the `wdpa_clean()` function).
+
+Here we will explore the consequences of using the default parameters for the data cleaning procedures when working at a local scale. This will help illustrate why it can be important to adjust the spatial precision of the data cleaning procedures. To begin with, we will obtain data for a small protected area. Specifically, we will extract a protected area from the Malta dataset we downloaded earlier.
+
+```{r}
+# find id for smallest reserve in cleaned dataset
+mlt_reserve_id <- mlt_pa_data$WDPAID[which.min(mlt_pa_data$AREA_KM2)]
+
+# extract the smallest reserve from the raw dataset
+mlt_raw_reserve_data <-
+  mlt_raw_pa_data %>%
+  filter(WDPAID == mlt_reserve_id)
+
+# preview data
+print(mlt_raw_reserve_data)
+
+# visualize data
+plot(mlt_raw_reserve_data[, 1])
+```
+
+```{r, include = FALSE}
+assertthat::assert_that(
+  nrow(mlt_raw_reserve_data) == 1,
+  msg = "failed to extract small reserve from Malta data"
+)
+```
+
+We can see that the boundary for this protected area has a high level of detail. This suggests that the protected area data is available at a resolution that is sufficient to permit local scale analyses. To help understand the consequences of cleaning data with the default parameters, we will clean this dataset using the default parameters.
+
+```{r}
+# clean the data with default parameters
+mlt_default_cleaned_reserve_data <- wdpa_clean(mlt_raw_reserve_data)
+
+# preview data
+print(mlt_default_cleaned_reserve_data)
+
+# visualize data
+plot(mlt_default_cleaned_reserve_data[, 1])
+```
+
+After cleaning the data with the default parameters, we can see that the boundary of the protected area is no longer highly detailed. For example, the smooth edges of the raw protected area data have been replaced with sharp, blocky edges. As such, subsequent analysis performed at the local scale -- such as calculating the spatial extent of land cover types within this single protected area -- might not be sufficiently precise. Now, let's clean the data using parameters that are well suited for local scale analysis.
+
+```{r}
+# clean the data with default parameters
+mlt_fixed_cleaned_reserve_data <- wdpa_clean(
+  mlt_raw_reserve_data, geometry_precision = 10000
+)
+
+# preview data
+print(mlt_fixed_cleaned_reserve_data)
+
+# visualize data
+plot(mlt_fixed_cleaned_reserve_data[, 1])
+```
+
+Here, we specified that the spatial data processing should be performed at a much greater level of precision (using the `geometry_precision` parameter). As a consequence, we can see -- after applying the data cleaning procedures -- that the protected area boundary still retains a high level of detail. This means that the cleaned protected area data is more suitable for local scale analysis. If a greater level of detail is required, the level of precision could be increased further. Note that the maximum level of detail that can be achieved in the cleaned data is limited by the level of detail in the raw data. This means that increasing the level of precision beyond a certain point will have no impact on the cleaned data, because the raw data do not provide sufficient detail for the increased precision to alter the spatial data processing.
+
 ### Additional datasets
 
 Although the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/en) is the most comprehensive global dataset, many datasets are available for specific countries or regions that do not require such extensive data cleaning procedures. As a consequence, it is often worth looking for alternative data sets when working at smaller geographic scales before considering the [World Database on Protected Areas (WDPA)](https://www.protectedplanet.net/en). The list below outlines several alternative protected area datasets and information on where they can be obtained. If you know of any such datasets that are missing, [please create an issue on the GitHub repository](https://github.com/prioritizr/wdpar/issues) and we can add them to the list.
 
 * Arctic
-    + [Arctic Protected Areas - 2017](https://geo.abds.is)
+    + [Arctic Protected Areas - 2017](http://geo.abds.is/geonetwork/srv/eng/catalog.search#/metadata/2e56ee1f-50a9-4983-88f4-edaa8588950d)
 * Australia
     + [Collaborative Australian Protected Area Database (CAPAD)](https://www.dcceew.gov.au/environment/land/nrs/science/capad)
     + [Conservation Areas Reporting and Tracking System (CARTS)](https://ccea-ccae.org)

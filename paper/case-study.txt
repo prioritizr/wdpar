@@ -1,0 +1,37 @@
+# (i) load package
+library(wdpar)
+#> Loading required package: sf
+#> Linking to GEOS 3.10.2, GDAL 3.4.1, PROJ 8.2.1; sf_use_s2() is TRUE
+
+# (ii) download data
+d <- wdpa_fetch("Malta")
+
+# (iii) clean data
+d <- wdpa_clean(d)
+#> ✔ initializing [75ms]
+#> ✔ retaining only areas with specified statuses [41ms]
+#> ✔ removing UNESCO Biosphere Reserves [62ms]
+#> ✔ removing points with no reported area [37ms]
+#> ✔ wrapping dateline [425ms]
+#> ✔ repairing geometry [1.1s]
+#> ✔ reprojecting data [65ms]
+#> ✔ repairing geometry [583ms]
+#> ✔ further geometry fixes (i.e. buffering by zero) [144ms]
+#> ✔ repairing geometry [506ms]
+#> ✔ snapping geometry to tolerance [101ms]
+#> ✔ repairing geometry [564ms]
+#> ✔ formatting attribute data [31ms]
+#> ✔ removing slivers [122ms]
+#> ✔ calculating spatial statistics [116ms]
+
+# (iv) report number of protected areas in each IUCN category
+table(d$IUCN_CAT)
+#> Ia   II   III   IV   Not Reported   V   VI
+#> 2    1    6     186  69             14  1
+
+# (v) create a map showing the protected areas
+# N.B., colors denote different IUCN categories
+pal <- c("#FDE725FF", "#8FD744FF", "#35B779FF", "#21908CFF",
+         "#31688EFF", "#443A83FF", "#440154FF")
+plot(d[, "IUCN_CAT"], main = NA, pal = pal, graticule = TRUE,
+     axes = TRUE, key.pos = 1L, key.length = 0.9)

@@ -9,7 +9,6 @@ doc
 *.Rproj.user
 *.Rhistory
 .Rproj.user
-inst/scripts/global-example-script.Rout
 
 # log files
 gurobi.log
@@ -19,19 +18,28 @@ spell.log
 gp.log
 examples.log
 global-example-script.Rout
-paper/paper.docx
+inst/scripts/global-example-script.Rout
+
 
 # system files
 .directory
+
 # do not ignore the following files
 !.gitkeep
 !*/
 !inst/doc/*.html
 !inst/doc/*.Rmd
 !inst/doc/.gitkeep
+
 # devtools files
 doc/*
 Meta/*
 .build.timestamp
 /doc/
 /Meta/
+
+# paper files
+paper/paper.docx
+/paper/paper_cache/
+/paper/paper_files/
+paper/*.Rout

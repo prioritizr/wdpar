@@ -87,8 +87,6 @@ the countries' coastline and its Exclusive Economic Zone (EEZ).
 
 \enumerate{
 
-\item Repair invalid geometry (using \code{\link[sf:valid]{sf::st_make_valid()}}).
-
 \item Exclude protected areas according to their status (i.e.
 \code{"STATUS"} field). Specifically, protected areas that have
 a status not specified in the argument to \code{retain_status} are excluded.

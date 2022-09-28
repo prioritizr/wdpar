@@ -43,9 +43,17 @@ NULL
 #'   `FALSE`.
 #'
 #' @details
-#' This function will check to see if the specified data
-#' have previously been downloaded, download the data if needed,
-#' and import the data.
+#' This function obtains and imports data from Protected Planet.
+#' By default (per `force_download = FALSE`), it will check to see if the
+#' data have already been downloaded and, if so, simply import the previously
+#' downloaded data.
+#' It will also check to see if a newer version of the dataset is available
+#' on Protected Planet (per `check_version = TRUE`) and, if so, provide an
+#' alert.
+#' If the latest version is not required, this alert can be safely ignored.
+#' However, if the latest version of the data is required,
+#' then using `force_download = TRUE` will ensure that the latest version
+#' is always obtained.
 #' After importing the data, it is strongly recommended to clean the data
 #' prior to analysis (see [wdpa_clean()]).
 #'
@@ -183,13 +191,22 @@ wdpa_fetch <- function(x, wait = FALSE,
         ### throw warning if out of date
         if (input_file_date < current_file_date) {
           #nocov start
-          warning(paste0("local data is out of date: ",
-                         format(input_file_date, "%b %Y")))
+          cli::cli_alert_warning(
+            paste0(
+              "importing local data (version ",
+               format(input_file_date, "%b %Y"),
+               "); use \"force=TRUE\" if you need latest version."
+             )
+           )
           #nocov end
         }
       } else {
         ## if internet not available
-        warning("cannot verify if version on disk is up to date.") #nocov
+         # nocov start
+        cli::cli_alert_warning(
+          "cannot verify if version on disk is up to date."
+        )
+        # nocov end
       }
     }
   }

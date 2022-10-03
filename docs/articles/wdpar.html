@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.3.2</span>
       </span>
     </div>
 
@@ -103,8 +103,7 @@
 <span><span class="va">mlt_raw_pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wdpa_fetch.html">wdpa_fetch</a></span><span class="op">(</span></span>
 <span>  <span class="st">"Malta"</span>, wait <span class="op">=</span> <span class="cn">TRUE</span>, download_dir <span class="op">=</span> <span class="fu">rappdirs</span><span class="fu">::</span><span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"wdpar"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning in wdpa_fetch("Malta", wait = TRUE, download_dir =</span></span>
-<span><span class="co">## rappdirs::user_data_dir("wdpar")): local data is out of date: Jun 2022</span></span></code></pre>
+<pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> importing local data (version Jun 2022); use "force=TRUE" if you need latest version.</span></span></code></pre>
 <p>Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. <code>"0"</code>) with missing data values (i.e. <code>NA</code>), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. Please note that, by default, spatial data processing is performed at a scale suitable for national scale analyses (see below for recommendations for local scale analyses). For more information on the data cleaning procedures, see <code><a href="../reference/wdpa_clean.html">wdpa_clean()</a></code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># clean Malta data</span></span>
@@ -270,9 +269,12 @@
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PRT"</span>, <span class="st">"ESP"</span>, <span class="st">"FRA"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">wdpa_fetch</span>, wait <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>         download_dir <span class="op">=</span> <span class="fu">rappdirs</span><span class="fu">::</span><span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"wdpar"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># clean protected area data (with procedure for erasing overlaps disabled)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #BBBB00;">!</span> importing local data (version Dec 2021); use "force=TRUE" if you need latest version.</span></span>
+<span><span class="co">## <span style="color: #BBBB00;">!</span> importing local data (version Dec 2021); use "force=TRUE" if you need latest version.</span></span>
+<span><span class="co">## <span style="color: #BBBB00;">!</span> importing local data (version Dec 2021); use "force=TRUE" if you need latest version.</span></span></code></pre>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># clean protected area data (with procedure for erasing overlaps disabled)</span></span>
 <span><span class="va">full_pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wdpa_clean.html">wdpa_clean</a></span><span class="op">(</span><span class="va">raw_pa_data</span>, erase_overlaps <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># at this stage, the data could be filtered based on extra criteria (if needed)</span></span>
@@ -295,7 +297,7 @@
 <span><span class="co">## Precision:     1500 </span></span>
 <span><span class="co">##   id                       geometry</span></span>
 <span><span class="co">## 1  1 MULTIPOLYGON (((-1747945 34...</span></span></code></pre>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># calculate total area</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_measures.html" class="external-link">st_area</a></span><span class="op">(</span><span class="va">pa_data</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 8040807030 [m^2]</span></span></code></pre>
@@ -305,7 +307,7 @@
 </h3>
 <p>The default parameters for the data cleaning procedures are well suited for national-scale analyses. Although these parameters reduce memory requirements and the time needed to complete the data cleaning procedures, they can produce protected area boundaries that appear overly “blocky” – lacking smooth edges – when viewed at finer scales. As such, it is strongly recommended to increase the level of spatial precision when cleaning data for local scale analyses (via the <code>geometry_precision</code> parameter of the <code><a href="../reference/wdpa_clean.html">wdpa_clean()</a></code> function).</p>
 <p>Here we will explore the consequences of using the default parameters for the data cleaning procedures when working at a local scale. This will help illustrate why it can be important to adjust the spatial precision of the data cleaning procedures. To begin with, we will obtain data for a small protected area. Specifically, we will extract a protected area from the Malta dataset we downloaded earlier.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># find id for smallest reserve in cleaned dataset</span></span>
 <span><span class="va">mlt_reserve_id</span> <span class="op">&lt;-</span> <span class="va">mlt_pa_data</span><span class="op">$</span><span class="va">WDPAID</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.min</a></span><span class="op">(</span><span class="va">mlt_pa_data</span><span class="op">$</span><span class="va">AREA_KM2</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
@@ -332,12 +334,12 @@
 <span><span class="co">## <span style="color: #949494;">#   SUB_LOC &lt;chr&gt;, PARENT_ISO &lt;chr&gt;, ISO3 &lt;chr&gt;, SUPP_INFO &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   CONS_OBJ &lt;chr&gt;, geometry &lt;MULTIPOLYGON [°]&gt;, and abbreviated variable names</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   ¹​ORIG_NAME, ²​DESIG_ENG, ³​DESIG_TYPE, ⁴​IUCN_CAT, ⁵​INT_CRIT</span></span></span></code></pre>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># visualize data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mlt_raw_reserve_data</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="wdpar_files/figure-html/unnamed-chunk-15-1.png" width="432" style="display: block; margin: auto;"></p>
 <p>We can see that the boundary for this protected area has a high level of detail. This suggests that the protected area data is available at a resolution that is sufficient to permit local scale analyses. To help understand the consequences of cleaning data with the default parameters, we will clean this dataset using the default parameters.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># clean the data with default parameters</span></span>
 <span><span class="va">mlt_default_cleaned_reserve_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wdpa_clean.html">wdpa_clean</a></span><span class="op">(</span><span class="va">mlt_raw_reserve_data</span><span class="op">)</span></span>
 <span></span>
@@ -359,12 +361,12 @@
 <span><span class="co">## <span style="color: #949494;">#   SUB_LOC &lt;chr&gt;, PARENT_ISO &lt;chr&gt;, ISO3 &lt;chr&gt;, SUPP_INFO &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   CONS_OBJ &lt;chr&gt;, GEOMETRY_TYPE &lt;chr&gt;, AREA_KM2 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   geometry &lt;POLYGON [m]&gt;, and abbreviated variable names ¹​ORIG_NAME, …</span></span></span></code></pre>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># visualize data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mlt_default_cleaned_reserve_data</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="wdpar_files/figure-html/unnamed-chunk-17-1.png" width="432" style="display: block; margin: auto;"></p>
 <p>After cleaning the data with the default parameters, we can see that the boundary of the protected area is no longer highly detailed. For example, the smooth edges of the raw protected area data have been replaced with sharp, blocky edges. As such, subsequent analysis performed at the local scale – such as calculating the spatial extent of land cover types within this single protected area – might not be sufficiently precise. Now, let’s clean the data using parameters that are well suited for local scale analysis.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># clean the data with default parameters</span></span>
 <span><span class="va">mlt_fixed_cleaned_reserve_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wdpa_clean.html">wdpa_clean</a></span><span class="op">(</span></span>
 <span>  <span class="va">mlt_raw_reserve_data</span>, geometry_precision <span class="op">=</span> <span class="fl">10000</span></span>
@@ -388,7 +390,7 @@
 <span><span class="co">## <span style="color: #949494;">#   SUB_LOC &lt;chr&gt;, PARENT_ISO &lt;chr&gt;, ISO3 &lt;chr&gt;, SUPP_INFO &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   CONS_OBJ &lt;chr&gt;, GEOMETRY_TYPE &lt;chr&gt;, AREA_KM2 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   geometry &lt;MULTIPOLYGON [m]&gt;, and abbreviated variable names ¹​ORIG_NAME, …</span></span></span></code></pre>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># visualize data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mlt_fixed_cleaned_reserve_data</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="wdpar_files/figure-html/unnamed-chunk-18-1.png" width="432" style="display: block; margin: auto;"></p>
@@ -421,7 +423,7 @@
 <h3 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h3>
 <p>Please cite the <em>wdpar R</em> package and the relevant databases in publications. To see citation details, use the code:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"wdpar"</span><span class="op">)</span></span></code></pre></div>
 </div>
   </div>

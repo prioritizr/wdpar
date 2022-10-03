@@ -36,11 +36,13 @@ and the [World Database on Other Effective Area-Based Conservation
 Measures
 (WDOECM)](https://www.protectedplanet.net/en/thematic-areas/oecms). It
 also provides methods for cleaning data from these databases following
-best practices (outlined in Butchart *et al.* 2015; [Protected Planet
+best practices (outlined in [Butchart *et al.*
+2015](https://doi.org/10.1111/conl.12158); [Protected Planet
 2021](https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage);
-Runge *et al.* 2015). The main functions are `wdpa_fetch()` for
-downloading data and `wdpa_clean()` for cleaning data. For more
-information, please see the package vignette.
+[Runge *et al.* 2015](https://doi.org/10.1126/science.aac9180)). The
+main functions are `wdpa_fetch()` for downloading data and
+`wdpa_clean()` for cleaning data. For more information, please see the
+package vignette.
 
 ### Installation
 
@@ -247,7 +249,7 @@ To cite the latest official version, please use:
 To cite the latest development version, please use:
 
 > Hanson JO (2022). wdpar: Interface to the World Database on Protected
-> Areas. R package version 1.3.3.1. Available at
+> Areas. R package version 1.3.3.2. Available at
 > <https://github.com/prioritizr/wdpar>.
 
 To cite the World Database on Protected Areas (WDPA), please use:

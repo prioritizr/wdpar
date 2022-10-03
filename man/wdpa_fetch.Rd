@@ -73,9 +73,17 @@ Measures (WDOECM).
 \strong{Note that data are downloaded assuming non-commercial use.}
 }
 \details{
-This function will check to see if the specified data
-have previously been downloaded, download the data if needed,
-and import the data.
+This function obtains and imports data from Protected Planet.
+By default (per \code{force_download = FALSE}), it will check to see if the
+data have already been downloaded and, if so, simply import the previously
+downloaded data.
+It will also check to see if a newer version of the dataset is available
+on Protected Planet (per \code{check_version = TRUE}) and, if so, provide an
+alert.
+If the latest version is not required, this alert can be safely ignored.
+However, if the latest version of the data is required,
+then using \code{force_download = TRUE} will ensure that the latest version
+is always obtained.
 After importing the data, it is strongly recommended to clean the data
 prior to analysis (see \code{\link[=wdpa_clean]{wdpa_clean()}}).
 }

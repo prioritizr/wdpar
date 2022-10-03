@@ -41,5 +41,4 @@ Meta/*
 # paper files
 paper/paper.docx
 /paper/paper_cache/
-/paper/paper_files/
 paper/*.Rout

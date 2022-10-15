@@ -1,3 +1,8 @@
+# wdpar 1.3.3.4
+
+- Fix tests when PhatomJS not installed.
+- Fix broken URL in vignette.
+
 # wdpar 1.3.3.3
 
 - Improve error message for `wdpa_fetch()` when PhantomJS is not

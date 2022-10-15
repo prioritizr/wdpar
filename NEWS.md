@@ -1,3 +1,8 @@
+# wdpar 1.3.3.3
+
+- Improve error message for `wdpa_fetch()` when PhantomJS is not
+  installed (#63).
+
 # wdpar 1.3.3.2
 
 - Add URLs to README for citations (#58).

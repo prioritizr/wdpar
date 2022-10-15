@@ -60,8 +60,15 @@ wdpa_url <- function(x, wait = FALSE, page_wait = 2) {
     assertthat::is.flag(wait),
     assertthat::is.count(page_wait),
     assertthat::noNA(page_wait),
-    is_online(),
-    has_phantomjs(silent = FALSE))
+    is_online()
+  )
+  assertthat::assert_that(
+    has_phantomjs(),
+    msg = paste0(
+      "cannot find PhantomJS; please install it using: ",
+      "webdriver::install_phantomjs()"
+    )
+  )
   # declare hidden function
   try_and_find_url <- function(x) {
     ## initialize web driver
@@ -144,7 +151,7 @@ start_phantomjs <- function() {
       pjs <- webdriver::run_phantomjs()
     )
   } else {
-    pjs <- webdriver::run_phantomjs()
+    pjs <- suppressMessages(webdriver::run_phantomjs())
   }
   # return object
   pjs
@@ -155,15 +162,8 @@ stop_phantomjs <- function(pjs) {
   try(pjs$process$kill(), silent = TRUE)
 }
 
-has_phantomjs <- function(silent = TRUE) {
-  assertthat::assert_that(
-    assertthat::is.flag(silent),
-    assertthat::noNA(silent)
-  )
-  pjs <- try(start_phantomjs, silent = TRUE)
-  on.exit(stop_phantomjs(pjs))
-  if (inherits(pjs, "try-error") && !isTRUE(silent)) {
-    stop(pjs)
-  }
+has_phantomjs <- function() {
+  pjs <- suppressMessages(try(start_phantomjs(), silent = TRUE))
+  on.exit(suppressMessages(stop_phantomjs(pjs)))
   !inherits(pjs, "try-error")
 }

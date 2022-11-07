@@ -17,6 +17,7 @@ best practices
 2015). The main functions are \code{\link[=wdpa_fetch]{wdpa_fetch()}}
 for downloading data and \code{\link[=wdpa_clean]{wdpa_clean()}} for cleaning data. For
 more information, please see the package vignette.
+To cite this package, please see \code{citation("wdpar")}.
 }
 \references{
 Butchart SH, Clarke M, Smith RJ, Sykes RE, Scharlemann JP,

@@ -186,12 +186,12 @@ head(mlt_pa_data)
     ## # A tibble: 6 × 33
     ##      WDPAID WDPA_PID  PA_DEF NAME  ORIG_…¹ DESIG DESIG…² DESIG…³ IUCN_…⁴ INT_C…⁵
     ##       <dbl> <chr>     <chr>  <chr> <chr>   <chr> <chr>   <chr>   <chr>   <chr>  
-    ## 1    194420 194420    PA     Filf… Filfla  Rise… Nature… Nation… Ia      Not Ap…
-    ## 2    194425 194425    PA     Il-G… Il-Gże… Rise… Nature… Nation… Ia      Not Ap…
+    ## 1    194425 194425    PA     'Il-… 'Il-Gż… Rise… Nature… Nation… Ia      Not Ap…
+    ## 2    194420 194420    PA     Filf… Filfla  Rise… Nature… Nation… Ia      Not Ap…
     ## 3 555588631 555588631 PA     Il-M… Il-Maj… Park… Nation… Nation… II      Not Ap…
     ## 4    174757 174757    PA     Il-Ġ… Il-Ġon… List… List o… Nation… III     Not Ap…
     ## 5    174758 174758    PA     Bidn… Bidnij… List… List o… Nation… III     Not Ap…
-    ## 6    194415 194415    PA     Il-Ġ… Il-Ġon… List… List o… Nation… III     Not Ap…
+    ## 6    194415 194415    PA     'Il-… 'Il-Ġo… List… List o… Nation… III     Not Ap…
     ## # … with 23 more variables: MARINE <chr>, REP_M_AREA <dbl>, GIS_M_AREA <dbl>,
     ## #   REP_AREA <dbl>, GIS_AREA <dbl>, NO_TAKE <chr>, NO_TK_AREA <dbl>,
     ## #   STATUS <chr>, STATUS_YR <dbl>, GOV_TYPE <chr>, OWN_TYPE <chr>,
@@ -240,17 +240,11 @@ vignette](https://prioritizr.github.io/wdpar/articles/wdpar.html).
 Please cite the *wdpar R* package and the relevant databases used in
 publications.
 
-To cite the latest official version, please use:
+To cite the package, please use:
 
-> Hanson JO (2022). wdpar: Interface to the World Database on Protected
-> Areas. R package version 1.3.3. Available at
-> <https://CRAN.R-project.org/package=wdpar>.
-
-To cite the latest development version, please use:
-
-> Hanson JO (2022). wdpar: Interface to the World Database on Protected
-> Areas. R package version 1.3.3.4. Available at
-> <https://github.com/prioritizr/wdpar>.
+> Hanson JO (2022) wdpar: Interface to the World Database on Protected
+> Areas. Journal of Open Source Software, 7: 4594. Available at
+> <https://doi.org/10.21105/joss.04594>.
 
 To cite the World Database on Protected Areas (WDPA), please use:
 

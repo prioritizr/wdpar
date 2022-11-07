@@ -9,19 +9,21 @@ if (ndots == 3) {
   cite_url <- "https://CRAN.R-project.org/package=wdpar"
 }
 
-citHeader("To cite the wdpar package in publications, use:")
+citHeader("To cite the wdpar package in publications, please use:")
 
 citEntry(
-  entry = "Manual",
+  entry = "Article",
   author = personList(person(c("Jeffrey", "O"), "Hanson")),
   title = "wdpar: Interface to the World Database on Protected Areas",
-  year = year,
-  note = paste("R package version", meta$Version),
-  url = cite_url,
-  textVersion = paste0(
-     "Hanson JO (", year, ") wdpar: Interface to the World Database on ",
-     "Protected Areas. R package version ", meta$Version, ". ",
-     cite_url
+  year = "2022",
+  journal = "Journal of Open Source Software",
+  volume = "7",
+  pages = "4594",
+  doi = "https://doi.org/10.21105/joss.04594",
+  textVersion = paste(
+     "Hanson JO (2022) wdpar: Interface to the World Database on Protected",
+     "Areas. Journal of Open Source Software, 7: 4594.",
+     "Available at https://doi.org/10.21105/joss.04594."
   )
 )
 
@@ -54,4 +56,4 @@ citEntry(
   )
 )
 
-citFooter("Please cite this package and the relevant databases used in publications.\n\n")
+citFooter("Please cite this package and the relevant databases used in publications. For package version, use \"packageVersion('wdpar')\"\n\n")

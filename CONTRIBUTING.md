@@ -17,7 +17,7 @@ There are several ways you can contribute to this project. If you want to know m
 
 Using the package and got stuck? Browse the [documentation][website] to see if you can find a solution. Still stuck? Post your question as an [issue on GitHub][new_issue]. While we cannot offer user support, we'll try to do our best to address it, as questions often lead to better documentation or the discovery of bugs.
 
-Want to ask a question in private? Contact the package maintainer by [email][mailto:jeffrey.hanson@uqconnect.edu.au].
+Want to ask a question in private? Contact the package maintainer by [email](mailto:jeffrey.hanson@uqconnect.edu.au).
 
 ### Propose an idea
 

@@ -1,3 +1,7 @@
+# wdpar 1.3.3.5
+
+- Update citation information with journal article.
+
 # wdpar 1.3.3.4
 
 - Fix tests when PhatomJS not installed.

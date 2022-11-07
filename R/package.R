@@ -12,6 +12,7 @@
 #' 2015). The main functions are [wdpa_fetch()]
 #' for downloading data and [wdpa_clean()] for cleaning data. For
 #' more information, please see the package vignette.
+#' To cite this package, please see `citation("wdpar")`.
 #'
 #' @references
 #' Butchart SH, Clarke M, Smith RJ, Sykes RE, Scharlemann JP,

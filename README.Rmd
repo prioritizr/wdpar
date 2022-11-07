@@ -202,17 +202,9 @@ if (is_rel_version(dev_version_year[[1]])) {
 
 Please cite the _wdpar R_ package and the relevant databases used in publications.
 
-To cite the latest official version, please use:
+To cite the package, please use:
 
-```{r, echo = FALSE, results = "asis", comment = ""}
-cat(paste0("> Hanson JO (", rel_version_year[[2]],"). wdpar: Interface to the World Database on Protected Areas. R package version ", rel_version_year[[1]],". Available at https://CRAN.R-project.org/package=wdpar.\n"))
-```
-
-To cite the latest development version, please use:
-
-```{r, echo = FALSE, results = "asis", comment = ""}
-cat(paste0("> Hanson JO (", dev_version_year[[2]],"). wdpar: Interface to the World Database on Protected Areas. R package version ", dev_version_year[[1]],". Available at https://github.com/prioritizr/wdpar.\n"))
-```
+> Hanson JO (2022) wdpar: Interface to the World Database on Protected Areas. Journal of Open Source Software, 7: 4594. Available at <https://doi.org/10.21105/joss.04594>.
 
 To cite the World Database on Protected Areas (WDPA), please use:
 

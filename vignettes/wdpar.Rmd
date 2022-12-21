@@ -288,7 +288,7 @@ Although the [World Database on Protected Areas (WDPA)](https://www.protectedpla
 * Arctic
     + [Arctic Protected Areas - 2017](http://geo.abds.is/geonetwork/srv/eng/catalog.search#/metadata/2e56ee1f-50a9-4983-88f4-edaa8588950d)
 * Australia
-    + [Collaborative Australian Protected Area Database (CAPAD)](https://www.dcceew.gov.au/environment/land/nrs/science/capad)
+    + [Collaborative Australian Protected Area Database (CAPAD)](http://www.environment.gov.au/fed/catalog/search/resource/details.page?uuid=%7B4448CACD-9DA8-43D1-A48F-48149FD5FCFD%7D)
     + [Conservation Areas Reporting and Tracking System (CARTS)](https://ccea-ccae.org)
 * The United States of America
     + [Protected Areas Database of the US (PAD-US)](https://doi.org/10.5066/P9Q9LQ4B)

@@ -1,3 +1,8 @@
+# wdpar 1.3.3.6
+
+- Fix broken URL in vignette.
+- Fix badges in README.
+
 # wdpar 1.3.3.5
 
 - Update citation information with journal article.

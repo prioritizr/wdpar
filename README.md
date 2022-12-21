@@ -4,12 +4,12 @@
 ## wdpar: Interface to the World Database on Protected Areas
 
 [![lifecycle](https://img.shields.io/badge/Lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
-[![R-CMD-check-Ubuntu](https://img.shields.io/github/workflow/status/prioritizr/wdpar/Ubuntu/master.svg?label=Ubuntu)](https://github.com/prioritizr/wdpar/actions)
-[![R-CMD-check-Windows](https://img.shields.io/github/workflow/status/prioritizr/wdpar/Windows/master.svg?label=Windows)](https://github.com/prioritizr/wdpar/actions)
-[![R-CMD-check-macOS](https://img.shields.io/github/workflow/status/prioritizr/wdpar/macOS/master.svg?label=macOS)](https://github.com/prioritizr/wdpar/actions)
-[![Documentation](https://img.shields.io/github/workflow/status/prioritizr/wdpar/Documentation/master.svg?label=Documentation)](https://github.com/prioritizr/wdpar/actions)
+[![R-CMD-check-Ubuntu](https://img.shields.io/github/actions/workflow/status/prioritizr/wdpar/R-CMD-check-ubuntu.yaml?branch=master&label=Ubuntu)](https://github.com/prioritizr/wdpar/actions)
+[![R-CMD-check-Windows](https://img.shields.io/github/actions/workflow/status/prioritizr/wdpar/R-CMD-check-windows.yaml?branch=master&label=Windows)](https://github.com/prioritizr/wdpar/actions)
+[![R-CMD-check-macOS](https://img.shields.io/github/actions/workflow/status/prioritizr/wdpar/R-CMD-check-macos.yaml?branch=master&label=macOS)](https://github.com/prioritizr/wdpar/actions)
+[![Documentation](https://img.shields.io/github/actions/workflow/status/prioritizr/wdpar/documentation.yaml?branch=master&label=Documentation)](https://github.com/prioritizr/wdpar/actions)
 [![Coverage
-Status](https://codecov.io/github/prioritizr/wdpar/coverage.svg?branch=master)](https://codecov.io/github/prioritizr/wdpar?branch=master)
+Status](https://img.shields.io/codecov/c/github/prioritizr/wdpar?label=Coverage)](https://codecov.io/github/prioritizr/wdpar?branch=master)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/wdpar)](https://CRAN.R-project.org/package=wdpar)
 
 ### Overview
@@ -219,7 +219,7 @@ geom_sf(aes(fill = IUCN_CAT), data = mlt_pa_data, inherit.aes = FALSE) +
 theme(axis.title = element_blank(), legend.position = "bottom")
 ```
 
-<img src="man/figures/README-readme-map-1.png" width="50%" style="display: block; margin: auto;" />
+<img src="man/figures/README-readme-map-1.png" width="60%" style="display: block; margin: auto;" />
 
 If you need to calculate protected area coverage statistics for a
 country, please note that you will need to manually clip the cleaned

@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.3.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.3.6</span>
       </span>
     </div>
 
@@ -76,7 +76,7 @@
 <div class="section level2">
 <h2 id="wdpar-interface-to-the-world-database-on-protected-areas">wdpar: Interface to the World Database on Protected Areas<a class="anchor" aria-label="anchor" href="#wdpar-interface-to-the-world-database-on-protected-areas"></a>
 </h2>
-
+<p><a href="https://lifecycle.r-lib.org/articles/stages.html" class="external-link"><img src="https://img.shields.io/badge/Lifecycle-stable-brightgreen.svg" alt="lifecycle"></a> <a href="https://github.com/prioritizr/wdpar/actions" class="external-link"><img src="https://img.shields.io/github/actions/workflow/status/prioritizr/wdpar/R-CMD-check-ubuntu.yaml?branch=master&amp;label=Ubuntu" alt="R-CMD-check-Ubuntu"></a> <a href="https://github.com/prioritizr/wdpar/actions" class="external-link"><img src="https://img.shields.io/github/actions/workflow/status/prioritizr/wdpar/R-CMD-check-windows.yaml?branch=master&amp;label=Windows" alt="R-CMD-check-Windows"></a> <a href="https://github.com/prioritizr/wdpar/actions" class="external-link"><img src="https://img.shields.io/github/actions/workflow/status/prioritizr/wdpar/R-CMD-check-macos.yaml?branch=master&amp;label=macOS" alt="R-CMD-check-macOS"></a> <a href="https://github.com/prioritizr/wdpar/actions" class="external-link"><img src="https://img.shields.io/github/actions/workflow/status/prioritizr/wdpar/documentation.yaml?branch=master&amp;label=Documentation" alt="Documentation"></a> <a href="https://codecov.io/github/prioritizr/wdpar?branch=master" class="external-link"><img src="https://img.shields.io/codecov/c/github/prioritizr/wdpar?label=Coverage" alt="Coverage Status"></a> <a href="https://CRAN.R-project.org/package=wdpar" class="external-link"><img src="http://www.r-pkg.org/badges/version/wdpar" alt="CRAN_Status_Badge"></a></p>
 <div class="section level3">
 <h3 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h3>
@@ -196,7 +196,7 @@
 <span><span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggmap.html" class="external-link">ggmap</a></span><span class="op">(</span><span class="va">bg</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">IUCN_CAT</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">mlt_pa_data</span>, inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>, legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-readme-map-1.png" width="50%" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/README-readme-map-1.png" width="60%" style="display: block; margin: auto;"></p>
 <p>If you need to calculate protected area coverage statistics for a country, please note that you will need to manually clip the cleaned protected area data to the countries’ coastline and its Exclusive Economic Zone (EEZ) to obtain accurate results (see <a href="https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage" class="external-link">official data cleaning guidelines</a>). This step is not performed by the <em>wdpar R</em> package because there is no single “best” coastline and Exclusive Economic Zone (EEZ) dataset, since the “best” dataset for any given project depends on the level of required precision and available computational resources. For more examples—including an example of clipping the cleaned data to a coastline—please refer to the <a href="https://prioritizr.github.io/wdpar/articles/wdpar.html" class="external-link">package vignette</a>.</p>
 </div>
 <div class="section level3">
@@ -252,18 +252,7 @@
 </ul>
 </div>
 
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html" class="external-link"><img src="https://img.shields.io/badge/Lifecycle-stable-brightgreen.svg" alt="lifecycle"></a></li>
-<li><a href="https://github.com/prioritizr/wdpar/actions" class="external-link"><img src="https://img.shields.io/github/workflow/status/prioritizr/wdpar/Ubuntu/master.svg?label=Ubuntu" alt="R-CMD-check-Ubuntu"></a></li>
-<li><a href="https://github.com/prioritizr/wdpar/actions" class="external-link"><img src="https://img.shields.io/github/workflow/status/prioritizr/wdpar/Windows/master.svg?label=Windows" alt="R-CMD-check-Windows"></a></li>
-<li><a href="https://github.com/prioritizr/wdpar/actions" class="external-link"><img src="https://img.shields.io/github/workflow/status/prioritizr/wdpar/macOS/master.svg?label=macOS" alt="R-CMD-check-macOS"></a></li>
-<li><a href="https://github.com/prioritizr/wdpar/actions" class="external-link"><img src="https://img.shields.io/github/workflow/status/prioritizr/wdpar/Documentation/master.svg?label=Documentation" alt="Documentation"></a></li>
-<li><a href="https://codecov.io/github/prioritizr/wdpar?branch=master" class="external-link"><img src="https://codecov.io/github/prioritizr/wdpar/coverage.svg?branch=master" alt="Coverage Status"></a></li>
-<li><a href="https://CRAN.R-project.org/package=wdpar" class="external-link"><img src="http://www.r-pkg.org/badges/version/wdpar" alt="CRAN_Status_Badge"></a></li>
-</ul>
-</div>
+
 
   </div>
 </div>
@@ -276,7 +265,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

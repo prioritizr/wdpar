@@ -1,6 +1,6 @@
 Package: wdpar
 Type: Package
-Version: 1.3.3.5
+Version: 1.3.3.6
 Title: Interface to the World Database on Protected Areas
 Description: Fetch and clean data from the World Database on Protected
     Areas (WDPA) and the World Database on Other Effective Area-Based
@@ -45,7 +45,7 @@ Language: en-US
 URL: https://prioritizr.github.io/wdpar/, https://github.com/prioritizr/wdpar
 BugReports: https://github.com/prioritizr/wdpar/issues
 VignetteBuilder: knitr
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Collate:
     'internal.R'
     'package.R'

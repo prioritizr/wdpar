@@ -1,3 +1,8 @@
+# wdpar 1.3.4
+
+- CRAN release.
+- Update citation format.
+
 # wdpar 1.3.3.6
 
 - Fix broken URL in vignette.

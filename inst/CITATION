@@ -2,38 +2,27 @@ year <- sub("-.*", "", meta$Date)
 if (is.null(year) || identical(year, "") || isTRUE(length(year) == 0))
   year <- format(Sys.Date(), "%Y")
 
-ndots <- length(gregexpr(".", meta$Version, fixed = TRUE)[[1]])
-if (ndots == 3) {
-  cite_url <- "https://github.com/prioritizr/wdpar"
-} else {
-  cite_url <- "https://CRAN.R-project.org/package=wdpar"
-}
-
 citHeader("To cite the wdpar package in publications, please use:")
 
-citEntry(
-  entry = "Article",
-  author = personList(person(c("Jeffrey", "O"), "Hanson")),
+bibentry(
+  bibtype = "Article",
   title = "wdpar: Interface to the World Database on Protected Areas",
+  author = c(person(c("Jeffrey", "O"), "Hanson")),
   year = "2022",
   journal = "Journal of Open Source Software",
   volume = "7",
   pages = "4594",
-  doi = "https://doi.org/10.21105/joss.04594",
-  textVersion = paste(
-     "Hanson JO (2022) wdpar: Interface to the World Database on Protected",
-     "Areas. Journal of Open Source Software, 7: 4594.",
-     "Available at https://doi.org/10.21105/joss.04594."
-  )
+  doi = "https://doi.org/10.21105/joss.04594"
 )
 
-citEntry(
-  entry = "Manual",
-  author = "UNEP-WCMC and IUCN",
+bibentry(
+  bibtype = "Manual",
   title = "Protected Planet: The World Database on Protected Areas (WDPA)",
+  author = c(person("UNEP-WCMC"), person("IUCN")),
   year = year,
+  version = "[insert month/year of the version downloaded]",
   publisher = "UNEP-WCMC and IUCN",
-  publisheraddress = "Cambridge, UK",
+  address = "Cambridge, UK",
   url = "https://www.protectedplanet.net/en",
   textVersion = paste0(
     "UNEP-WCMC and IUCN (", year, ") Protected Planet: The World Database on ",
@@ -42,16 +31,19 @@ citEntry(
   )
 )
 
-citEntry(
-  entry = "Manual",
-  author = "UNEP-WCMC and IUCN",
+bibentry(
+  bibtype = "Manual",
   title = "Protected Planet: The world database on other effective area-based conservation measures",
+  author = c(person("UNEP-WCMC"), person("IUCN")),
   year = year,
+  version = "[insert month/year of the version downloaded]",
   publisher = "UNEP-WCMC and IUCN",
-  publisheraddress = "Cambridge, UK",
+  address = "Cambridge, UK",
   url = "https://www.protectedplanet.net/en",
   textVersion = paste0(
-    "UNEP-WCMC and IUCN (", year, ") Protected Planet: The world database on other effective area-based conservation measures, [insert month/year of the version downloaded], ",
+    "UNEP-WCMC and IUCN (", year, ") Protected Planet: The world database on ",
+    "other effective area-based conservation measures, ",
+    "[insert month/year of the version downloaded], ",
     "Cambridge, UK: UNEP-WCMC and IUCN. Available at: www.protectedplanet.net."
   )
 )

@@ -1,6 +1,6 @@
 Dear CRAN volunteers,
 
-Thank you for reviewing this submission. The main updates in this version include (i) making data download procedures more robust, (ii) fixing compatibility issues with recent updates to GEOS (version 3.11.0), (iii) improving the documentation.
+Thank you for reviewing this submission. The main updates in this version include (i) making data download and cleaning procedures more robust, (ii) improving the documentation, and (iii) updating the citation information.
 
 Cheers,
 

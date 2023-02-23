@@ -46,6 +46,9 @@ wbcheck:
 solarischeck:
 	R --slave -e "rhub::check(platform = 'solaris-x86-patched', email = 'jeffrey.hanson@uqconnect.edu.au', show_status = FALSE)"
 
+maccheck:
+	R --slave -e "devtools::check_mac_release()"
+
 build:
 	R --slave -e "devtools::build()"
 	cp -R doc inst/

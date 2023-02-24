@@ -18,52 +18,11 @@ knitr::opts_chunk$set(fig.path = "man/figures/README-", fig.align = "center",
 [![R-CMD-check-Windows](https://img.shields.io/github/actions/workflow/status/prioritizr/wdpar/R-CMD-check-windows.yaml?branch=master&label=Windows)](https://github.com/prioritizr/wdpar/actions)
 [![R-CMD-check-macOS](https://img.shields.io/github/actions/workflow/status/prioritizr/wdpar/R-CMD-check-macos.yaml?branch=master&label=macOS)](https://github.com/prioritizr/wdpar/actions)
 [![Documentation](https://img.shields.io/github/actions/workflow/status/prioritizr/wdpar/documentation.yaml?branch=master&label=Documentation)](https://github.com/prioritizr/wdpar/actions)
-[![Coverage Status](https://img.shields.io/codecov/c/github/prioritizr/wdpar?label=Coverage)](https://codecov.io/github/prioritizr/wdpar?branch=master)
+[![Coverage Status](https://img.shields.io/codecov/c/github/prioritizr/wdpar?label=Coverage)](https://app.codecov.io/gh/prioritizr/wdpar/branch/master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/wdpar)](https://CRAN.R-project.org/package=wdpar)
 
 ```{r, include = FALSE}
 devtools::load_all()
-```
-
-```{r, include = FALSE}
-# define helpers
-is_rel_version <- function(x) {
-  length(strsplit(as.character(x), ".", fixed = TRUE)[[1]]) == 3
-}
-
-package_version_year <- function(x) {
-  if (x %in% rownames(available.packages())) {
-    return(live_package_version_year(x))
-  } else {
-    return(archive_package_version_year(x))
-  }
-}
-
-live_package_version_year <- function(x) {
-  # fetch data
-  d <- versions::available.versions(x)[[1]]
-  d <- d[which(d$version == max(d$version)), , drop = FALSE]
-  c(as.character(d$version), as.character(format(as.POSIXct(d$date), "%Y")))
-}
-
-archive_package_version_year <- function(x) {
-  # fetch data (copied from remotes R package)
-  tf <- tempfile(fileext = ".gz")
-  on.exit(unlink(tf), add = TRUE)
-  download.file(tf, url = sprintf("%s/src/contrib/Meta/archive.rds", repo))
-  con <- gzfile(tf, "rb")
-  on.exit(close(con), add = TRUE)
-  d <- readRDS(con)[[x]]
-  # extract version
-  rel_version <- basename(rownames(d))
-  rel_version <- sapply(strsplit(rel_version, "_", fixed = TRUE), `[[`, 2)
-  rel_version <- sapply(strsplit(rel_version, ".tar", fixed = TRUE), `[[`, 1)
-  rel_version <- max(rel_version)
-  # extract year
-  rel_year <- as.character(max(format(d[, "mtime"], "%Y")))
-  # return year version
-  c(rel_version, rel_year)
-}
 ```
 
 ### Overview
@@ -187,18 +146,6 @@ theme(axis.title = element_blank(), legend.position = "bottom")
 If you need to calculate protected area coverage statistics for a country, please note that you will need to manually clip the cleaned protected area data to the countries' coastline and its Exclusive Economic Zone (EEZ) to obtain accurate results (see [official data cleaning guidelines](https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage)). This step is not performed by the _wdpar R_ package because there is no single "best" coastline and Exclusive Economic Zone (EEZ) dataset, since the "best" dataset for any given project depends on the level of required precision and available computational resources. For more examples---including an example of clipping the cleaned data to a coastline---please refer to the [package vignette](https://prioritizr.github.io/wdpar/articles/wdpar.html).
 
 ### Citation
-
-```{r, include = FALSE}
-dev_version_year <- c(
-  as.character(packageDescription("wdpar")$Version),
-  format(Sys.time(), "%Y")
-)
-if (is_rel_version(dev_version_year[[1]])) {
-  rel_version_year <- dev_version_year
-} else {
-  rel_version_year <- package_version_year("wdpar")
-}
-```
 
 Please cite the _wdpar R_ package and the relevant databases used in publications.
 

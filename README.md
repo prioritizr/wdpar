@@ -9,7 +9,7 @@
 [![R-CMD-check-macOS](https://img.shields.io/github/actions/workflow/status/prioritizr/wdpar/R-CMD-check-macos.yaml?branch=master&label=macOS)](https://github.com/prioritizr/wdpar/actions)
 [![Documentation](https://img.shields.io/github/actions/workflow/status/prioritizr/wdpar/documentation.yaml?branch=master&label=Documentation)](https://github.com/prioritizr/wdpar/actions)
 [![Coverage
-Status](https://img.shields.io/codecov/c/github/prioritizr/wdpar?label=Coverage)](https://codecov.io/github/prioritizr/wdpar?branch=master)
+Status](https://img.shields.io/codecov/c/github/prioritizr/wdpar?label=Coverage)](https://app.codecov.io/gh/prioritizr/wdpar/branch/master)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/wdpar)](https://CRAN.R-project.org/package=wdpar)
 
 ### Overview

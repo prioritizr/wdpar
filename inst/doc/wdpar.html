@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jeffrey O. Hanson" />
 
-<meta name="date" content="2022-12-21" />
+<meta name="date" content="2023-02-24" />
 
 <title>wdpar: Interface to the World Database on Protected Areas</title>
 
@@ -149,7 +149,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">wdpar: Interface to the World Database on Protected Areas</h1>
 <h4 class="author">Jeffrey O. Hanson</h4>
-<h4 class="date">2022-12-21</h4>
+<h4 class="date">2023-02-24</h4>
 
 
 
@@ -211,11 +211,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(MARINE <span class="sc">==</span> <span class="st">&quot;marine&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">st_difference</span>(mlt_boundary_data)) <span class="sc">%&gt;%</span></span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rbind</span>(mlt_pa_data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span>MARINE <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;terrestrial&quot;</span>, <span class="st">&quot;marine&quot;</span>)))</span></code></pre></div>
-<pre><code>## Warning: attribute variables are assumed to be spatially constant throughout all
-## geometries
+<pre><code>## Warning: attribute variables are assumed to be spatially constant throughout
+## all geometries
 
-## Warning: attribute variables are assumed to be spatially constant throughout all
-## geometries</code></pre>
+## Warning: attribute variables are assumed to be spatially constant throughout
+## all geometries</code></pre>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># recalculate the area of each protected area</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>mlt_pa_data <span class="ot">&lt;-</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  mlt_pa_data <span class="sc">%&gt;%</span></span>

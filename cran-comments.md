@@ -1,6 +1,6 @@
 Dear CRAN volunteers,
 
-Thank you for reviewing this submission. The main updates in this version include (i) making data download procedures more robust, (ii) fixing compatibility issues with recent updates to GEOS (version 3.11.0), (iii) improving the documentation.
+Thank you for reviewing this submission. The main updates in this version include (i) making data download and cleaning procedures more robust, (ii) improving the documentation, and (iii) updating the citation information.
 
 Cheers,
 
@@ -17,7 +17,7 @@ Jeff
 
 # R CMD check results
 
-0 errors | 0 warnings | 2 note
+0 errors | 0 warnings | 3 notes
 
 # Package check notes
 
@@ -30,6 +30,18 @@ Jeff
   prepr
 
   **The prepr R package is an optional dependency that is available on GitHub (<https://github.com/dickoa/prepr>). Instructions for installing the prepr R package are provided in the DESCRIPTION file and the package README file.**
+
+* Found the following (possibly) invalid URLs:
+    URL: https://doi.org/10.1111/conl.12158
+      FROM: README.md
+      Status: Service Unavailable
+      Message: 503
+    URL: https://doi.org/10.1126/science.aac9180
+      FROM: README.md
+      Status: Service Unavailable
+      Message: 503
+
+  **I have manually checked and can confirm that these URLs are correct.**
 
 # Downstream dependencies
 

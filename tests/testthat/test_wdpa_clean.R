@@ -293,3 +293,17 @@ test_that("NULL retain_status", {
   expect_equal(sum(sf::st_overlaps(y, sparse = FALSE)), 0)
   expect_identical(sort(unique(x$STATUS)), sort(unique(y$STATUS)))
 })
+
+test_that("empty intersections", {
+  skip_on_cran()
+  skip_if_not(curl::has_internet())
+  skip_if_phantomjs_not_available()
+  skip_on_github_workflow("Windows")
+  skip_on_github_workflow("macOS")
+  # fetch data
+  x <- suppressWarnings(wdpa_fetch("FRA", wait = TRUE, check_version = FALSE))
+  x <- x[seq_len(500), , drop = FALSE]
+  y <- wdpa_clean(x, retain_status = NULL, erase_overlaps = TRUE)
+  # run tests
+  expect_is(y, "sf")
+})

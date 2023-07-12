@@ -306,4 +306,6 @@ test_that("empty intersections", {
   y <- wdpa_clean(x, retain_status = NULL, erase_overlaps = TRUE)
   # run tests
   expect_is(y, "sf")
+  expect_true(all(names(y) %in% wdpa_column_names))
+  expect_gt(nrow(y), 0)
 })

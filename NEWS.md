@@ -1,3 +1,10 @@
+# wdpar 1.3.5
+
+- CRAN release.
+- Fix compatibility issues with Protected Planet (#69).
+- Upate `wdpa_clean()` to be more robust (#68).
+- Remove _sp_ package as dependency.
+
 # wdpar 1.3.4
 
 - CRAN release.

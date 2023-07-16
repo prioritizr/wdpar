@@ -60,37 +60,54 @@ st_erase_overlaps <- function(x, verbose = FALSE) {
     if (length(ovr) > 0) {
       ## create union
       ### run union
-      u <- sf::st_union(sf::st_set_precision(
-        suppressWarnings(sf::st_collection_extract(sf::st_buffer(o[ovr], 0))),
-        precision))
+      u <- sf::st_union(
+        sf::st_set_precision(
+          suppressWarnings(sf::st_collection_extract(sf::st_buffer(o[ovr], 0))),
+          precision
+        )
+      )
       ### buffer the union to fix any geometry issues
       u <- sf::st_buffer(u, dist = 0)
       ### repair the geometry if there are any issues
       if (!all(sf::st_is_valid(u))) {
         #nocov start
-        u <- suppressWarnings(sf::st_collection_extract(
-          sf::st_make_valid(sf::st_set_precision(u, precision)),
-          "POLYGON"))
+        u <- suppressWarnings(
+          sf::st_collection_extract(
+            sf::st_make_valid(sf::st_set_precision(u, precision)),
+            "POLYGON"
+          )
+        )
         #nocov end
       }
       ## calculate difference
       ### run difference
       d <- sf::st_difference(
-        suppressWarnings(sf::st_collection_extract(
-          sf::st_make_valid(sf::st_set_precision(g[i], precision)),
-          "POLYGON")),
-        suppressWarnings(sf::st_collection_extract(
-          sf::st_make_valid(sf::st_set_precision(u, precision)),
-          "POLYGON")))
-      if (length(d) == 0L)
-        d[[1]] <- sf::st_polygon() #nocov
+        suppressWarnings(
+          sf::st_collection_extract(
+            sf::st_make_valid(sf::st_set_precision(g[i], precision)),
+            "POLYGON"
+          )
+        ),
+        suppressWarnings(
+          sf::st_collection_extract(
+            sf::st_make_valid(sf::st_set_precision(u, precision)),
+            "POLYGON"
+          )
+        )
+      )
+      if (length(d) == 0L) {
+        d <- sf::st_sfc(sf::st_geometrycollection(), crs = sf::st_crs(d)) #nocov
+      }
       d <- suppressWarnings(sf::st_collection_extract(d, "POLYGON"))
       ### repair the geometry if there are any issues
       if (!all(sf::st_is_valid(d))) {
         #nocov start
-        d <- suppressWarnings(sf::st_collection_extract(
-          sf::st_make_valid(sf::st_set_precision(d, precision)),
-          "POLYGON"))
+        d <- suppressWarnings(
+          sf::st_collection_extract(
+            sf::st_make_valid(sf::st_set_precision(d, precision)),
+            "POLYGON"
+          )
+        )
         #nocov end
       }
     } else {
@@ -106,16 +123,19 @@ st_erase_overlaps <- function(x, verbose = FALSE) {
       d <- d[as.numeric(sf::st_area(d)) > 1]
       d <- sf::st_cast(d, "MULTIPOLYGON")
       if (length(d) == 0) {
-        d[[1]] <- sf::st_polygon() #nocov
+        d <- sf::st_sfc(sf::st_geometrycollection(), crs = sf::st_crs(d)) #nocov
       }
       d <- suppressWarnings(sf::st_collection_extract(d, "POLYGON"))
     }
     ## if d contains multiple geometries, then union them
     if (length(d) > 1) {
       d <- sf::st_union(d)
-      d <- suppressWarnings(sf::st_collection_extract(
-        sf::st_make_valid(sf::st_set_precision(d, precision)),
-        "POLYGON"))
+      d <- suppressWarnings(
+        sf::st_collection_extract(
+          sf::st_make_valid(sf::st_set_precision(d, precision)),
+          "POLYGON"
+        )
+      )
     }
     ## create empty geometry if empty
     if (length(d) == 0) {

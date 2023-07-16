@@ -79,7 +79,7 @@ wdpa_url <- function(x, wait = FALSE, page_wait = 2) {
       pjs <- start_phantomjs()
       rd <- webdriver::Session$new(port = pjs$port)
       ## navigate to download web page
-      rd$go(paste0("https://protectedplanet.net/country/", x))
+      rd$go(paste0("https://www.protectedplanet.net/country/", x))
       Sys.sleep(page_wait) # wait for page to load
       elem <- rd$findElement(css = ".download__trigger")
       elem$click()

@@ -35,3 +35,7 @@ NULL
 
 #' @import sf
 NULL
+
+# avoid false positive NOTEs during CRAN checks
+#' @importFrom rappdirs user_data_dir
+NULL

@@ -92,12 +92,6 @@ extract_polygons_and_points <- function(x) {
   rbind(o, x[ind, , drop = FALSE])
 }
 
-# define dummy function to avoid CRAN notes for dependencies
-import_deps <- function() {
-  x <- rappdirs::user_data_dir
-  x <- sp::spTransform
-}
-
 # Empty WDPA data set
 #'
 #' This function creates an empty WDPA dataset.

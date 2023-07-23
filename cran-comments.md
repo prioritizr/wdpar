@@ -1,6 +1,6 @@
 Dear CRAN volunteers,
 
-Thank you for reviewing this submission. The main updates in this version include (i) making data download and cleaning procedures more robust, (ii) improving the documentation, and (iii) updating the citation information.
+Thank you for reviewing this submission. The main updates in this version include making data download and cleaning procedures more robust.
 
 Cheers,
 

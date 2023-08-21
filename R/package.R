@@ -29,7 +29,7 @@
 #' *Science*, **350**: 1255--1258.
 #'
 #' @name wdpar
-#'
+#' @aliases wdpar-package
 #' @docType package
 NULL
 

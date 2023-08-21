@@ -1,3 +1,7 @@
+# wdpar 1.3.5.1
+
+- Fix aliasing for package manual entry (#71).
+
 # wdpar 1.3.5
 
 - CRAN release.

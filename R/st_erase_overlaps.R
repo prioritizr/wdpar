@@ -55,7 +55,7 @@ st_erase_overlaps <- function(x, verbose = FALSE) {
   }
   for (i in seq(2, length(g))) {
     ## find overlapping geometries
-    ovr <- sf::st_overlaps(g[i], o)[[1]]
+    ovr <- sf::st_intersects(g[i], o)[[1]]
     ## if overlapping geometries then calculate difference
     if (length(ovr) > 0) {
       ## create union

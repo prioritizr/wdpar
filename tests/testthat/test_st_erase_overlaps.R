@@ -1,6 +1,6 @@
 context("st_erase_overlaps")
 
-test_that("expected result", {
+test_that("partial overlaps", {
   # create input testing data
   pl1 <- sf::st_polygon(list(matrix(c(0, 0, 2, 0, 1, 1, 0, 0), byrow = TRUE,
                                     ncol = 2))) * 100
@@ -27,4 +27,28 @@ test_that("expected result", {
   expect_true(sf::st_equals(sf::st_set_precision(y1[["geometry"]], 1000),
                             sf::st_set_precision(y2[["geometry"]], 1000),
                             sparse = FALSE)[1])
+})
+
+test_that("complete overlaps", {
+  skip_on_cran()
+  # create input testing data
+  pl1 <- sf::st_buffer(sf::st_point(c(0, 0)) , 20)
+  pl2 <- sf::st_buffer(sf::st_point(c(0, 0)) , 5)
+  x <- sf::st_sf(
+    order = c("A", "B"),
+    geometry = sf::st_sfc(list(pl1, pl2), crs = 3395)
+  )
+  # erase overlaps
+  y <- st_erase_overlaps(x)
+  # run tests
+  expect_is(y, "sf")
+  expect_equal(y[["order"]], x[["order"]])
+  expect_true(
+    sf::st_equals(
+      sf::st_set_precision(y[["geometry"]][1], 1000),
+      sf::st_set_precision(x[["geometry"]][1], 1000),
+      sparse = FALSE
+    )[[1]]
+  )
+  expect_true(sf::st_is_empty(y[["geometry"]][2]))
 })

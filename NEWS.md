@@ -1,3 +1,8 @@
+# wdpar 1.3.5.2
+
+- Fix issue with `st_erase_overlaps()` not correctly removing overlaps when
+  a protected area are completely contained within another (#73).
+
 # wdpar 1.3.5.1
 
 - Fix aliasing for package manual entry (#71).

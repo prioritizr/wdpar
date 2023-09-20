@@ -1,3 +1,7 @@
+# wdpar 1.3.6
+
+- CRAN release.
+
 # wdpar 1.3.5.2
 
 - Fix issue with `st_erase_overlaps()` not correctly removing overlaps when

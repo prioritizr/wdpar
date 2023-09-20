@@ -1,6 +1,6 @@
 Dear CRAN volunteers,
 
-Thank you for reviewing this submission. The main updates in this version include making data download and cleaning procedures more robust.
+Thank you for reviewing this submission. The main updates in this version include (i) a bug fix for the data cleaning procedures and (ii) fixing the alias for package-level documentation.
 
 Cheers,
 

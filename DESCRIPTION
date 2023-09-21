@@ -60,5 +60,5 @@ Collate:
     'wdpa_read.R'
     'zzz.R'
 Roxygen: list(markdown = TRUE)
-Config/Remotes:
+Config/Needs/Remotes:
   dickoa/prepr

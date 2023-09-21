@@ -1,6 +1,10 @@
-# wdpar 1.3.6
+# wdpar 1.3.7
 
 - CRAN release.
+
+# wdpar 1.3.6
+
+- Rejected CRAN submission.
 
 # wdpar 1.3.5.2
 

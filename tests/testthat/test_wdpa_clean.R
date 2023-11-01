@@ -238,11 +238,7 @@ test_that("protected areas that massively increase in size without prepr", {
   skip_on_github_workflow("macOS")
   # fetch data
   ids <- c(23177, 12352, 555705343, 555705341, 555721495)
-  countries <- c("MAR", "DZA")
-  x <- suppressWarnings(
-    lapply(countries, wdpa_fetch, wait = TRUE, check_version = FALSE)
-  )
-  x <- dplyr::bind_rows(x)
+  x <- wdpa_fetch("DZA", wait = TRUE, check_version = FALSE)
   x <- x[x$WDPAID %in% ids, , drop = FALSE]
   # clean data
   y <- wdpa_clean(x, erase_overlaps = FALSE)

@@ -1,3 +1,7 @@
+# wdpar 1.3.7.1
+
+- Update tests to accommodate corrupted data from Protected Planet.
+
 # wdpar 1.3.7
 
 - CRAN release.

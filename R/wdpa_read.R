@@ -126,6 +126,10 @@ wdpa_read <- function(x, n = NULL) {
     shapefile_path <- dir(tdir, "^.*\\.shp$", recursive = TRUE,
                           full.names = TRUE)
     wdpa_data <- lapply(shapefile_path, read_sf_n, n = n)
+    ## exclude any shapefiles that are empty and don't contain any data
+    if (length(wdpa_data) > 1) {
+      wdpa_data <- wdpa_data[vapply(wdpa_data, nrow, integer(1)) > 0]
+    }
     ## merge shapefile data together
     if (length(wdpa_data) > 1) {
       col_names <- Reduce(base::intersect, lapply(wdpa_data, names))

@@ -1,3 +1,8 @@
+# wdpar 1.3.7.2
+
+- Fix bug in `wdpa_read()` that causes output objects to contain no column
+  names.
+
 # wdpar 1.3.7.1
 
 - Update tests to accommodate corrupted data from Protected Planet.

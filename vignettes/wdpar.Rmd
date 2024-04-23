@@ -47,7 +47,7 @@ library(ggmap)
 
 Now we will download protected area data for Malta from [Protected Planet](https://www.protectedplanet.net/en). We can achieve this by specifying Malta's country name (i.e. `"Malta"`) or Malta's [ISO3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) (i.e. `"MLT"`). Since data are downloaded to a temporary directory by default, we will specify that the data should be downloaded to a persistent directory. This means that R won't have to re-download the same dataset every time we restart our R session, and R can simply re-load previously downloaded datasets as needed.
 
-```{r}
+```{r, message = FALSE, results = "hide"}
 # download protected area data for Malta
 # (excluding areas represented as point localities)
 mlt_raw_pa_data <- wdpa_fetch(
@@ -125,9 +125,9 @@ Next, we can plot a map showing the boundaries of Malta's protected area system.
 
 ```{r,  message = FALSE, warning = FALSE}
 # download basemap for making the map
-bg <- get_stamenmap(
+bg <- get_stadiamap(
   unname(st_bbox(mlt_pa_data)), zoom = 8,
-  maptype = "watercolor", force = TRUE
+  maptype = "stamen_terrain_background", force = TRUE
 )
 
 # print map
@@ -193,7 +193,7 @@ theme(axis.title = element_blank(), legend.position = "bottom")
 
 The _wdpar R_ package can be used to clean large datasets assuming that sufficient computational resources and time are available. Indeed, it can clean data spanning large countries, multiple countries, and even the full global dataset. When processing the full global dataset, it is recommended to use a computer system with at least 32 GB RAM available and to allow for at least one full day for the data cleaning procedures to complete. It is also recommended to avoid using the computer system for any other tasks while the data cleaning procedures are being completed, because they are very computationally intensive. Additionally, when processing large datasets -- and especially for the global dataset -- it is strongly recommended to disable the procedure for erasing overlapping areas. This is because the built-in procedure for erasing overlaps is very time consuming when processing many protected areas, so that information on each protected area can be output (e.g. IUCN category, year established). Instead, when cleaning large datasets, it is recommended to run the data cleaning procedures with the procedure for erasing overlapping areas disabled (i.e. with `erase_overlaps = FALSE`). After the data cleaning procedures have completed, the protected area data can be manually dissolved to remove overlapping areas (e.g. using `wdpa_dissolve()`). For an example of these procedures, please see below.
 
-```{r, warning = FALSE}
+```{r, warning = FALSE, message = FALSE, results = "hide"}
 # download protected area data for multiple of countries
 ## (i.e. Portugal, Spain, France)
 raw_pa_data <-
@@ -201,7 +201,9 @@ raw_pa_data <-
   lapply(wdpa_fetch, wait = TRUE,
          download_dir = rappdirs::user_data_dir("wdpar")) %>%
   bind_rows()
+```
 
+```{r}
 # clean protected area data (with procedure for erasing overlaps disabled)
 full_pa_data <- wdpa_clean(raw_pa_data, erase_overlaps = FALSE)
 

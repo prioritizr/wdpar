@@ -102,8 +102,8 @@ For more details on data conventions, please consult the official manual
 
 \section{Troubleshooting}{
 
-The function requires the installation of a Chromium-based browser
-(e.g., Google Chrome, Chromium, or Brave) to work.
+The function requires a Chromium-based browser
+(e.g., Google Chrome, Chromium, or Brave) to be installed.
 This is because it uses the \pkg{chromote} to find the URL
 for downloading data from Protected Planet.
 If you don't have one of these browsers installed, then please try
@@ -116,8 +116,24 @@ file path of the executable. For example, you could do this with:
 \if{html}{\out{<div class="sourceCode">}}\preformatted{Sys.setenv(CHROMOTE_CHROME = "INSERT_FILE_PATH_HERE.exe")
 }\if{html}{\out{</div>}}
 
+Also, the function will sometimes produce a message
+that complains about a \code{handle_read_frame} error. Please understand
+that this message is, in fact, not an error and can be safely ignored
+(see \url{https://github.com/rstudio/chromote/pull/111}).
+As such, if you see this message when running the function,
+you can assume that the function still worked correctly.
+For reference, the misleading message will look something like this:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{[2024-04-23 12:06:36] [error] handle_read_frame error: websocketpp.transport:7 (End of File)
+```
+
 For further help with troubleshooting, please refer to the documentation
 for the \pkg{chromote} package (https://rstudio.github.io/chromote/).
+
+
+[2024-04-23 12:06:36]: R:2024-04-23\%2012:06:36
+[error]: R:error
+}\if{html}{\out{</div>}}
 }
 
 \examples{

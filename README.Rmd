@@ -134,8 +134,10 @@ Finally, after cleaning the data, let's plot a map showing Malta's protected are
 mlt_pa_data <- st_transform(mlt_pa_data, 4326)
 
 # download basemap imagery
-bg <- get_stamenmap(unname(st_bbox(mlt_pa_data)), zoom = 8,
-                    maptype = "watercolor", force = TRUE)
+bg <- get_stadiamap(
+  unname(st_bbox(mlt_pa_data)), zoom = 8,
+  maptype = "stamen_terrain_background", force = TRUE
+)
 
 # make map
 ggmap(bg) +

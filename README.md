@@ -115,7 +115,7 @@ following system commands:
 For Unix-alikes, `gmp` (&gt;= 4.2.3), `mpfr` (&gt;= 3.0.0), and `gdal`
 (&gt;= 3.2.2) are required.
 
-##### *MacOS*
+##### *macOS*
 
 The `gmp`, `mpfr`, and `gdal` libraries are required. The easiest way to
 install these libraries is using [HomeBrew](https://brew.sh/). After
@@ -210,8 +210,10 @@ Nature](https://www.iucn.org/)).
 mlt_pa_data <- st_transform(mlt_pa_data, 4326)
 
 # download basemap imagery
-bg <- get_stamenmap(unname(st_bbox(mlt_pa_data)), zoom = 8,
-                    maptype = "watercolor", force = TRUE)
+bg <- get_stadiamap(
+  unname(st_bbox(mlt_pa_data)), zoom = 8,
+  maptype = "stamen_terrain_background", force = TRUE
+)
 
 # make map
 ggmap(bg) +

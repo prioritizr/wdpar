@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.7.2</span>
       </span>
     </div>
 
@@ -130,7 +130,7 @@
 </div>
 <div class="section level5">
 <h5 id="macos">
-<em>MacOS</em><a class="anchor" aria-label="anchor" href="#macos"></a>
+<em>macOS</em><a class="anchor" aria-label="anchor" href="#macos"></a>
 </h5>
 <p>The <code>gmp</code>, <code>mpfr</code>, and <code>gdal</code> libraries are required. The easiest way to install these libraries is using <a href="https://brew.sh/" class="external-link">HomeBrew</a>. After installing HomeBrew, these libraries can be installed using the following commands in the system terminal:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>brew install pkg<span class="sc">-</span>config</span>
@@ -190,8 +190,10 @@
 <span><span class="va">mlt_pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="va">mlt_pa_data</span>, <span class="fl">4326</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># download basemap imagery</span></span>
-<span><span class="va">bg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/get_stamenmap.html" class="external-link">get_stamenmap</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="va">mlt_pa_data</span><span class="op">)</span><span class="op">)</span>, zoom <span class="op">=</span> <span class="fl">8</span>,</span>
-<span>                    maptype <span class="op">=</span> <span class="st">"watercolor"</span>, force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">bg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/get_stadiamap.html" class="external-link">get_stadiamap</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="va">mlt_pa_data</span><span class="op">)</span><span class="op">)</span>, zoom <span class="op">=</span> <span class="fl">8</span>,</span>
+<span>  maptype <span class="op">=</span> <span class="st">"stamen_terrain_background"</span>, force <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># make map</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggmap.html" class="external-link">ggmap</a></span><span class="op">(</span><span class="va">bg</span><span class="op">)</span> <span class="op">+</span></span>

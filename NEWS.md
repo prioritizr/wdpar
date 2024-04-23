@@ -1,7 +1,9 @@
 # wdpar 1.3.7.2
 
+- Update README and vignette to be compatible with updates to _ggmap_ package.
 - Update `wdpa_fetch()` to use the _chromote_ package to handle web scrapping
  (instead of _webdriver_).
+- Remove _withr_ package from DESCRIPTION because it is not used.
 - Fix bug in `wdpa_read()` that causes output objects to contain no column
   names.
 
@@ -104,7 +106,7 @@
 
 - CRAN release.
 - Update `read_sf_n` to import data faster.
-- Remove withr R package from DESCRIPTION because it is not used.
+- Remove _withr_ package from DESCRIPTION because it is not used.
 
 # wdpar 1.3.1.6
 

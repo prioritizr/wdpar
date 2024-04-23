@@ -102,13 +102,22 @@ For more details on data conventions, please consult the official manual
 
 \section{Troubleshooting}{
 
-This function will sometimes return the error message
-\verb{PhantomJS signals port = 4567 is already in use}.
-This error message can occur when you have previously run the function and
-it threw an error, or it terminated early.
-It can also occur when attempting to run the the function in multiple
-sessions on the same computer.
-To address this issue, you will need to restart your computer.
+The function requires the installation of a Chromium-based browser
+(e.g., Google Chrome, Chromium, or Brave) to work.
+This is because it uses the \pkg{chromote} to find the URL
+for downloading data from Protected Planet.
+If you don't have one of these browsers installed, then please try
+installing Google Chrome.
+If you do have one of these browsers installed and this function
+throws an error indicating that it can't find the browser,
+try setting the \code{CHROMOTE_CHROME} environment variable to the
+file path of the executable. For example, you could do this with:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Sys.setenv(CHROMOTE_CHROME = "INSERT_FILE_PATH_HERE.exe")
+}\if{html}{\out{</div>}}
+
+For further help with troubleshooting, please refer to the documentation
+for the \pkg{chromote} package (https://rstudio.github.io/chromote/).
 }
 
 \examples{

@@ -34,3 +34,16 @@ Runge CA, Watson JEM, Butchart HM, Hanson JO, Possingham HP & Fuller RA
 (2015) Protected areas and global conservation of migratory birds.
 \emph{Science}, \strong{350}: 1255--1258.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://prioritizr.github.io/wdpar/}
+  \item \url{https://github.com/prioritizr/wdpar}
+  \item Report bugs at \url{https://github.com/prioritizr/wdpar/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Jeffrey O Hanson \email{jeffrey.hanson@uqconnect.edu.au}
+
+}

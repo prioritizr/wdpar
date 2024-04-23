@@ -78,7 +78,7 @@ apt-get install -y libgmp3-dev libmpfr-dev libudunits2-dev libgdal-dev libgeos-d
 
 For Unix-alikes, `gmp` (>= 4.2.3), `mpfr` (>= 3.0.0), and `gdal` (>= 3.2.2) are required.
 
-##### _MacOS_
+##### _macOS_
 
 The `gmp`, `mpfr`, and `gdal` libraries are required. The easiest way to install these libraries is using [HomeBrew](https://brew.sh/). After installing HomeBrew, these libraries can be installed using the following commands in the system terminal:
 

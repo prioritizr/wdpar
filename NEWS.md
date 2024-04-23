@@ -1,5 +1,7 @@
 # wdpar 1.3.7.2
 
+- Update `wdpa_fetch()` to use the _chromote_ package to handle web scrapping
+ (instead of _webdriver_).
 - Fix bug in `wdpa_read()` that causes output objects to contain no column
   names.
 

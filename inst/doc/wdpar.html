@@ -12,7 +12,7 @@
 
 <meta name="author" content="Jeffrey O. Hanson" />
 
-<meta name="date" content="2024-04-23" />
+<meta name="date" content="2024-04-24" />
 
 <title>wdpar: Interface to the World Database on Protected Areas</title>
 
@@ -149,7 +149,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">wdpar: Interface to the World Database on Protected Areas</h1>
 <h4 class="author">Jeffrey O. Hanson</h4>
-<h4 class="date">2024-04-23</h4>
+<h4 class="date">2024-04-24</h4>
 
 
 
@@ -243,7 +243,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## #   METADATAID &lt;int&gt;, SUB_LOC &lt;chr&gt;, PARENT_ISO &lt;chr&gt;, ISO3 &lt;chr&gt;,
 ## #   SUPP_INFO &lt;chr&gt;, CONS_OBJ &lt;chr&gt;, GEOMETRY_TYPE &lt;chr&gt;, AREA_KM2 &lt;dbl&gt;,
 ## #   geometry &lt;GEOMETRY [m]&gt;</code></pre>
-<p>We will now reproject the data to longitude/latitude coordinates (<a href="https://spatialreference.org/ref/epsg/wgs-84/">EPSG:4326</a>) for visualization purposes.</p>
+<p>We will now reproject the data to longitude/latitude coordinates (<a href="https://spatialreference.org/ref/epsg/4326/">EPSG:4326</a>) for visualization purposes.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># reproject data</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>mlt_pa_data <span class="ot">&lt;-</span> <span class="fu">st_transform</span>(mlt_pa_data, <span class="dv">4326</span>)</span></code></pre></div>
 <p>Next, we can plot a map showing the boundaries of Malta’s protected area system.</p>
@@ -446,7 +446,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li>Australia
 <ul>
-<li><a href="http://www.environment.gov.au/fed/catalog/search/resource/details.page?uuid=%7B4448CACD-9DA8-43D1-A48F-48149FD5FCFD%7D">Collaborative Australian Protected Area Database (CAPAD)</a></li>
+<li><a href="https://fed.dcceew.gov.au/datasets/erin::collaborative-australian-protected-areas-database-capad-2022-terrestrial">Collaborative Australian Protected Area Database (CAPAD)</a></li>
 <li><a href="https://ccea-ccae.org">Conservation Areas Reporting and Tracking System (CARTS)</a></li>
 </ul></li>
 <li>The United States of America

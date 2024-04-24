@@ -72,7 +72,7 @@
       <h1 data-toc-skip>wdpar: Interface to the World Database on Protected Areas</h1>
                         <h4 data-toc-skip class="author">Jeffrey O. Hanson</h4>
             
-            <h4 data-toc-skip class="date">2024-04-23</h4>
+            <h4 data-toc-skip class="date">2024-04-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/wdpar/blob/HEAD/vignettes/wdpar.Rmd" class="external-link"><code>vignettes/wdpar.Rmd</code></a></small>
       <div class="hidden name"><code>wdpar.Rmd</code></div>
@@ -180,7 +180,7 @@
 <span><span class="co">## <span style="color: #949494;">#   METADATAID &lt;int&gt;, SUB_LOC &lt;chr&gt;, PARENT_ISO &lt;chr&gt;, ISO3 &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   SUPP_INFO &lt;chr&gt;, CONS_OBJ &lt;chr&gt;, GEOMETRY_TYPE &lt;chr&gt;, AREA_KM2 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   geometry &lt;GEOMETRY [m]&gt;</span></span></span></code></pre>
-<p>We will now reproject the data to longitude/latitude coordinates (<a href="https://spatialreference.org/ref/epsg/wgs-84/" class="external-link">EPSG:4326</a>) for visualization purposes.</p>
+<p>We will now reproject the data to longitude/latitude coordinates (<a href="https://spatialreference.org/ref/epsg/4326/" class="external-link">EPSG:4326</a>) for visualization purposes.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># reproject data</span></span>
 <span><span class="va">mlt_pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="va">mlt_pa_data</span>, <span class="fl">4326</span><span class="op">)</span></span></code></pre></div>
@@ -402,7 +402,7 @@
 </li>
 <li>Australia
 <ul>
-<li><a href="http://www.environment.gov.au/fed/catalog/search/resource/details.page?uuid=%7B4448CACD-9DA8-43D1-A48F-48149FD5FCFD%7D" class="external-link">Collaborative Australian Protected Area Database (CAPAD)</a></li>
+<li><a href="https://fed.dcceew.gov.au/datasets/erin::collaborative-australian-protected-areas-database-capad-2022-terrestrial" class="external-link">Collaborative Australian Protected Area Database (CAPAD)</a></li>
 <li><a href="https://ccea-ccae.org" class="external-link">Conservation Areas Reporting and Tracking System (CARTS)</a></li>
 </ul>
 </li>

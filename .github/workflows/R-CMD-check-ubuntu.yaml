@@ -62,7 +62,6 @@ jobs:
             any::rcmdcheck
             any::covr
             any::remotes
-            prepr=?ignore
             cran/XML
           needs: |
             check

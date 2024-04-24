@@ -32,7 +32,7 @@ Suggests:
     rmarkdown (>= 1.10),
     ggmap (>= 4.0.0),
     ggplot2 (>= 3.1.0),
-    prepr (>= 0.1.9000),
+    prepr (>= 0.3.0),
     dplyr (>= 1.0.7),
     ps (>= 1.5.0)
 Depends:
@@ -60,4 +60,4 @@ Collate:
     'zzz.R'
 Roxygen: list(markdown = TRUE)
 Remotes:
-  dickoa/prepr
+  prioritizr/prepr

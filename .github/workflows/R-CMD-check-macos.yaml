@@ -58,8 +58,17 @@ jobs:
           extra-packages: |
             any::rcmdcheck
             cran/XML
+            prepr=?ignore
           needs: |
             check
+
+      - name: Install spatial R packages
+        run: |
+          options(repos = "https://cloud.r-project.org/")
+          install.packages("sf")
+          install.packages("lwgeom")
+          remotes::install_github("dickoa/prepr")
+        shell: Rscript {0}
 
       - name: Session information
         run: |

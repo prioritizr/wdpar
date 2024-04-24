@@ -77,6 +77,8 @@ wdpa_url <- function(x, wait = FALSE, page_wait = 2) {
       url <- character(0)
       ## initialize driver
       b <- chromote::ChromoteSession$new()
+      ## set timeout
+      b$default_timeout <- 100
       ## navigate to download web page
       p <- b$Page$loadEventFired(wait_ = FALSE)
       b$Page$navigate(

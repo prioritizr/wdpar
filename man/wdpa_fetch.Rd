@@ -125,15 +125,10 @@ you can assume that the function still worked correctly.
 For reference, the misleading message will look something like this:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{[2024-04-23 12:06:36] [error] handle_read_frame error: websocketpp.transport:7 (End of File)
-```
+}\if{html}{\out{</div>}}
 
 For further help with troubleshooting, please refer to the documentation
 for the \pkg{chromote} package (https://rstudio.github.io/chromote/).
-
-
-[2024-04-23 12:06:36]: R:2024-04-23\%2012:06:36
-[error]: R:error
-}\if{html}{\out{</div>}}
 }
 
 \examples{

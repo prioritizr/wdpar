@@ -79,9 +79,9 @@ NULL
 #' throws an error indicating that it can't find the browser,
 #' try setting the `CHROMOTE_CHROME` environment variable to the
 #' file path of the executable. For example, you could do this with:
-#' ````
+#' ```
 #' Sys.setenv(CHROMOTE_CHROME = "INSERT_FILE_PATH_HERE.exe")
-#' ````
+#' ```
 #'
 #' Also, the function will sometimes produce a message
 #' that complains about a `handle_read_frame` error. Please understand
@@ -90,7 +90,7 @@ NULL
 #' As such, if you see this message when running the function,
 #' you can assume that the function still worked correctly.
 #' For reference, the misleading message will look something like this:
-#' ````
+#' ```
 #' [2024-04-23 12:06:36] [error] handle_read_frame error: websocketpp.transport:7 (End of File)
 #' ```
 #'

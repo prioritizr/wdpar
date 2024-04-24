@@ -57,6 +57,7 @@ jobs:
           cache-version: 4
           extra-packages: |
             any::rcmdcheck
+            any::remotes
             cran/XML
             prepr=?ignore
           needs: |

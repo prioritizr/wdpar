@@ -60,6 +60,7 @@ jobs:
           cache-version: 4
           extra-packages: |
             any::rcmdcheck
+            any::remotes
             any::XML
             prepr=?ignore
           needs: |

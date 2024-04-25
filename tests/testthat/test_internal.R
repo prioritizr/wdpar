@@ -71,14 +71,14 @@ test_that("wdpa_file (country - different year same month)", {
   unlink(td)
 })
 
-test_that("wdpa_url (country)", {
+test_that("wdpa_url (country) (shp)", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_if_chrome_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # verify that wdpa_url yields a result
-  x <- suppressWarnings(wdpa_url("MLT", wait = TRUE))
+  x <- suppressWarnings(wdpa_url("MLT", wait = TRUE, datatype = "shp"))
   expect_is(x, "character")
   # verify that downloading the url yields a zipped shapefile
   f1 <- tempfile(fileext = ".zip")
@@ -91,6 +91,31 @@ test_that("wdpa_url (country)", {
     Map(utils::unzip, zip_path,
         exdir = gsub(".zip", "", zip_path, fixed = TRUE))
   expect_gt(length(dir(f2, "^.*\\.shp$", recursive = TRUE)), 0)
+  unlink(f1, recursive = TRUE, force = TRUE)
+  unlink(f2, recursive = TRUE, force = TRUE)
+})
+
+test_that("wdpa_url (country) (gdb)", {
+  skip_on_cran()
+  skip_if_not(curl::has_internet())
+  skip_if_chrome_not_available()
+  skip_on_github_workflow("Windows")
+  skip_on_github_workflow("macOS")
+  # verify that wdpa_url yields a result
+  x <- suppressWarnings(wdpa_url("MLT", wait = TRUE, datatype = "gdb"))
+  expect_is(x, "character")
+  # verify that downloading the url yields a zipped shapefile
+  f1 <- tempfile(fileext = ".zip")
+  f2 <- file.path(tempdir(), basename(tempfile()))
+  download_file(x, f1)
+  expect_true(file.exists(f1))
+  unzip(f1, exdir = f2)
+  zip_path <- dir(f2, "^.*\\.zip$", recursive = TRUE, full.names = TRUE)
+  if (length(zip_path) > 0)
+  expect_length(
+    dir(f2, "^.*\\.gdb$", recursive = TRUE, include.dirs = TRUE),
+    1
+  )
   unlink(f1, recursive = TRUE, force = TRUE)
   unlink(f2, recursive = TRUE, force = TRUE)
 })

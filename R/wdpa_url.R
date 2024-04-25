@@ -34,6 +34,11 @@ NULL
 #'   containing the message `Error: Summary: NoSuchElement`).
 #'   To avoid this, users can try specifying a greater value (e.g. 5 seconds).
 #'
+#' @param datatype `character` denoting the file format for which to download
+#'   protected area data. Available options include: (`"shp"`) shapefile format
+#'   and (`"gdb"`) file geodatabase format. Defaults to `"gdb".
+#'   Note that global data are only available in file geodatabase format.
+#'
 #' @return `character` URL to download the data.
 #'
 #' @seealso [wdpa_fetch()], [countrycode::countrycode()].
@@ -53,14 +58,24 @@ NULL
 #' print(global_url)
 #' }
 #' @export
-wdpa_url <- function(x, wait = FALSE, page_wait = 2) {
+wdpa_url <- function(x, wait = FALSE, page_wait = 2, datatype = "gdb") {
   # validate arguments
   assertthat::assert_that(
     assertthat::is.string(x),
     assertthat::is.flag(wait),
     assertthat::is.count(page_wait),
     assertthat::noNA(page_wait),
+    assertthat::is.string(datatype),
+    assertthat::noNA(datatype),
     is_online()
+  )
+  assertthat::assert_that(
+    datatype %in% c("gdb", "shp"),
+    msg = "argument to datatype must be \"gdb\" or \"shp\""
+  )
+  assertthat::assert_that(
+    !(identical(x, "global") && identical(datatype, "shp")),
+    msg = "argument to datatype must be \"gdb\" for global data"
   )
   assertthat::assert_that(
     is_chrome_available(),
@@ -89,8 +104,14 @@ wdpa_url <- function(x, wait = FALSE, page_wait = 2) {
       ## click "Download" button
       chromote_click_element(b, ".download__trigger")
       Sys.sleep(page_wait) # wait for page to load
-      ## click "SHP" button
-      chromote_click_element(b, "li:nth-child(2) .popup__link")
+      ## click button to trigger download preparation
+      if (identical(datatype, "shp")) {
+        ### click "SHP" button
+        chromote_click_element(b, "li:nth-child(2) .popup__link")
+      } else {
+        ### click "File Geodatabase" button
+        chromote_click_element(b, "li:nth-child(3) .popup__link")
+      }
       Sys.sleep(page_wait) # wait for dialog to open
       ## click download link button
       chromote_click_element(b, ".modal__link-button")
@@ -101,7 +122,7 @@ wdpa_url <- function(x, wait = FALSE, page_wait = 2) {
       divs <- divs[which(xml2::xml_attr(divs, "class") == "modal__content")]
       ## parse download link
       attrs <- xml2::xml_attr(xml2::xml_find_all(divs, ".//a"), "href")
-      url <- grep("shp.zip", attrs, fixed = TRUE, value = TRUE)
+      url <- grep("^.*WDPA.*\\.zip$", attrs, value = TRUE)
     },
     finally = {
       ## clean up web driver

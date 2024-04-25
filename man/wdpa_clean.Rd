@@ -100,6 +100,12 @@ Organization (UNESCO) Biosphere Reserves (Coetzer \emph{et al.} 2014).
 This step is only performed if the argument to \code{exclude_unesco} is
 \code{TRUE}.
 
+\item Standardize column names. This is important so that data
+imported as in shapefile or file geodatabase format have the
+same column names. Specifically, if present, the \code{"PARENT_ISO3"} field is
+renamed to "PARENT_ISO" and the "SHAPE" field is renamed to
+\code{"geometry"}.
+
 \item Create a field (\code{"GEOMETRY_TYPE"}) indicating if areas are
 represented as point localities (\code{"POINT"}) or as polygons
 (\code{"POLYGON"}).
@@ -163,6 +169,8 @@ meters).
 \item The size of areas are calculated in square kilometers and stored in
 the field \code{"AREA_KM2"}.
 
+\item Trimming extra leading or trailing white space characters
+from the \code{"MANG_PLAN"} field  (e.g., \code{" "}, \code{"\\n"}, \code{"\\r"}).
 }
 }
 \section{Recommended practices for large datasets}{

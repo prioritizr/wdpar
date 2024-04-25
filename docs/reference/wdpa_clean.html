@@ -176,6 +176,11 @@ are not currently implemented.</p></li>
 Organization (UNESCO) Biosphere Reserves (Coetzer <em>et al.</em> 2014).
 This step is only performed if the argument to <code>exclude_unesco</code> is
 <code>TRUE</code>.</p></li>
+<li><p>Standardize column names. This is important so that data
+imported as in shapefile or file geodatabase format have the
+same column names. Specifically, if present, the <code>"PARENT_ISO3"</code> field is
+renamed to "PARENT_ISO" and the "SHAPE" field is renamed to
+<code>"geometry"</code>.</p></li>
 <li><p>Create a field (<code>"GEOMETRY_TYPE"</code>) indicating if areas are
 represented as point localities (<code>"POINT"</code>) or as polygons
 (<code>"POLYGON"</code>).</p></li>
@@ -222,6 +227,8 @@ categories (<code>"IUCN_CAT"</code>) or have historical precedence are retained
 meters).</p></li>
 <li><p>The size of areas are calculated in square kilometers and stored in
 the field <code>"AREA_KM2"</code>.</p></li>
+<li><p>Trimming extra leading or trailing white space characters
+from the <code>"MANG_PLAN"</code> field  (e.g., <code>" "</code>, <code>"\n"</code>, <code>"\r"</code>).</p></li>
 </ol></div>
     <div id="recommended-practices-for-large-datasets">
     <h2>Recommended practices for large datasets</h2>

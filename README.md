@@ -67,8 +67,7 @@ may contain additional features not present in the official version,
 they may also contain coding errors.
 
 ``` r
-if (!require(remotes))
-  install.packages("remotes")
+if (!require(remotes)) install.packages("remotes")
 remotes::install_github("prioritizr/wdpar")
 ```
 
@@ -84,9 +83,8 @@ available. To install the *prepr R* package, please use the following R
 code.
 
 ``` r
-if (!require(remotes))
-  install.packages("remotes")
-remotes::install_github("dickoa/prepr")
+if (!require(remotes)) install.packages("remotes")
+remotes::install_github("prioritizr/prepr")
 ```
 
 Note that the *prepr R* package has system dependencies that need to be
@@ -180,7 +178,7 @@ head(mlt_pa_data)
     ## Simple feature collection with 6 features and 32 fields
     ## Geometry type: MULTIPOLYGON
     ## Dimension:     XY
-    ## Bounding box:  xmin: 1382584 ymin: 4280853 xmax: 1399759 ymax: 4299615
+    ## Bounding box:  xmin: 1382584 ymin: 4280853 xmax: 1394227 ymax: 4299615
     ## Projected CRS: +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
     ## Precision:     1500 
     ## # A tibble: 6 × 33
@@ -189,9 +187,9 @@ head(mlt_pa_data)
     ## 1    194425 194425    PA     'Il-… 'Il-Gżej… Rise… Nature R… National   Ia      
     ## 2    194420 194420    PA     Filf… Filfla    Rise… Nature R… National   Ia      
     ## 3 555588631 555588631 PA     Il-M… Il-Majji… Park… National… National   II      
-    ## 4    174757 174757    PA     Il-Ġ… Il-Ġonna… List… List of … National   III     
-    ## 5    174758 174758    PA     Bidn… Bidnija,… List… List of … National   III     
-    ## 6    194415 194415    PA     'Il-… 'Il-Ġonn… List… List of … National   III     
+    ## 4    174758 174758    PA     Bidn… Bidnija,… List… List of … National   III     
+    ## 5    194415 194415    PA     'Il-… 'Il-Ġonn… List… List of … National   III     
+    ## 6    194418 194418    PA     Il-B… Il-Ballu… List… List of … National   III     
     ## # ℹ 24 more variables: INT_CRIT <chr>, MARINE <chr>, REP_M_AREA <dbl>,
     ## #   GIS_M_AREA <dbl>, REP_AREA <dbl>, GIS_AREA <dbl>, NO_TAKE <chr>,
     ## #   NO_TK_AREA <dbl>, STATUS <chr>, STATUS_YR <dbl>, GOV_TYPE <chr>,

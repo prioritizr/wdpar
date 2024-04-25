@@ -1,11 +1,18 @@
 # wdpar 1.3.7.2
 
-- Update README and vignette to be compatible with updates to _ggmap_ package.
 - Update `wdpa_fetch()` to use the _chromote_ package to handle web scrapping
  (instead of _webdriver_).
+- Update `wdpa_fetch()` so that it can download country-level data in either
+  shapefile or file geodatabase format (using the new `datatype` parameter).
+  Since file geodatabase data appears to be more robust, `wdpa_fetch()`
+  now defaults to downloading data in file geodatabase format.
+- Update `wdpa_clean()` to standardize column names so that cleaning
+  either shapefile or file geodatabase data results in the same output.
+- Update `wdpa_clean()` so that it removes leading/trailing white space
+  characters from the `"MANG_PLAN"` field.
+- Fix bug in `wdpa_read()` that causes output objects to contain no columns.
+- Update README and vignette to be compatible with updates to _ggmap_ package.
 - Remove _withr_ package from DESCRIPTION because it is not used.
-- Fix bug in `wdpa_read()` that causes output objects to contain no column
-  names.
 
 # wdpar 1.3.7.1
 

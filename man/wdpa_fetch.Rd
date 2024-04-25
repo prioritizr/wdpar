@@ -12,6 +12,7 @@ wdpa_fetch(
   check_version = TRUE,
   n = NULL,
   page_wait = 2,
+  datatype = "gdb",
   verbose = interactive()
 )
 }
@@ -56,6 +57,11 @@ Users on slow internet connections may experience issues
 with the default argument (e.g. resulting in an error
 containing the message \code{Error: Summary: NoSuchElement}).
 To avoid this, users can try specifying a greater value (e.g. 5 seconds).}
+
+\item{datatype}{\code{character} denoting the file format for which to download
+protected area data. Available options include: (\code{"shp"}) shapefile format
+and (\code{"gdb"}) file geodatabase format. Defaults to `"gdb".
+Note that global data are only available in file geodatabase format.}
 
 \item{verbose}{\code{logical} should a progress on downloading data be
 reported? Defaults to \code{TRUE} in an interactive session, otherwise

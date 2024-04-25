@@ -42,6 +42,8 @@ NULL
 #'   reported? Defaults to `TRUE` in an interactive session, otherwise
 #'   `FALSE`.
 #'
+#' @inheritParams wdpa_url
+#'
 #' @details
 #' This function obtains and imports data from Protected Planet.
 #' By default (per `force_download = FALSE`), it will check to see if the
@@ -152,6 +154,7 @@ wdpa_fetch <- function(x, wait = FALSE,
                        check_version = TRUE,
                        n = NULL,
                        page_wait = 2,
+                       datatype = "gdb",
                        verbose = interactive()) {
   # check that arguments are valid
   ## check that classes are correct
@@ -177,10 +180,18 @@ wdpa_fetch <- function(x, wait = FALSE,
     ## find latest version of the dataset
     current_month_year <- wdpa_latest_version()
     ## find the download link and set file path to save the data
-    download_url <- wdpa_url(x, wait = wait, page_wait = page_wait)
+    download_url <- wdpa_url(
+      x, wait = wait, page_wait = page_wait, datatype = datatype
+    )
     ## note that file name conventions on protectedplanet.net have changed
     ## (detected on 8th Oct 2020) and so file names are manually changed
     ## to follow the previous convention
+    ##
+    ## also, note that to ensure backwwards compatibility with prevoius
+    ## versions of wdpar, data that are downloaded in file geodatabase format
+    ## will also be renamed to end with "-shapefile.zip" (even though they do
+    ## not contain shapefile data) and we will logic in wdpa_read() to
+    ## correctly import the data
     if (!identical(x, "global")) {
       file_name <- paste0("WDPA_", current_month_year, "_", country_code(x),
                           "-shapefile.zip")

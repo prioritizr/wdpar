@@ -23,7 +23,7 @@ Note that data are accessed assuming non-commercial use."><!-- mathjax --><scrip
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.7.2</span>
       </span>
     </div>
 
@@ -68,7 +68,7 @@ Measures (WDOECM).
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">wdpa_url</span><span class="op">(</span><span class="va">x</span>, wait <span class="op">=</span> <span class="cn">FALSE</span>, page_wait <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">wdpa_url</span><span class="op">(</span><span class="va">x</span>, wait <span class="op">=</span> <span class="cn">FALSE</span>, page_wait <span class="op">=</span> <span class="fl">2</span>, datatype <span class="op">=</span> <span class="st">"gdb"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -101,6 +101,13 @@ with the default argument (e.g. resulting in an error
 containing the message <code>Error: Summary: NoSuchElement</code>).
 To avoid this, users can try specifying a greater value (e.g. 5 seconds).</p></dd>
 
+
+<dt>datatype</dt>
+<dd><p><code>character</code> denoting the file format for which to download
+protected area data. Available options include: (<code>"shp"</code>) shapefile format
+and (<code>"gdb"</code>) file geodatabase format. Defaults to `"gdb".
+Note that global data are only available in file geodatabase format.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -119,12 +126,13 @@ To avoid this, users can try specifying a greater value (e.g. 5 seconds).</p></d
 <span class="r-in"><span><span class="co"># obtain url for New Zealand data</span></span></span>
 <span class="r-in"><span><span class="va">nzl_url</span> <span class="op">&lt;-</span> <span class="fu">wdpa_url</span><span class="op">(</span><span class="st">"New Zealand"</span>, wait <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">nzl_url</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://d1gam3xoknrgr2.cloudfront.net/current/WDPA_WDOECM_Oct2023_Public_NZL_shp.zip"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://d1gam3xoknrgr2.cloudfront.net/current/WDPA_WDOECM_Apr2024_Public_NZL.zip"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># obtain url for New Zealand data using its ISO3 code</span></span></span>
 <span class="r-in"><span><span class="va">nzl_url</span> <span class="op">&lt;-</span> <span class="fu">wdpa_url</span><span class="op">(</span><span class="st">"NZL"</span>, wait <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in self$check_active():</span> Chromote has been closed.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">nzl_url</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://d1gam3xoknrgr2.cloudfront.net/current/WDPA_WDOECM_Oct2023_Public_NZL_shp.zip"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://d1gam3xoknrgr2.cloudfront.net/current/WDPA_WDOECM_Apr2024_Public_NZL.zip"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># obtain url for global data</span></span></span>
 <span class="r-in"><span><span class="va">global_url</span> <span class="op">&lt;-</span> <span class="fu">wdpa_url</span><span class="op">(</span><span class="st">"global"</span><span class="op">)</span></span></span>

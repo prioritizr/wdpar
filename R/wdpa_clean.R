@@ -80,6 +80,12 @@ NULL
 #'     This step is only performed if the argument to `exclude_unesco` is
 #'     `TRUE`.
 #'
+#'   \item Standardize column names. This is important so that data
+#'     imported as in shapefile or file geodatabase format have the
+#'     same column names. Specifically, if present, the `"PARENT_ISO3"` field is
+#'     renamed to "PARENT_ISO" and the "SHAPE" field is renamed to
+#'     `"geometry"`.
+#'
 #'   \item Create a field (`"GEOMETRY_TYPE"`) indicating if areas are
 #'     represented as point localities (`"POINT"`) or as polygons
 #'     (`"POLYGON"`).
@@ -144,6 +150,8 @@ NULL
 #'   \item The size of areas are calculated in square kilometers and stored in
 #'     the field `"AREA_KM2"`.
 #'
+#'   \item Trimming extra leading or trailing white space characters
+#'     from the `"MANG_PLAN"` field  (e.g., `" "`, `"\n"`, `"\r"`).
 #'  }
 #'
 #' @section Recommended practices for large datasets:
@@ -283,6 +291,20 @@ wdpa_clean <- function(x,
     if (verbose) {
       cli::cli_progress_step("retaining UNESCO Biosphere Reserves")
     }
+  }
+  # standardize column names
+  if (verbose) {
+    cli::cli_progress_step("standardizing field names")
+  }
+  if ("PARENT_ISO3" %in% names(x)) {
+    names(x)[names(x) == "PARENT_ISO3"] <- "PARENT_ISO"
+  }
+  if ("SHAPE" %in% names(x)) {
+    names(x)[names(x) == "SHAPE"] <- "geometry"
+    x <- sf::st_set_geometry(x, "geometry")
+  }
+  if (verbose) {
+    cli::cli_progress_step("standardizing field names")
   }
   ## assign column indicating geometry type
   is_point <- vapply(sf::st_geometry(x), inherits, logical(1),
@@ -434,6 +456,13 @@ wdpa_clean <- function(x,
   }
   areas <- as.numeric(sf::st_area(x)) * 1e-6
   x$AREA_KM2 <- as.numeric(areas)
+  ## trim white space characters
+  if (verbose) {
+    cli::cli_progress_step(
+      "trimming extra white space characters from MANG_PLAN"
+    )
+  }
+  x$MANG_PLAN <- trimws(x$MANG_PLAN)
   ## move geometry to last column
   if ((!"geometry" %in% names(x))) {
     geom_col <- attr(x, "sf_column")

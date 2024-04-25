@@ -44,8 +44,7 @@ install.packages("wdpar", repos = "https://cran.rstudio.com/")
 Alternatively, the latest developmental version can be installed using the following _R_ code. Please note that while developmental versions may contain additional features not present in the official version, they may also contain coding errors.
 
 ```{r, eval = FALSE}
-if (!require(remotes))
-  install.packages("remotes")
+if (!require(remotes)) install.packages("remotes")
 remotes::install_github("prioritizr/wdpar")
 ```
 
@@ -54,9 +53,8 @@ remotes::install_github("prioritizr/wdpar")
 The _wdpar R_ package can leverage the _prepr R_ package to augment data cleaning procedures. Since the _prepr R_ package is not available on the Comprehensive R Archive Network, it is listed as an optional dependency. In some cases, the _prepr R_ package is required to complete the data cleaning procedures (e.g. to fix especially extreme geometry issues) and the _wdpar R_ package will throw an error if the package is not available. To install the _prepr R_ package, please use the following R code.
 
 ```{r, eval = FALSE}
-if (!require(remotes))
-  install.packages("remotes")
-remotes::install_github("dickoa/prepr")
+if (!require(remotes)) install.packages("remotes")
+remotes::install_github("prioritizr/prepr")
 ```
 
 Note that the _prepr R_ package has system dependencies that need to be installed before the package itself can be installed (see below for platform-specific instructions).
@@ -78,7 +76,7 @@ apt-get install -y libgmp3-dev libmpfr-dev libudunits2-dev libgdal-dev libgeos-d
 
 For Unix-alikes, `gmp` (>= 4.2.3), `mpfr` (>= 3.0.0), and `gdal` (>= 3.2.2) are required.
 
-##### _MacOS_
+##### _macOS_
 
 The `gmp`, `mpfr`, and `gdal` libraries are required. The easiest way to install these libraries is using [HomeBrew](https://brew.sh/). After installing HomeBrew, these libraries can be installed using the following commands in the system terminal:
 
@@ -134,8 +132,10 @@ Finally, after cleaning the data, let's plot a map showing Malta's protected are
 mlt_pa_data <- st_transform(mlt_pa_data, 4326)
 
 # download basemap imagery
-bg <- get_stamenmap(unname(st_bbox(mlt_pa_data)), zoom = 8,
-                    maptype = "watercolor", force = TRUE)
+bg <- get_stadiamap(
+  unname(st_bbox(mlt_pa_data)), zoom = 8,
+  maptype = "stamen_terrain_background", force = TRUE
+)
 
 # make map
 ggmap(bg) +

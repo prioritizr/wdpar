@@ -29,9 +29,9 @@
 #' *Science*, **350**: 1255--1258.
 #'
 #' @name wdpar
-#' @aliases wdpar-package
 #' @docType package
-NULL
+#' @aliases wdpar-package
+"_PACKAGE"
 
 #' @import sf
 NULL

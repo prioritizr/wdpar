@@ -117,15 +117,38 @@ wdpa_read <- function(x, n = NULL) {
     wdpa_point_data <- wdpa_point_data[, point_matching_cols]
     wdpa_data <- rbind(wdpa_polygon_data, wdpa_point_data)
   } else {
-    ## extract any data stored in zip files
+    ## load country-level data
+    ### extract data stored in zip files
     zip_path <- dir(tdir, "^.*\\.zip$", recursive = TRUE, full.names = TRUE)
-    if (length(zip_path) > 0)
+    if (length(zip_path) > 0) {
       result <- Map(utils::unzip, zip_path,
                     exdir = gsub(".zip", "", zip_path, fixed = TRUE))
-    ## import shapefile data
+    }
+    ### try and find shapefiles and gdb in unzipped files
     shapefile_path <- dir(tdir, "^.*\\.shp$", recursive = TRUE,
                           full.names = TRUE)
-    wdpa_data <- lapply(shapefile_path, read_sf_n, n = n)
+    gdb_path <- dir(tdir, "^.*\\.gdb$", recursive = TRUE,
+                    full.names = TRUE, include.dirs = TRUE)
+    if (length(shapefile_path) > 0) {
+      ### if has shapefiles, then...
+      ### import shapefile data
+      wdpa_data <- lapply(shapefile_path, read_sf_n, n = n)
+      ### exclude any shapefiles that are empty and don't contain any data
+      if (length(wdpa_data) > 1) {
+        wdpa_data <- wdpa_data[vapply(wdpa_data, nrow, integer(1)) > 0]
+      }
+    } else if (length(gdb_path) > 0) {
+      ### if has file geodatabase, then...
+      ### determine which layers to import
+      d <- sf::st_layers(gdb_path)
+      is_d_spatial <- !vapply(d$crs, is.na, logical(1))
+      wdpa_data <- lapply(d$name[is_d_spatial], sf::read_sf, dsn = gdb_path)
+    } else {
+      stop(
+        "Couldn't find shapefile or file geodatabase inside zip file.",
+        call. = FALSE
+      )
+    }
     ## merge shapefile data together
     if (length(wdpa_data) > 1) {
       col_names <- Reduce(base::intersect, lapply(wdpa_data, names))

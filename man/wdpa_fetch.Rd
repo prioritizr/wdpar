@@ -12,6 +12,7 @@ wdpa_fetch(
   check_version = TRUE,
   n = NULL,
   page_wait = 2,
+  datatype = "gdb",
   verbose = interactive()
 )
 }
@@ -56,6 +57,11 @@ Users on slow internet connections may experience issues
 with the default argument (e.g. resulting in an error
 containing the message \code{Error: Summary: NoSuchElement}).
 To avoid this, users can try specifying a greater value (e.g. 5 seconds).}
+
+\item{datatype}{\code{character} denoting the file format for which to download
+protected area data. Available options include: (\code{"shp"}) shapefile format
+and (\code{"gdb"}) file geodatabase format. Defaults to `"gdb".
+Note that global data are only available in file geodatabase format.}
 
 \item{verbose}{\code{logical} should a progress on downloading data be
 reported? Defaults to \code{TRUE} in an interactive session, otherwise
@@ -102,13 +108,33 @@ For more details on data conventions, please consult the official manual
 
 \section{Troubleshooting}{
 
-This function will sometimes return the error message
-\verb{PhantomJS signals port = 4567 is already in use}.
-This error message can occur when you have previously run the function and
-it threw an error, or it terminated early.
-It can also occur when attempting to run the the function in multiple
-sessions on the same computer.
-To address this issue, you will need to restart your computer.
+The function requires a Chromium-based browser
+(e.g., Google Chrome, Chromium, or Brave) to be installed.
+This is because it uses the \pkg{chromote} to find the URL
+for downloading data from Protected Planet.
+If you don't have one of these browsers installed, then please try
+installing Google Chrome.
+If you do have one of these browsers installed and this function
+throws an error indicating that it can't find the browser,
+try setting the \code{CHROMOTE_CHROME} environment variable to the
+file path of the executable. For example, you could do this with:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Sys.setenv(CHROMOTE_CHROME = "INSERT_FILE_PATH_HERE.exe")
+}\if{html}{\out{</div>}}
+
+Also, the function will sometimes produce a message
+that complains about a \code{handle_read_frame} error. Please understand
+that this message is, in fact, not an error and can be safely ignored
+(see \url{https://github.com/rstudio/chromote/pull/111}).
+As such, if you see this message when running the function,
+you can assume that the function still worked correctly.
+For reference, the misleading message will look something like this:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{[2024-04-23 12:06:36] [error] handle_read_frame error: websocketpp.transport:7 (End of File)
+}\if{html}{\out{</div>}}
+
+For further help with troubleshooting, please refer to the documentation
+for the \pkg{chromote} package (https://rstudio.github.io/chromote/).
 }
 
 \examples{

@@ -15,7 +15,7 @@ default_retain_status <- c("Designated", "Inscribed", "Established")
 test_that("single country with eez", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
-  skip_if_phantomjs_not_available()
+  skip_if_chrome_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # fetch data
@@ -40,7 +40,7 @@ test_that("single country with eez", {
 test_that("single country without eez", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
-  skip_if_phantomjs_not_available()
+  skip_if_chrome_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # fetch data
@@ -62,7 +62,7 @@ test_that("single country without eez", {
 test_that("single country with simplification", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
-  skip_if_phantomjs_not_available()
+  skip_if_chrome_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # fetch data
@@ -84,7 +84,7 @@ test_that("single country with simplification", {
 test_that("single country without overlap removal", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
-  skip_if_phantomjs_not_available()
+  skip_if_chrome_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # fetch data
@@ -106,12 +106,12 @@ test_that("single country without overlap removal", {
 test_that("country with MULTIPOINT protected areas", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
-  skip_if_phantomjs_not_available()
+  skip_if_chrome_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # fetch data
   x <- wdpa_fetch("BOL", wait = TRUE, check_version = FALSE)
-  x_points <- vapply(x$geometry, inherits, logical(1),
+  x_points <- vapply(sf::st_geometry(x), inherits, logical(1),
                      c("POINT", "MULTIPOINT"))
   x <- x[c(which(x_points), 15), , drop = FALSE]
   y <- suppressWarnings(wdpa_clean(x, erase_overlaps = FALSE))
@@ -122,7 +122,7 @@ test_that("country with MULTIPOINT protected areas", {
 test_that("country with MULTIPOLYGON protected area", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
-  skip_if_phantomjs_not_available()
+  skip_if_chrome_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # fetch data
@@ -132,15 +132,15 @@ test_that("country with MULTIPOLYGON protected area", {
   p1 <- x[x$WDPAID == 555592679, ]
   p2 <- y[y$WDPAID == 555592679, ]
   # test that polygons in multipolygon features are retained
-  expect_gt(length(sf::st_cast(p1$geometry, "POLYGON")), 1)
-  expect_gt(length(sf::st_cast(p2$geometry, "POLYGON")), 1)
+  expect_gt(length(sf::st_cast(sf::st_geometry(p1), "POLYGON")), 1)
+  expect_gt(length(sf::st_cast(sf::st_geometry(p2), "POLYGON")), 1)
   expect_true(all(y$STATUS %in% default_retain_status))
 })
 
 test_that("country with super invalid MULTIPOLYGON data", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
-  skip_if_phantomjs_not_available()
+  skip_if_chrome_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   x <- wdpa_fetch("GAB", wait = TRUE, check_version = FALSE)
@@ -152,7 +152,7 @@ test_that("country with super invalid MULTIPOLYGON data", {
 test_that("geometries in non-geometry column", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
-  skip_if_phantomjs_not_available()
+  skip_if_chrome_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   x <- wdpa_fetch("GAB", wait = TRUE, check_version = FALSE)
@@ -168,7 +168,7 @@ test_that("geometries in non-geometry column", {
 test_that("single country with no valid non-empty geometries", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
-  skip_if_phantomjs_not_available()
+  skip_if_chrome_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   x <- wdpa_clean(
@@ -192,7 +192,7 @@ test_that("single country with no valid non-empty geometries", {
 test_that("retain UNESCO Biosphere reserves", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
-  skip_if_phantomjs_not_available()
+  skip_if_chrome_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # fetch data
@@ -215,7 +215,7 @@ test_that("retain UNESCO Biosphere reserves", {
 test_that("protected areas that turn into long rectangles without prepr", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
-  skip_if_phantomjs_not_available()
+  skip_if_chrome_not_available()
   skip_if_not_installed("prepr")
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
@@ -231,14 +231,14 @@ test_that("protected areas that turn into long rectangles without prepr", {
 test_that("protected areas that massively increase in size without prepr", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
-  skip_if_phantomjs_not_available()
+  skip_if_chrome_not_available()
   skip_if_not_installed("prepr")
   skip_if_not_installed("dplyr")
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # fetch data
   ids <- c(23177, 12352, 555705343, 555705341, 555721495)
-  x <- wdpa_fetch("DZA", wait = TRUE, check_version = FALSE)
+  x <- wdpa_fetch("DZA", wait = TRUE, check_version = FALSE, datatype = "gdb")
   x <- x[x$WDPAID %in% ids, , drop = FALSE]
   # clean data
   y <- wdpa_clean(x, erase_overlaps = FALSE)
@@ -249,7 +249,7 @@ test_that("protected areas that massively increase in size without prepr", {
 test_that("custom retain_status", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
-  skip_if_phantomjs_not_available()
+  skip_if_chrome_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # fetch data
@@ -272,7 +272,7 @@ test_that("custom retain_status", {
 test_that("NULL retain_status", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
-  skip_if_phantomjs_not_available()
+  skip_if_chrome_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # fetch data
@@ -293,7 +293,7 @@ test_that("NULL retain_status", {
 test_that("empty intersections", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
-  skip_if_phantomjs_not_available()
+  skip_if_chrome_not_available()
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   # fetch data
@@ -304,4 +304,33 @@ test_that("empty intersections", {
   expect_is(y, "sf")
   expect_true(all(names(y) %in% wdpa_column_names))
   expect_gt(nrow(y), 0)
+})
+
+
+test_that("shp and gdb produce same results", {
+  skip_on_cran()
+  skip_if_not(curl::has_internet())
+  skip_if_chrome_not_available()
+  skip_on_github_workflow("Windows")
+  skip_on_github_workflow("macOS")
+  # fetch and clean data
+  x <- wdpa_clean(
+    suppressWarnings(
+      wdpa_fetch(
+        "MHL", wait = TRUE, verbose = TRUE, datatype = "shp",
+        check_version = FALSE, force = TRUE)
+    )
+  )
+  y <- wdpa_clean(
+    suppressWarnings(
+      wdpa_fetch(
+        "MHL", wait = TRUE, verbose = TRUE, datatype = "gdb",
+        check_version = FALSE, force = TRUE)
+    )
+  )
+  # sort data
+  x <- x[order(x$WDPAID), , drop = FALSE]
+  y <- y[order(y$WDPAID), , drop = FALSE]
+  # run tests
+  expect_equal(x, y)
 })

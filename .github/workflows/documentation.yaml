@@ -50,7 +50,8 @@ jobs:
           sudo apt update
           sudo apt-get install \
             libgdal-dev libgeos-dev libproj-dev \
-            libgmp3-dev libmpfr-dev libudunits2-dev
+            libgmp3-dev libmpfr-dev libudunits2-dev \
+            chromium-browser
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
@@ -84,6 +85,7 @@ jobs:
         run: |
           result <- urlchecker::url_check()
           result <- result[!startsWith(result$URL, "https://doi.org/"), , drop = FALSE]
+          result <- result[!startsWith(result$URL, "http://geo.abds.is"), , drop = FALSE]
           if (nrow(result) > 0) {
             print(result)
             stop("Invalid URLs detected")

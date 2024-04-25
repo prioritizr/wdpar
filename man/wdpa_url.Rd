@@ -4,7 +4,7 @@
 \alias{wdpa_url}
 \title{Download URL}
 \usage{
-wdpa_url(x, wait = FALSE, page_wait = 2)
+wdpa_url(x, wait = FALSE, page_wait = 2, datatype = "gdb")
 }
 \arguments{
 \item{x}{\code{character} country for desired data. This argument
@@ -29,6 +29,11 @@ Users on slow internet connections may experience issues
 with the default argument (e.g. resulting in an error
 containing the message \code{Error: Summary: NoSuchElement}).
 To avoid this, users can try specifying a greater value (e.g. 5 seconds).}
+
+\item{datatype}{\code{character} denoting the file format for which to download
+protected area data. Available options include: (\code{"shp"}) shapefile format
+and (\code{"gdb"}) file geodatabase format. Defaults to `"gdb".
+Note that global data are only available in file geodatabase format.}
 }
 \value{
 \code{character} URL to download the data.

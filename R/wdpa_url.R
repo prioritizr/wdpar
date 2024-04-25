@@ -34,6 +34,11 @@ NULL
 #'   containing the message `Error: Summary: NoSuchElement`).
 #'   To avoid this, users can try specifying a greater value (e.g. 5 seconds).
 #'
+#' @param datatype `character` denoting the file format for which to download
+#'   protected area data. Available options include: (`"shp"`) shapefile format
+#'   and (`"gdb"`) file geodatabase format. Defaults to `"gdb".
+#'   Note that global data are only available in file geodatabase format.
+#'
 #' @return `character` URL to download the data.
 #'
 #' @seealso [wdpa_fetch()], [countrycode::countrycode()].
@@ -53,20 +58,30 @@ NULL
 #' print(global_url)
 #' }
 #' @export
-wdpa_url <- function(x, wait = FALSE, page_wait = 2) {
+wdpa_url <- function(x, wait = FALSE, page_wait = 2, datatype = "gdb") {
   # validate arguments
   assertthat::assert_that(
     assertthat::is.string(x),
     assertthat::is.flag(wait),
     assertthat::is.count(page_wait),
     assertthat::noNA(page_wait),
+    assertthat::is.string(datatype),
+    assertthat::noNA(datatype),
     is_online()
   )
   assertthat::assert_that(
-    has_phantomjs(),
+    datatype %in% c("gdb", "shp"),
+    msg = "argument to datatype must be \"gdb\" or \"shp\""
+  )
+  assertthat::assert_that(
+    !(identical(x, "global") && identical(datatype, "shp")),
+    msg = "argument to datatype must be \"gdb\" for global data"
+  )
+  assertthat::assert_that(
+    is_chrome_available(),
     msg = paste0(
-      "cannot find PhantomJS; please install it using: ",
-      "webdriver::install_phantomjs()"
+      "couldn't find a Chromium-based browser,",
+      "please try installing Google Chrome"
     )
   )
   # declare hidden function
@@ -76,34 +91,42 @@ wdpa_url <- function(x, wait = FALSE, page_wait = 2) {
       ## initialize URL
       url <- character(0)
       ## initialize driver
-      pjs <- start_phantomjs()
-      rd <- webdriver::Session$new(port = pjs$port)
+      b <- chromote::ChromoteSession$new()
+      ## set timeout
+      b$default_timeout <- 100
       ## navigate to download web page
-      rd$go(paste0("https://www.protectedplanet.net/country/", x))
+      p <- b$Page$loadEventFired(wait_ = FALSE)
+      b$Page$navigate(
+        paste0("https://www.protectedplanet.net/country/", x),
+        wait_ = FALSE
+      )
+      b$wait_for(p)
+      ## click "Download" button
+      chromote_click_element(b, ".download__trigger")
       Sys.sleep(page_wait) # wait for page to load
-      elem <- rd$findElement(css = ".download__trigger")
-      elem$click()
-      Sys.sleep(page_wait) # wait for page to load
-      elem <- rd$findElement(css = "li:nth-child(2) .popup__link")
-      elem$click()
+      ## click button to trigger download preparation
+      if (identical(datatype, "shp")) {
+        ### click "SHP" button
+        chromote_click_element(b, "li:nth-child(2) .popup__link")
+      } else {
+        ### click "File Geodatabase" button
+        chromote_click_element(b, "li:nth-child(3) .popup__link")
+      }
       Sys.sleep(page_wait) # wait for dialog to open
-      elem <- rd$findElement(css = ".modal__link-button")
-      elem$click()
+      ## click download link button
+      chromote_click_element(b, ".modal__link-button")
       Sys.sleep(page_wait) # wait for for dialog to open
       ## extract html for modal
-      src <- xml2::read_html(rd$getSource()[[1]][[1]], encoding = "UTF-8")
+      src <- xml2::read_html(chromote_page_source(b)[[1]], encoding = "UTF-8")
       divs <- xml2::xml_find_all(src, ".//div")
       divs <- divs[which(xml2::xml_attr(divs, "class") == "modal__content")]
       ## parse download link
       attrs <- xml2::xml_attr(xml2::xml_find_all(divs, ".//a"), "href")
-      url <- grep("shp.zip", attrs, fixed = TRUE, value = TRUE)
+      url <- grep("^.*WDPA.*\\.zip$", attrs, value = TRUE)
     },
     finally = {
       ## clean up web driver
-      try(rd$delete(), silent = TRUE)
-      try(rd$delete(), silent = TRUE)
-      try(stop_phantomjs(pjs), silent = TRUE)
-      try(stop_phantomjs(pjs), silent = TRUE)
+      try(suppressMessages(b$parent$close()), silent = TRUE)
     }))
     ## prepare output
     if (length(url) == 0)
@@ -140,30 +163,37 @@ wdpa_url <- function(x, wait = FALSE, page_wait = 2) {
   return(out)
 }
 
-start_phantomjs <- function() {
-  # initialize phantomjs
-  if (
-    identical(.Platform$OS.type, "unix") &&
-    identical(Sys.getenv("OPENSSL_CONF"), "")
-  ) {
-    withr::with_envvar(
-      list("OPENSSL_CONF"= "/etc/ssl"),
-      pjs <- webdriver::run_phantomjs()
-    )
-  } else {
-    pjs <- suppressMessages(webdriver::run_phantomjs())
-  }
-  # return object
-  pjs
+is_chrome_available <- function() {
+  x <- chromote::find_chrome()
+  if (is.null(x)) return(FALSE)
+  if (!nzchar(x)[[1]]) return(FALSE)
+  TRUE
 }
 
-stop_phantomjs <- function(pjs) {
-  try(pjs$process$kill(), silent = TRUE)
-  try(pjs$process$kill(), silent = TRUE)
+chromote_page_source <- function(b) {
+  # from https://stackoverflow.com/a/76347768
+  b$Runtime$evaluate("document.querySelector('html').outerHTML")$result$value
 }
 
-has_phantomjs <- function() {
-  pjs <- suppressMessages(try(start_phantomjs(), silent = TRUE))
-  on.exit(suppressMessages(stop_phantomjs(pjs)))
-  !inherits(pjs, "try-error")
+chromote_click_element <- function(b, css) {
+  # from https://github.com/rstudio/chromote/issues/30
+  doc <- b$DOM$getDocument()
+  node <- b$DOM$querySelector(doc$root$nodeId, css)
+  assertthat::assert_that(
+    node$nodeId >= 1,
+    msg = paste0("couldn't find element using query \", css, \"")
+  )
+  box <- b$DOM$getBoxModel(node$nodeId)
+  br <- box$model$border
+  x <- (br[[1]] + br[[5]]) / 2
+  y <- (br[[2]] + br[[6]]) / 2
+  b$Input$dispatchMouseEvent(
+    type = "mousePressed", x = x, y = y, button = "left",
+    clickCount = 1
+  )
+  Sys.sleep(0.01)
+  b$Input$dispatchMouseEvent(
+    type = "mouseReleased", x = x, y = y, button = "left"
+  )
+  NULL
 }

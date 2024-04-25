@@ -42,6 +42,8 @@ NULL
 #'   reported? Defaults to `TRUE` in an interactive session, otherwise
 #'   `FALSE`.
 #'
+#' @inheritParams wdpa_url
+#'
 #' @details
 #' This function obtains and imports data from Protected Planet.
 #' By default (per `force_download = FALSE`), it will check to see if the
@@ -69,13 +71,33 @@ NULL
 #' (UNEP-WCMC 2019).
 #'
 #' @section Troubleshooting:
-#' This function will sometimes return the error message
-#' `PhantomJS signals port = 4567 is already in use`.
-#' This error message can occur when you have previously run the function and
-#' it threw an error, or it terminated early.
-#' It can also occur when attempting to run the the function in multiple
-#' sessions on the same computer.
-#' To address this issue, you will need to restart your computer.
+#' The function requires a Chromium-based browser
+#' (e.g., Google Chrome, Chromium, or Brave) to be installed.
+#' This is because it uses the \pkg{chromote} to find the URL
+#' for downloading data from Protected Planet.
+#' If you don't have one of these browsers installed, then please try
+#' installing Google Chrome.
+#' If you do have one of these browsers installed and this function
+#' throws an error indicating that it can't find the browser,
+#' try setting the `CHROMOTE_CHROME` environment variable to the
+#' file path of the executable. For example, you could do this with:
+#' ```
+#' Sys.setenv(CHROMOTE_CHROME = "INSERT_FILE_PATH_HERE.exe")
+#' ```
+#'
+#' Also, the function will sometimes produce a message
+#' that complains about a `handle_read_frame` error. Please understand
+#' that this message is, in fact, not an error and can be safely ignored
+#' (see <https://github.com/rstudio/chromote/pull/111>).
+#' As such, if you see this message when running the function,
+#' you can assume that the function still worked correctly.
+#' For reference, the misleading message will look something like this:
+#' ```
+#' [2024-04-23 12:06:36] [error] handle_read_frame error: websocketpp.transport:7 (End of File)
+#' ```
+#'
+#' For further help with troubleshooting, please refer to the documentation
+#' for the \pkg{chromote} package (https://rstudio.github.io/chromote/).
 #'
 #' @return [sf::sf()] object.
 #'
@@ -132,6 +154,7 @@ wdpa_fetch <- function(x, wait = FALSE,
                        check_version = TRUE,
                        n = NULL,
                        page_wait = 2,
+                       datatype = "gdb",
                        verbose = interactive()) {
   # check that arguments are valid
   ## check that classes are correct
@@ -157,10 +180,18 @@ wdpa_fetch <- function(x, wait = FALSE,
     ## find latest version of the dataset
     current_month_year <- wdpa_latest_version()
     ## find the download link and set file path to save the data
-    download_url <- wdpa_url(x, wait = wait, page_wait = page_wait)
+    download_url <- wdpa_url(
+      x, wait = wait, page_wait = page_wait, datatype = datatype
+    )
     ## note that file name conventions on protectedplanet.net have changed
     ## (detected on 8th Oct 2020) and so file names are manually changed
     ## to follow the previous convention
+    ##
+    ## also, note that to ensure backwwards compatibility with prevoius
+    ## versions of wdpar, data that are downloaded in file geodatabase format
+    ## will also be renamed to end with "-shapefile.zip" (even though they do
+    ## not contain shapefile data) and we will logic in wdpa_read() to
+    ## correctly import the data
     if (!identical(x, "global")) {
       file_name <- paste0("WDPA_", current_month_year, "_", country_code(x),
                           "-shapefile.zip")

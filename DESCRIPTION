@@ -1,6 +1,6 @@
 Package: wdpar
 Type: Package
-Version: 1.3.7.1
+Version: 1.3.7.2
 Title: Interface to the World Database on Protected Areas
 Description: Fetch and clean data from the World Database on Protected
     Areas (WDPA) and the World Database on Other Effective Area-Based
@@ -18,8 +18,7 @@ Imports:
     curl (>= 3.2),
     httr (>= 1.3.1),
     countrycode (>= 1.1.0),
-    withr (>= 2.5.0),
-    webdriver (>= 1.0.6),
+    chromote (>= 0.2.0),
     xml2 (>= 1.2.0),
     cli (>= 1.0.1),
     lwgeom (>= 0.2-1),
@@ -31,9 +30,9 @@ Suggests:
     knitr (>= 1.2.0),
     roxygen2 (>= 6.1.1),
     rmarkdown (>= 1.10),
-    ggmap (>= 2.6.1),
+    ggmap (>= 4.0.0),
     ggplot2 (>= 3.1.0),
-    prepr (>= 0.1.9000),
+    prepr (>= 0.3.0),
     dplyr (>= 1.0.7),
     ps (>= 1.5.0)
 Depends:
@@ -45,7 +44,7 @@ Language: en-US
 URL: https://prioritizr.github.io/wdpar/, https://github.com/prioritizr/wdpar
 BugReports: https://github.com/prioritizr/wdpar/issues
 VignetteBuilder: knitr
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Collate:
     'internal.R'
     'package.R'
@@ -61,4 +60,4 @@ Collate:
     'zzz.R'
 Roxygen: list(markdown = TRUE)
 Remotes:
-  dickoa/prepr
+  prioritizr/prepr

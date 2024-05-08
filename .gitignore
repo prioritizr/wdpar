@@ -42,3 +42,7 @@ Meta/*
 paper/paper.docx
 /paper/paper_cache/
 paper/*.Rout
+
+# Mac Specific
+*.DS_Store
+/.Rproj.user

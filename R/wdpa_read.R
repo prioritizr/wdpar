@@ -64,7 +64,7 @@ wdpa_read <- function(x, n = NULL) {
   # unzip the folder
   tdir <- file.path(tempdir(), basename(tempfile()))
   dir.create(tdir, showWarnings = FALSE, recursive = TRUE)
-  utils::unzip(x, exdir = tdir)
+  utils::unzip(x, exdir = tdir, unzip = getOption("unzip"))
   # determine version
   month_year <- strsplit(basename(x), "_", fixed = TRUE)[[1]][[2]]
   # load data

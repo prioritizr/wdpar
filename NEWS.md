@@ -1,7 +1,13 @@
+# wdpar 1.3.7.3
+
+- Update DESCRIPTION with _prepr_ package information.
+- Update README with Chromium dependencies.
+- Update global example script with increased precision.
+
 # wdpar 1.3.7.2
 
 - Update `wdpa_fetch()` to use the _chromote_ package to handle web scrapping
- (instead of _webdriver_).
+ (instead of the _webdriver_ package).
 - Update `wdpa_fetch()` so that it can download country-level data in either
   shapefile or file geodatabase format (using the new `datatype` parameter).
   Since file geodatabase data appears to be more robust, `wdpa_fetch()`

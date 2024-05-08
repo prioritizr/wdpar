@@ -1,14 +1,14 @@
 Package: wdpar
 Type: Package
-Version: 1.3.7.2
+Version: 1.3.7.3
 Title: Interface to the World Database on Protected Areas
 Description: Fetch and clean data from the World Database on Protected
     Areas (WDPA) and the World Database on Other Effective Area-Based
     Conservation Measures (WDOECM). Data is obtained from Protected Planet
     <https://www.protectedplanet.net/en>. To augment data cleaning procedures,
     users can install the 'prepr' R package (available at
-    <https://github.com/dickoa/prepr>). For more information on this package,
-    see Hanson (2022) <doi:10.21105/joss.04594>.
+    <https://github.com/prioritizr/prepr>). For more information on this
+    package, see Hanson (2022) <doi:10.21105/joss.04594>.
 Authors@R: c(person(c('Jeffrey', 'O'), 'Hanson',
     email='jeffrey.hanson@uqconnect.edu.au', role = c('aut', 'cre')))
 Imports:

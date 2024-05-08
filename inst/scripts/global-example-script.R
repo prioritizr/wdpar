@@ -34,7 +34,12 @@ raw_data <- wdpa_fetch(
 )
 
 ## clean data
-result_data <- wdpa_clean(raw_data, erase_overlaps = FALSE, verbose = TRUE)
+result_data <- wdpa_clean(
+  raw_data,
+  erase_overlaps = FALSE,
+  geometry_precision = 1e4,
+  verbose = TRUE
+)
 
 # Exports
 ## save result

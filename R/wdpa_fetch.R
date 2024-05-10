@@ -157,10 +157,12 @@ wdpa_fetch <- function(x, wait = FALSE,
                        datatype = "gdb",
                        verbose = interactive()) {
   # check that arguments are valid
+  ## expand path to ensure full path to folder
+  assertthat::assert_that(
+    assertthat::is.string(download_dir),
+    assertthat::noNA(download_dir))
+  download_dir <- path.expand(download_dir)
   ## check that classes are correct
-  # rappdirs::user_data_dir() returns a directory starting with ~/ for Mac, which causes the unzip to fail. Here we expand to remove ~. Shouldn't make any diffferent to other OS's where the path is already expanded.
-  download_dir <- path.expand(download_dir) 
-  dir.create(download_dir, showWarnings = FALSE, recursive = TRUE)
   assertthat::assert_that(
     assertthat::is.string(x),
     assertthat::is.dir(download_dir),
@@ -168,6 +170,7 @@ wdpa_fetch <- function(x, wait = FALSE,
     assertthat::is.flag(verbose),
     assertthat::is.flag(check_version),
     identical(x, "global") || assertthat::is.string(country_code(x)))
+  dir.create(download_dir, showWarnings = FALSE, recursive = TRUE)
   # try to find locally on system
   file_path <- try(wdpa_file(x, download_dir = download_dir), silent = TRUE)
   # fetch data

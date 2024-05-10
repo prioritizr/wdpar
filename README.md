@@ -93,37 +93,43 @@ platform-specific instructions).
 
 ##### *Windows*
 
-The [Rtools](https://cran.r-project.org/bin/windows/Rtools/) software
-needs to be installed to install the *prepr R* package package from
-source. This software provides system requirements from
+A Chromium-based web browser to be installed (e.g., Google Chrome,
+Chromium, Brave). Also, the
+[Rtools](https://cran.r-project.org/bin/windows/Rtools/) software needs
+to be installed to install the *prepr R* package package from source.
+This software provides system requirements from
 [rwinlib](https://github.com/rwinlib/).
 
 ##### *Ubuntu*
 
-The `gmp`, `mpfr`, and several spatial libraries need to be installed.
-For recent versions of Ubuntu (18.04 and later), these libraries are
-available through official repositories. They can be installed using the
-following system commands:
+A Chromium-based web browser to be installed (e.g., Google Chrome,
+Chromium, Brave). Also, the `gmp`, `mpfr`, and several spatial libraries
+need to be installed. For recent versions of Ubuntu (18.04 and later),
+these libraries are available through official repositories. They can be
+installed using the following system commands:
 
     apt-get -y update
-    apt-get install -y libgmp3-dev libmpfr-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev
+    apt-get install -y libgmp3-dev libmpfr-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev chromium-browser
 
 ##### *Linux*
 
-For Unix-alikes, `gmp` (&gt;= 4.2.3), `mpfr` (&gt;= 3.0.0), and `gdal`
+For Unix-alikes, a Chromium-based web browser (e.g., Google Chrome,
+Chromium, Brave), `gmp` (&gt;= 4.2.3), `mpfr` (&gt;= 3.0.0), and `gdal`
 (&gt;= 3.2.2) are required.
 
 ##### *macOS*
 
-The `gmp`, `mpfr`, and `gdal` libraries are required. The easiest way to
-install these libraries is using [HomeBrew](https://brew.sh/). After
-installing HomeBrew, these libraries can be installed using the
-following commands in the system terminal:
+A Chromium-based web browser to be installed (e.g., Google Chrome,
+Chromium, Brave). Also, the `gmp`, `mpfr`, and `gdal` libraries are
+required. The easiest way to install these libraries is using
+[HomeBrew](https://brew.sh/). After installing HomeBrew, these libraries
+can be installed using the following commands in the system terminal:
 
     brew install pkg-config
     brew install gmp
     brew install mpfr
     brew install gdal
+    brew install --cask chromium
 
 ### Usage
 
@@ -178,7 +184,7 @@ head(mlt_pa_data)
     ## Simple feature collection with 6 features and 32 fields
     ## Geometry type: MULTIPOLYGON
     ## Dimension:     XY
-    ## Bounding box:  xmin: 1382584 ymin: 4280853 xmax: 1394227 ymax: 4299615
+    ## Bounding box:  xmin: 1382584 ymin: 4280853 xmax: 1390560 ymax: 4299615
     ## Projected CRS: +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
     ## Precision:     1500 
     ## # A tibble: 6 × 33
@@ -188,8 +194,8 @@ head(mlt_pa_data)
     ## 2    194420 194420    PA     Filf… Filfla    Rise… Nature R… National   Ia      
     ## 3 555588631 555588631 PA     Il-M… Il-Majji… Park… National… National   II      
     ## 4    174758 174758    PA     Bidn… Bidnija,… List… List of … National   III     
-    ## 5    194415 194415    PA     'Il-… 'Il-Ġonn… List… List of … National   III     
-    ## 6    194418 194418    PA     Il-B… Il-Ballu… List… List of … National   III     
+    ## 5    194418 194418    PA     Il-B… Il-Ballu… List… List of … National   III     
+    ## 6    194417 194417    PA     'Il-… 'Il-Wied… List… List of … National   III     
     ## # ℹ 24 more variables: INT_CRIT <chr>, MARINE <chr>, REP_M_AREA <dbl>,
     ## #   GIS_M_AREA <dbl>, REP_AREA <dbl>, GIS_AREA <dbl>, NO_TAKE <chr>,
     ## #   NO_TK_AREA <dbl>, STATUS <chr>, STATUS_YR <dbl>, GOV_TYPE <chr>,

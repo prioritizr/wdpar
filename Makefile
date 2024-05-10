@@ -96,7 +96,7 @@ paper_case_study:
 	mv case-study.Rout paper/case-study.Rout
 	rm -f Rplots.pdf
 
-wdpa_global: install
+wdpa_global:
 	R CMD BATCH --no-restore --no-save inst/scripts/global-example-script.R
 
 .PHONY: initc vigns clean data docs readme site test check checkwb build  install man spellcheck examples wdpa_global paper purl_vigns paper_case_study

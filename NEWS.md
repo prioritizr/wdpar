@@ -1,7 +1,17 @@
+# wdpar 1.3.7.3
+
+- Fix issues with `wdpa_fetch()` and `wdpa_read()` on MacOS.
+  Thanks to Jason Everett (@jaseeverett) for code contribution.
+- Update DESCRIPTION with _prepr_ package information.
+- Update README with Chromium dependencies.
+- Update global example global processing script with increased precision.
+- Update vignette to be compatible with changes to GADM website.
+- Fix issue with tests leaving left-over junk in temporary directories.
+
 # wdpar 1.3.7.2
 
 - Update `wdpa_fetch()` to use the _chromote_ package to handle web scrapping
- (instead of _webdriver_).
+ (instead of the _webdriver_ package).
 - Update `wdpa_fetch()` so that it can download country-level data in either
   shapefile or file geodatabase format (using the new `datatype` parameter).
   Since file geodatabase data appears to be more robust, `wdpa_fetch()`

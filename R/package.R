@@ -38,4 +38,5 @@ NULL
 
 # avoid false positive NOTEs during CRAN checks
 #' @importFrom rappdirs user_data_dir
+#' @importFrom withr defer
 NULL

@@ -68,14 +68,14 @@ also clip the marine protected areas to Malta's Exclusive Economic Zone (EEZ) bu
 
 ```{r}
 # download Malta boundary from Global Administrative Areas dataset
-file_path <- tempfile(fileext = "rds")
+file_path <- tempfile(fileext = ".gpkg")
 download.file(
-  "https://biogeo.ucdavis.edu/data/gadm3.6/Rsf/gadm36_MLT_0_sf.rds",
+  "https://geodata.ucdavis.edu/gadm/gadm4.1/gpkg/gadm41_MLT.gpkg",
   file_path
 )
 
 # import Malta's boundary
-mlt_boundary_data <- readRDS(file_path)
+mlt_boundary_data <- sf::read_sf(file_path, "ADM_ADM_0")
 
 # repair any geometry issues, dissolve the border, reproject to same
 # coordinate system as the protected area data, and repair the geometry again

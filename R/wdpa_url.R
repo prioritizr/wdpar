@@ -101,6 +101,7 @@ wdpa_url <- function(x, wait = FALSE, page_wait = 2, datatype = "gdb") {
         wait_ = FALSE
       )
       b$wait_for(p)
+      Sys.sleep(page_wait) # wait for page to load
       ## click "Download" button
       chromote_click_element(b, ".download__trigger")
       Sys.sleep(page_wait) # wait for page to load

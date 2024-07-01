@@ -23,7 +23,7 @@ Note that data are accessed assuming non-commercial use."><!-- mathjax --><scrip
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.7.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.7.4</span>
       </span>
     </div>
 
@@ -126,13 +126,14 @@ Note that global data are only available in file geodatabase format.</p></dd>
 <span class="r-in"><span><span class="co"># obtain url for New Zealand data</span></span></span>
 <span class="r-in"><span><span class="va">nzl_url</span> <span class="op">&lt;-</span> <span class="fu">wdpa_url</span><span class="op">(</span><span class="st">"New Zealand"</span>, wait <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">nzl_url</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://d1gam3xoknrgr2.cloudfront.net/current/WDPA_WDOECM_May2024_Public_NZL.zip"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://d1gam3xoknrgr2.cloudfront.net/current/WDPA_WDOECM_Jun2024_Public_NZL.zip"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># obtain url for New Zealand data using its ISO3 code</span></span></span>
 <span class="r-in"><span><span class="va">nzl_url</span> <span class="op">&lt;-</span> <span class="fu">wdpa_url</span><span class="op">(</span><span class="st">"NZL"</span>, wait <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in self$check_active():</span> Chromote has been closed.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>URL 'http://127.0.0.1:7630/json/version': status was 'Couldn't connect to server'</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in open.connection(con, "rb"):</span> cannot open the connection to 'http://127.0.0.1:7630/json/version'</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">nzl_url</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://d1gam3xoknrgr2.cloudfront.net/current/WDPA_WDOECM_May2024_Public_NZL.zip"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "https://d1gam3xoknrgr2.cloudfront.net/current/WDPA_WDOECM_Jun2024_Public_NZL.zip"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># obtain url for global data</span></span></span>
 <span class="r-in"><span><span class="va">global_url</span> <span class="op">&lt;-</span> <span class="fu">wdpa_url</span><span class="op">(</span><span class="st">"global"</span><span class="op">)</span></span></span>

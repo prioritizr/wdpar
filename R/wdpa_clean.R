@@ -15,7 +15,7 @@ NULL
 #'
 #' @param x [sf::sf()] object containing protected area data.
 #'
-#' @param crs `character` or code{integer} object representing a
+#' @param crs `character` or `integer` object representing a
 #'   coordinate reference system. Defaults to World Behrmann
 #'  (*ESRI:54017*).
 #'

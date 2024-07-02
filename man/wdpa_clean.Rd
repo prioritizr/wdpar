@@ -20,7 +20,7 @@ wdpa_clean(
 \arguments{
 \item{x}{\code{\link[sf:sf]{sf::sf()}} object containing protected area data.}
 
-\item{crs}{\code{character} or code{integer} object representing a
+\item{crs}{\code{character} or \code{integer} object representing a
 coordinate reference system. Defaults to World Behrmann
 (\emph{ESRI:54017}).}
 

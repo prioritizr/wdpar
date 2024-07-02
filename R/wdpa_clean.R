@@ -15,7 +15,7 @@ NULL
 #'
 #' @param x [sf::sf()] object containing protected area data.
 #'
-#' @param crs `character` or code{integer} object representing a
+#' @param crs `character` or `integer` object representing a
 #'   coordinate reference system. Defaults to World Behrmann
 #'  (*ESRI:54017*).
 #'
@@ -92,7 +92,7 @@ NULL
 #'
 #'   \item Exclude areas represented as point localities that do not
 #'     have a reported spatial extent (i.e. missing data for the field
-#      \code{"REP_AREA"}).
+#      `"REP_AREA"`).
 #'
 #'   \item Geometries are wrapped to the dateline (using
 #'     [sf::st_wrap_dateline()] with the options

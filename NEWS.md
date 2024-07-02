@@ -1,3 +1,7 @@
+# wdpar 1.3.7.4
+
+- Fix typo in text formatting for `wdpa_clean()` documentation.
+
 # wdpar 1.3.7.3
 
 - Fix issues with `wdpa_fetch()` and `wdpa_read()` on MacOS.

@@ -1,3 +1,7 @@
+# wdpar 1.3.8
+
+- CRAN release.
+
 # wdpar 1.3.7.4
 
 - Fix typo in text formatting for `wdpa_clean()` documentation.
@@ -10,7 +14,7 @@
 - Update README with Chromium dependencies.
 - Update global example global processing script with increased precision.
 - Update vignette to be compatible with changes to GADM website.
-- Fix issue with tests leaving left-over junk in temporary directories.
+- Fix issue with tests leaving left-over files in temporary directories.
 
 # wdpar 1.3.7.2
 

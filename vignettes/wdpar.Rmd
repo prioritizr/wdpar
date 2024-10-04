@@ -163,7 +163,7 @@ statistic <-
 print(statistic)
 ```
 
-We can also calculate the percentage of land inside its protected area system that are managed under different categories (i.e. [using the protected area management categories defined by The International Union for Conservation of Nature](https://www.iucn.org/)).
+We can also calculate the percentage of land inside its protected area system that are managed under different categories (i.e. [using the protected area management categories defined by The International Union for Conservation of Nature](https://iucn.org/)).
 
 ```{r}
 # calculate percentage of land inside protected areas (km^2)

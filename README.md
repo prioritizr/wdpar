@@ -10,7 +10,7 @@
 [![Documentation](https://img.shields.io/github/actions/workflow/status/prioritizr/wdpar/documentation.yaml?branch=master&label=Documentation)](https://github.com/prioritizr/wdpar/actions)
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/prioritizr/wdpar?label=Coverage)](https://app.codecov.io/gh/prioritizr/wdpar/branch/master)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/wdpar)](https://CRAN.R-project.org/package=wdpar)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/wdpar)](https://CRAN.R-project.org/package=wdpar)
 
 ### Overview
 
@@ -114,8 +114,8 @@ installed using the following system commands:
 ##### *Linux*
 
 For Unix-alikes, a Chromium-based web browser (e.g., Google Chrome,
-Chromium, Brave), `gmp` (&gt;= 4.2.3), `mpfr` (&gt;= 3.0.0), and `gdal`
-(&gt;= 3.2.2) are required.
+Chromium, Brave), `gmp` (\>= 4.2.3), `mpfr` (\>= 3.0.0), and `gdal` (\>=
+3.2.2) are required.
 
 ##### *macOS*
 
@@ -184,18 +184,18 @@ head(mlt_pa_data)
     ## Simple feature collection with 6 features and 32 fields
     ## Geometry type: MULTIPOLYGON
     ## Dimension:     XY
-    ## Bounding box:  xmin: 1382584 ymin: 4280853 xmax: 1390560 ymax: 4299615
+    ## Bounding box:  xmin: 1382584 ymin: 4280853 xmax: 1394227 ymax: 4299615
     ## Projected CRS: +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
     ## Precision:     1500 
     ## # A tibble: 6 × 33
     ##      WDPAID WDPA_PID  PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
     ##       <dbl> <chr>     <chr>  <chr> <chr>     <chr> <chr>     <chr>      <chr>   
-    ## 1    194425 194425    PA     'Il-… 'Il-Gżej… Rise… Nature R… National   Ia      
+    ## 1    194425 194425    PA     Il-G… Il-Gżejj… Rise… Nature R… National   Ia      
     ## 2    194420 194420    PA     Filf… Filfla    Rise… Nature R… National   Ia      
-    ## 3 555588631 555588631 PA     Il-M… Il-Majji… Park… National… National   II      
-    ## 4    174758 174758    PA     Bidn… Bidnija,… List… List of … National   III     
+    ## 3 555700375 555700375 PA     Il-P… Il-Ponta… Rise… Nature R… National   Ia      
+    ## 4 555588631 555588631 PA     Il-M… Il-Majji… Park… National… National   II      
     ## 5    194418 194418    PA     Il-B… Il-Ballu… List… List of … National   III     
-    ## 6    194417 194417    PA     'Il-… 'Il-Wied… List… List of … National   III     
+    ## 6    194415 194415    PA     Il-Ġ… Il-Ġonna… List… List of … National   III     
     ## # ℹ 24 more variables: INT_CRIT <chr>, MARINE <chr>, REP_M_AREA <dbl>,
     ## #   GIS_M_AREA <dbl>, REP_AREA <dbl>, GIS_AREA <dbl>, NO_TAKE <chr>,
     ## #   NO_TK_AREA <dbl>, STATUS <chr>, STATUS_YR <dbl>, GOV_TYPE <chr>,
@@ -207,7 +207,7 @@ head(mlt_pa_data)
 Finally, after cleaning the data, let’s plot a map showing Malta’s
 protected areas and color each area according to its management category
 ([as defined by the The International Union for Conservation of
-Nature](https://www.iucn.org/)).
+Nature](https://iucn.org/)).
 
 ``` r
 # reproject data to longitude/latitude for plotting

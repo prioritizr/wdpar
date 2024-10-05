@@ -39,7 +39,7 @@ NULL
 #'   and (`"gdb"`) file geodatabase format. Defaults to `"gdb".
 #'   Note that global data are only available in file geodatabase format.
 #'
-#' @return `character` URL to download the data.
+#' @return A `character` value with the URL to download the data.
 #'
 #' @seealso [wdpa_fetch()], [countrycode::countrycode()].
 #'

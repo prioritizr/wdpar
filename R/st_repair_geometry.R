@@ -30,6 +30,8 @@
 #' installed before the package itself can be installed
 #' (see package README file for platform-specific instructions).
 #'
+#' @return A [sf::sf()] object.
+#'
 #' @examples
 #' # create sf object
 #' p1 <- st_sf(
@@ -42,6 +44,7 @@
 #'
 #' # print object
 #' print(p2)
+#"
 #' @export
 st_repair_geometry <- function(x, geometry_precision = 1500) {
   # assert arguments are valid

@@ -13,7 +13,7 @@ st_erase_overlaps(x, verbose = FALSE)
 \code{FALSE}.}
 }
 \value{
-\code{\link[sf:sf]{sf::sf()}} object.
+A \code{\link[sf:sf]{sf::sf()}} object.
 }
 \description{
 Erase overlapping geometries in a \code{\link[sf:sf]{sf::sf()}} object.

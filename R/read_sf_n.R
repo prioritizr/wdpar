@@ -10,7 +10,7 @@
 #' @param n `integer` number of records to import.
 #'   Defaults to `NULL` such that all data are imported.
 #'
-#' @return [sf::sf()] object.
+#' @return A [sf::sf()] object.
 #'
 #' @noRd
 read_sf_n <- function(dsn, layer = NULL, n = NULL) {

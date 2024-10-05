@@ -1,6 +1,7 @@
 # wdpar 1.3.8
 
 - CRAN release.
+- Minor improvements to documentation.
 
 # wdpar 1.3.7.4
 

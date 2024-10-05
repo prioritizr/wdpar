@@ -14,7 +14,7 @@ NULL
 #'   global dataset is available. For specific details, please refer to
 #'   the source code for this function.
 #'
-#' @return `character` version of the dataset.
+#' @return A `character` value with the dataset version.
 #'
 #' @examples
 #' \dontrun{

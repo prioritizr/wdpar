@@ -24,7 +24,7 @@ NULL
 #'
 #' @inheritSection wdpa_fetch Data source
 #'
-#' @return [sf::sf()] object.
+#' @return A [sf::sf()] object.
 #'
 #' @seealso [wdpa_fetch()], [wdpa_clean()].
 #'

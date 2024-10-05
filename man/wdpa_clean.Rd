@@ -65,7 +65,7 @@ Defaults to \code{TRUE} in an interactive session, otherwise
 \code{FALSE}.}
 }
 \value{
-\code{\link[sf:sf]{sf::sf()}} object.
+A \code{\link[sf:sf]{sf::sf()}} object.
 }
 \description{
 Clean data obtained from

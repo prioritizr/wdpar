@@ -13,7 +13,7 @@ NULL
 #' @details This is a more robust -- albeit slower -- implementation for
 #'   [sf::st_difference()] when `y` is missing.
 #'
-#' @return [sf::sf()] object.
+#' @return A [sf::sf()] object.
 #'
 #' @seealso [sf::st_difference()], [wdpa_dissolve()].
 #'

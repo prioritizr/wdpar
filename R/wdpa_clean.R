@@ -181,7 +181,7 @@ NULL
 #' For an example of processing a large protected area dataset,
 #' please see the vignette.
 #'
-#' @return [sf::sf()] object.
+#' @return A [sf::sf()] object.
 #'
 #' @seealso [wdpa_fetch()], [wdpa_dissolve()].
 #'

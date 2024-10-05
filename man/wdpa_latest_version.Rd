@@ -7,7 +7,7 @@
 wdpa_latest_version()
 }
 \value{
-\code{character} version of the dataset.
+A \code{character} value with the dataset version.
 }
 \description{
 Find the latest version of the combined

@@ -93,13 +93,13 @@ NULL
 #' you can assume that the function still worked correctly.
 #' For reference, the misleading message will look something like this:
 #' ```
-#' [2024-04-23 12:06:36] [error] handle_read_frame error: websocketpp.transport:7 (End of File)
+#' [error] handle_read_frame error: websocketpp.transport:7 (End of File)
 #' ```
 #'
 #' For further help with troubleshooting, please refer to the documentation
 #' for the \pkg{chromote} package (https://rstudio.github.io/chromote/).
 #'
-#' @return [sf::sf()] object.
+#' @return A [sf::sf()] object.
 #'
 #' @seealso [wdpa_clean()], [wdpa_read()],
 #'   [wdpa_url()], [countrycode::countrycode()].

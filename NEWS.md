@@ -9,7 +9,7 @@
 
 # wdpar 1.3.7.3
 
-- Fix issues with `wdpa_fetch()` and `wdpa_read()` on MacOS.
+- Fix bugs in `wdpa_fetch()` and `wdpa_read()` on MacOS.
   Thanks to Jason Everett (@jaseeverett) for code contribution.
 - Update DESCRIPTION with _prepr_ package information.
 - Update README with Chromium dependencies.
@@ -31,7 +31,6 @@
   characters from the `"MANG_PLAN"` field.
 - Fix bug in `wdpa_read()` that causes output objects to contain no columns.
 - Update README and vignette to be compatible with updates to _ggmap_ package.
-- Remove _withr_ package from DESCRIPTION because it is not used.
 
 # wdpar 1.3.7.1
 

@@ -1,16 +1,21 @@
+# wdpar 1.3.8
+
+- CRAN release.
+- Minor improvements to documentation.
+
 # wdpar 1.3.7.4
 
 - Fix typo in text formatting for `wdpa_clean()` documentation.
 
 # wdpar 1.3.7.3
 
-- Fix issues with `wdpa_fetch()` and `wdpa_read()` on MacOS.
+- Fix bugs in `wdpa_fetch()` and `wdpa_read()` on MacOS.
   Thanks to Jason Everett (@jaseeverett) for code contribution.
 - Update DESCRIPTION with _prepr_ package information.
 - Update README with Chromium dependencies.
 - Update global example global processing script with increased precision.
 - Update vignette to be compatible with changes to GADM website.
-- Fix issue with tests leaving left-over junk in temporary directories.
+- Fix issue with tests leaving left-over files in temporary directories.
 
 # wdpar 1.3.7.2
 
@@ -26,7 +31,6 @@
   characters from the `"MANG_PLAN"` field.
 - Fix bug in `wdpa_read()` that causes output objects to contain no columns.
 - Update README and vignette to be compatible with updates to _ggmap_ package.
-- Remove _withr_ package from DESCRIPTION because it is not used.
 
 # wdpar 1.3.7.1
 

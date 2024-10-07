@@ -17,7 +17,7 @@ national-scale. For analyses at finer-scale resolutions, please
 consider using a greater value (e.g. 10000).}
 }
 \value{
-\code{\link[sf:sf]{sf::sf()}} object.
+A \code{\link[sf:sf]{sf::sf()}} object.
 }
 \description{
 Create a dataset of spatial boundaries that contains no

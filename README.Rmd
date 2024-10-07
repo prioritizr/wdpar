@@ -126,7 +126,7 @@ Print preview of the data associated with each protected area.
 head(mlt_pa_data)
 ```
 
-Finally, after cleaning the data, let's plot a map showing Malta's protected areas and color each area according to its management category ([as defined by the The International Union for Conservation of Nature](https://www.iucn.org/)).
+Finally, after cleaning the data, let's plot a map showing Malta's protected areas and color each area according to its management category ([as defined by the The International Union for Conservation of Nature](https://iucn.org/)).
 
 ```{r "readme-map", message = FALSE, warning = FALSE, out.width = ifelse(isTRUE(knitr:::is_html_output(excludes = c("markdown"))), "60%", "50%")}
 # reproject data to longitude/latitude for plotting

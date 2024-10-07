@@ -68,7 +68,7 @@ reported? Defaults to \code{TRUE} in an interactive session, otherwise
 \code{FALSE}.}
 }
 \value{
-\code{\link[sf:sf]{sf::sf()}} object.
+A \code{\link[sf:sf]{sf::sf()}} object.
 }
 \description{
 Fetch data from \href{https://www.protectedplanet.net/en}{Protected Planet}.
@@ -130,7 +130,7 @@ As such, if you see this message when running the function,
 you can assume that the function still worked correctly.
 For reference, the misleading message will look something like this:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{[2024-04-23 12:06:36] [error] handle_read_frame error: websocketpp.transport:7 (End of File)
+\if{html}{\out{<div class="sourceCode">}}\preformatted{[error] handle_read_frame error: websocketpp.transport:7 (End of File)
 }\if{html}{\out{</div>}}
 
 For further help with troubleshooting, please refer to the documentation

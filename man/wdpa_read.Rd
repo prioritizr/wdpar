@@ -14,7 +14,7 @@ wdpa_read(x, n = NULL)
 Defaults to \code{NULL} such that all data are imported.}
 }
 \value{
-\code{\link[sf:sf]{sf::sf()}} object.
+A \code{\link[sf:sf]{sf::sf()}} object.
 }
 \description{
 Read data obtained from

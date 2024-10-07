@@ -16,6 +16,9 @@ This level of precision is generally suitable for analyses at the
 national-scale. For analyses at finer-scale resolutions, please
 consider using a greater value (e.g. 10000).}
 }
+\value{
+A \code{\link[sf:sf]{sf::sf()}} object.
+}
 \description{
 Repair the geometry of a \code{\link[sf:sf]{sf::st_sf()}} object.
 }

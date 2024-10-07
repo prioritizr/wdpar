@@ -36,7 +36,7 @@ and (\code{"gdb"}) file geodatabase format. Defaults to `"gdb".
 Note that global data are only available in file geodatabase format.}
 }
 \value{
-\code{character} URL to download the data.
+A \code{character} value with the URL to download the data.
 }
 \description{
 Obtain a URL to download data from

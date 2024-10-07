@@ -1,6 +1,6 @@
 Dear CRAN volunteers,
 
-Thank you for reviewing this submission. The main updates in this version include (i) a bug fix for the data cleaning procedures and (ii) fixing the alias for package-level documentation.
+Thank you for reviewing this submission. It contains an update to the _wdpar_ package that has been on CRAN since 2019. The main changes in this new version include (i) updates to maintain compatibility with the Protected Planet website and the World Database on Protected Areas, (ii) functionality to download data in different file formats, (iii) bug fixes to address issues on MacOS systems, and (iv) assorted improvements to the documentation.
 
 Cheers,
 
@@ -8,8 +8,8 @@ Jeff
 
 # Test environments
 
-* [Ubuntu 20.04, R-release](https://github.com/prioritizr/wdpar/actions?query=workflow%3AUbuntu)
-* [Ubuntu 20.04, R-devel](https://github.com/prioritizr/wdpar/actions?query=workflow%3AUbuntu)
+* [Ubuntu 22.04, R-release](https://github.com/prioritizr/wdpar/actions?query=workflow%3AUbuntu)
+* [Ubuntu 22.04, R-devel](https://github.com/prioritizr/wdpar/actions?query=workflow%3AUbuntu)
 * [Mac OSX 10.15, R-release](https://github.com/prioritizr/wdpar/actions?query=workflow%3A%22Mac+OSX%22)
 * [macOS 11.5.2 (arm64), R-release (macOS builder)](https://mac.r-project.org/macbuilder/submit.html)
 * [Windows Server 2019, R-release](https://github.com/prioritizr/wdpar/actions?query=workflow%3AWindows)
@@ -29,7 +29,7 @@ Jeff
 * Suggests or Enhances not in mainstream repositories:
   prepr
 
-  **The prepr R package is an optional dependency that is available on GitHub (<https://github.com/dickoa/prepr>). Instructions for installing the prepr R package are provided in the DESCRIPTION file and the package README file.**
+  **The prepr R package is an optional dependency that is available on GitHub (<https://github.com/prioritizr/prepr>). Instructions for installing the prepr R package are provided in the DESCRIPTION file and the package README file.**
 
 * Found the following (possibly) invalid URLs:
     URL: https://doi.org/10.1111/conl.12158

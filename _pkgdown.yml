@@ -3,6 +3,7 @@ authors:
     href: http://jeffrey-hanson.com
 
 template:
+  bootstrap: 5
   params:
     bootswatch: flatly
 

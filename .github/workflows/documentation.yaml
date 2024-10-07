@@ -24,7 +24,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-20.04, r: 'release', pkgs: 'all'}
+          - {os: ubuntu-22.04, r: 'release', pkgs: 'all'}
 
     env:
       _R_REMOTES_NO_ERRORS_FROM_WARNINGS_: true
@@ -83,9 +83,9 @@ jobs:
       - name: Check URLs
         if: runner.os == 'Linux' && matrix.config.r == 'release'
         run: |
+          d <- suppressWarnings(readLines("inst/URLLIST"))
           result <- urlchecker::url_check()
-          result <- result[!startsWith(result$URL, "https://doi.org/"), , drop = FALSE]
-          result <- result[!startsWith(result$URL, "http://geo.abds.is"), , drop = FALSE]
+          result <- result[!result$URL %in% d, , drop = FALSE]
           if (nrow(result) > 0) {
             print(result)
             stop("Invalid URLs detected")

@@ -4,79 +4,78 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="wdpar">
 <title>wdpar: Interface to the World Database on Protected Areas • wdpar</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="wdpar: Interface to the World Database on Protected Areas">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="wdpar: Interface to the World Database on Protected Areas">
 <meta property="og:description" content="wdpar">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body data-spy="scroll" data-target="#toc">
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <div class="container template-article">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">wdpar</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.7.4</span>
-      </span>
-    </div>
+    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary" data-bs-theme="dark"><div class="container">
+    
+    <a class="navbar-brand me-2" href="../index.html">wdpar</a>
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="../articles/wdpar.html">Get started</a>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3.8</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="active nav-item">
+  <a class="nav-link" href="../articles/wdpar.html">Get started</a>
 </li>
-<li>
-  <a href="../reference/index.html">Reference</a>
+<li class="nav-item">
+  <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/prioritizr/wdpar/" class="external-link">
-    <span class="fab fa-github fa-lg"></span>
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
+</form>
+
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/prioritizr/wdpar/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
 </div>
-<!--/.nav-collapse -->
+
+    
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
+</nav><div class="container template-article">
 
-      
 
-      </header><div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header toc-ignore">
-      <h1 data-toc-skip>wdpar: Interface to the World Database on Protected Areas</h1>
-                        <h4 data-toc-skip class="author">Jeffrey O. Hanson</h4>
+
+
+<div class="row">
+  <main id="main" class="col-md-9"><div class="page-header">
+      <img src="" class="logo" alt=""><h1>wdpar: Interface to the World Database on Protected Areas</h1>
+                        <h4 data-toc-skip class="author">Jeffrey O.
+Hanson</h4>
             
-            <h4 data-toc-skip class="date">2024-07-01</h4>
+            <h4 data-toc-skip class="date">2024-10-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/prioritizr/wdpar/blob/HEAD/vignettes/wdpar.Rmd" class="external-link"><code>vignettes/wdpar.Rmd</code></a></small>
-      <div class="hidden name"><code>wdpar.Rmd</code></div>
-
+      <div class="d-none name"><code>wdpar.Rmd</code></div>
     </div>
 
     
@@ -84,30 +83,74 @@
 <div class="section level3">
 <h3 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h3>
-<p><a href="https://www.protectedplanet.net/en" class="external-link">Protected Planet</a> provides the most comprehensive data for conservation areas worldwide. Specifically, it provides the World Database on Protected Areas (WDPA) and the World Database on Other Effective Area-Based Conservation Measures (WDOECM). These databases are used to monitor the performance of existing protected areas, and identify priority areas for future conservation efforts. Additionally, these databases receive monthly updates from government agencies and non-governmental organizations. However, they are associated with <a href="https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage" class="external-link">several issues that need to be addressed prior to analysis</a> and the dynamic nature of these databases means that the entire data cleaning process needs to be repeated after obtaining a new version.</p>
-<p>The <em>wdpar R</em> package provides an interface to data available on <a href="https://www.protectedplanet.net/en" class="external-link">Protected Planet</a>. Specifically, it can be used to automatically obtain data from the <a href="https://www.protectedplanet.net/en/thematic-areas/wdpa?tab=WDPA" class="external-link">World Database on Protected Areas (WDPA)</a> and the <a href="https://www.protectedplanet.net/en/thematic-areas/oecms" class="external-link">World Database on Other Effective Area-Based Conservation Measures (WDOECM)</a>. It also provides methods for cleaning data from these databases following best practices (outlined in Butchart <em>et al.</em> 2015; <a href="https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage" class="external-link">Protected Planet 2021</a>; Runge <em>et al.</em> 2015). In this vignette, we provide a tutorial and recommendations for using the package.</p>
+<p><a href="https://www.protectedplanet.net/en" class="external-link">Protected Planet</a>
+provides the most comprehensive data for conservation areas worldwide.
+Specifically, it provides the World Database on Protected Areas (WDPA)
+and the World Database on Other Effective Area-Based Conservation
+Measures (WDOECM). These databases are used to monitor the performance
+of existing protected areas, and identify priority areas for future
+conservation efforts. Additionally, these databases receive monthly
+updates from government agencies and non-governmental organizations.
+However, they are associated with <a href="https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage" class="external-link">several
+issues that need to be addressed prior to analysis</a> and the dynamic
+nature of these databases means that the entire data cleaning process
+needs to be repeated after obtaining a new version.</p>
+<p>The <em>wdpar R</em> package provides an interface to data available
+on <a href="https://www.protectedplanet.net/en" class="external-link">Protected Planet</a>.
+Specifically, it can be used to automatically obtain data from the <a href="https://www.protectedplanet.net/en/thematic-areas/wdpa?tab=WDPA" class="external-link">World
+Database on Protected Areas (WDPA)</a> and the <a href="https://www.protectedplanet.net/en/thematic-areas/oecms" class="external-link">World
+Database on Other Effective Area-Based Conservation Measures
+(WDOECM)</a>. It also provides methods for cleaning data from these
+databases following best practices (outlined in Butchart <em>et al.</em>
+2015; <a href="https://www.protectedplanet.net/en/resources/calculating-protected-area-coverage" class="external-link">Protected
+Planet 2021</a>; Runge <em>et al.</em> 2015). In this vignette, we
+provide a tutorial and recommendations for using the package.</p>
 </div>
 <div class="section level3">
 <h3 id="tutorial">Tutorial<a class="anchor" aria-label="anchor" href="#tutorial"></a>
 </h3>
-<p>Here we will provide a short introduction to the <em>wdpar R</em> package. First, we will load the <em>wdpar R</em> package. We will also load the <em>dplyr</em> and <em>ggmap R</em> packages to help explore the data.</p>
+<p>Here we will provide a short introduction to the <em>wdpar R</em>
+package. First, we will load the <em>wdpar R</em> package. We will also
+load the <em>dplyr</em> and <em>ggmap R</em> packages to help explore
+the data.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># load packages</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://prioritizr.github.io/wdpar/" class="external-link">wdpar</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dkahle/ggmap" class="external-link">ggmap</a></span><span class="op">)</span></span></code></pre></div>
-<p>Now we will download protected area data for Malta from <a href="https://www.protectedplanet.net/en" class="external-link">Protected Planet</a>. We can achieve this by specifying Malta’s country name (i.e. <code>"Malta"</code>) or Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3" class="external-link">ISO3 code</a> (i.e. <code>"MLT"</code>). Since data are downloaded to a temporary directory by default, we will specify that the data should be downloaded to a persistent directory. This means that R won’t have to re-download the same dataset every time we restart our R session, and R can simply re-load previously downloaded datasets as needed.</p>
+<p>Now we will download protected area data for Malta from <a href="https://www.protectedplanet.net/en" class="external-link">Protected Planet</a>. We can
+achieve this by specifying Malta’s country name
+(i.e. <code>"Malta"</code>) or Malta’s <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3" class="external-link">ISO3 code</a>
+(i.e. <code>"MLT"</code>). Since data are downloaded to a temporary
+directory by default, we will specify that the data should be downloaded
+to a persistent directory. This means that R won’t have to re-download
+the same dataset every time we restart our R session, and R can simply
+re-load previously downloaded datasets as needed.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># download protected area data for Malta</span></span>
 <span><span class="co"># (excluding areas represented as point localities)</span></span>
 <span><span class="va">mlt_raw_pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wdpa_fetch.html">wdpa_fetch</a></span><span class="op">(</span></span>
 <span>  <span class="st">"Malta"</span>, wait <span class="op">=</span> <span class="cn">TRUE</span>, download_dir <span class="op">=</span> <span class="fu">rappdirs</span><span class="fu">::</span><span class="fu"><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html" class="external-link">user_data_dir</a></span><span class="op">(</span><span class="st">"wdpar"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p>Next, we will clean the data set. Briefly, the cleaning steps include: excluding protected areas that are not yet implemented, excluding protected areas with limited conservation value, replacing missing data codes (e.g. <code>"0"</code>) with missing data values (i.e. <code>NA</code>), replacing protected areas represented as points with circular protected areas that correspond to their reported extent, repairing any topological issues with the geometries, and erasing overlapping areas. Please note that, by default, spatial data processing is performed at a scale suitable for national scale analyses (see below for recommendations for local scale analyses). For more information on the data cleaning procedures, see <code><a href="../reference/wdpa_clean.html">wdpa_clean()</a></code>.</p>
+<p>Next, we will clean the data set. Briefly, the cleaning steps
+include: excluding protected areas that are not yet implemented,
+excluding protected areas with limited conservation value, replacing
+missing data codes (e.g. <code>"0"</code>) with missing data values
+(i.e. <code>NA</code>), replacing protected areas represented as points
+with circular protected areas that correspond to their reported extent,
+repairing any topological issues with the geometries, and erasing
+overlapping areas. Please note that, by default, spatial data processing
+is performed at a scale suitable for national scale analyses (see below
+for recommendations for local scale analyses). For more information on
+the data cleaning procedures, see <code><a href="../reference/wdpa_clean.html">wdpa_clean()</a></code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># clean Malta data</span></span>
 <span><span class="va">mlt_pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wdpa_clean.html">wdpa_clean</a></span><span class="op">(</span><span class="va">mlt_raw_pa_data</span><span class="op">)</span></span></code></pre></div>
-<p>After cleaning the data set, we will perform an additional step that involves clipping the terrestrial protected areas to Malta’s coastline. Ideally, we would also clip the marine protected areas to Malta’s Exclusive Economic Zone (EEZ) but such data are not as easy to obtain on a per country basis (but see <a href="https://www.marineregions.org/eez.php" class="external-link uri">https://www.marineregions.org/eez.php</a>)).</p>
+<p>After cleaning the data set, we will perform an additional step that
+involves clipping the terrestrial protected areas to Malta’s coastline.
+Ideally, we would also clip the marine protected areas to Malta’s
+Exclusive Economic Zone (EEZ) but such data are not as easy to obtain on
+a per country basis (but see <a href="https://www.marineregions.org/eez.php" class="external-link uri">https://www.marineregions.org/eez.php</a>)).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># download Malta boundary from Global Administrative Areas dataset</span></span>
 <span><span class="va">file_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".gpkg"</span><span class="op">)</span></span>
@@ -144,7 +187,6 @@
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">mlt_pa_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">MARINE</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"terrestrial"</span>, <span class="st">"marine"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning: attribute variables are assumed to be spatially constant throughout</span></span>
 <span><span class="co">## all geometries</span></span>
-<span></span>
 <span><span class="co">## Warning: attribute variables are assumed to be spatially constant throughout</span></span>
 <span><span class="co">## all geometries</span></span></code></pre>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -152,7 +194,9 @@
 <span><span class="va">mlt_pa_data</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">mlt_pa_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>AREA_KM2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_measures.html" class="external-link">st_area</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">)</span> <span class="op">*</span> <span class="fl">1e-6</span><span class="op">)</span></span></code></pre></div>
-<p>Now that we have finished cleaning the data, let’s preview the data. For more information on what these columns mean, please refer to the <a href="https://www.protectedplanet.net/en/resources/wdpa-manual" class="external-link">official manual</a> (available in English, French, Spanish, and Russian).</p>
+<p>Now that we have finished cleaning the data, let’s preview the data.
+For more information on what these columns mean, please refer to the <a href="https://www.protectedplanet.net/en/resources/wdpa-manual" class="external-link">official
+manual</a> (available in English, French, Spanish, and Russian).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># print first six rows of the data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mlt_pa_data</span><span class="op">)</span></span></code></pre></div>
@@ -177,11 +221,13 @@
 <span><span class="co">## <span style="color: #949494;">#   METADATAID &lt;int&gt;, SUB_LOC &lt;chr&gt;, PARENT_ISO &lt;chr&gt;, ISO3 &lt;chr&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   SUPP_INFO &lt;chr&gt;, CONS_OBJ &lt;chr&gt;, GEOMETRY_TYPE &lt;chr&gt;, AREA_KM2 &lt;dbl&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   geometry &lt;GEOMETRY [m]&gt;</span></span></span></code></pre>
-<p>We will now reproject the data to longitude/latitude coordinates (<a href="https://spatialreference.org/ref/epsg/4326/" class="external-link">EPSG:4326</a>) for visualization purposes.</p>
+<p>We will now reproject the data to longitude/latitude coordinates (<a href="https://spatialreference.org/ref/epsg/4326/" class="external-link">EPSG:4326</a>) for
+visualization purposes.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># reproject data</span></span>
 <span><span class="va">mlt_pa_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="va">mlt_pa_data</span>, <span class="fl">4326</span><span class="op">)</span></span></code></pre></div>
-<p>Next, we can plot a map showing the boundaries of Malta’s protected area system.</p>
+<p>Next, we can plot a map showing the boundaries of Malta’s protected
+area system.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># download basemap for making the map</span></span>
 <span><span class="va">bg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/get_stadiamap.html" class="external-link">get_stadiamap</a></span><span class="op">(</span></span>
@@ -194,7 +240,8 @@
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">mlt_pa_data</span>, fill <span class="op">=</span> <span class="st">"#31A35480"</span>, inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="wdpar_files/figure-html/unnamed-chunk-9-1.png" width="432" style="display: block; margin: auto;"></p>
-<p>We can also create a histogram showing the year when each protected area was established.</p>
+<p>We can also create a histogram showing the year when each protected
+area was established.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span></span>
 <span>  <span class="va">mlt_pa_data</span><span class="op">$</span><span class="va">STATUS_YR</span>,</span>
@@ -202,7 +249,9 @@
 <span>  xlab <span class="op">=</span> <span class="st">"Year established"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="wdpar_files/figure-html/unnamed-chunk-10-1.png" width="432" style="display: block; margin: auto;"></p>
-<p>Now let’s calculate some statistics. We can calculate the total amount of land and ocean inside Malta’s protected area system (km<sup>2</sup>).</p>
+<p>Now let’s calculate some statistics. We can calculate the total
+amount of land and ocean inside Malta’s protected area system
+(km<sup>2</sup>).</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># calculate total amount of area inside protected areas (km^2)</span></span>
 <span><span class="va">statistic</span> <span class="op">&lt;-</span></span>
@@ -222,7 +271,9 @@
 <span><span class="co">## <span style="color: #BCBCBC;">1</span> marine       <span style="text-decoration: underline;">4</span>136. </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">2</span> terrestrial    84.9</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">3</span> partial        13.1</span></span></code></pre>
-<p>We can also calculate the percentage of land inside its protected area system that are managed under different categories (i.e. <a href="https://www.iucn.org/" class="external-link">using the protected area management categories defined by The International Union for Conservation of Nature</a>).</p>
+<p>We can also calculate the percentage of land inside its protected
+area system that are managed under different categories (i.e. <a href="https://iucn.org/" class="external-link">using the protected area management categories
+defined by The International Union for Conservation of Nature</a>).</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># calculate percentage of land inside protected areas (km^2)</span></span>
 <span><span class="va">statistic</span> <span class="op">&lt;-</span></span>
@@ -246,7 +297,8 @@
 <span><span class="co">## <span style="color: #BCBCBC;">4</span> II              2.43     0.057<span style="text-decoration: underline;">3</span> </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">5</span> III             0.191    0.004<span style="text-decoration: underline;">51</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">6</span> Ia              0.145    0.003<span style="text-decoration: underline;">43</span></span></span></code></pre>
-<p>We can also plot a map showing Malta’s protected areas and color each area according to it’s management category.</p>
+<p>We can also plot a map showing Malta’s protected areas and color each
+area according to it’s management category.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggmap.html" class="external-link">ggmap</a></span><span class="op">(</span><span class="va">bg</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">IUCN_CAT</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">mlt_pa_data</span>, inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
@@ -256,7 +308,27 @@
 <div class="section level3">
 <h3 id="recommended-practices-for-large-datasets">Recommended practices for large datasets<a class="anchor" aria-label="anchor" href="#recommended-practices-for-large-datasets"></a>
 </h3>
-<p>The <em>wdpar R</em> package can be used to clean large datasets assuming that sufficient computational resources and time are available. Indeed, it can clean data spanning large countries, multiple countries, and even the full global dataset. When processing the full global dataset, it is recommended to use a computer system with at least 32 GB RAM available and to allow for at least one full day for the data cleaning procedures to complete. It is also recommended to avoid using the computer system for any other tasks while the data cleaning procedures are being completed, because they are very computationally intensive. Additionally, when processing large datasets – and especially for the global dataset – it is strongly recommended to disable the procedure for erasing overlapping areas. This is because the built-in procedure for erasing overlaps is very time consuming when processing many protected areas, so that information on each protected area can be output (e.g. IUCN category, year established). Instead, when cleaning large datasets, it is recommended to run the data cleaning procedures with the procedure for erasing overlapping areas disabled (i.e. with <code>erase_overlaps = FALSE</code>). After the data cleaning procedures have completed, the protected area data can be manually dissolved to remove overlapping areas (e.g. using <code><a href="../reference/wdpa_dissolve.html">wdpa_dissolve()</a></code>). For an example of these procedures, please see below.</p>
+<p>The <em>wdpar R</em> package can be used to clean large datasets
+assuming that sufficient computational resources and time are available.
+Indeed, it can clean data spanning large countries, multiple countries,
+and even the full global dataset. When processing the full global
+dataset, it is recommended to use a computer system with at least 32 GB
+RAM available and to allow for at least one full day for the data
+cleaning procedures to complete. It is also recommended to avoid using
+the computer system for any other tasks while the data cleaning
+procedures are being completed, because they are very computationally
+intensive. Additionally, when processing large datasets – and especially
+for the global dataset – it is strongly recommended to disable the
+procedure for erasing overlapping areas. This is because the built-in
+procedure for erasing overlaps is very time consuming when processing
+many protected areas, so that information on each protected area can be
+output (e.g. IUCN category, year established). Instead, when cleaning
+large datasets, it is recommended to run the data cleaning procedures
+with the procedure for erasing overlapping areas disabled (i.e. with
+<code>erase_overlaps = FALSE</code>). After the data cleaning procedures
+have completed, the protected area data can be manually dissolved to
+remove overlapping areas (e.g. using <code><a href="../reference/wdpa_dissolve.html">wdpa_dissolve()</a></code>). For
+an example of these procedures, please see below.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># download protected area data for multiple of countries</span></span>
 <span><span class="co">## (i.e. Portugal, Spain, France)</span></span>
@@ -297,8 +369,21 @@
 <div class="section level3">
 <h3 id="recommended-practices-for-local-scale-analyses">Recommended practices for local scale analyses<a class="anchor" aria-label="anchor" href="#recommended-practices-for-local-scale-analyses"></a>
 </h3>
-<p>The default parameters for the data cleaning procedures are well suited for national-scale analyses. Although these parameters reduce memory requirements and the time needed to complete the data cleaning procedures, they can produce protected area boundaries that appear overly “blocky” – lacking smooth edges – when viewed at finer scales. As such, it is strongly recommended to increase the level of spatial precision when cleaning data for local scale analyses (via the <code>geometry_precision</code> parameter of the <code><a href="../reference/wdpa_clean.html">wdpa_clean()</a></code> function).</p>
-<p>Here we will explore the consequences of using the default parameters for the data cleaning procedures when working at a local scale. This will help illustrate why it can be important to adjust the spatial precision of the data cleaning procedures. To begin with, we will obtain data for a small protected area. Specifically, we will extract a protected area from the Malta dataset we downloaded earlier.</p>
+<p>The default parameters for the data cleaning procedures are well
+suited for national-scale analyses. Although these parameters reduce
+memory requirements and the time needed to complete the data cleaning
+procedures, they can produce protected area boundaries that appear
+overly “blocky” – lacking smooth edges – when viewed at finer scales. As
+such, it is strongly recommended to increase the level of spatial
+precision when cleaning data for local scale analyses (via the
+<code>geometry_precision</code> parameter of the
+<code><a href="../reference/wdpa_clean.html">wdpa_clean()</a></code> function).</p>
+<p>Here we will explore the consequences of using the default parameters
+for the data cleaning procedures when working at a local scale. This
+will help illustrate why it can be important to adjust the spatial
+precision of the data cleaning procedures. To begin with, we will obtain
+data for a small protected area. Specifically, we will extract a
+protected area from the Malta dataset we downloaded earlier.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># find id for smallest reserve in cleaned dataset</span></span>
 <span><span class="va">mlt_reserve_id</span> <span class="op">&lt;-</span> <span class="va">mlt_pa_data</span><span class="op">$</span><span class="va">WDPAID</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.min</a></span><span class="op">(</span><span class="va">mlt_pa_data</span><span class="op">$</span><span class="va">AREA_KM2</span><span class="op">)</span><span class="op">]</span></span>
@@ -329,7 +414,11 @@
 <code class="sourceCode R"><span><span class="co"># visualize data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mlt_raw_reserve_data</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="wdpar_files/figure-html/unnamed-chunk-16-1.png" width="432" style="display: block; margin: auto;"></p>
-<p>We can see that the boundary for this protected area has a high level of detail. This suggests that the protected area data is available at a resolution that is sufficient to permit local scale analyses. To help understand the consequences of cleaning data with the default parameters, we will clean this dataset using the default parameters.</p>
+<p>We can see that the boundary for this protected area has a high level
+of detail. This suggests that the protected area data is available at a
+resolution that is sufficient to permit local scale analyses. To help
+understand the consequences of cleaning data with the default
+parameters, we will clean this dataset using the default parameters.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># clean the data with default parameters</span></span>
 <span><span class="va">mlt_default_cleaned_reserve_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wdpa_clean.html">wdpa_clean</a></span><span class="op">(</span><span class="va">mlt_raw_reserve_data</span><span class="op">)</span></span>
@@ -356,7 +445,14 @@
 <code class="sourceCode R"><span><span class="co"># visualize data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mlt_default_cleaned_reserve_data</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="wdpar_files/figure-html/unnamed-chunk-18-1.png" width="432" style="display: block; margin: auto;"></p>
-<p>After cleaning the data with the default parameters, we can see that the boundary of the protected area is no longer highly detailed. For example, the smooth edges of the raw protected area data have been replaced with sharp, blocky edges. As such, subsequent analysis performed at the local scale – such as calculating the spatial extent of land cover types within this single protected area – might not be sufficiently precise. Now, let’s clean the data using parameters that are well suited for local scale analysis.</p>
+<p>After cleaning the data with the default parameters, we can see that
+the boundary of the protected area is no longer highly detailed. For
+example, the smooth edges of the raw protected area data have been
+replaced with sharp, blocky edges. As such, subsequent analysis
+performed at the local scale – such as calculating the spatial extent of
+land cover types within this single protected area – might not be
+sufficiently precise. Now, let’s clean the data using parameters that
+are well suited for local scale analysis.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># clean the data with default parameters</span></span>
 <span><span class="va">mlt_fixed_cleaned_reserve_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wdpa_clean.html">wdpa_clean</a></span><span class="op">(</span></span>
@@ -385,27 +481,52 @@
 <code class="sourceCode R"><span><span class="co"># visualize data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mlt_fixed_cleaned_reserve_data</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p><img src="wdpar_files/figure-html/unnamed-chunk-19-1.png" width="432" style="display: block; margin: auto;"></p>
-<p>Here, we specified that the spatial data processing should be performed at a much greater level of precision (using the <code>geometry_precision</code> parameter). As a consequence, we can see – after applying the data cleaning procedures – that the protected area boundary still retains a high level of detail. This means that the cleaned protected area data is more suitable for local scale analysis. If a greater level of detail is required, the level of precision could be increased further. Note that the maximum level of detail that can be achieved in the cleaned data is limited by the level of detail in the raw data. This means that increasing the level of precision beyond a certain point will have no impact on the cleaned data, because the raw data do not provide sufficient detail for the increased precision to alter the spatial data processing.</p>
+<p>Here, we specified that the spatial data processing should be
+performed at a much greater level of precision (using the
+<code>geometry_precision</code> parameter). As a consequence, we can see
+– after applying the data cleaning procedures – that the protected area
+boundary still retains a high level of detail. This means that the
+cleaned protected area data is more suitable for local scale analysis.
+If a greater level of detail is required, the level of precision could
+be increased further. Note that the maximum level of detail that can be
+achieved in the cleaned data is limited by the level of detail in the
+raw data. This means that increasing the level of precision beyond a
+certain point will have no impact on the cleaned data, because the raw
+data do not provide sufficient detail for the increased precision to
+alter the spatial data processing.</p>
 </div>
 <div class="section level3">
 <h3 id="additional-datasets">Additional datasets<a class="anchor" aria-label="anchor" href="#additional-datasets"></a>
 </h3>
-<p>Although the <a href="https://www.protectedplanet.net/en" class="external-link">World Database on Protected Areas (WDPA)</a> is the most comprehensive global dataset, many datasets are available for specific countries or regions that do not require such extensive data cleaning procedures. As a consequence, it is often worth looking for alternative data sets when working at smaller geographic scales before considering the <a href="https://www.protectedplanet.net/en" class="external-link">World Database on Protected Areas (WDPA)</a>. The list below outlines several alternative protected area datasets and information on where they can be obtained. If you know of any such datasets that are missing, <a href="https://github.com/prioritizr/wdpar/issues" class="external-link">please create an issue on the GitHub repository</a> and we can add them to the list.</p>
+<p>Although the <a href="https://www.protectedplanet.net/en" class="external-link">World
+Database on Protected Areas (WDPA)</a> is the most comprehensive global
+dataset, many datasets are available for specific countries or regions
+that do not require such extensive data cleaning procedures. As a
+consequence, it is often worth looking for alternative data sets when
+working at smaller geographic scales before considering the <a href="https://www.protectedplanet.net/en" class="external-link">World Database on Protected
+Areas (WDPA)</a>. The list below outlines several alternative protected
+area datasets and information on where they can be obtained. If you know
+of any such datasets that are missing, <a href="https://github.com/prioritizr/wdpar/issues" class="external-link">please create an issue
+on the GitHub repository</a> and we can add them to the list.</p>
 <ul>
 <li>Arctic
 <ul>
-<li><a href="http://geo.abds.is/geonetwork/srv/eng/catalog.search#/metadata/2e56ee1f-50a9-4983-88f4-edaa8588950d" class="external-link">Arctic Protected Areas - 2017</a></li>
+<li><a href="http://geo.abds.is/geonetwork/srv/eng/catalog.search#/metadata/2e56ee1f-50a9-4983-88f4-edaa8588950d" class="external-link">Arctic
+Protected Areas - 2017</a></li>
 </ul>
 </li>
 <li>Australia
 <ul>
-<li><a href="https://fed.dcceew.gov.au/datasets/erin::collaborative-australian-protected-areas-database-capad-2022-terrestrial" class="external-link">Collaborative Australian Protected Area Database (CAPAD)</a></li>
-<li><a href="https://ccea-ccae.org" class="external-link">Conservation Areas Reporting and Tracking System (CARTS)</a></li>
+<li><a href="https://fed.dcceew.gov.au/datasets/erin::collaborative-australian-protected-areas-database-capad-2022-terrestrial" class="external-link">Collaborative
+Australian Protected Area Database (CAPAD)</a></li>
+<li><a href="https://ccea-ccae.org" class="external-link">Conservation Areas Reporting and
+Tracking System (CARTS)</a></li>
 </ul>
 </li>
 <li>The United States of America
 <ul>
-<li><a href="https://doi.org/10.5066/P9Q9LQ4B" class="external-link">Protected Areas Database of the US (PAD-US)</a></li>
+<li><a href="https://doi.org/10.5066/P9Q9LQ4B" class="external-link">Protected Areas Database
+of the US (PAD-US)</a></li>
 </ul>
 </li>
 </ul>
@@ -413,35 +534,29 @@
 <div class="section level3">
 <h3 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h3>
-<p>Please cite the <em>wdpar R</em> package and the relevant databases in publications. To see citation details, use the code:</p>
+<p>Please cite the <em>wdpar R</em> package and the relevant databases
+in publications. To see citation details, use the code:</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"wdpar"</span><span class="op">)</span></span></code></pre></div>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-
-      </div>
-
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
 
-      <footer><div class="copyright">
-  <p></p>
-<p>Developed by <a href="http://jeffrey-hanson.com" class="external-link">Jeffrey O Hanson</a>.</p>
+    <footer><div class="pkgdown-footer-left">
+  <p>Developed by <a href="http://jeffrey-hanson.com" class="external-link">Jeffrey O Hanson</a>.</p>
 </div>
 
-<div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<div class="pkgdown-footer-right">
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
   
-
 
   
 

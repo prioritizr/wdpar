@@ -9,13 +9,13 @@ chromote::set_chrome_args(c(
 
 # make sure the temp folder is removed when testing is complete
 withr::defer({
-  # Close the browser
+  ## close the browser
   try(chromote::default_chromote_object()$get_browser()$close())
 
-  # clean up chromote sessions
+  ## clean up chromote sessions
   gc()
   Sys.sleep(2)
 
-  # delete the Crashpad folder if it exists
+  ## delete the Crashpad folder if it exists
   unlink(file.path(tempdir(), "Crashpad"), recursive = TRUE)
 }, envir = testthat::teardown_env())

@@ -11,3 +11,8 @@ standardize_geometry <- function(x) {
   sf::st_crs(x) <- x_crs
   x
 }
+
+is_on_cran <- function() {
+  ("CheckExEnv" %in% search()) ||
+  any(c("_R_CHECK_TIMINGS_", "_R_CHECK_LICENSE_") %in% names(Sys.getenv()))
+}

@@ -60,5 +60,5 @@ Collate:
     'wdpa_read.R'
     'zzz.R'
 Roxygen: list(markdown = TRUE)
-Config/Needs/suggests:
+Config/Needs/website:
   prioritizr/prepr

@@ -72,7 +72,7 @@ jobs:
           options(repos = "https://cloud.r-project.org/")
           install.packages("sf")
           install.packages("lwgeom")
-          remotes::install_github("dickoa/prepr")
+          remotes::install_github("prioritizr/prepr")
         shell: Rscript {0}
 
       - name: Session information

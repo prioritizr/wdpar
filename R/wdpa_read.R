@@ -68,7 +68,13 @@ wdpa_read <- function(x, n = NULL) {
   # determine version
   month_year <- strsplit(basename(x), "_", fixed = TRUE)[[1]][[2]]
   # load data
-  if (grepl("Public", basename(x))) {
+  is_global_dataset <-
+    grepl("Public", basename(x)) &&
+    (
+      endsWith(gsub(".zip", "", basename(x), fixed = TRUE), "Public")  ||
+      endsWith(gsub(".gdb.zip", "", basename(x), fixed = TRUE), "Public")
+    )
+  if (isTRUE(is_global_dataset)) {
     ## load global data
     ### find geodatabase(s)
     gdb_paths <-  dir(tdir, "^.*\\.gdb$", recursive = TRUE,

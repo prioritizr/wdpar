@@ -62,7 +62,7 @@ test_that("polygon and point data (shp)", {
   skip_on_github_workflow("Windows")
   skip_on_github_workflow("macOS")
   x <- suppressWarnings(
-    wdpa_fetch("COM", wait = TRUE, datatype = "gdb")
+    wdpa_fetch("COM", wait = TRUE, datatype = "shp")
   )
   expect_is(x, "sf")
   expect_true(any(vapply(

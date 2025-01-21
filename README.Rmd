@@ -65,7 +65,7 @@ A Chromium-based web browser to be installed (e.g., Google Chrome, Chromium, Bra
 
 ##### _Ubuntu_
 
-A Chromium-based web browser to be installed (e.g., Google Chrome, Chromium, Brave). Also, the `gmp`, `mpfr`, and several spatial libraries need to be installed. For recent versions of Ubuntu (18.04 and later), these libraries are available through official repositories. They can be installed using the following system commands:
+A Chromium-based web browser must to be installed (e.g., Google Chrome, Chromium, Brave). Also, the `gmp`, `mpfr`, and several spatial libraries need to be installed. For recent versions of Ubuntu (18.04 and later), these libraries are available through official repositories. They can be installed using the following system commands:
 
 ```
 apt-get -y update

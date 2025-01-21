@@ -1,3 +1,10 @@
+# wdpar 1.3.8.1
+
+- Update `wdpa_read()` so that it can import country-specific data in
+  shapefile format that have been manually downloaded from ProtectedPlanet
+  (#87). Thanks to Florent Bédécarrats (\@fBedecarrats) for bug report.
+- Minor improvements to documentation.
+
 # wdpar 1.3.8
 
 - CRAN release.
@@ -10,7 +17,7 @@
 # wdpar 1.3.7.3
 
 - Fix bugs in `wdpa_fetch()` and `wdpa_read()` on MacOS.
-  Thanks to Jason Everett (@jaseeverett) for code contribution.
+  Thanks to Jason Everett (\@jaseeverett) for code contribution.
 - Update DESCRIPTION with _prepr_ package information.
 - Update README with Chromium dependencies.
 - Update global example global processing script with increased precision.

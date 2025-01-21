@@ -76,20 +76,31 @@ test_that("with point data (shp)", {
   # try to find download url
   download_url <- wdpa_url("MHL", wait = TRUE, datatype = "shp")
   # path to save file zipfile with data
-  path <- tempfile(pattern = "WDPA_", fileext = ".zip")
+  path1 <- tempfile(pattern = "WDPA_", fileext = ".zip")
   # download zipfile
-  result <- utils::download.file(download_url, path)
+  result <- utils::download.file(download_url, path1)
+  # copy to another file name
+  path2 <- paste0(tempdir(), "/WDPA_Public_MHL.zip")
+  path2 <- gsub("\\", "/", path2, fixed = TRUE)
+  file.copy(path1, path2)
   # load data
-  x <- wdpa_read(path)
+  x1 <- wdpa_read(path1)
+  x2 <- wdpa_read(path2)
   # tests
-  expect_is(x, "sf")
-  expect_true(nrow(x) > 0)
-  expect_true(all(c("ISO3", "STATUS", "DESIG_ENG", "REP_AREA", "MARINE") %in%
-                  names(x)))
-  is_point <- vapply(sf::st_geometry(x), inherits, logical(1),  "POINT") |
-              vapply(sf::st_geometry(x), inherits, logical(1),  "MULTIPOINT")
+  expect_is(x1, "sf")
+  expect_true(nrow(x1) > 0)
+  expect_true(
+    all(
+      c("ISO3", "STATUS", "DESIG_ENG", "REP_AREA", "MARINE") %in%
+      names(x1)
+    )
+  )
+  is_point <-
+    vapply(sf::st_geometry(x1), inherits, logical(1),  "POINT") |
+    vapply(sf::st_geometry(x1), inherits, logical(1),  "MULTIPOINT")
   expect_gt(sum(is_point), 0)
   expect_gt(sum(!is_point), 0)
+  expect_equal(sf::st_drop_geometry(x1), sf::st_drop_geometry(x2))
 })
 
 test_that("global data", {

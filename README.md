@@ -102,7 +102,7 @@ This software provides system requirements from
 
 ##### *Ubuntu*
 
-A Chromium-based web browser to be installed (e.g., Google Chrome,
+A Chromium-based web browser must to be installed (e.g., Google Chrome,
 Chromium, Brave). Also, the `gmp`, `mpfr`, and several spatial libraries
 need to be installed. For recent versions of Ubuntu (18.04 and later),
 these libraries are available through official repositories. They can be

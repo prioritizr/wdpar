@@ -13,7 +13,7 @@
 #' (e.g. when fixing invalid geometries that cross the dateline),
 #' this function then uses the `st_prepair()` function from the \pkg{prepr}
 #' package to fix those geometries instead
-#' (see <https://github.com/dickoa/prepr> for details).
+#' (see <https://github.com/prioritizr/prepr> for details).
 #'
 #' @section Installation:
 #' This function uses the \pkg{prepr} package to help repair geometries
@@ -23,7 +23,7 @@
 #' use the following code:
 #' ```
 #' if (!require(remotes)) install.packages("remotes")
-#' remotes::install_github("dickoa/prepr")
+#' remotes::install_github("prioritizr/prepr")
 #' ```
 #'
 #' Note that the \pkg{prepr} package has system dependencies that need to be

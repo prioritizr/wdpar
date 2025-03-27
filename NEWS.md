@@ -1,3 +1,11 @@
+# wdpar 1.3.8.2
+
+- Update `st_repair_geometry()` documentation to specify correct installation
+  instructions for the _prepr_ package (#89). Thanks to Jason Everett
+  (\@jaseeverett) for bug report.
+- Update `wdpa_url()` to provide correctly formatted error message when
+  it can't find matching CSS queries.
+
 # wdpar 1.3.8.1
 
 - Update `wdpa_read()` so that it can import country-specific data in

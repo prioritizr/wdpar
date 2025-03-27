@@ -181,7 +181,7 @@ chromote_click_element <- function(b, css) {
   node <- b$DOM$querySelector(doc$root$nodeId, css)
   assertthat::assert_that(
     node$nodeId >= 1,
-    msg = paste0("couldn't find element using query \", css, \"")
+    msg = paste0("couldn't find element using query \"", css, "\"")
   )
   box <- b$DOM$getBoxModel(node$nodeId)
   br <- box$model$border

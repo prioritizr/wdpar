@@ -29,7 +29,7 @@ sometimes produce incorrect geometries in rare cases
 (e.g. when fixing invalid geometries that cross the dateline),
 this function then uses the \code{st_prepair()} function from the \pkg{prepr}
 package to fix those geometries instead
-(see \url{https://github.com/dickoa/prepr} for details).
+(see \url{https://github.com/prioritizr/prepr} for details).
 }
 \section{Installation}{
 
@@ -40,7 +40,7 @@ its online code repository. To achieve this, please
 use the following code:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{if (!require(remotes)) install.packages("remotes")
-remotes::install_github("dickoa/prepr")
+remotes::install_github("prioritizr/prepr")
 }\if{html}{\out{</div>}}
 
 Note that the \pkg{prepr} package has system dependencies that need to be

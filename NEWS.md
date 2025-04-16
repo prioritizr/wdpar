@@ -1,3 +1,10 @@
+# wdpar 1.3.8.3
+
+- Update `wdpa_read()` to use the _archive_ package for unzipping files. This
+  is needed to ensure compatibility with Windows operating systems, because the
+  built-in `unzip()` function is not robust enough against invalid characters.
+  Thanks to Aharon Fleury for bug report.
+
 # wdpar 1.3.8.2
 
 - Update `st_repair_geometry()` documentation to specify correct installation

@@ -88,7 +88,7 @@ NULL
 #' Also, the function will sometimes produce messages
 #' that complain about `handle_read_frame` or `unpromised promise` errors.
 #' Please understand that these messages are, in fact, not errors and can be
-#' (see <https://github.com/rstudio/chromote/pull/111>). safely ignored
+#' safely ignored (see <https://github.com/rstudio/chromote/pull/111>).
 #' As such, if you see these messages when running the function,
 #' you can assume that the function has still worked correctly.
 #' For reference, the misleading messages will look something like the

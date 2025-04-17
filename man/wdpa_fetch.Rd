@@ -122,15 +122,17 @@ file path of the executable. For example, you could do this with:
 \if{html}{\out{<div class="sourceCode">}}\preformatted{Sys.setenv(CHROMOTE_CHROME = "INSERT_FILE_PATH_HERE.exe")
 }\if{html}{\out{</div>}}
 
-Also, the function will sometimes produce a message
-that complains about a \code{handle_read_frame} error. Please understand
-that this message is, in fact, not an error and can be safely ignored
-(see \url{https://github.com/rstudio/chromote/pull/111}).
-As such, if you see this message when running the function,
-you can assume that the function still worked correctly.
-For reference, the misleading message will look something like this:
+Also, the function will sometimes produce messages
+that complain about \code{handle_read_frame} or \verb{unpromised promise} errors.
+Please understand that these messages are, in fact, not errors and can be
+safely ignored (see \url{https://github.com/rstudio/chromote/pull/111}).
+As such, if you see these messages when running the function,
+you can assume that the function has still worked correctly.
+For reference, the misleading messages will look something like the
+following:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{[error] handle_read_frame error: websocketpp.transport:7 (End of File)
+Unhandled promise error: Chromote: timed out waiting for response to command Browser.close
 }\if{html}{\out{</div>}}
 
 For further help with troubleshooting, please refer to the documentation

@@ -127,8 +127,10 @@ wdpa_read <- function(x, n = NULL) {
     ### extract data stored in zip files
     zip_path <- dir(tdir, "^.*\\.zip$", recursive = TRUE, full.names = TRUE)
     if (length(zip_path) > 0) {
-      result <- Map(utils::unzip, zip_path,
-                    exdir = gsub(".zip", "", zip_path, fixed = TRUE))
+      result <- Map(
+        archive::archive_extract, zip_path,
+        dir = gsub(".zip", "", zip_path, fixed = TRUE)
+      )
     }
     ### try and find shapefiles and gdb in unzipped files
     shapefile_path <- dir(tdir, "^.*\\.shp$", recursive = TRUE,

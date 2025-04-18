@@ -85,11 +85,14 @@ test_that("wdpa_url (country) (shp)", {
   f2 <- file.path(tempdir(), basename(tempfile()))
   download_file(x, f1)
   expect_true(file.exists(f1))
-  unzip(f1, exdir = f2)
+  archive::archive_extract(f1, dir = f2)
   zip_path <- dir(f2, "^.*\\.zip$", recursive = TRUE, full.names = TRUE)
-  if (length(zip_path) > 0)
-    Map(utils::unzip, zip_path,
-        exdir = gsub(".zip", "", zip_path, fixed = TRUE))
+  if (length(zip_path) > 0) {
+    Map(
+      archive::archive_extract, zip_path,
+      dir = gsub(".zip", "", zip_path, fixed = TRUE)
+    )
+  }
   expect_gt(length(dir(f2, "^.*\\.shp$", recursive = TRUE)), 0)
   unlink(f1, recursive = TRUE, force = TRUE)
   unlink(f2, recursive = TRUE, force = TRUE)
@@ -109,7 +112,7 @@ test_that("wdpa_url (country) (gdb)", {
   f2 <- file.path(tempdir(), basename(tempfile()))
   download_file(x, f1)
   expect_true(file.exists(f1))
-  unzip(f1, exdir = f2)
+  archive::archive_extract(f1, dir = f2)
   zip_path <- dir(f2, "^.*\\.zip$", recursive = TRUE, full.names = TRUE)
   if (length(zip_path) > 0)
   expect_length(
@@ -136,7 +139,7 @@ test_that("wdpa_url (global)", {
   f2 <- file.path(tempdir(), basename(tempfile()))
   download_file(x, f1)
   expect_true(file.exists(f1))
-  unzip(f1, exdir = f2)
+  archive::archive_extract(f1, dir = f2)
   expect_gt(length(dir(f2, "^.*\\.gdb$", include.dirs = TRUE,
                        recursive = TRUE)), 0)
   unlink(f1, recursive = TRUE, force = TRUE)

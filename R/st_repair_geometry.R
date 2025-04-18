@@ -130,7 +130,7 @@ st_repair_geometry <- function(x, geometry_precision = 1500) {
       requireNamespace("prepr", quietly = TRUE),
       msg = paste(
         "the \"prepr\" package needs to be installed, use: \n",
-        "remotes::install_github(\"dickoa/prepr\")"
+        "remotes::install_github(\"prioritizr/prepr\")"
       )
     )
     ### find geometries to repair

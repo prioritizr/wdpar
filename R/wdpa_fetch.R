@@ -85,15 +85,17 @@ NULL
 #' Sys.setenv(CHROMOTE_CHROME = "INSERT_FILE_PATH_HERE.exe")
 #' ```
 #'
-#' Also, the function will sometimes produce a message
-#' that complains about a `handle_read_frame` error. Please understand
-#' that this message is, in fact, not an error and can be safely ignored
-#' (see <https://github.com/rstudio/chromote/pull/111>).
-#' As such, if you see this message when running the function,
-#' you can assume that the function still worked correctly.
-#' For reference, the misleading message will look something like this:
+#' Also, the function will sometimes produce messages
+#' that complain about `handle_read_frame` or `unpromised promise` errors.
+#' Please understand that these messages are, in fact, not errors and can be
+#' safely ignored (see <https://github.com/rstudio/chromote/pull/111>).
+#' As such, if you see these messages when running the function,
+#' you can assume that the function has still worked correctly.
+#' For reference, the misleading messages will look something like the
+#' following:
 #' ```
 #' [error] handle_read_frame error: websocketpp.transport:7 (End of File)
+#' Unhandled promise error: Chromote: timed out waiting for response to command Browser.close
 #' ```
 #'
 #' For further help with troubleshooting, please refer to the documentation

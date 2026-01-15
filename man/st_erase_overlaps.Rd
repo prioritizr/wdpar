@@ -9,6 +9,7 @@ st_erase_overlaps(x, verbose = FALSE)
 \arguments{
 \item{x}{\code{\link[sf:sf]{sf::sf()}} object.}
 
+
 \item{verbose}{\code{logical} should progress be reported? Defaults to
 \code{FALSE}.}
 }

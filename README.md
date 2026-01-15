@@ -181,28 +181,28 @@ Print preview of the data associated with each protected area.
 head(mlt_pa_data)
 ```
 
-    ## Simple feature collection with 6 features and 32 fields
+    ## Simple feature collection with 6 features and 35 fields
     ## Geometry type: MULTIPOLYGON
     ## Dimension:     XY
-    ## Bounding box:  xmin: 1382584 ymin: 4280853 xmax: 1394227 ymax: 4299615
-    ## Projected CRS: +proj=cea +lon_0=0 +lat_ts=30 +x_0=0 +y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs
+    ## Bounding box:  xmin: 1382584 ymin: 4280853 xmax: 1406320 ymax: 4299615
+    ## Projected CRS: World_Behrmann
     ## Precision:     1500 
-    ## # A tibble: 6 × 33
-    ##      WDPAID WDPA_PID  PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
-    ##       <dbl> <chr>     <chr>  <chr> <chr>     <chr> <chr>     <chr>      <chr>   
-    ## 1    194425 194425    PA     Il-G… Il-Gżejj… Rise… Nature R… National   Ia      
-    ## 2    194420 194420    PA     Filf… Filfla    Rise… Nature R… National   Ia      
-    ## 3 555700375 555700375 PA     Il-P… Il-Ponta… Rise… Nature R… National   Ia      
-    ## 4 555588631 555588631 PA     Il-M… Il-Majji… Park… National… National   II      
-    ## 5    194418 194418    PA     Il-B… Il-Ballu… List… List of … National   III     
-    ## 6    194415 194415    PA     Il-Ġ… Il-Ġonna… List… List of … National   III     
-    ## # ℹ 24 more variables: INT_CRIT <chr>, MARINE <chr>, REP_M_AREA <dbl>,
+    ## # A tibble: 6 × 36
+    ##    SITE_ID SITE_PID SITE_TYPE NAME_ENG NAME  DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
+    ##      <int> <chr>    <chr>     <chr>    <chr> <chr> <chr>     <chr>      <chr>   
+    ## 1   1.94e5 194425   PA        "Il-Gże… "Il-… Rise… Nature R… National   Ia      
+    ## 2   1.94e5 194420   PA        "Filfla" "Fil… Rise… Nature R… National   Ia      
+    ## 3   5.56e8 5557003… PA        "Il-Pon… "Il-… Rise… Nature R… National   Ia      
+    ## 4   5.56e8 5555886… PA        "Il-Maj… "Il-… Park… National… National   II      
+    ## 5   5.56e8 5557717… PA        "L-Inħa… "L-I… Park… National… National   II      
+    ## 6   1.75e5 174757   PA        "Il-Ġon… "Il-… List… List of … National   III     
+    ## # ℹ 27 more variables: INT_CRIT <chr>, REALM <chr>, REP_M_AREA <dbl>,
     ## #   GIS_M_AREA <dbl>, REP_AREA <dbl>, GIS_AREA <dbl>, NO_TAKE <chr>,
     ## #   NO_TK_AREA <dbl>, STATUS <chr>, STATUS_YR <dbl>, GOV_TYPE <chr>,
-    ## #   OWN_TYPE <chr>, MANG_AUTH <chr>, MANG_PLAN <chr>, VERIF <chr>,
-    ## #   METADATAID <int>, SUB_LOC <chr>, PARENT_ISO <chr>, ISO3 <chr>,
-    ## #   SUPP_INFO <chr>, CONS_OBJ <chr>, GEOMETRY_TYPE <chr>, AREA_KM2 <dbl>,
-    ## #   geometry <MULTIPOLYGON [m]>
+    ## #   GOVSUBTYPE <chr>, OWN_TYPE <chr>, OWNSUBTYPE <chr>, MANG_AUTH <chr>,
+    ## #   MANG_PLAN <chr>, VERIF <chr>, METADATAID <int>, PRNT_ISO3 <chr>,
+    ## #   ISO3 <chr>, SUPP_INFO <chr>, CONS_OBJ <chr>, INLND_WTRS <chr>,
+    ## #   OECM_ASMT <chr>, GEOMETRY_TYPE <chr>, AREA_KM2 <dbl>, …
 
 Finally, after cleaning the data, let’s plot a map showing Malta’s
 protected areas and color each area according to its management category

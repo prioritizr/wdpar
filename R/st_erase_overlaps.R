@@ -50,7 +50,7 @@ st_erase_overlaps <- function(x, verbose = FALSE) {
   # initialize progress bar
   if (verbose) {
     pb <- progress::progress_bar$new(
-      format = "[:bar] :current/:total (:percent) eta: :eta",
+      format = "erasing overlaps [:bar] :current/:total (:percent) eta: :eta",
       total = length(g) - 1, clear = FALSE, width = 60)
   }
   for (i in seq(2, length(g))) {

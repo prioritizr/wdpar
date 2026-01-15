@@ -17,8 +17,7 @@ test_that("without point data (gdb)", {
   # tests
   expect_is(x, "sf")
   expect_true(nrow(x) > 0)
-  expect_true(all(c("ISO3", "STATUS", "DESIG_ENG", "REP_AREA", "MARINE") %in%
-                  names(x)))
+  expect_true(all(wdpa_column_names %in% names(x)))
 })
 
 test_that("without point data (shp)", {
@@ -38,8 +37,7 @@ test_that("without point data (shp)", {
   # tests
   expect_is(x, "sf")
   expect_true(nrow(x) > 0)
-  expect_true(all(c("ISO3", "STATUS", "DESIG_ENG", "REP_AREA", "MARINE") %in%
-                  names(x)))
+  expect_true(all(wdpa_column_names %in% names(x)))
 })
 
 test_that("with point data (gdb)", {
@@ -59,8 +57,7 @@ test_that("with point data (gdb)", {
   # tests
   expect_is(x, "sf")
   expect_true(nrow(x) > 0)
-  expect_true(all(c("ISO3", "STATUS", "DESIG_ENG", "REP_AREA", "MARINE") %in%
-                  names(x)))
+  expect_true(all(wdpa_column_names %in% names(x)))
   is_point <- vapply(sf::st_geometry(x), inherits, logical(1),  "POINT") |
               vapply(sf::st_geometry(x), inherits, logical(1),  "MULTIPOINT")
   expect_gt(sum(is_point), 0)
@@ -89,12 +86,7 @@ test_that("with point data (shp)", {
   # tests
   expect_is(x1, "sf")
   expect_true(nrow(x1) > 0)
-  expect_true(
-    all(
-      c("ISO3", "STATUS", "DESIG_ENG", "REP_AREA", "MARINE") %in%
-      names(x1)
-    )
-  )
+  expect_true(all(wdpa_column_names %in% names(x1)))
   is_point <-
     vapply(sf::st_geometry(x1), inherits, logical(1),  "POINT") |
     vapply(sf::st_geometry(x1), inherits, logical(1),  "MULTIPOINT")
@@ -119,8 +111,7 @@ test_that("global data", {
   # tests
   expect_is(x, "sf")
   expect_true(nrow(x) > 0)
-  expect_true(all(c("ISO3", "STATUS", "DESIG_ENG", "REP_AREA", "MARINE") %in%
-                  names(x)))
+  expect_true(all(wdpa_column_names %in% names(x)))
   expect_true(
     any(
       vapply(

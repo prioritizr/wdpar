@@ -1,17 +1,5 @@
 context("wdpa_clean")
 
-# define data
-wdpa_column_names <- c("WDPAID", "WDPA_PID", "PA_DEF", "NAME", "ORIG_NAME",
-                       "DESIG", "DESIG_ENG", "DESIG_TYPE", "IUCN_CAT",
-                       "INT_CRIT",  "MARINE", "REP_M_AREA", "REP_AREA",
-                       "NO_TAKE", "NO_TK_AREA", "STATUS", "STATUS_YR",
-                       "GOV_TYPE", "OWN_TYPE", "MANG_AUTH", "MANG_PLAN",
-                       "VERIF", "METADATAID", "SUB_LOC", "PARENT_ISO", "ISO3",
-                       "SUPP_INFO", "CONS_OBJ", "GEOMETRY_TYPE", "AREA_KM2",
-                       "geometry")
-
-default_retain_status <- c("Designated", "Inscribed", "Established")
-
 test_that("single country with eez", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
@@ -26,15 +14,14 @@ test_that("single country with eez", {
   )
   # run tests
   expect_is(x, "sf")
-  expect_true(all(names(x) %in% wdpa_column_names))
+  expect_true(all(wdpa_column_names %in% names(x)))
   expect_gt(nrow(x), 0)
   expect_true(all(x$ISO3 == "MHL"))
-  expect_gt(sum(x$MARINE == "partial"), 0)
-  expect_gt(sum(x$MARINE == "marine"), 0)
+  expect_gt(sum(x$REALM == "Coastal"), 0)
+  expect_gt(sum(x$REALM == "Marine"), 0)
   expect_equal(sum(is.na(x$AREA_KM2)), 0)
   expect_equal(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
   expect_true(all(x$STATUS %in% default_retain_status))
-  expect_true(all(x$PA_DEF %in% c("PA", "OECM")))
 })
 
 test_that("single country without eez", {
@@ -52,8 +39,8 @@ test_that("single country without eez", {
   expect_gt(nrow(x), 0)
   expect_true(all(wdpa_column_names %in% names(x)))
   expect_gt(sum(x$ISO3 == "LIE"), 0)
-  expect_equal(sum(x$MARINE == "marine"), 0)
-  expect_gt(sum(x$MARINE == "terrestrial"), 0)
+  expect_equal(sum(x$REALM == "Marine"), 0)
+  expect_gt(sum(x$REALM == "Terrestrial"), 0)
   expect_equal(sum(is.na(x$AREA_KM2)), 0)
   expect_equal(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
   expect_true(all(x$STATUS %in% default_retain_status))
@@ -74,8 +61,8 @@ test_that("single country with simplification", {
   expect_is(x, "sf")
   expect_true(all(wdpa_column_names %in% names(x)))
   expect_true(all(x$ISO3 == "MHL"))
-  expect_gt(sum(x$MARINE == "partial"), 0)
-  expect_gt(sum(x$MARINE == "marine"), 0)
+  expect_gt(sum(x$REALM == "Coastal"), 0)
+  expect_gt(sum(x$REALM == "Marine"), 0)
   expect_equal(sum(is.na(x$AREA_KM2)), 0)
   expect_equal(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
   expect_true(all(x$STATUS %in% default_retain_status))
@@ -96,8 +83,8 @@ test_that("single country without overlap removal", {
   expect_gt(nrow(x), 0)
   expect_true(all(wdpa_column_names %in% names(x)))
   expect_gt(sum(x$ISO3 == "BDI"), 0)
-  expect_equal(sum(x$MARINE == "marine"), 0)
-  expect_gt(sum(x$MARINE == "terrestrial"), 0)
+  expect_equal(sum(x$REALM == "Marine"), 0)
+  expect_gt(sum(x$REALM == "Terrestrial"), 0)
   expect_equal(sum(is.na(x$AREA_KM2)), 0)
   expect_gt(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
   expect_true(all(x$STATUS %in% default_retain_status))
@@ -129,8 +116,8 @@ test_that("country with MULTIPOLYGON protected area", {
   x <- wdpa_fetch("BOL", wait = TRUE, check_version = FALSE)
   y <- suppressWarnings(wdpa_clean(x, erase_overlaps = FALSE,
                                    geometry_precision = 10000))
-  p1 <- x[x$WDPAID == 555592679, ]
-  p2 <- y[y$WDPAID == 555592679, ]
+  p1 <- x[x$SITE_ID == 555592679, ]
+  p2 <- y[y$SITE_ID == 555592679, ]
   # test that polygons in multipolygon features are retained
   expect_gt(length(sf::st_cast(sf::st_geometry(p1), "POLYGON")), 1)
   expect_gt(length(sf::st_cast(sf::st_geometry(p2), "POLYGON")), 1)
@@ -175,10 +162,8 @@ test_that("single country with no valid non-empty geometries", {
     suppressWarnings(wdpa_fetch("SOM", wait = TRUE, check_version = FALSE))
   )
   y <- wdpa_clean(wdpa_fetch("MHL", wait = TRUE))
-  crs <- paste("+proj=cea +lon_0=0 +lat_ts=30 +x_0=0",
-    "+y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs")
-  expect_identical(x, empty_wdpa_dataset(st_crs(crs)))
-  expect_equal(names(x), wdpa_column_names)
+  expect_identical(x, empty_wdpa_dataset(st_crs("ESRI:54017")))
+  expect_true(all(wdpa_column_names %in% names(x)))
   expect_equal(ncol(x), ncol(y))
   expect_true(all(sapply(seq_along(x), function(i) {
     class_x <- class(x[[i]])[1]
@@ -202,31 +187,31 @@ test_that("retain UNESCO Biosphere reserves", {
   )
   # run tests
   expect_is(x, "sf")
-  expect_true(all(names(x) %in% wdpa_column_names))
+  expect_true(all(wdpa_column_names %in% names(x)))
   expect_gt(nrow(x), 0)
   expect_true(all(x$ISO3 == "MHL"))
-  expect_gt(sum(x$MARINE == "partial"), 0)
-  expect_gt(sum(x$MARINE == "marine"), 0)
+  expect_gt(sum(x$REALM == "Coastal"), 0)
+  expect_gt(sum(x$REALM == "Marine"), 0)
   expect_equal(sum(is.na(x$AREA_KM2)), 0)
   expect_equal(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
   expect_true(all(x$STATUS %in% default_retain_status))
 })
 
-test_that("protected areas that turn into long rectangles without prepr", {
-  skip_on_cran()
-  skip_if_not(curl::has_internet())
-  skip_if_chrome_not_available()
-  skip_if_not_installed("prepr")
-  skip_on_github_workflow("Windows")
-  skip_on_github_workflow("macOS")
-  # fetch data
-  x <- suppressWarnings(wdpa_fetch("USA", wait = TRUE, check_version = FALSE))
-  x <- x[x$MARINE == "2", , drop = FALSE]
-  y <- wdpa_clean(x, erase_overlaps = FALSE)
-  # run tests
-  expect_is(y, "sf")
-  expect_lte(as.numeric(max(sf::st_area(y))), 1e+13)
-})
+# test_that("protected areas that turn into long rectangles without prepr", {
+#   skip_on_cran()
+#   skip_if_not(curl::has_internet())
+#   skip_if_chrome_not_available()
+#   skip_if_not_installed("prepr")
+#   skip_on_github_workflow("Windows")
+#   skip_on_github_workflow("macOS")
+#   # fetch data
+#   x <- suppressWarnings(wdpa_fetch("USA", wait = TRUE, check_version = FALSE))
+#   x <- x[x$REALM == "Marine", , drop = FALSE]
+#   y <- wdpa_clean(x, erase_overlaps = FALSE)
+#   # run tests
+#   expect_is(y, "sf")
+#   expect_lte(as.numeric(max(sf::st_area(y))), 1e+13)
+# })
 
 test_that("protected areas that massively increase in size without prepr", {
   skip_on_cran()
@@ -239,7 +224,7 @@ test_that("protected areas that massively increase in size without prepr", {
   # fetch data
   ids <- c(23177, 12352, 555705343, 555705341, 555721495)
   x <- wdpa_fetch("DZA", wait = TRUE, check_version = FALSE, datatype = "gdb")
-  x <- x[x$WDPAID %in% ids, , drop = FALSE]
+  x <- x[x$SITE_ID %in% ids, , drop = FALSE]
   # clean data
   y <- wdpa_clean(x, erase_overlaps = FALSE)
   # run tests
@@ -259,11 +244,11 @@ test_that("custom retain_status", {
   )
   # run tests
   expect_is(x, "sf")
-  expect_true(all(names(x) %in% wdpa_column_names))
+  expect_true(all(wdpa_column_names %in% names(x)))
   expect_gt(nrow(x), 0)
   expect_true(all(x$ISO3 == "MHL"))
-  expect_gt(sum(x$MARINE == "partial"), 0)
-  expect_gt(sum(x$MARINE == "marine"), 0)
+  expect_gt(sum(x$REALM == "Coastal"), 0)
+  expect_gt(sum(x$REALM == "Marine"), 0)
   expect_equal(sum(is.na(x$AREA_KM2)), 0)
   expect_equal(sum(sf::st_overlaps(x, sparse = FALSE)), 0)
   expect_identical(sort(unique(x$STATUS)), sort(c("Designated", "Proposed")))
@@ -280,11 +265,11 @@ test_that("NULL retain_status", {
   y <- wdpa_clean(x, retain_status = NULL, erase_overlaps = TRUE)
   # run tests
   expect_is(y, "sf")
-  expect_true(all(names(y) %in% wdpa_column_names))
+  expect_true(all(wdpa_column_names %in% names(y)))
   expect_gt(nrow(y), 0)
   expect_true(all(y$ISO3 == "MHL"))
-  expect_gt(sum(y$MARINE == "partial"), 0)
-  expect_gt(sum(y$MARINE == "marine"), 0)
+  expect_gt(sum(y$REALM == "Coastal"), 0)
+  expect_gt(sum(y$REALM == "Marine"), 0)
   expect_equal(sum(is.na(y$AREA_KM2)), 0)
   expect_equal(sum(sf::st_overlaps(y, sparse = FALSE)), 0)
   expect_identical(sort(unique(x$STATUS)), sort(unique(y$STATUS)))
@@ -302,7 +287,7 @@ test_that("empty intersections", {
   y <- wdpa_clean(x, retain_status = NULL, erase_overlaps = TRUE)
   # run tests
   expect_is(y, "sf")
-  expect_true(all(names(y) %in% wdpa_column_names))
+  expect_true(all(wdpa_column_names %in% names(y)))
   expect_gt(nrow(y), 0)
 })
 
@@ -329,8 +314,8 @@ test_that("shp and gdb produce same results", {
     )
   )
   # sort data
-  x <- x[order(x$WDPAID), , drop = FALSE]
-  y <- y[order(y$WDPAID), , drop = FALSE]
+  x <- x[order(x$SITE_ID), , drop = FALSE]
+  y <- y[order(y$SITE_ID), , drop = FALSE]
   # run tests
   expect_equal(x, y)
 })

@@ -1,3 +1,7 @@
+# wdpar 1.3.9
+
+- CRAN release.
+
 # wdpar 1.3.8.4
 
 - Update `wdpa_read()` and `wdpa_clean()` to be compatible with updates to

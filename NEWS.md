@@ -14,6 +14,7 @@
   repairing geometries if specified by the user (per the new
   `repair_geometries` parameter) (#95). Thanks to Alexandre Courtiol
   (\@courtiol) for feature suggestion.
+- Update vignette. Thanks to Alexandre Courtiol (\@courtiol) for code review.
 
 # wdpar 1.3.8.3
 

@@ -94,12 +94,12 @@ mlt_boundary_data <-
 # clip Malta's protected areas to the coastline
 mlt_pa_data <-
   mlt_pa_data %>%
-  filter(MARINE == "terrestrial") %>%
+  filter(REALM == "Terrestrial") %>%
   st_intersection(mlt_boundary_data) %>%
   rbind(mlt_pa_data %>%
-        filter(MARINE == "marine") %>%
+        filter(REALM == "Marine") %>%
         st_difference(mlt_boundary_data)) %>%
-  rbind(mlt_pa_data %>% filter(!MARINE %in% c("terrestrial", "marine")))
+  rbind(mlt_pa_data %>% filter(!REALM %in% c("Terrestrial", "Marine")))
 
 # recalculate the area of each protected area
 mlt_pa_data <-
@@ -154,7 +154,7 @@ statistic <-
   mlt_pa_data %>%
   as.data.frame() %>%
   select(-geometry) %>%
-  group_by(MARINE) %>%
+  group_by(REALM) %>%
   summarize(area_km = sum(AREA_KM2)) %>%
   ungroup() %>%
   arrange(desc(area_km))
@@ -232,12 +232,12 @@ Here we will explore the consequences of using the default parameters for the da
 
 ```{r}
 # find id for smallest reserve in cleaned dataset
-mlt_reserve_id <- mlt_pa_data$WDPAID[which.min(mlt_pa_data$AREA_KM2)]
+mlt_reserve_id <- mlt_pa_data$SITE_ID[which.min(mlt_pa_data$AREA_KM2)]
 
 # extract the smallest reserve from the raw dataset
 mlt_raw_reserve_data <-
   mlt_raw_pa_data %>%
-  filter(WDPAID == mlt_reserve_id)
+  filter(SITE_ID == mlt_reserve_id)
 
 # preview data
 print(mlt_raw_reserve_data)

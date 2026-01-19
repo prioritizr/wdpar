@@ -19,6 +19,8 @@
   parameter) ([\#95](https://github.com/prioritizr/wdpar/issues/95)).
   Thanks to Alexandre Courtiol
   ([@courtiol](https://github.com/courtiol)) for feature suggestion.
+- Update vignette. Thanks to Alexandre Courtiol
+  ([@courtiol](https://github.com/courtiol)) for code review.
 
 ## wdpar 1.3.8.3
 

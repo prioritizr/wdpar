@@ -111,12 +111,12 @@ mlt_boundary_data <-
 # clip Malta's protected areas to the coastline
 mlt_pa_data <-
   mlt_pa_data %>%
-  filter(MARINE == "terrestrial") %>%
+  filter(REALM == "Terrestrial") %>%
   st_intersection(mlt_boundary_data) %>%
   rbind(mlt_pa_data %>%
-        filter(MARINE == "marine") %>%
+        filter(REALM == "Marine") %>%
         st_difference(mlt_boundary_data)) %>%
-  rbind(mlt_pa_data %>% filter(!MARINE %in% c("terrestrial", "marine")))
+  rbind(mlt_pa_data %>% filter(!REALM %in% c("Terrestrial", "Marine")))
 ```
 
     ## Warning: attribute variables are assumed to be spatially constant throughout
@@ -142,27 +142,27 @@ manual](https://www.protectedplanet.net/en/resources/wdpa-manual)
 head(mlt_pa_data)
 ```
 
-    ## Simple feature collection with 6 features and 32 fields
+    ## Simple feature collection with 6 features and 35 fields
     ## Geometry type: GEOMETRY
     ## Dimension:     XY
-    ## Bounding box:  xmin: 1382584 ymin: 4291797 xmax: 1399759 ymax: 4299407
+    ## Bounding box:  xmin: 1382584 ymin: 4289200 xmax: 1406320 ymax: 4298958
     ## Projected CRS: World_Behrmann
-    ## # A tibble: 6 × 33
-    ##      WDPAID WDPA_PID  PA_DEF NAME  ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
-    ##       <dbl> <chr>     <chr>  <chr> <chr>     <chr> <chr>     <chr>      <chr>   
-    ## 1 555588631 555588631 PA     Il-M… Il-Majji… Park… National… National   II      
-    ## 2    174757 174757    PA     Il-Ġ… Il-Ġonna… List… List of … National   III     
-    ## 3    174758 174758    PA     Bidn… Bidnija,… List… List of … National   III     
-    ## 4    194415 194415    PA     Il-Ġ… Il-Ġonna… List… List of … National   III     
-    ## 5    194417 194417    PA     Il-W… Il-Wied … List… List of … National   III     
-    ## 6    194418 194418    PA     Il-B… Il-Ballu… List… List of … National   III     
-    ## # ℹ 24 more variables: INT_CRIT <chr>, MARINE <chr>, REP_M_AREA <dbl>,
+    ## # A tibble: 6 × 36
+    ##    SITE_ID SITE_PID SITE_TYPE NAME_ENG NAME  DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
+    ##      <int> <chr>    <chr>     <chr>    <chr> <chr> <chr>     <chr>      <chr>   
+    ## 1   5.56e8 5557003… PA        "Il-Pon… "Il-… Rise… Nature R… National   Ia      
+    ## 2   5.56e8 5555886… PA        "Il-Maj… "Il-… Park… National… National   II      
+    ## 3   5.56e8 5557717… PA        "L-Inħa… "L-I… Park… National… National   II      
+    ## 4   1.75e5 174757   PA        "Il-Ġon… "Il-… List… List of … National   III     
+    ## 5   1.75e5 174758   PA        "Bidnij… "Bid… List… List of … National   III     
+    ## 6   1.94e5 194415   PA        "Il-Ġon… "Il-… List… List of … National   III     
+    ## # ℹ 27 more variables: INT_CRIT <chr>, REALM <chr>, REP_M_AREA <dbl>,
     ## #   GIS_M_AREA <dbl>, REP_AREA <dbl>, GIS_AREA <dbl>, NO_TAKE <chr>,
     ## #   NO_TK_AREA <dbl>, STATUS <chr>, STATUS_YR <dbl>, GOV_TYPE <chr>,
-    ## #   OWN_TYPE <chr>, MANG_AUTH <chr>, MANG_PLAN <chr>, VERIF <chr>,
-    ## #   METADATAID <int>, SUB_LOC <chr>, PARENT_ISO <chr>, ISO3 <chr>,
-    ## #   SUPP_INFO <chr>, CONS_OBJ <chr>, GEOMETRY_TYPE <chr>, AREA_KM2 <dbl>,
-    ## #   geometry <GEOMETRY [m]>
+    ## #   GOVSUBTYPE <chr>, OWN_TYPE <chr>, OWNSUBTYPE <chr>, MANG_AUTH <chr>,
+    ## #   MANG_PLAN <chr>, VERIF <chr>, METADATAID <int>, PRNT_ISO3 <chr>,
+    ## #   ISO3 <chr>, SUPP_INFO <chr>, CONS_OBJ <chr>, INLND_WTRS <chr>,
+    ## #   OECM_ASMT <chr>, GEOMETRY_TYPE <chr>, AREA_KM2 <dbl>, …
 
 We will now reproject the data to longitude/latitude coordinates
 ([EPSG:4326](https://spatialreference.org/ref/epsg/4326/)) for
@@ -213,7 +213,7 @@ statistic <-
   mlt_pa_data %>%
   as.data.frame() %>%
   select(-geometry) %>%
-  group_by(MARINE) %>%
+  group_by(REALM) %>%
   summarize(area_km = sum(AREA_KM2)) %>%
   ungroup() %>%
   arrange(desc(area_km))
@@ -223,11 +223,11 @@ print(statistic)
 ```
 
     ## # A tibble: 3 × 2
-    ##   MARINE      area_km
+    ##   REALM       area_km
     ##   <chr>         <dbl>
-    ## 1 marine       4136. 
-    ## 2 terrestrial    84.7
-    ## 3 partial        13.1
+    ## 1 Marine      4523.  
+    ## 2 Terrestrial   84.0 
+    ## 3 Coastal        8.91
 
 We can also calculate the percentage of land inside its protected area
 system that are managed under different categories (i.e. [using the
@@ -250,15 +250,16 @@ statistic <-
 print(statistic)
 ```
 
-    ## # A tibble: 6 × 3
+    ## # A tibble: 7 × 3
     ##   IUCN_CAT      area_km percentage
     ##   <chr>           <dbl>      <dbl>
-    ## 1 IV           4195.      99.1    
-    ## 2 V              22.1      0.523  
-    ## 3 Not Reported   14.6      0.344  
-    ## 4 II              2.43     0.0573 
-    ## 5 III             0.191    0.00451
-    ## 6 Ia              0.145    0.00343
+    ## 1 IV           4191.      90.8    
+    ## 2 Not Reported  390.       8.45   
+    ## 3 V              22.1      0.478  
+    ## 4 Not Assigned    8.39     0.182  
+    ## 5 II              3.39     0.0734 
+    ## 6 III             0.191    0.00414
+    ## 7 Ia              0.101    0.00218
 
 We can also plot a map showing Malta’s protected areas and color each
 area according to it’s management category.
@@ -338,7 +339,7 @@ print(pa_data)
 print(st_area(pa_data))
 ```
 
-    ## 7855754788 [m^2]
+    ## 10302220212 [m^2]
 
 ### Recommended practices for local scale analyses
 
@@ -361,32 +362,33 @@ protected area from the Malta dataset we downloaded earlier.
 
 ``` r
 # find id for smallest reserve in cleaned dataset
-mlt_reserve_id <- mlt_pa_data$WDPAID[which.min(mlt_pa_data$AREA_KM2)]
+mlt_reserve_id <- mlt_pa_data$SITE_ID[which.min(mlt_pa_data$AREA_KM2)]
 
 # extract the smallest reserve from the raw dataset
 mlt_raw_reserve_data <-
   mlt_raw_pa_data %>%
-  filter(WDPAID == mlt_reserve_id)
+  filter(SITE_ID == mlt_reserve_id)
 
 # preview data
 print(mlt_raw_reserve_data)
 ```
 
-    ## Simple feature collection with 1 feature and 30 fields
+    ## Simple feature collection with 1 feature and 33 fields
     ## Geometry type: MULTIPOLYGON
     ## Dimension:     XY
     ## Bounding box:  xmin: 14.24996 ymin: 36.01383 xmax: 14.25889 ymax: 36.0195
     ## Geodetic CRS:  WGS 84
-    ## # A tibble: 1 × 31
-    ##   WDPAID WDPA_PID PA_DEF NAME      ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
-    ## *  <dbl> <chr>    <chr>  <chr>     <chr>     <chr> <chr>     <chr>      <chr>   
-    ## 1 330746 330746   1      Ta' Ċenċ… Ta' Ċenċ… Sit … Site of … National   IV      
-    ## # ℹ 22 more variables: INT_CRIT <chr>, MARINE <chr>, REP_M_AREA <dbl>,
+    ## # A tibble: 1 × 34
+    ##   SITE_ID SITE_PID SITE_TYPE NAME_ENG  NAME  DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
+    ## *   <int> <chr>    <chr>     <chr>     <chr> <chr> <chr>     <chr>      <chr>   
+    ## 1  330746 330746   PA        "Ta\\' Ċ… "Ta\… Sit … Site of … National   IV      
+    ## # ℹ 25 more variables: INT_CRIT <chr>, REALM <chr>, REP_M_AREA <dbl>,
     ## #   GIS_M_AREA <dbl>, REP_AREA <dbl>, GIS_AREA <dbl>, NO_TAKE <chr>,
     ## #   NO_TK_AREA <dbl>, STATUS <chr>, STATUS_YR <int>, GOV_TYPE <chr>,
-    ## #   OWN_TYPE <chr>, MANG_AUTH <chr>, MANG_PLAN <chr>, VERIF <chr>,
-    ## #   METADATAID <int>, SUB_LOC <chr>, PARENT_ISO <chr>, ISO3 <chr>,
-    ## #   SUPP_INFO <chr>, CONS_OBJ <chr>, geometry <MULTIPOLYGON [°]>
+    ## #   GOVSUBTYPE <chr>, OWN_TYPE <chr>, OWNSUBTYPE <chr>, MANG_AUTH <chr>,
+    ## #   MANG_PLAN <chr>, VERIF <chr>, METADATAID <int>, PRNT_ISO3 <chr>,
+    ## #   ISO3 <chr>, SUPP_INFO <chr>, CONS_OBJ <chr>, INLND_WTRS <chr>,
+    ## #   OECM_ASMT <chr>, geometry <MULTIPOLYGON [°]>
 
 ``` r
 # visualize data
@@ -409,22 +411,22 @@ mlt_default_cleaned_reserve_data <- wdpa_clean(mlt_raw_reserve_data)
 print(mlt_default_cleaned_reserve_data)
 ```
 
-    ## Simple feature collection with 1 feature and 32 fields
+    ## Simple feature collection with 1 feature and 35 fields
     ## Geometry type: POLYGON
     ## Dimension:     XY
     ## Bounding box:  xmin: 1375122 ymin: 4304454 xmax: 1375830 ymax: 4305007
     ## Projected CRS: World_Behrmann
-    ## # A tibble: 1 × 33
-    ##   WDPAID WDPA_PID PA_DEF NAME      ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
-    ##    <dbl> <chr>    <chr>  <chr>     <chr>     <chr> <chr>     <chr>      <chr>   
-    ## 1 330746 330746   PA     Ta' Ċenċ… Ta' Ċenċ… Sit … Site of … National   IV      
-    ## # ℹ 24 more variables: INT_CRIT <chr>, MARINE <chr>, REP_M_AREA <dbl>,
+    ## # A tibble: 1 × 36
+    ##   SITE_ID SITE_PID SITE_TYPE NAME_ENG  NAME  DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
+    ##     <int> <chr>    <chr>     <chr>     <chr> <chr> <chr>     <chr>      <chr>   
+    ## 1  330746 330746   PA        "Ta\\' Ċ… "Ta\… Sit … Site of … National   IV      
+    ## # ℹ 27 more variables: INT_CRIT <chr>, REALM <chr>, REP_M_AREA <dbl>,
     ## #   GIS_M_AREA <dbl>, REP_AREA <dbl>, GIS_AREA <dbl>, NO_TAKE <chr>,
     ## #   NO_TK_AREA <dbl>, STATUS <chr>, STATUS_YR <dbl>, GOV_TYPE <chr>,
-    ## #   OWN_TYPE <chr>, MANG_AUTH <chr>, MANG_PLAN <chr>, VERIF <chr>,
-    ## #   METADATAID <int>, SUB_LOC <chr>, PARENT_ISO <chr>, ISO3 <chr>,
-    ## #   SUPP_INFO <chr>, CONS_OBJ <chr>, GEOMETRY_TYPE <chr>, AREA_KM2 <dbl>,
-    ## #   geometry <POLYGON [m]>
+    ## #   GOVSUBTYPE <chr>, OWN_TYPE <chr>, OWNSUBTYPE <chr>, MANG_AUTH <chr>,
+    ## #   MANG_PLAN <chr>, VERIF <chr>, METADATAID <int>, PRNT_ISO3 <chr>,
+    ## #   ISO3 <chr>, SUPP_INFO <chr>, CONS_OBJ <chr>, INLND_WTRS <chr>,
+    ## #   OECM_ASMT <chr>, GEOMETRY_TYPE <chr>, AREA_KM2 <dbl>, …
 
 ``` r
 # visualize data
@@ -452,22 +454,22 @@ mlt_fixed_cleaned_reserve_data <- wdpa_clean(
 print(mlt_fixed_cleaned_reserve_data)
 ```
 
-    ## Simple feature collection with 1 feature and 32 fields
+    ## Simple feature collection with 1 feature and 35 fields
     ## Geometry type: POLYGON
     ## Dimension:     XY
     ## Bounding box:  xmin: 1374929 ymin: 4304433 xmax: 1375788 ymax: 4305024
     ## Projected CRS: World_Behrmann
-    ## # A tibble: 1 × 33
-    ##   WDPAID WDPA_PID PA_DEF NAME      ORIG_NAME DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
-    ##    <dbl> <chr>    <chr>  <chr>     <chr>     <chr> <chr>     <chr>      <chr>   
-    ## 1 330746 330746   PA     Ta' Ċenċ… Ta' Ċenċ… Sit … Site of … National   IV      
-    ## # ℹ 24 more variables: INT_CRIT <chr>, MARINE <chr>, REP_M_AREA <dbl>,
+    ## # A tibble: 1 × 36
+    ##   SITE_ID SITE_PID SITE_TYPE NAME_ENG  NAME  DESIG DESIG_ENG DESIG_TYPE IUCN_CAT
+    ##     <int> <chr>    <chr>     <chr>     <chr> <chr> <chr>     <chr>      <chr>   
+    ## 1  330746 330746   PA        "Ta\\' Ċ… "Ta\… Sit … Site of … National   IV      
+    ## # ℹ 27 more variables: INT_CRIT <chr>, REALM <chr>, REP_M_AREA <dbl>,
     ## #   GIS_M_AREA <dbl>, REP_AREA <dbl>, GIS_AREA <dbl>, NO_TAKE <chr>,
     ## #   NO_TK_AREA <dbl>, STATUS <chr>, STATUS_YR <dbl>, GOV_TYPE <chr>,
-    ## #   OWN_TYPE <chr>, MANG_AUTH <chr>, MANG_PLAN <chr>, VERIF <chr>,
-    ## #   METADATAID <int>, SUB_LOC <chr>, PARENT_ISO <chr>, ISO3 <chr>,
-    ## #   SUPP_INFO <chr>, CONS_OBJ <chr>, GEOMETRY_TYPE <chr>, AREA_KM2 <dbl>,
-    ## #   geometry <POLYGON [m]>
+    ## #   GOVSUBTYPE <chr>, OWN_TYPE <chr>, OWNSUBTYPE <chr>, MANG_AUTH <chr>,
+    ## #   MANG_PLAN <chr>, VERIF <chr>, METADATAID <int>, PRNT_ISO3 <chr>,
+    ## #   ISO3 <chr>, SUPP_INFO <chr>, CONS_OBJ <chr>, INLND_WTRS <chr>,
+    ## #   OECM_ASMT <chr>, GEOMETRY_TYPE <chr>, AREA_KM2 <dbl>, …
 
 ``` r
 # visualize data

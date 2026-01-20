@@ -104,8 +104,10 @@ wdpa_read <- function(x, n = NULL) {
     wdpa_data <- wdpa_data[!vapply(wdpa_data, is.null, logical(1))]
     wdpa_data <- unlist(wdpa_data, recursive = FALSE, use.names = FALSE)
   } else if (
+    # nocov start
     (identical(length(gdb_path), 0L)) &&
     (identical(length(shp_path), 0L))
+    # nocov end
   ) {
     # nocov start
     stop(

@@ -205,7 +205,6 @@ lie_raw_data <- wdpa_fetch("LIE", wait = TRUE)
 # same dataset every time the R session is restarted
 lie_raw_data <- wdpa_fetch("LIE", wait = TRUE,
                            download_dir = rappdirs::user_data_dir("wdpar"))
-#> ! importing local data (version Dec 2021); use "force=TRUE" if you need latest version.
 
 # data for multiple countries can be downloaded separately and combined,
 # this is useful to avoid having to download the global dataset

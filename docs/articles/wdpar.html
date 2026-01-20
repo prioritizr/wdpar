@@ -222,7 +222,7 @@ area system.</p>
 <span><span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggmap.html" class="external-link">ggmap</a></span><span class="op">(</span><span class="va">bg</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">mlt_pa_data</span>, fill <span class="op">=</span> <span class="st">"#31A35480"</span>, inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="wdpar_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" width="432" style="display: block; margin: auto;"></p>
+<p><img src="wdpar_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" alt="" width="432" style="display: block; margin: auto;"></p>
 <p>We can also create a histogram showing the year when each protected
 area was established.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -231,7 +231,7 @@ area was established.</p>
 <span>  main <span class="op">=</span> <span class="st">"Malta's protected areas"</span>,</span>
 <span>  xlab <span class="op">=</span> <span class="st">"Year established"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<p><img src="wdpar_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" width="432" style="display: block; margin: auto;"></p>
+<p><img src="wdpar_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="" width="432" style="display: block; margin: auto;"></p>
 <p>Now let’s calculate some statistics. We can calculate the total
 amount of land and ocean inside Malta’s protected area system
 (km<sup>2</sup>).</p>
@@ -287,7 +287,7 @@ area according to it’s management category.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/ggmap/man/ggmap.html" class="external-link">ggmap</a></span><span class="op">(</span><span class="va">bg</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">IUCN_CAT</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">mlt_pa_data</span>, inherit.aes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>, legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="wdpar_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" width="432" style="display: block; margin: auto;"></p>
+<p><img src="wdpar_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" alt="" width="432" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="recommended-practices-for-large-datasets">Recommended practices for large datasets<a class="anchor" aria-label="anchor" href="#recommended-practices-for-large-datasets"></a>
@@ -398,7 +398,7 @@ protected area from the Malta dataset we downloaded earlier.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># visualize data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mlt_raw_reserve_data</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p><img src="wdpar_files/figure-html/unnamed-chunk-16-1.png" class="r-plt" width="432" style="display: block; margin: auto;"></p>
+<p><img src="wdpar_files/figure-html/unnamed-chunk-16-1.png" class="r-plt" alt="" width="432" style="display: block; margin: auto;"></p>
 <p>We can see that the boundary for this protected area has a high level
 of detail. This suggests that the protected area data is available at a
 resolution that is sufficient to permit local scale analyses. To help
@@ -429,7 +429,7 @@ parameters, we will clean this dataset using the default parameters.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># visualize data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mlt_default_cleaned_reserve_data</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p><img src="wdpar_files/figure-html/unnamed-chunk-18-1.png" class="r-plt" width="432" style="display: block; margin: auto;"></p>
+<p><img src="wdpar_files/figure-html/unnamed-chunk-18-1.png" class="r-plt" alt="" width="432" style="display: block; margin: auto;"></p>
 <p>After cleaning the data with the default parameters, we can see that
 the boundary of the protected area is no longer highly detailed. For
 example, the smooth edges of the raw protected area data have been
@@ -465,7 +465,7 @@ are well suited for local scale analysis.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># visualize data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mlt_fixed_cleaned_reserve_data</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<p><img src="wdpar_files/figure-html/unnamed-chunk-19-1.png" class="r-plt" width="432" style="display: block; margin: auto;"></p>
+<p><img src="wdpar_files/figure-html/unnamed-chunk-19-1.png" class="r-plt" alt="" width="432" style="display: block; margin: auto;"></p>
 <p>Here, we specified that the spatial data processing should be
 performed at a much greater level of precision (using the
 <code>geometry_precision</code> parameter). As a consequence, we can see
@@ -510,8 +510,8 @@ Tracking System (CARTS)</a></li>
 </li>
 <li>The United States of America
 <ul>
-<li><a href="https://doi.org/10.5066/P9Q9LQ4B" class="external-link">Protected Areas Database
-of the US (PAD-US)</a></li>
+<li><a href="https://www.usgs.gov/programs/gap-analysis-project/science/pad-us-data-overview" class="external-link">Protected
+Areas Database of the US (PAD-US)</a></li>
 </ul>
 </li>
 </ul>

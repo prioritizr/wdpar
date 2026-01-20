@@ -293,7 +293,7 @@ Although the [World Database on Protected Areas (WDPA)](https://www.protectedpla
     + [Collaborative Australian Protected Area Database (CAPAD)](https://fed.dcceew.gov.au/datasets/erin::collaborative-australian-protected-areas-database-capad-2022-terrestrial)
     + [Conservation Areas Reporting and Tracking System (CARTS)](https://ccea-ccae.org)
 * The United States of America
-    + [Protected Areas Database of the US (PAD-US)](https://doi.org/10.5066/P9Q9LQ4B)
+    + [Protected Areas Database of the US (PAD-US)](https://www.usgs.gov/programs/gap-analysis-project/science/pad-us-data-overview)
 
 ### Citation
 

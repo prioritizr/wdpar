@@ -517,7 +517,7 @@ them to the list.
     (CARTS)](https://ccea-ccae.org)
 - The United States of America
   - [Protected Areas Database of the US
-    (PAD-US)](https://doi.org/10.5066/P9Q9LQ4B)
+    (PAD-US)](https://www.usgs.gov/programs/gap-analysis-project/science/pad-us-data-overview)
 
 ### Citation
 

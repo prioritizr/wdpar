@@ -98,7 +98,7 @@ wdpa_read <- function(x, n = NULL) {
     wdpa_data <- lapply(gdb_path, function(x) {
       lyrs <- sf::st_layers(x)
       is_lyrs_spatial <- !vapply(lyrs$crs, is.na, logical(1))
-      if (!any(is_lyrs_spatial)) return(NULL)
+      if (!any(is_lyrs_spatial)) return(NULL) # nocov
       lapply(lyrs$name[is_lyrs_spatial], read_sf_n, dsn = x)
     })
     wdpa_data <- wdpa_data[!vapply(wdpa_data, is.null, logical(1))]
@@ -107,11 +107,14 @@ wdpa_read <- function(x, n = NULL) {
     (identical(length(gdb_path), 0L)) &&
     (identical(length(shp_path), 0L))
   ) {
+    # nocov start
     stop(
       "Couldn't find shapefile or file geodatabase inside zip file.",
       call. = FALSE
     )
+    # nocov end
   } else {
+    # nocov start
     stop(
       paste(
         "Couldn't import data because both shapefile and",
@@ -119,6 +122,7 @@ wdpa_read <- function(x, n = NULL) {
       ),
       call. = FALSE
     )
+    # nocov end
   }
 
   # if needed, merge layers togeather

@@ -13,7 +13,7 @@ test_that("without point data (gdb)", {
   # download zipfile
   result <- utils::download.file(download_url, path)
   # load data
-  x <- wdpa_read(path)
+  x <- wdpa_read(path, n = 5)
   # tests
   expect_is(x, "sf")
   expect_true(nrow(x) > 0)
@@ -33,7 +33,7 @@ test_that("without point data (shp)", {
   # download zipfile
   result <- utils::download.file(download_url, path)
   # load data
-  x <- wdpa_read(path)
+  x <- wdpa_read(path, n = 5)
   # tests
   expect_is(x, "sf")
   expect_true(nrow(x) > 0)

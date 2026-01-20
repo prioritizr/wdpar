@@ -99,8 +99,7 @@ test_that("global data", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_if_chrome_not_available()
-  skip_on_github_workflow("Windows")
-  skip_on_github_workflow("macOS")
+  skip_on_ci()
   skip_if_local_and_slow_internet()
   # download data
   url <- suppressWarnings(wdpa_url("global", wait = TRUE))

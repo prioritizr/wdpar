@@ -319,6 +319,7 @@ wdpa_clean <- function(
   ## if dataset contains many geometries and erase_overlaps = TRUE,
   ## then throw a warning to say this might not be feasible
   if ((nrow(x) > 1e5) && isTRUE(erase_overlaps)) {
+    # nocov start
     cli::cli_warn(
       paste(
         "argument to x contains many geometries and so it may not be",
@@ -327,6 +328,7 @@ wdpa_clean <- function(
         "overlaps later (e.g., via rasterization)"
       )
     )
+    # nocov end
   }
 
   # clean data
@@ -356,12 +358,18 @@ wdpa_clean <- function(
   if (verbose) {
     cli::cli_progress_step("standardizing field names")
   }
-  if ("PARENT_ISO3" %in% names(x)) {
+  ### PARENT_ISO3 field (only needed for backwards compatibility)
+  if (assertthat::has_name(x, "PARENT_ISO3")) {
+    # nocov start
     names(x)[names(x) == "PARENT_ISO3"] <- "PARENT_ISO"
+    # nocov end
   }
+  ### SHAPE field
   if ("SHAPE" %in% names(x)) {
+    # nocov start
     names(x)[names(x) == "SHAPE"] <- "geometry"
     x <- sf::st_set_geometry(x, "geometry")
+    # nocov end
   }
   if (verbose) {
     cli::cli_progress_step("standardizing field names")
@@ -453,12 +461,14 @@ wdpa_clean <- function(
   }
   ## return empty dataset if no valid non-empty geometries remain
   if (all(sf::st_is_empty(x))) {
+    # nocov start
     if (verbose) {
       cli::cli_alert_warning(
         "no valid non-empty geometries remain, returning empty dataset"
       )
     }
     return(empty_wdpa_dataset(sf::st_crs(x)))
+    # nocov end
   }
   ## simplify geometries
   if (simplify_tolerance > 0) {
@@ -499,21 +509,25 @@ wdpa_clean <- function(
   if (verbose) {
     cli::cli_progress_step("formatting attribute data")
   }
-  ### MARINE field
+  ### MARINE field (only needed for backwards compatibility)
   if (assertthat::has_name(x, "MARINE")) {
+    # nocov start
     x$MARINE[x$MARINE == "0"] <- "terrestrial"
     x$MARINE[x$MARINE == "1"] <- "partial"
     x$MARINE[x$MARINE == "2"] <- "marine"
+    # nocov end
   }
   ### STATUS_YR field
   x$STATUS_YR[x$STATUS_YR == 0] <- NA_real_
   ### NO_TK_AREA field
   x$NO_TK_AREA[x$NO_TAKE %in% c("Not Reported", "Not Applicable")] <- NA_real_
-  ### PA_DEF field
+  ### PA_DEF field  (only needed for backwards compatibility)
   if (assertthat::has_name(x, "PA_DEF")) {
+    # nocov start
     x$PA_DEF <- as.character(x$PA_DEF)
     x$PA_DEF[x$PA_DEF == "0"] <- "OECM"
     x$PA_DEF[x$PA_DEF == "1"] <- "PA"
+    # nocov end
   }
   if (verbose) {
     cli::cli_progress_done()

@@ -203,7 +203,9 @@ wdpa_fetch <- function(x, wait = FALSE,
       file_name <- paste0("WDPA_", current_month_year, "_", country_code(x),
                           "-shapefile.zip")
     } else {
+      # nocov start
       file_name <- paste0("WDPA_", current_month_year, "_Public.gdb.zip")
+      # nocov end
     }
     file_path <- file.path(download_dir, file_name)
     ## download the data

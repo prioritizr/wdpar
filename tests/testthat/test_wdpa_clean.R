@@ -197,21 +197,21 @@ test_that("retain UNESCO Biosphere reserves", {
   expect_true(all(x$STATUS %in% default_retain_status))
 })
 
-# test_that("protected areas that turn into long rectangles without prepr", {
-#   skip_on_cran()
-#   skip_if_not(curl::has_internet())
-#   skip_if_chrome_not_available()
-#   skip_if_not_installed("prepr")
-#   skip_on_github_workflow("Windows")
-#   skip_on_github_workflow("macOS")
-#   # fetch data
-#   x <- suppressWarnings(wdpa_fetch("USA", wait = TRUE, check_version = FALSE))
-#   x <- x[x$REALM == "Marine", , drop = FALSE]
-#   y <- wdpa_clean(x, erase_overlaps = FALSE)
-#   # run tests
-#   expect_is(y, "sf")
-#   expect_lte(as.numeric(max(sf::st_area(y))), 1e+13)
-# })
+test_that("protected areas that turn into long rectangles without prepr", {
+  skip_on_cran()
+  skip_if_not(curl::has_internet())
+  skip_if_chrome_not_available()
+  skip_if_not_installed("prepr")
+  skip_on_github_workflow("Windows")
+  skip_on_github_workflow("macOS")
+  # fetch data
+  x <- suppressWarnings(wdpa_fetch("USA", wait = TRUE, check_version = FALSE))
+  x <- x[x$REALM == "Marine", , drop = FALSE]
+  y <- wdpa_clean(x, erase_overlaps = FALSE)
+  # run tests
+  expect_is(y, "sf")
+  expect_lte(as.numeric(max(sf::st_area(y))), 1e+13)
+})
 
 test_that("protected areas that massively increase in size without prepr", {
   skip_on_cran()

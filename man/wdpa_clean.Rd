@@ -6,14 +6,14 @@
 \usage{
 wdpa_clean(
   x,
-  crs = paste("+proj=cea +lon_0=0 +lat_ts=30 +x_0=0",
-    "+y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs"),
+  crs = "ESRI:54017",
   exclude_unesco = TRUE,
   retain_status = c("Designated", "Inscribed", "Established"),
   snap_tolerance = 1,
   simplify_tolerance = 0,
   geometry_precision = 1500,
   erase_overlaps = TRUE,
+  repair_geometries = TRUE,
   verbose = interactive()
 )
 }
@@ -22,7 +22,7 @@ wdpa_clean(
 
 \item{crs}{\code{character} or \code{integer} object representing a
 coordinate reference system. Defaults to World Behrmann
-(\emph{ESRI:54017}).}
+(\code{"ESRI:54017"}).}
 
 \item{exclude_unesco}{\code{logical} should UNESCO Biosphere Reserves be excluded?
 Defaults to \code{TRUE}.}
@@ -59,6 +59,15 @@ On the other hand, this processing step may not be needed
 (e.g. if the protected area boundaries are going to be rasterized), and so
 processing time can be substantially by skipping this step and setting
 the argument to \code{FALSE}. Defaults to \code{TRUE}.}
+
+\item{repair_geometries}{\code{logical} indicating if the data cleaning
+procedure should repair invalid spatial geometries?
+Although it is often necessary to repair geometries when working with
+national or multi-national scales, it may introduce,
+spatial artifacts that cause problems at local scales.
+Defaults to \code{TRUE}.
+Also, please be aware that setting \code{repair_geometries = FALSE}
+may result in errors during the data cleaning process.}
 
 \item{verbose}{\code{logical} should progress on data cleaning be reported?
 Defaults to \code{TRUE} in an interactive session, otherwise
@@ -100,11 +109,14 @@ Organization (UNESCO) Biosphere Reserves (Coetzer \emph{et al.} 2014).
 This step is only performed if the argument to \code{exclude_unesco} is
 \code{TRUE}.
 
-\item Standardize column names. This is important so that data
-imported as in shapefile or file geodatabase format have the
-same column names. Specifically, if present, the \code{"PARENT_ISO3"} field is
+\item Standardize column names to ensure consistency between
+data stored in geodatabase and shapefile formats.
+Specifically, if present, the \code{"PARENT_ISO3"} field is
 renamed to "PARENT_ISO" and the "SHAPE" field is renamed to
-\code{"geometry"}.
+\code{"geometry"}. Note that this field was deprecated by
+Protected Planet in November 2025 and so this step is not performed for
+more recent versions of the database.
+This information is now provided by the \code{"PRNT_ISO3"} field.
 
 \item Create a field (\code{"GEOMETRY_TYPE"}) indicating if areas are
 represented as point localities (\code{"POINT"}) or as polygons
@@ -122,6 +134,7 @@ have a reported spatial extent (i.e. missing data for the field
 
 \item Repair any invalid geometries that have manifested
 (using \code{\link[=st_repair_geometry]{st_repair_geometry()}}).
+Note that this step is not performed if \code{repair_geometries = FALSE}.
 
 \item Buffer areas represented as point localities to circular areas
 using their reported spatial extent (using data in the field
@@ -134,20 +147,32 @@ geometry issues (using argument to \code{snap_tolerance} and
 
 \item Repair any invalid geometries that have manifested
 (using \code{\link[=st_repair_geometry]{st_repair_geometry()}}).
+Note that this step is not performed if \code{repair_geometries = FALSE}.
 
 \item Simplify the protected area geometries to reduce computational burden
 (using argument to \code{simplify_tolerance} and
 \code{\link[sf:geos_unary]{sf::st_simplify()}}).
+Note that this step is not performed if \code{repair_geometries = FALSE}.
 
 \item Repair any invalid geometries that have manifested
 (using \code{\link[=st_repair_geometry]{st_repair_geometry()}}).
 
-\item The \code{"MARINE"} field is converted from integer codes
-to descriptive names (i.e. \code{0} = \code{"terrestrial"},
-\code{1} = \code{"partial"}, \code{2} = \code{"marine"}).
+\item If the \code{"MARINE"} field is present, then it will be converted from
+integer codes to descriptive names (i.e. \code{0} = \code{"terrestrial"},
+\code{1} = \code{"partial"}, \code{2} = \code{"marine"}). Note that this field was deprecated
+by Protected Planet in November 2025 and so this step is not performed
+for more recent versions of the database.
+This information is now provided by the \code{"REALM"} field,
+wherein sites with over 10\% of their area on
+land are assigned a \code{"Terrestrial"} value, sites with over 90\% of their
+area in marine areas are assigned a \verb{"Marine" value, and remaining sites are assigned a }"Coastal"` value.
 
-\item The \code{"PA_DEF"} field is converted from integer codes
-to descriptive names (i.e. \code{0} = \code{"OECM"}, and \code{1} = \code{"PA"}).
+\item If the \code{"PA_DEF"} field is present, then it will be converted from
+integer codes to descriptive names (i.e. \code{0} = \code{"OECM"}, and \code{1} =
+\code{"PA"}). Note that this field was deprecated by
+Protected Planet in November 2025 and so this step is not performed for
+more recent versions of the database.
+This information is now provided by the \code{"SITE_TYPE"} field.
 
 \item Zeros in the \code{"STATUS_YR"} field are replaced with
 missing values (i.e. \code{NA_real_} values).
@@ -170,7 +195,7 @@ meters).
 the field \code{"AREA_KM2"}.
 
 \item Trimming extra leading or trailing white space characters
-from the \code{"MANG_PLAN"} field  (e.g., \code{" "}, \code{"\\n"}, \code{"\\r"}).
+(i.e., \code{" "}, \code{"\\n"}, \code{"\\r"}) from fields that contain character values.
 }
 }
 \section{Recommended practices for large datasets}{

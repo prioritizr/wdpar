@@ -13,12 +13,11 @@ test_that("without point data (gdb)", {
   # download zipfile
   result <- utils::download.file(download_url, path)
   # load data
-  x <- wdpa_read(path)
+  x <- wdpa_read(path, n = 5)
   # tests
   expect_is(x, "sf")
   expect_true(nrow(x) > 0)
-  expect_true(all(c("ISO3", "STATUS", "DESIG_ENG", "REP_AREA", "MARINE") %in%
-                  names(x)))
+  expect_true(all(wdpa_column_names %in% names(x)))
 })
 
 test_that("without point data (shp)", {
@@ -34,12 +33,11 @@ test_that("without point data (shp)", {
   # download zipfile
   result <- utils::download.file(download_url, path)
   # load data
-  x <- wdpa_read(path)
+  x <- wdpa_read(path, n = 5)
   # tests
   expect_is(x, "sf")
   expect_true(nrow(x) > 0)
-  expect_true(all(c("ISO3", "STATUS", "DESIG_ENG", "REP_AREA", "MARINE") %in%
-                  names(x)))
+  expect_true(all(wdpa_column_names %in% names(x)))
 })
 
 test_that("with point data (gdb)", {
@@ -59,8 +57,7 @@ test_that("with point data (gdb)", {
   # tests
   expect_is(x, "sf")
   expect_true(nrow(x) > 0)
-  expect_true(all(c("ISO3", "STATUS", "DESIG_ENG", "REP_AREA", "MARINE") %in%
-                  names(x)))
+  expect_true(all(wdpa_column_names %in% names(x)))
   is_point <- vapply(sf::st_geometry(x), inherits, logical(1),  "POINT") |
               vapply(sf::st_geometry(x), inherits, logical(1),  "MULTIPOINT")
   expect_gt(sum(is_point), 0)
@@ -89,12 +86,7 @@ test_that("with point data (shp)", {
   # tests
   expect_is(x1, "sf")
   expect_true(nrow(x1) > 0)
-  expect_true(
-    all(
-      c("ISO3", "STATUS", "DESIG_ENG", "REP_AREA", "MARINE") %in%
-      names(x1)
-    )
-  )
+  expect_true(all(wdpa_column_names %in% names(x1)))
   is_point <-
     vapply(sf::st_geometry(x1), inherits, logical(1),  "POINT") |
     vapply(sf::st_geometry(x1), inherits, logical(1),  "MULTIPOINT")
@@ -107,8 +99,7 @@ test_that("global data", {
   skip_on_cran()
   skip_if_not(curl::has_internet())
   skip_if_chrome_not_available()
-  skip_on_github_workflow("Windows")
-  skip_on_github_workflow("macOS")
+  skip_on_ci()
   skip_if_local_and_slow_internet()
   # download data
   url <- suppressWarnings(wdpa_url("global", wait = TRUE))
@@ -119,8 +110,7 @@ test_that("global data", {
   # tests
   expect_is(x, "sf")
   expect_true(nrow(x) > 0)
-  expect_true(all(c("ISO3", "STATUS", "DESIG_ENG", "REP_AREA", "MARINE") %in%
-                  names(x)))
+  expect_true(all(wdpa_column_names %in% names(x)))
   expect_true(
     any(
       vapply(

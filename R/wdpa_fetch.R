@@ -194,7 +194,7 @@ wdpa_fetch <- function(x, wait = FALSE,
     ## (detected on 8th Oct 2020) and so file names are manually changed
     ## to follow the previous convention
     ##
-    ## also, note that to ensure backwwards compatibility with prevoius
+    ## also, note that to ensure backwwards compatibility with previous
     ## versions of wdpar, data that are downloaded in file geodatabase format
     ## will also be renamed to end with "-shapefile.zip" (even though they do
     ## not contain shapefile data) and we will logic in wdpa_read() to
@@ -203,7 +203,9 @@ wdpa_fetch <- function(x, wait = FALSE,
       file_name <- paste0("WDPA_", current_month_year, "_", country_code(x),
                           "-shapefile.zip")
     } else {
+      # nocov start
       file_name <- paste0("WDPA_", current_month_year, "_Public.gdb.zip")
+      # nocov end
     }
     file_path <- file.path(download_dir, file_name)
     ## download the data

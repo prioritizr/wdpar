@@ -17,7 +17,7 @@ NULL
 #'
 #' @param crs `character` or `integer` object representing a
 #'   coordinate reference system. Defaults to World Behrmann
-#'  (*ESRI:54017*).
+#'  (`"ESRI:54017"`).
 #'
 #' @param exclude_unesco `logical` should UNESCO Biosphere Reserves be excluded?
 #'   Defaults to `TRUE`.
@@ -55,6 +55,15 @@ NULL
 #'   processing time can be substantially by skipping this step and setting
 #'   the argument to `FALSE`. Defaults to `TRUE`.
 #'
+#' @param repair_geometries `logical` indicating if the data cleaning
+#'   procedure should repair invalid spatial geometries?
+#'   Although it is often necessary to repair geometries when working with
+#'   national or multi-national scales, it may introduce,
+#'   spatial artifacts that cause problems at local scales.
+#'   Defaults to `TRUE`.
+#'   Also, please be aware that setting `repair_geometries = FALSE`
+#'  may result in errors during the data cleaning process.
+#'
 #' @param verbose `logical` should progress on data cleaning be reported?
 #'   Defaults to `TRUE` in an interactive session, otherwise
 #'   `FALSE`.
@@ -80,11 +89,14 @@ NULL
 #'     This step is only performed if the argument to `exclude_unesco` is
 #'     `TRUE`.
 #'
-#'   \item Standardize column names. This is important so that data
-#'     imported as in shapefile or file geodatabase format have the
-#'     same column names. Specifically, if present, the `"PARENT_ISO3"` field is
+#'   \item Standardize column names to ensure consistency between
+#'     data stored in geodatabase and shapefile formats.
+#'     Specifically, if present, the `"PARENT_ISO3"` field is
 #'     renamed to "PARENT_ISO" and the "SHAPE" field is renamed to
-#'     `"geometry"`.
+#'     `"geometry"`. Note that this field was deprecated by
+#'     Protected Planet in November 2025 and so this step is not performed for
+#'     more recent versions of the database.
+#'     This information is now provided by the `"PRNT_ISO3"` field.
 #'
 #'   \item Create a field (`"GEOMETRY_TYPE"`) indicating if areas are
 #'     represented as point localities (`"POINT"`) or as polygons
@@ -103,6 +115,7 @@ NULL
 #'
 #'   \item Repair any invalid geometries that have manifested
 #'     (using [st_repair_geometry()]).
+#'     Note that this step is not performed if `repair_geometries = FALSE`.
 #'
 #'   \item Buffer areas represented as point localities to circular areas
 #'     using their reported spatial extent (using data in the field
@@ -115,20 +128,33 @@ NULL
 #'
 #'   \item Repair any invalid geometries that have manifested
 #'     (using [st_repair_geometry()]).
+#'     Note that this step is not performed if `repair_geometries = FALSE`.
 #'
 #'   \item Simplify the protected area geometries to reduce computational burden
 #'     (using argument to `simplify_tolerance` and
 #'     [sf::st_simplify()]).
+#'     Note that this step is not performed if `repair_geometries = FALSE`.
 #'
 #'   \item Repair any invalid geometries that have manifested
 #'     (using [st_repair_geometry()]).
 #'
-#'   \item The `"MARINE"` field is converted from integer codes
-#'     to descriptive names (i.e. `0` = `"terrestrial"`,
-#'     `1` = `"partial"`, `2` = `"marine"`).
+#'   \item If the `"MARINE"` field is present, then it will be converted from
+#'    integer codes to descriptive names (i.e. `0` = `"terrestrial"`,
+#'    `1` = `"partial"`, `2` = `"marine"`). Note that this field was deprecated
+#'    by Protected Planet in November 2025 and so this step is not performed
+#'    for more recent versions of the database.
+#'    This information is now provided by the `"REALM"` field,
+#'    wherein sites with over 10% of their area on
+#'    land are assigned a `"Terrestrial"` value, sites with over 90% of their
+#'    area in marine areas are assigned a `"Marine" value, and remaining
+#'    sites are assigned a `"Coastal"` value.
 #'
-#'   \item The `"PA_DEF"` field is converted from integer codes
-#'   to descriptive names (i.e. `0` = `"OECM"`, and `1` = `"PA"`).
+#'   \item If the `"PA_DEF"` field is present, then it will be converted from
+#'     integer codes to descriptive names (i.e. `0` = `"OECM"`, and `1` =
+#'     `"PA"`). Note that this field was deprecated by
+#'    Protected Planet in November 2025 and so this step is not performed for
+#'    more recent versions of the database.
+#'    This information is now provided by the `"SITE_TYPE"` field.
 #'
 #'   \item Zeros in the `"STATUS_YR"` field are replaced with
 #'     missing values (i.e. `NA_real_` values).
@@ -151,7 +177,7 @@ NULL
 #'     the field `"AREA_KM2"`.
 #'
 #'   \item Trimming extra leading or trailing white space characters
-#'     from the `"MANG_PLAN"` field  (e.g., `" "`, `"\n"`, `"\r"`).
+#'     (i.e., `" "`, `"\n"`, `"\r"`) from fields that contain character values.
 #'  }
 #'
 #' @section Recommended practices for large datasets:
@@ -225,49 +251,85 @@ NULL
 #'
 #' }
 #' @export
-wdpa_clean <- function(x,
-                       crs = paste("+proj=cea +lon_0=0 +lat_ts=30 +x_0=0",
-                       "+y_0=0 +datum=WGS84 +ellps=WGS84 +units=m +no_defs"),
-                       exclude_unesco = TRUE,
-                       retain_status =
-                        c("Designated", "Inscribed", "Established"),
-                       snap_tolerance = 1,
-                       simplify_tolerance = 0,
-                       geometry_precision = 1500,
-                       erase_overlaps = TRUE,
-                       verbose = interactive()) {
+wdpa_clean <- function(
+  x,
+  crs = "ESRI:54017",
+  exclude_unesco = TRUE,
+  retain_status = c("Designated", "Inscribed", "Established"),
+  snap_tolerance = 1,
+  simplify_tolerance = 0,
+  geometry_precision = 1500,
+  erase_overlaps = TRUE,
+  repair_geometries = TRUE,
+  verbose = interactive()
+) {
   # check arguments are valid
   ## display message
   if (isTRUE(verbose)) {
     cli::cli_progress_step("initializing")
   }
   ## simple arguments
-  assertthat::assert_that(inherits(x, "sf"),
-                          nrow(x) > 0,
-                          all(assertthat::has_name(x, c("ISO3", "STATUS",
-                                                        "DESIG_ENG", "REP_AREA",
-                                                        "MARINE", "PA_DEF"))),
-                          assertthat::is.string(crs) ||
-                          assertthat::is.count(crs),
-                          assertthat::is.number(snap_tolerance),
-                          isTRUE(snap_tolerance >= 0),
-                          assertthat::is.number(simplify_tolerance),
-                          isTRUE(simplify_tolerance >= 0),
-                          assertthat::is.count(geometry_precision),
-                          assertthat::is.flag(erase_overlaps),
-                          assertthat::is.flag(exclude_unesco),
-                          assertthat::is.flag(verbose))
+  assertthat::assert_that(
+    inherits(x, "sf"),
+    nrow(x) > 0,
+    assertthat::has_name(
+      x,
+      c("ISO3", "STATUS", "DESIG_ENG", "REP_AREA")
+    ),
+    assertthat::is.string(crs) ||
+      assertthat::is.count(crs),
+    assertthat::is.number(snap_tolerance),
+    assertthat::noNA(snap_tolerance),
+    snap_tolerance >= 0,
+    assertthat::is.number(simplify_tolerance),
+    assertthat::noNA(simplify_tolerance),
+    simplify_tolerance >= 0,
+    assertthat::is.count(geometry_precision),
+    assertthat::is.flag(erase_overlaps),
+    assertthat::noNA(erase_overlaps),
+    assertthat::is.flag(exclude_unesco),
+    assertthat::noNA(exclude_unesco),
+    assertthat::is.flag(repair_geometries),
+    assertthat::noNA(repair_geometries),
+    assertthat::is.flag(verbose),
+    assertthat::noNA(verbose)
+  )
   ## retain status
   assertthat::assert_that(inherits(retain_status, c("character", "NULL")))
   if (is.character(retain_status)) {
     assertthat::assert_that(
       assertthat::noNA(retain_status),
-      all(retain_status %in% c(
-        "Proposed", "Inscribed", "Adopted", "Designated", "Established")))
+      all(
+        retain_status %in%
+          c(
+            "Proposed",
+            "Inscribed",
+            "Adopted",
+            "Designated",
+            "Established"
+          )
+      )
+    )
   }
   ## check that x is in wgs1984
-  assertthat::assert_that(sf::st_crs(x) == sf::st_crs(4326),
-   msg = "argument to x is not longitude/latitude (i.e. EPSG:4326)")
+  assertthat::assert_that(
+    sf::st_crs(x) == sf::st_crs(4326),
+    msg = "argument to x must be in longitude/latitude coordinates (i.e. EPSG:4326)"
+  )
+  ## if dataset contains many geometries and erase_overlaps = TRUE,
+  ## then throw a warning to say this might not be feasible
+  if ((nrow(x) > 1e5) && isTRUE(erase_overlaps)) {
+    # nocov start
+    cli::cli_warn(
+      paste(
+        "argument to x contains many geometries and so it may not be",
+        "computationally feasible to erase overlaps,",
+        "you may need to use `erase_overlaps = FALSE` and manually remove",
+        "overlaps later (e.g., via rasterization)"
+      )
+    )
+    # nocov end
+  }
 
   # clean data
   ## exclude areas based on status
@@ -296,19 +358,29 @@ wdpa_clean <- function(x,
   if (verbose) {
     cli::cli_progress_step("standardizing field names")
   }
-  if ("PARENT_ISO3" %in% names(x)) {
+  ### PARENT_ISO3 field (only needed for backwards compatibility)
+  if (assertthat::has_name(x, "PARENT_ISO3")) {
+    # nocov start
     names(x)[names(x) == "PARENT_ISO3"] <- "PARENT_ISO"
+    # nocov end
   }
+  ### SHAPE field
   if ("SHAPE" %in% names(x)) {
+    # nocov start
     names(x)[names(x) == "SHAPE"] <- "geometry"
     x <- sf::st_set_geometry(x, "geometry")
+    # nocov end
   }
   if (verbose) {
     cli::cli_progress_step("standardizing field names")
   }
   ## assign column indicating geometry type
-  is_point <- vapply(sf::st_geometry(x), inherits, logical(1),
-                     c("POINT", "MULTIPOINT"))
+  is_point <- vapply(
+    sf::st_geometry(x),
+    inherits,
+    logical(1),
+    c("POINT", "MULTIPOINT")
+  )
   x$GEOMETRY_TYPE <- "POLYGON"
   x$GEOMETRY_TYPE[is_point] <- "POINT"
   ## remove protected areas represented as points that do not have
@@ -322,16 +394,20 @@ wdpa_clean <- function(x,
     cli::cli_progress_step("wrapping dateline")
   }
   x <- sf::st_set_precision(x, geometry_precision)
-  x <- suppressWarnings(sf::st_wrap_dateline(x,
-    options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180")))
+  x <- suppressWarnings(sf::st_wrap_dateline(
+    x,
+    options = c("WRAPDATELINE=YES", "DATELINEOFFSET=180")
+  ))
   x <- x[!sf::st_is_empty(x), ]
   x <- extract_polygons_and_points(x)
   x <- sf::st_set_precision(x, geometry_precision)
   ## repair geometry
-  if (verbose) {
+  if (verbose && repair_geometries) {
     cli::cli_progress_step("repairing geometry")
   }
-  x <- st_repair_geometry(x, geometry_precision)
+  if (repair_geometries) {
+    x <- st_repair_geometry(x, geometry_precision)
+  }
   ## reproject data
   if (verbose) {
     cli::cli_progress_step("reprojecting data")
@@ -340,18 +416,25 @@ wdpa_clean <- function(x,
   x <- sf::st_transform(x, crs)
   x <- sf::st_set_precision(x, geometry_precision)
   ## repair geometry again
-  if (verbose) {
+  if (verbose && repair_geometries) {
     cli::cli_progress_step("repairing geometry")
   }
-  x <- st_repair_geometry(x, geometry_precision)
+  if (repair_geometries) {
+    x <- st_repair_geometry(x, geometry_precision)
+  }
   ## buffer polygons by zero to fix any remaining issues
   x_polygons_pos <- which(x$GEOMETRY_TYPE == "POLYGON")
   if (length(x_polygons_pos) > 0) {
     if (verbose) {
       cli::cli_progress_step("further geometry fixes (i.e. buffering by zero)")
     }
-    if (verbose) message("buffering by zero: ", cli::symbol$continue, "\r",
-                         appendLF = FALSE)
+    if (verbose)
+      message(
+        "buffering by zero: ",
+        cli::symbol$continue,
+        "\r",
+        appendLF = FALSE
+      )
     x_polygons_data <- x[x_polygons_pos, ]
     x_polygons_data <- sf::st_set_precision(x_polygons_data, geometry_precision)
     x_polygons_data <- sf::st_buffer(x_polygons_data, 0)
@@ -365,8 +448,10 @@ wdpa_clean <- function(x,
       cli::cli_progress_step("buffering points to reported area")
     }
     x_points_data <- x[x_points_pos, ]
-    x_points_data <- sf::st_buffer(x_points_data,
-                       sqrt((x_points_data$REP_AREA * 1e6) / pi))
+    x_points_data <- sf::st_buffer(
+      x_points_data,
+      sqrt((x_points_data$REP_AREA * 1e6) / pi)
+    )
     if (any(x$GEOMETRY_TYPE == "POLYGON")) {
       x <- rbind(x[which(x$GEOMETRY_TYPE == "POLYGON"), ], x_points_data)
     } else {
@@ -376,11 +461,14 @@ wdpa_clean <- function(x,
   }
   ## return empty dataset if no valid non-empty geometries remain
   if (all(sf::st_is_empty(x))) {
+    # nocov start
     if (verbose) {
       cli::cli_alert_warning(
-        "no valid non-empty geometries remain, returning empty dataset")
+        "no valid non-empty geometries remain, returning empty dataset"
+      )
     }
     return(empty_wdpa_dataset(sf::st_crs(x)))
+    # nocov end
   }
   ## simplify geometries
   if (simplify_tolerance > 0) {
@@ -395,10 +483,12 @@ wdpa_clean <- function(x,
     x <- sf::st_set_precision(x, geometry_precision)
   }
   ## repair geometry again
-  if (verbose) {
+  if (verbose && repair_geometries) {
     cli::cli_progress_step("repairing geometry")
   }
-  x <- st_repair_geometry(x, geometry_precision)
+  if (repair_geometries) {
+    x <- st_repair_geometry(x, geometry_precision)
+  }
   ## snap geometry to grid
   if (snap_tolerance > 0) {
     if (verbose) {
@@ -409,35 +499,59 @@ wdpa_clean <- function(x,
     x <- sf::st_set_precision(x, geometry_precision)
   }
   ## repair geometry again
-  if (verbose) {
+  if (verbose && repair_geometries) {
     cli::cli_progress_step("repairing geometry")
   }
-  x <- st_repair_geometry(x, geometry_precision)
+  if (repair_geometries) {
+    x <- st_repair_geometry(x, geometry_precision)
+  }
   ## format columns
   if (verbose) {
     cli::cli_progress_step("formatting attribute data")
   }
-  ### MARINE field
-  x$MARINE[x$MARINE == "0"] <- "terrestrial"
-  x$MARINE[x$MARINE == "1"] <- "partial"
-  x$MARINE[x$MARINE == "2"] <- "marine"
+  ### MARINE field (only needed for backwards compatibility)
+  if (assertthat::has_name(x, "MARINE")) {
+    # nocov start
+    x$MARINE[x$MARINE == "0"] <- "terrestrial"
+    x$MARINE[x$MARINE == "1"] <- "partial"
+    x$MARINE[x$MARINE == "2"] <- "marine"
+    # nocov end
+  }
   ### STATUS_YR field
   x$STATUS_YR[x$STATUS_YR == 0] <- NA_real_
   ### NO_TK_AREA field
   x$NO_TK_AREA[x$NO_TAKE %in% c("Not Reported", "Not Applicable")] <- NA_real_
-  ### PA_DEF field
-  x$PA_DEF <- as.character(x$PA_DEF)
-  x$PA_DEF[x$PA_DEF == "0"] <- "OECM"
-  x$PA_DEF[x$PA_DEF == "1"] <- "PA"
+  ### PA_DEF field  (only needed for backwards compatibility)
+  if (assertthat::has_name(x, "PA_DEF")) {
+    # nocov start
+    x$PA_DEF <- as.character(x$PA_DEF)
+    x$PA_DEF[x$PA_DEF == "0"] <- "OECM"
+    x$PA_DEF[x$PA_DEF == "1"] <- "PA"
+    # nocov end
+  }
   if (verbose) {
     cli::cli_progress_done()
   }
   ## remove overlaps data
   if (erase_overlaps && isTRUE(nrow(x) > 1)) {
-    x$IUCN_CAT <- factor(as.character(x$IUCN_CAT),
-                         levels = c("Ia", "Ib", "II", "III", "IV", "V", "VI",
-                                    "Not Reported", "Not Applicable",
-                                    "Not Assigned"))
+    if (verbose) {
+      cli::cli_progress_step("erasing overlaps")
+    }
+    x$IUCN_CAT <- factor(
+      as.character(x$IUCN_CAT),
+      levels = c(
+        "Ia",
+        "Ib",
+        "II",
+        "III",
+        "IV",
+        "V",
+        "VI",
+        "Not Reported",
+        "Not Applicable",
+        "Not Assigned"
+      )
+    )
     x <- sf::st_set_precision(x, geometry_precision)
     x <- st_erase_overlaps(x[order(x$IUCN_CAT, x$STATUS_YR), ], verbose)
     x$IUCN_CAT <- as.character(x$IUCN_CAT)
@@ -459,10 +573,12 @@ wdpa_clean <- function(x,
   ## trim white space characters
   if (verbose) {
     cli::cli_progress_step(
-      "trimming extra white space characters from MANG_PLAN"
+      "trimming extra white space characters from fields"
     )
   }
-  x$MANG_PLAN <- trimws(x$MANG_PLAN)
+  for (i in which(vapply(x, is.character, logical(1)))) {
+    x[[i]] <- trimws(x[[i]])
+  }
   ## move geometry to last column
   if ((!"geometry" %in% names(x))) {
     geom_col <- attr(x, "sf_column")

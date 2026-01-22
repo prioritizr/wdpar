@@ -27,8 +27,7 @@ test_that("global", {
   skip_if_not(curl::has_internet())
   skip_if_local_and_slow_internet()
   skip_if_chrome_not_available()
-  skip_on_github_workflow("Windows")
-  skip_on_github_workflow("macOS")
+  skip_on_ci()
   expect_error(wdpa_fetch(n = 5, datatype = "shp"))
   x <- suppressWarnings(wdpa_fetch(
     "global", wait = TRUE, n = 5, verbose = TRUE))

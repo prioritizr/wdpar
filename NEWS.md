@@ -1,3 +1,21 @@
+# wdpar 1.3.9
+
+- CRAN release.
+
+# wdpar 1.3.8.4
+
+- Update `wdpa_read()` and `wdpa_clean()` to be compatible with updates to
+  the Protected Planet database. Thanks to Joe Gosling for providing detailed
+  information on the database changes.
+- Update `wdpa_clean()` so that it shows clearer progress messages for erasing
+  spatial overlaps, throws a warning if attempting to erase overlaps from
+  particularly large datasets, trims white space characters from all
+  fields containing character values, and can optionally skip steps for
+  repairing geometries if specified by the user (per the new
+  `repair_geometries` parameter) (#95). Thanks to Alexandre Courtiol
+  (\@courtiol) for feature suggestion.
+- Update vignette. Thanks to Alexandre Courtiol (\@courtiol) for code review.
+
 # wdpar 1.3.8.3
 
 - Update `wdpa_read()` to use the _archive_ package for unzipping files. This

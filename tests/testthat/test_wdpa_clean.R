@@ -202,8 +202,7 @@ test_that("protected areas that turn into long rectangles without prepr", {
   skip_if_not(curl::has_internet())
   skip_if_chrome_not_available()
   skip_if_not_installed("prepr")
-  skip_on_github_workflow("Windows")
-  skip_on_github_workflow("macOS")
+  skip_on_ci()
   # fetch data
   x <- suppressWarnings(wdpa_fetch("USA", wait = TRUE, check_version = FALSE))
   x <- x[x$REALM == "Marine", , drop = FALSE]

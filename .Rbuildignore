@@ -27,3 +27,4 @@ global-example-script.Rout
 ^paper$
 CONTRIBUTING.md
 LICENSE
+^codecov.yml

@@ -28,3 +28,4 @@ global-example-script.Rout
 CONTRIBUTING.md
 LICENSE
 ^codecov.yml
+^CRAN-SUBMISSION$

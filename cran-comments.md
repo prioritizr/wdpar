@@ -1,6 +1,6 @@
 Dear CRAN volunteers,
 
-Thank you for reviewing this submission. It contains an update to the _wdpar_ package that has been on CRAN since 2019. The main changes in this new version include (i) updates to maintain compatibility with the Protected Planet website and the World Database on Protected Areas, (ii) functionality to download data in different file formats, (iii) bug fixes to address issues on MacOS systems, and (iv) assorted improvements to the documentation.
+Thank you for reviewing this submission. It contains an update to the _wdpar_ package that has been on CRAN since 2019. The main changes in this new version include updates to maintain compatibility with the Protected Planet website and the World Database on Protected Areas and assorted improvements to the documentation.
 
 Cheers,
 
